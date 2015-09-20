@@ -102,16 +102,16 @@ for idxExperiment = 1 : length(List)
     %         end
     %         clearvars -except List idxExperiment cartella
     
-%     try
-%         disp('running... partitionResponse')
-%         partitionResponse
-%         
-%     catch
-%         disp('Error during partitionResponse')
-%         disp(cartella)
-%     end
-%     clearvars -except List idxExperiment cartella
-%     
+    try
+        disp('running... partitionResponse')
+        partitionResponse
+        
+    catch
+        disp('Error during partitionResponse')
+        disp(cartella)
+    end
+    clearvars -except List idxExperiment cartella
+    
     
     %     try
     %         z_scoreResponses
@@ -133,14 +133,14 @@ for idxExperiment = 1 : length(List)
     end
     clearvars -except List idxExperiment
     
-%     try
-%         makeAutocorrelogram
-%         disp('running... makeAutocorrelogram')
-%     catch
-%         disp('Error during makeAutocorrelogram')
-%         disp(cartella)
-%     end
-%     clearvars -except List idxExperiment
+    try
+        makeAutocorrelogram
+        disp('running... makeAutocorrelogram')
+    catch
+        disp('Error during makeAutocorrelogram')
+        disp(cartella)
+    end
+    clearvars -except List idxExperiment
 %     
     
 %     try
