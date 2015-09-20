@@ -1,0 +1,7 @@
+Analyzing 130515_GM10_run3
+Total distance covered (no pulses excluded) 351.3 meters
+Total time analyzed: 23.0 minutes
+ - running for 13.3 minutes, 57.8% of total
+ - stationary for 8.5 minutes, 37.2% of total
+ - tot time not matching running/stationary criteria: 1.1 minutes
+Average speed: 25.5 cm/sec
