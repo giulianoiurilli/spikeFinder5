@@ -13,7 +13,7 @@ for k=1:length(tetrodes)
         string = sprintf('Loading channel %s', file_to_cluster{1}(4:end));
         disp(string)
         sample = load (sprintf('%s',channels{i}), 'reRefFiltSamples');
-        data(i,:) = reRefFiltSamples;
+        data(i,:) = sample;
         %data(i,:) = sample.reRefFiltSamples;
     end
     data = data';
