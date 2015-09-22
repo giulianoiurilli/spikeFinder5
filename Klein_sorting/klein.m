@@ -9,8 +9,15 @@ for k=1:length(tetrodes)
     %outfile = strcat(filename,'_spikesK');
     %load(outfile);
     load(filename);
-    spikes = detect(data, spikes);
+    data1 = zeros(floor(size(data(1).reRefFiltSamples,2)/2), length(data));
+    for i = 1:length(data)
+        data1(:,i) = data(i).reRefFiltSamples(1:floor(size(data(1).reRefFiltSamples,2)/2))';
+    end
+    
+    spikes = detect(data1, spikes);
     clear data
+    clear data1
+    clear data2
     spikes = ss_align(spikes);
 %     spikes = ss_kmeans(spikes);
 %     spikes = ss_energy(spikes);
@@ -18,7 +25,7 @@ for k=1:length(tetrodes)
     
     %spikes = removeArt( spikes );
     
-    save(filename, 'spikes')
+    save(filename, 'spikes', '-v7.3')
     % report detection rate
     detect_rate = length(spikes.spiketimes) / sum(spikes.info.detect.dur);
     disp( ['Detected on average ' num2str( detect_rate ) ' events per second of data '] );
