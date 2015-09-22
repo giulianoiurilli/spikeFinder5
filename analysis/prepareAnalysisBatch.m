@@ -48,7 +48,16 @@ for idxExperiment = 1 : length(List)
     %     end
     
     
-    %
+    try
+        disp('running... makeRastersNoWarp')
+        makeRastersNoWarp
+        
+    catch
+        disp('Error during makeRastersNoWarp')
+        disp(cartella)
+    end
+    
+            clearvars -except List idxExperiment cartella
     %         try
     %             disp('running... makePhaseRaster1')
     %             makePhaseRaster1
@@ -124,14 +133,14 @@ for idxExperiment = 1 : length(List)
     
     
     
-    try
-        preparePhaseRosePlot
-        disp('running... preparePhaseRosePlot')
-    catch
-        disp('Error during preparePhaseRosePlot')
-        disp(cartella)
-    end
-    clearvars -except List idxExperiment
+%     try
+%         preparePhaseRosePlot
+%         disp('running... preparePhaseRosePlot')
+%     catch
+%         disp('Error during preparePhaseRosePlot')
+%         disp(cartella)
+%     end
+%     clearvars -except List idxExperiment
     
 %     try
 %         makeAutocorrelogram

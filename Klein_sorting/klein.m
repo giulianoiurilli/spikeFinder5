@@ -12,9 +12,10 @@ for k=1:length(tetrodes)
     spikes = detect(data, spikes);
     clear data
     spikes = ss_align(spikes);
-    spikes = ss_kmeans(spikes);
-    spikes = ss_energy(spikes);
-    spikes = ss_aggregate(spikes);
+%     spikes = ss_kmeans(spikes);
+%     spikes = ss_energy(spikes);
+%     spikes = ss_aggregate(spikes);
+    
     %spikes = removeArt( spikes );
     
     save(filename, 'spikes')

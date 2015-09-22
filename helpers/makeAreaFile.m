@@ -7,6 +7,7 @@ for idxExperiment = 1 : length(List)
     cartella = List{idxExperiment};
     cd(cartella)
     load('units.mat', 'shank');
+    load('unitsNowarp.mat', 'shankNowarp');
     load('parameters.mat');
     for idxShank = 1:4
         for idxUnit = 1:length(shank(idxShank).spiketimesUnit)
@@ -39,6 +40,8 @@ for idxExperiment = 1 : length(List)
                     shank(idxShank).cell(idxUnit).odor(idxOdor).cyclePeakResponseTrialHz;
                 exp(idxExperiment).shank(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrix =...
                     shank(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrixRad;
+                exp(idxExperiment).shank(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrixNoWarp = shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrixNoWarp;
+                exp(idxExperiment).shank(idxShank).cell(idxUnit).odor(idxOdor). sdf_trialNoWarp= shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).sdf_trialNoWarp;
                 
             end
             exp(idxExperiment).shank(idxShank).cell(idxUnit).bslSpikeRate =...
@@ -64,5 +67,5 @@ end
 
 cd(startingFolder)
 clearvars -except List exp 
-save('plCoA_conc_series.mat', '-v7.3')
+save('aPCx_2conc.mat', '-v7.3')
     
