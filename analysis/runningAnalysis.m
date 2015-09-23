@@ -44,302 +44,338 @@
 %
 % sdf_trialNoWarp
 %
-%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% plot average response timecourse for each odor
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-odor_list = {'tmt3', 'dmt3', 'mmt3', 'iba3', 'iaa3',...
-    'hed3', 'but3', 'tmt1', 'dmt1', 'mmt1',...
-    'iba1', 'iaa1', 'hed1', 'btd1', 'rose'};
-
-
-
-for idxOdor = 1:odors
-    idxNeuron = 1;
-    responseProfiles{idxOdor} = [];
-    responseProfilesZ{idxOdor} = [];
-    peakLatency{idxOdor} = [];
-    unitOdorResponseLog{idxOdor} = [];
-    for idxExp = 1:length(List)
-        for idxShank = 1:4
-            for idxUnit = 1:length(exp(idxExp).shank(idxShank).cell)
-                app1 = [];
-                app1 = find(exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).aurocMax > 0.75);
-                app2 = [];
-                app2 = find(exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).fullCycleDigitalResponsePerCycle(1:4) > 0);
-                app3 = [];
-                app3 = find(exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).peakDigitalResponsePerCycle(1:4) > 0);
-                app4 = [];
-                app4 = find(exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).aurocMax < 0.4);
-                %app5 = [];
-                %app5 = find(exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).peakDigitalResponsePerCycle(1:4) < 0);
-                app6 = [];
-                app6 = find(exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).fullCycleDigitalResponsePerCycle(1:4) < 0);
-                exc = 0;
-                if (~isempty(app1) && ~isempty(app2)) || (~isempty(app1) && ~isempty(app3))
-                    exc = 1;
-                end
-                inh = 0;
-                if ~isempty(app4)
-                    inh = 1;
-                end
-                responseProfiles{idxOdor}(idxNeuron,:) = mean(exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).smoothedPsth);
-%                 if std(responseProfiles{idxOdor}(idxNeuron,1:preInhalations*cycleLengthDeg)) > 0
-%                     responseProfilesZ{idxOdor}(idxNeuron,:) = (responseProfiles{idxOdor}(idxNeuron,:) - mean(responseProfiles{idxOdor}(idxNeuron,1:preInhalations*cycleLengthDeg))) /...
-%                         std(responseProfiles{idxOdor}(idxNeuron,1:preInhalations*cycleLengthDeg));
-%                 else
-                    responseProfilesZ{idxOdor}(idxNeuron,:) = responseProfiles{idxOdor}(idxNeuron,:);
+% odor_list = {'tmt3', 'dmt3', 'mmt3', 'iba3', 'iaa3',...
+%     'hed3', 'but3', 'tmt1', 'dmt1', 'mmt1',...
+%     'iba1', 'iaa1', 'hed1', 'btd1', 'rose'};
+% 
+% 
+% 
+% for idxOdor = 1:odors
+%     idxNeuron = 1;
+%     responseProfiles{idxOdor} = [];
+%     responseProfilesZ{idxOdor} = [];
+%     peakLatency{idxOdor} = [];
+%     unitOdorResponseLog{idxOdor} = [];
+%     for idxExp = 1:length(List)
+%         for idxShank = 1:4
+%             for idxUnit = 1:length(exp(idxExp).shank(idxShank).cell)
+%                 app1 = [];
+%                 app1 = find(exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).aurocMax > 0.75);
+%                 app2 = [];
+%                 app2 = find(exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).fullCycleDigitalResponsePerCycle(1:4) > 0);
+%                 app3 = [];
+%                 app3 = find(exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).peakDigitalResponsePerCycle(1:4) > 0);
+%                 app4 = [];
+%                 app4 = find(exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).aurocMax < 0.4);
+%                 %app5 = [];
+%                 %app5 = find(exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).peakDigitalResponsePerCycle(1:4) < 0);
+%                 app6 = [];
+%                 app6 = find(exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).fullCycleDigitalResponsePerCycle(1:4) < 0);
+%                 exc = 0;
+%                 if (~isempty(app1) && ~isempty(app2)) || (~isempty(app1) && ~isempty(app3))
+%                     exc = 1;
 %                 end
-                app7 = [];
-                %app7= exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).peakLatencyPerCycle(1:4);
-                app7= exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).peakLatencyPerCycle(1);
-                app8 = [];
-                app8 = exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).peakAnalogicResponsePerCycle(1:4);
-                [~, maxI] = max(app8);
-                %peakLatency{idxOdor}(idxNeuron) = app7(maxI) + (maxI-1)*cycleLengthDeg;
-                peakLatency{idxOdor}(idxNeuron) = app7;
-                unitOdorResponseLog{idxOdor}(idxNeuron, :) = [idxExp idxShank idxUnit idxOdor exc inh exc+inh];
-                idxNeuron = idxNeuron+1;
-            end
-        end
-    end
-end
-
-%% plot responses by pairs of concentrations
-
-idxOdor1 = 2;
-idxOdor2 = 9;
-
-responseProfiles1 = [];
-responseProfiles2 = [];
-responseProfilesZ1 = [];
-responseProfilesZ2 = [];
-peakLatency1 = [];
-peakLatency2 = [];
-popResponse1 = [];
-popResponse2 = [];
-odorLog1 = [];
-odorLog2 = [];
-
-
-responseProfiles1 = responseProfiles{idxOdor1};
-responseProfilesZ1 = responseProfilesZ{idxOdor1};
-peakLatency1 = peakLatency{idxOdor1};
-odorLog1 = unitOdorResponseLog{idxOdor1};
-
-responseProfiles2 = responseProfiles{idxOdor2};
-responseProfilesZ2 = responseProfilesZ{idxOdor2};
-peakLatency2 = peakLatency{idxOdor2};
-odorLog2 = unitOdorResponseLog{idxOdor2};
-
-noSpikeUnits1 = mean(responseProfiles1,2);
-noSpikeUnits2 = mean(responseProfiles2,2);
-noSpikeUnits = noSpikeUnits1 + noSpikeUnits2;
-responseProfiles1(noSpikeUnits<0.1,:) = [];
-responseProfiles2(noSpikeUnits<0.1,:) = [];
-responseProfilesZ1(noSpikeUnits<0.1,:) = [];
-responseProfilesZ2(noSpikeUnits<0.1,:) = [];
-peakLatency1(noSpikeUnits<0.1) = [];
-peakLatency2(noSpikeUnits<0.1) = [];
-odorLog1(noSpikeUnits<0.1,:) = [];
-odorLog2(noSpikeUnits<0.1,:) = [];
-popResponses1 = mean(responseProfiles1);
-popResponses2 = mean(responseProfiles2);
-noRespUnits1 = odorLog1(:,7) == 0;
-noRespUnits2 = odorLog2(:,7) == 0;
-noRespUnitsApp = noRespUnits1 + noRespUnits2;
-noRespUnits = noRespUnitsApp == 2;
-responseProfiles1(noRespUnits,:) = [];
-responseProfiles2(noRespUnits,:) = [];
-responseProfilesZ1(noRespUnits,:) = [];
-responseProfilesZ2(noRespUnits,:) = [];
-peakLatency1(noRespUnits) = [];
-peakLatency2(noRespUnits) = [];
-odorLog1(noRespUnits,:) = [];
-odorLog2(noRespUnits,:) = [];
-
-idxExc1 = find(odorLog1(:,5) == 1);
-excResponses1 =  responseProfiles1(idxExc1, :);
-idxExc2 = find(odorLog2(:,5) == 1);
-excResponses2 = responseProfiles2(idxExc2, :);
-idxInh1 = find(odorLog1(:,6) == 1);
-inhResponses1 =  responseProfiles1(idxInh1, :);
-idxInh2 = find(odorLog2(:,6) == 1);
-inhResponses2 = responseProfiles2(idxInh2, :);
-peakLatency1(~(odorLog1(:,5) == 1)) = 1000;
-peakLatency2(~(odorLog2(:,5) == 1)) = 1000;
-
-
-if numel(idxExc1) > numel(idxExc2)
-    app1 = [];
-    app1 = [responseProfilesZ1 peakLatency1'];
-    app1 = sortrows(app1, size(app1,2));
-    app1(:,end) = [];
-    responseProfilesZ1 = app1;
-    app2 = [];
-    app2 = [responseProfilesZ2 peakLatency1'];
-    app2 = sortrows(app2, size(app2,2));
-    app2(:,end) = [];
-    responseProfilesZ2 = app2;
-    app3 = [];
-    app3 = [odorLog1 peakLatency1'];
-    app3 = sortrows(app3, size(app3,2));
-    app3(:,end) = [];
-    odorLog1 = app3;
-    app4 = [];
-    app4 = [odorLog2 peakLatency1'];
-    app4 = sortrows(app4, size(app4,2));
-    app4(:,end) = [];
-    odorLog2 = app4;
-else
-    app1 = [];
-    app1 = [responseProfilesZ1 peakLatency2'];
-    app1 = sortrows(app1, size(app1,2));
-    app1(:,end) = [];
-    responseProfilesZ1 = app1;
-    app2 = [];
-    app2 = [responseProfilesZ2 peakLatency2'];
-    app2 = sortrows(app2, size(app2,2));
-    app2(:,end) = [];
-    responseProfilesZ2 = app2;
-    app3 = [];
-    app3 = [odorLog1 peakLatency2'];
-    app3 = sortrows(app3, size(app3,2));
-    app3(:,end) = [];
-    odorLog1 = app3;
-    app4 = [];
-    app4 = [odorLog2 peakLatency2'];
-    app4 = sortrows(app4, size(app4,2));
-    app4(:,end) = [];
-    odorLog2 = app4;
-end
-
-
-responseProfiles1Final = excResponses1(:,2*cycleLengthDeg:8*cycleLengthDeg);
-responseProfiles1FinalMean = mean(responseProfiles1Final);
-responseProfiles1FinalMean = smooth(responseProfiles1FinalMean, 0.05, 'rloess');
-responseProfiles2Final = excResponses2(:,2*cycleLengthDeg:8*cycleLengthDeg);
-responseProfiles2FinalMean = mean(responseProfiles2Final);
-responseProfiles2FinalMean = smooth(responseProfiles2FinalMean, 0.05, 'rloess');
-% responseProfiles1FinalIn = inhResponses1(:,2*cycleLengthDeg:8*cycleLengthDeg);
-% responseProfiles1FinalMeanIn = mean(responseProfiles1FinalIn);
-% responseProfiles1FinalMeanIn = smooth(responseProfiles1FinalMeanIn, 0.05, 'rloess');
-% responseProfiles2FinalIn = inhResponses2(:,2*cycleLengthDeg:8*cycleLengthDeg);
-% responseProfiles2FinalMeanIn = mean(responseProfiles2FinalIn);
-% responseProfiles2FinalMeanIn = smooth(responseProfiles2FinalMeanIn, 0.05, 'rloess');
-popResponses1Final = popResponses1(2*cycleLengthDeg:8*cycleLengthDeg);
-popResponses1Final = smooth(popResponses1Final, 0.05, 'rloess');
-popResponses2Final = popResponses2(2*cycleLengthDeg:8*cycleLengthDeg);
-popResponses2Final = smooth(popResponses2Final, 0.05, 'rloess');
-responseProfilesZ1Final = responseProfilesZ1(:,2*cycleLengthDeg:8*cycleLengthDeg);
-responseProfilesZ2Final = responseProfilesZ2(:,2*cycleLengthDeg:8*cycleLengthDeg);
-responseProfilesZ1Final95prctile = prctile(responseProfilesZ1Final(:), 97.9);
-responseProfilesZ2Final95prctile = prctile(responseProfilesZ2Final(:), 97.9);
-responseProfilesZ1Final2prctile = prctile(responseProfilesZ1Final(:), 0.5);
-responseProfilesZ2Final2prctile = prctile(responseProfilesZ2Final(:), 0.5);
-if responseProfilesZ1Final95prctile >= responseProfilesZ2Final95prctile
-    maxL = responseProfilesZ1Final95prctile;
-else
-    maxL = responseProfilesZ2Final95prctile;
-end
-
-if responseProfilesZ1Final2prctile <= responseProfilesZ2Final2prctile
-    minL = responseProfilesZ1Final2prctile;
-else
-    minL = responseProfilesZ2Final2prctile;
-end
-clims = [minL maxL];
-
-responseProfiles1FinalMeanMax = max(responseProfiles1FinalMean);
-responseProfiles2FinalMeanMax = max(responseProfiles2FinalMean);
-if responseProfiles1FinalMeanMax >= responseProfiles2FinalMeanMax
-    maxMean = responseProfiles1FinalMeanMax;
-else
-    maxMean = responseProfiles2FinalMeanMax;
-end
-% responseProfiles1FinalMeanMaxIn = max(responseProfiles1FinalMeanIn);
-% responseProfiles2FinalMeanMaxIn = max(responseProfiles2FinalMeanIn);
-% if responseProfiles1FinalMeanMaxIn >= responseProfiles2FinalMeanMaxIn
-%     maxMeanIn = responseProfiles1FinalMeanMaxIn;
-% else
-%     maxMeanIn = responseProfiles2FinalMeanMaxIn;
+%                 inh = 0;
+%                 if ~isempty(app4)
+%                     inh = 1;
+%                 end
+%                 responseProfiles{idxOdor}(idxNeuron,:) = mean(exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).smoothedPsth);
+% %                 if std(responseProfiles{idxOdor}(idxNeuron,1:preInhalations*cycleLengthDeg)) > 0
+% %                     responseProfilesZ{idxOdor}(idxNeuron,:) = (responseProfiles{idxOdor}(idxNeuron,:) - mean(responseProfiles{idxOdor}(idxNeuron,1:preInhalations*cycleLengthDeg))) /...
+% %                         std(responseProfiles{idxOdor}(idxNeuron,1:preInhalations*cycleLengthDeg));
+% %                 else
+%                     responseProfilesZ{idxOdor}(idxNeuron,:) = responseProfiles{idxOdor}(idxNeuron,:);
+% %                 end
+%                 app7 = [];
+%                 %app7= exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).peakLatencyPerCycle(1:4);
+%                 app7= exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).peakLatencyPerCycle(1);
+%                 app8 = [];
+%                 app8 = exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).peakAnalogicResponsePerCycle(1:4);
+%                 [~, maxI] = max(app8);
+%                 %peakLatency{idxOdor}(idxNeuron) = app7(maxI) + (maxI-1)*cycleLengthDeg;
+%                 peakLatency{idxOdor}(idxNeuron) = app7;
+%                 unitOdorResponseLog{idxOdor}(idxNeuron, :) = [idxExp idxShank idxUnit idxOdor exc inh exc+inh];
+%                 idxNeuron = idxNeuron+1;
+%             end
+%         end
+%     end
 % end
-
-
-popResponses1FinalMax = max(popResponses1Final);
-popResponses2FinalMax = max(popResponses2Final);
-if popResponses1FinalMax > popResponses2FinalMax
-    maxPop = popResponses1FinalMax;
-else
-    maxPop = popResponses2FinalMax;
-end
-
-
-Xfig = 900;
-Yfig = 800;
-figure;
-p = panel();
-set(gcf, 'Position',[1,5,Xfig,Yfig]);
-set(gcf,'Color','w')
-
-p.pack({1/3 1/3 1/3}, {50 50})
-
-p(1,1).select()
-imagesc(responseProfilesZ1Final, clims); colormap(brewermap([],'*RdBu')); axis tight %colorbar
-set(findobj(gcf, 'type','axes'), 'Visible','off')
-p(1).title('Responses of units responding to butanedione 1:10000 (left) and-or 1:100 (right)');
-
-p(1,2).select()
-imagesc(responseProfilesZ2Final, clims); colormap(brewermap([],'*RdBu')); axis tight %colorbar
-set(findobj(gcf, 'type','axes'), 'Visible','off')
-%p(1,2).title('TMT 1:100');
-
-p(2,1).select()
-xAxis = 1:6*cycleLengthDeg+1;
-hold on
-for i = 1:size(responseProfiles1Final,1)
-    plot(xAxis, responseProfiles1Final(i,:), 'Color', [224,236,244]/255);
-end
-plot(xAxis, responseProfiles1FinalMean, 'Color', [158,188,218]/255, 'LineWidth', 3);
-line([2*cycleLengthDeg+1 2*cycleLengthDeg+1], [0 maxMean], 'Color', [136,86,167]/255);
-axis tight
-xticks = [1 cycleLengthDeg 2*cycleLengthDeg 3*cycleLengthDeg 4*cycleLengthDeg 5*cycleLengthDeg];
-xticklabel = {'-2', '-1', '1', '2', '3', '4'};
-set(gca, 'XTick', xticks);
-set(gca, 'XTickLabel', xticklabel);
-set(gca,'YColor','w')
-%xlabel('Respiration cycles')
-ylim([-0.1 maxMean]);
-p(2,1).title('Average of responsive neurons');
-set(gca,'FontName','Arial','Fontsize',12,'FontWeight','normal','TickDir','out','Box','off');
-
-p(2,2).select()
-xAxis = 1:6*cycleLengthDeg+1;
-hold on
-for i = 1:size(responseProfiles2Final,1)
-    plot(xAxis, responseProfiles2Final, 'Color', [224,236,244]/255);
-end
-plot(xAxis, responseProfiles2FinalMean, 'Color', [158,188,218]/255, 'LineWidth', 3);
-line([2*cycleLengthDeg+1 2*cycleLengthDeg+1], [0 maxMean], 'Color', [136,86,167]/255);
-axis tight
-xticks = [1 cycleLengthDeg 2*cycleLengthDeg 3*cycleLengthDeg 4*cycleLengthDeg 5*cycleLengthDeg];
-xticklabel = {'-2', '-1', '1', '2', '3', '4'};
-set(gca, 'XTick', xticks);
-set(gca, 'XTickLabel', xticklabel);
-set(gca,'YColor','w')
-%xlabel('Respiration cycles')
-p(2,2).title('Average of responsive neurons');
-ylim([-0.1 maxMean]);
-set(gca,'FontName','Arial','Fontsize',12,'FontWeight','normal','TickDir','out','Box','off');
-
-% p(3,1).select()
+% 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %% plot responses by pairs of concentrations
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% idxOdor1 = 2;
+% idxOdor2 = 9;
+% 
+% responseProfiles1 = [];
+% responseProfiles2 = [];
+% responseProfilesZ1 = [];
+% responseProfilesZ2 = [];
+% peakLatency1 = [];
+% peakLatency2 = [];
+% popResponse1 = [];
+% popResponse2 = [];
+% odorLog1 = [];
+% odorLog2 = [];
+% 
+% 
+% responseProfiles1 = responseProfiles{idxOdor1};
+% responseProfilesZ1 = responseProfilesZ{idxOdor1};
+% peakLatency1 = peakLatency{idxOdor1};
+% odorLog1 = unitOdorResponseLog{idxOdor1};
+% 
+% responseProfiles2 = responseProfiles{idxOdor2};
+% responseProfilesZ2 = responseProfilesZ{idxOdor2};
+% peakLatency2 = peakLatency{idxOdor2};
+% odorLog2 = unitOdorResponseLog{idxOdor2};
+% 
+% noSpikeUnits1 = mean(responseProfiles1,2);
+% noSpikeUnits2 = mean(responseProfiles2,2);
+% noSpikeUnits = noSpikeUnits1 + noSpikeUnits2;
+% responseProfiles1(noSpikeUnits<0.1,:) = [];
+% responseProfiles2(noSpikeUnits<0.1,:) = [];
+% responseProfilesZ1(noSpikeUnits<0.1,:) = [];
+% responseProfilesZ2(noSpikeUnits<0.1,:) = [];
+% peakLatency1(noSpikeUnits<0.1) = [];
+% peakLatency2(noSpikeUnits<0.1) = [];
+% odorLog1(noSpikeUnits<0.1,:) = [];
+% odorLog2(noSpikeUnits<0.1,:) = [];
+% popResponses1 = mean(responseProfiles1);
+% popResponses2 = mean(responseProfiles2);
+% noRespUnits1 = odorLog1(:,7) == 0;
+% noRespUnits2 = odorLog2(:,7) == 0;
+% noRespUnitsApp = noRespUnits1 + noRespUnits2;
+% noRespUnits = noRespUnitsApp == 2;
+% responseProfiles1(noRespUnits,:) = [];
+% responseProfiles2(noRespUnits,:) = [];
+% responseProfilesZ1(noRespUnits,:) = [];
+% responseProfilesZ2(noRespUnits,:) = [];
+% peakLatency1(noRespUnits) = [];
+% peakLatency2(noRespUnits) = [];
+% odorLog1(noRespUnits,:) = [];
+% odorLog2(noRespUnits,:) = [];
+% 
+% idxExc1 = find(odorLog1(:,5) == 1);
+% excResponses1 =  responseProfiles1(idxExc1, :);
+% idxExc2 = find(odorLog2(:,5) == 1);
+% excResponses2 = responseProfiles2(idxExc2, :);
+% idxInh1 = find(odorLog1(:,6) == 1);
+% inhResponses1 =  responseProfiles1(idxInh1, :);
+% idxInh2 = find(odorLog2(:,6) == 1);
+% inhResponses2 = responseProfiles2(idxInh2, :);
+% peakLatency1(~(odorLog1(:,5) == 1)) = 1000;
+% peakLatency2(~(odorLog2(:,5) == 1)) = 1000;
+% 
+% 
+% if numel(idxExc1) > numel(idxExc2)
+%     app1 = [];
+%     app1 = [responseProfilesZ1 peakLatency1'];
+%     app1 = sortrows(app1, size(app1,2));
+%     app1(:,end) = [];
+%     responseProfilesZ1 = app1;
+%     app2 = [];
+%     app2 = [responseProfilesZ2 peakLatency1'];
+%     app2 = sortrows(app2, size(app2,2));
+%     app2(:,end) = [];
+%     responseProfilesZ2 = app2;
+%     app3 = [];
+%     app3 = [odorLog1 peakLatency1'];
+%     app3 = sortrows(app3, size(app3,2));
+%     app3(:,end) = [];
+%     odorLog1 = app3;
+%     app4 = [];
+%     app4 = [odorLog2 peakLatency1'];
+%     app4 = sortrows(app4, size(app4,2));
+%     app4(:,end) = [];
+%     odorLog2 = app4;
+% else
+%     app1 = [];
+%     app1 = [responseProfilesZ1 peakLatency2'];
+%     app1 = sortrows(app1, size(app1,2));
+%     app1(:,end) = [];
+%     responseProfilesZ1 = app1;
+%     app2 = [];
+%     app2 = [responseProfilesZ2 peakLatency2'];
+%     app2 = sortrows(app2, size(app2,2));
+%     app2(:,end) = [];
+%     responseProfilesZ2 = app2;
+%     app3 = [];
+%     app3 = [odorLog1 peakLatency2'];
+%     app3 = sortrows(app3, size(app3,2));
+%     app3(:,end) = [];
+%     odorLog1 = app3;
+%     app4 = [];
+%     app4 = [odorLog2 peakLatency2'];
+%     app4 = sortrows(app4, size(app4,2));
+%     app4(:,end) = [];
+%     odorLog2 = app4;
+% end
+% 
+% 
+% responseProfiles1Final = excResponses1(:,2*cycleLengthDeg:8*cycleLengthDeg);
+% responseProfiles1FinalMean = mean(responseProfiles1Final);
+% responseProfiles1FinalMean = smooth(responseProfiles1FinalMean, 0.05, 'rloess');
+% responseProfiles2Final = excResponses2(:,2*cycleLengthDeg:8*cycleLengthDeg);
+% responseProfiles2FinalMean = mean(responseProfiles2Final);
+% responseProfiles2FinalMean = smooth(responseProfiles2FinalMean, 0.05, 'rloess');
+% % responseProfiles1FinalIn = inhResponses1(:,2*cycleLengthDeg:8*cycleLengthDeg);
+% % responseProfiles1FinalMeanIn = mean(responseProfiles1FinalIn);
+% % responseProfiles1FinalMeanIn = smooth(responseProfiles1FinalMeanIn, 0.05, 'rloess');
+% % responseProfiles2FinalIn = inhResponses2(:,2*cycleLengthDeg:8*cycleLengthDeg);
+% % responseProfiles2FinalMeanIn = mean(responseProfiles2FinalIn);
+% % responseProfiles2FinalMeanIn = smooth(responseProfiles2FinalMeanIn, 0.05, 'rloess');
+% popResponses1Final = popResponses1(2*cycleLengthDeg:8*cycleLengthDeg);
+% popResponses1Final = smooth(popResponses1Final, 0.05, 'rloess');
+% popResponses2Final = popResponses2(2*cycleLengthDeg:8*cycleLengthDeg);
+% popResponses2Final = smooth(popResponses2Final, 0.05, 'rloess');
+% responseProfilesZ1Final = responseProfilesZ1(:,2*cycleLengthDeg:8*cycleLengthDeg);
+% responseProfilesZ2Final = responseProfilesZ2(:,2*cycleLengthDeg:8*cycleLengthDeg);
+% responseProfilesZ1Final95prctile = prctile(responseProfilesZ1Final(:), 97.9);
+% responseProfilesZ2Final95prctile = prctile(responseProfilesZ2Final(:), 97.9);
+% responseProfilesZ1Final2prctile = prctile(responseProfilesZ1Final(:), 0.5);
+% responseProfilesZ2Final2prctile = prctile(responseProfilesZ2Final(:), 0.5);
+% if responseProfilesZ1Final95prctile >= responseProfilesZ2Final95prctile
+%     maxL = responseProfilesZ1Final95prctile;
+% else
+%     maxL = responseProfilesZ2Final95prctile;
+% end
+% 
+% if responseProfilesZ1Final2prctile <= responseProfilesZ2Final2prctile
+%     minL = responseProfilesZ1Final2prctile;
+% else
+%     minL = responseProfilesZ2Final2prctile;
+% end
+% clims = [minL maxL];
+% 
+% responseProfiles1FinalMeanMax = max(responseProfiles1FinalMean);
+% responseProfiles2FinalMeanMax = max(responseProfiles2FinalMean);
+% if responseProfiles1FinalMeanMax >= responseProfiles2FinalMeanMax
+%     maxMean = responseProfiles1FinalMeanMax;
+% else
+%     maxMean = responseProfiles2FinalMeanMax;
+% end
+% % responseProfiles1FinalMeanMaxIn = max(responseProfiles1FinalMeanIn);
+% % responseProfiles2FinalMeanMaxIn = max(responseProfiles2FinalMeanIn);
+% % if responseProfiles1FinalMeanMaxIn >= responseProfiles2FinalMeanMaxIn
+% %     maxMeanIn = responseProfiles1FinalMeanMaxIn;
+% % else
+% %     maxMeanIn = responseProfiles2FinalMeanMaxIn;
+% % end
+% 
+% 
+% popResponses1FinalMax = max(popResponses1Final);
+% popResponses2FinalMax = max(popResponses2Final);
+% if popResponses1FinalMax > popResponses2FinalMax
+%     maxPop = popResponses1FinalMax;
+% else
+%     maxPop = popResponses2FinalMax;
+% end
+% 
+% 
+% Xfig = 900;
+% Yfig = 800;
+% figure;
+% p = panel();
+% set(gcf, 'Position',[1,5,Xfig,Yfig]);
+% set(gcf,'Color','w')
+% 
+% p.pack({1/3 1/3 1/3}, {50 50})
+% 
+% p(1,1).select()
+% imagesc(responseProfilesZ1Final, clims); colormap(brewermap([],'*RdBu')); axis tight %colorbar
+% set(findobj(gcf, 'type','axes'), 'Visible','off')
+% p(1).title('Responses of units responding to butanedione 1:10000 (left) and-or 1:100 (right)');
+% 
+% p(1,2).select()
+% imagesc(responseProfilesZ2Final, clims); colormap(brewermap([],'*RdBu')); axis tight %colorbar
+% set(findobj(gcf, 'type','axes'), 'Visible','off')
+% %p(1,2).title('TMT 1:100');
+% 
+% p(2,1).select()
 % xAxis = 1:6*cycleLengthDeg+1;
 % hold on
-% for i = 1:size(responseProfiles1FinalIn,1)
-%     plot(xAxis, responseProfiles1FinalIn(i,:), 'Color', [231,225,239]/255);
+% for i = 1:size(responseProfiles1Final,1)
+%     plot(xAxis, responseProfiles1Final(i,:), 'Color', [224,236,244]/255);
 % end
-% plot(xAxis, responseProfiles1FinalMeanIn, 'Color', [201,148,199]/255, 'LineWidth', 3);
-% line([2*cycleLengthDeg+1 2*cycleLengthDeg+1], [0 maxMeanIn], 'Color', [136,86,167]/255);
+% plot(xAxis, responseProfiles1FinalMean, 'Color', [158,188,218]/255, 'LineWidth', 3);
+% line([2*cycleLengthDeg+1 2*cycleLengthDeg+1], [0 maxMean], 'Color', [136,86,167]/255);
+% axis tight
+% xticks = [1 cycleLengthDeg 2*cycleLengthDeg 3*cycleLengthDeg 4*cycleLengthDeg 5*cycleLengthDeg];
+% xticklabel = {'-2', '-1', '1', '2', '3', '4'};
+% set(gca, 'XTick', xticks);
+% set(gca, 'XTickLabel', xticklabel);
+% set(gca,'YColor','w')
+% %xlabel('Respiration cycles')
+% ylim([-0.1 maxMean]);
+% p(2,1).title('Average of responsive neurons');
+% set(gca,'FontName','Arial','Fontsize',12,'FontWeight','normal','TickDir','out','Box','off');
+% 
+% p(2,2).select()
+% xAxis = 1:6*cycleLengthDeg+1;
+% hold on
+% for i = 1:size(responseProfiles2Final,1)
+%     plot(xAxis, responseProfiles2Final, 'Color', [224,236,244]/255);
+% end
+% plot(xAxis, responseProfiles2FinalMean, 'Color', [158,188,218]/255, 'LineWidth', 3);
+% line([2*cycleLengthDeg+1 2*cycleLengthDeg+1], [0 maxMean], 'Color', [136,86,167]/255);
+% axis tight
+% xticks = [1 cycleLengthDeg 2*cycleLengthDeg 3*cycleLengthDeg 4*cycleLengthDeg 5*cycleLengthDeg];
+% xticklabel = {'-2', '-1', '1', '2', '3', '4'};
+% set(gca, 'XTick', xticks);
+% set(gca, 'XTickLabel', xticklabel);
+% set(gca,'YColor','w')
+% %xlabel('Respiration cycles')
+% p(2,2).title('Average of responsive neurons');
+% ylim([-0.1 maxMean]);
+% set(gca,'FontName','Arial','Fontsize',12,'FontWeight','normal','TickDir','out','Box','off');
+% 
+% % p(3,1).select()
+% % xAxis = 1:6*cycleLengthDeg+1;
+% % hold on
+% % for i = 1:size(responseProfiles1FinalIn,1)
+% %     plot(xAxis, responseProfiles1FinalIn(i,:), 'Color', [231,225,239]/255);
+% % end
+% % plot(xAxis, responseProfiles1FinalMeanIn, 'Color', [201,148,199]/255, 'LineWidth', 3);
+% % line([2*cycleLengthDeg+1 2*cycleLengthDeg+1], [0 maxMeanIn], 'Color', [136,86,167]/255);
+% % axis tight
+% % xticks = [1 cycleLengthDeg 2*cycleLengthDeg 3*cycleLengthDeg 4*cycleLengthDeg 5*cycleLengthDeg];
+% % xticklabel = {'-2', '-1', '1', '2', '3', '4'};
+% % set(gca, 'XTick', xticks);
+% % set(gca, 'XTickLabel', xticklabel);
+% % set(gca,'YColor','w')
+% % xlabel('Respiration cycles')
+% % ylim([-0.1 maxMeanIn]);
+% % p(3,1).title('Inhibitory responses');
+% % set(gca,'FontName','Arial','Fontsize',12,'FontWeight','normal','TickDir','out','Box','off');
+% % 
+% % p(3,2).select()
+% % xAxis = 1:6*cycleLengthDeg+1;
+% % hold on
+% % for i = 1:size(responseProfiles2FinalIn,1)
+% %     plot(xAxis, responseProfiles2FinalIn, 'Color', [231,225,239]/255);
+% % end
+% % plot(xAxis, responseProfiles2FinalMeanIn, 'Color', [201,148,199]/255, 'LineWidth', 3);
+% % line([2*cycleLengthDeg+1 2*cycleLengthDeg+1], [0 maxMeanIn], 'Color', [136,86,167]/255);
+% % axis tight
+% % xticks = [1 cycleLengthDeg 2*cycleLengthDeg 3*cycleLengthDeg 4*cycleLengthDeg 5*cycleLengthDeg];
+% % xticklabel = {'-2', '-1', '1', '2', '3', '4'};
+% % set(gca, 'XTick', xticks);
+% % set(gca, 'XTickLabel', xticklabel);
+% % set(gca,'YColor','w')
+% % xlabel('Respiration cycles')
+% % p(3,2).title('Inhibitory responses');
+% % ylim([-0.1 maxMeanIn]);
+% % set(gca,'FontName','Arial','Fontsize',12,'FontWeight','normal','TickDir','out','Box','off');
+% 
+% 
+% p(3,1).select()
+% xAxis = 1:6*cycleLengthDeg+1;
+% area(popResponses1Final, 'FaceColor',[253,192,134]/255);
+% line([2*cycleLengthDeg+1 2*cycleLengthDeg+1], [0 maxPop], 'Color', [240,59,32]/255);
 % axis tight
 % xticks = [1 cycleLengthDeg 2*cycleLengthDeg 3*cycleLengthDeg 4*cycleLengthDeg 5*cycleLengthDeg];
 % xticklabel = {'-2', '-1', '1', '2', '3', '4'};
@@ -347,18 +383,14 @@ set(gca,'FontName','Arial','Fontsize',12,'FontWeight','normal','TickDir','out','
 % set(gca, 'XTickLabel', xticklabel);
 % set(gca,'YColor','w')
 % xlabel('Respiration cycles')
-% ylim([-0.1 maxMeanIn]);
-% p(3,1).title('Inhibitory responses');
+% ylim([0 maxPop]);
+% p(3,1).title('Population response');
 % set(gca,'FontName','Arial','Fontsize',12,'FontWeight','normal','TickDir','out','Box','off');
 % 
 % p(3,2).select()
 % xAxis = 1:6*cycleLengthDeg+1;
-% hold on
-% for i = 1:size(responseProfiles2FinalIn,1)
-%     plot(xAxis, responseProfiles2FinalIn, 'Color', [231,225,239]/255);
-% end
-% plot(xAxis, responseProfiles2FinalMeanIn, 'Color', [201,148,199]/255, 'LineWidth', 3);
-% line([2*cycleLengthDeg+1 2*cycleLengthDeg+1], [0 maxMeanIn], 'Color', [136,86,167]/255);
+% area(popResponses2Final, 'FaceColor',[253,192,134]/255);
+% line([2*cycleLengthDeg+1 2*cycleLengthDeg+1], [0 maxPop], 'Color', [240,59,32]/255);
 % axis tight
 % xticks = [1 cycleLengthDeg 2*cycleLengthDeg 3*cycleLengthDeg 4*cycleLengthDeg 5*cycleLengthDeg];
 % xticklabel = {'-2', '-1', '1', '2', '3', '4'};
@@ -366,100 +398,73 @@ set(gca,'FontName','Arial','Fontsize',12,'FontWeight','normal','TickDir','out','
 % set(gca, 'XTickLabel', xticklabel);
 % set(gca,'YColor','w')
 % xlabel('Respiration cycles')
-% p(3,2).title('Inhibitory responses');
-% ylim([-0.1 maxMeanIn]);
+% ylim([0 maxPop]);
+% p(3,2).title('Population response');
 % set(gca,'FontName','Arial','Fontsize',12,'FontWeight','normal','TickDir','out','Box','off');
-
-
-p(3,1).select()
-xAxis = 1:6*cycleLengthDeg+1;
-area(popResponses1Final, 'FaceColor',[253,192,134]/255);
-line([2*cycleLengthDeg+1 2*cycleLengthDeg+1], [0 maxPop], 'Color', [240,59,32]/255);
-axis tight
-xticks = [1 cycleLengthDeg 2*cycleLengthDeg 3*cycleLengthDeg 4*cycleLengthDeg 5*cycleLengthDeg];
-xticklabel = {'-2', '-1', '1', '2', '3', '4'};
-set(gca, 'XTick', xticks);
-set(gca, 'XTickLabel', xticklabel);
-set(gca,'YColor','w')
-xlabel('Respiration cycles')
-ylim([0 maxPop]);
-p(3,1).title('Population response');
-set(gca,'FontName','Arial','Fontsize',12,'FontWeight','normal','TickDir','out','Box','off');
-
-p(3,2).select()
-xAxis = 1:6*cycleLengthDeg+1;
-area(popResponses2Final, 'FaceColor',[253,192,134]/255);
-line([2*cycleLengthDeg+1 2*cycleLengthDeg+1], [0 maxPop], 'Color', [240,59,32]/255);
-axis tight
-xticks = [1 cycleLengthDeg 2*cycleLengthDeg 3*cycleLengthDeg 4*cycleLengthDeg 5*cycleLengthDeg];
-xticklabel = {'-2', '-1', '1', '2', '3', '4'};
-set(gca, 'XTick', xticks);
-set(gca, 'XTickLabel', xticklabel);
-set(gca,'YColor','w')
-xlabel('Respiration cycles')
-ylim([0 maxPop]);
-p(3,2).title('Population response');
-set(gca,'FontName','Arial','Fontsize',12,'FontWeight','normal','TickDir','out','Box','off');
-
-p.de.margin = 2;
-p.margin = [8 15 4 10];
-p(1).marginbottom = 20;
-p(1,1).marginright = 10;
-p(1,1).de.marginright = 2;
-p(1,2).de.marginright = 2;
-p(2).marginbottom = 20;
-p(2,1).marginright = 10;
-%p(3).marginbottom = 20;
-p(3,1).marginright = 10;
-%p(4,1).marginright = 10;
-p.select('all');
+% 
+% p.de.margin = 2;
+% p.margin = [8 15 4 10];
+% p(1).marginbottom = 20;
+% p(1,1).marginright = 10;
+% p(1,1).de.marginright = 2;
+% p(1,2).de.marginright = 2;
+% p(2).marginbottom = 20;
+% p(2,1).marginright = 10;
+% %p(3).marginbottom = 20;
+% p(3,1).marginright = 10;
+% %p(4,1).marginright = 10;
+% p.select('all');
                 
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% population responses without breating warping (only first sniff alignement)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-odorsRearranged = [1 8 2 9 3 10 4 11 5 12 6 13 7 14 15];
+% odorsRearranged = [1 8 2 9 3 10 4 11 5 12 6 13 7 14 15];
+% 
+% Xfig = 900;
+% Yfig = 800;
+% figure;
+% set(gcf, 'Position',[1,5,Xfig,Yfig]);
+% set(gcf,'Color','w')
+% idxPlot = 1;
+% for idxOdor = odorsRearranged
+%     idxNeuron = 1;
+%     responseProfiles{idxOdor} = [];
+%     for idxExp = 1:length(List)
+%         for idxShank = 1:4
+%             for idxUnit = 1:length(exp(idxExp).shank(idxShank).cell)
+%                 responseProfiles{idxOdor}(idxNeuron,:) = mean(exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).sdf_trialNoWarp);
+%                 idxNeuron = idxNeuron + 1;
+%             end
+%         end
+%     end
+%     subplot(8,2,idxPlot)
+%     A = responseProfiles{idxOdor};
+%     A = A(:,14000:16000);
+%     app1 = [];
+%     app1 = sum(A,2);
+%     A(app1==0,:) = [];
+%     A = mean(A);
+%     %A = smooth(A, 0.005, 'rloess');
+%     xAxis = 1:length(A);
+%     xticks = [1 1000 2000];
+%     xlab = {'-1', '0', '1'};
+%     area(A, 'FaceColor',[153,216,201]/255)
+%     set(gca, 'XTick', xticks);
+%     set(gca, 'XTickLabel', xlab);
+%     set(gca,'YColor','w')
+%     xlabel('sec')
+%     axis tight 
+%     set(gca,'FontName','Arial','Fontsize',12,'FontWeight','normal','TickDir','out','Box','off');
+%     idxPlot =idxPlot + 1;
+% end
 
-Xfig = 900;
-Yfig = 800;
-figure;
-set(gcf, 'Position',[1,5,Xfig,Yfig]);
-set(gcf,'Color','w')
-idxPlot = 1;
-for idxOdor = odorsRearranged
-    idxNeuron = 1;
-    responseProfiles{idxOdor} = [];
-    for idxExp = 1:length(List)
-        for idxShank = 1:4
-            for idxUnit = 1:length(exp(idxExp).shank(idxShank).cell)
-                responseProfiles{idxOdor}(idxNeuron,:) = mean(exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).sdf_trialNoWarp);
-                idxNeuron = idxNeuron + 1;
-            end
-        end
-    end
-    subplot(8,2,idxPlot)
-    A = responseProfiles{idxOdor};
-    A = A(:,14000:16000);
-    app1 = [];
-    app1 = sum(A,2);
-    A(app1==0,:) = [];
-    A = mean(A);
-    %A = smooth(A, 0.005, 'rloess');
-    xAxis = 1:length(A);
-    xticks = [1 1000 2000];
-    xlab = {'-1', '0', '1'};
-    area(A, 'FaceColor',[153,216,201]/255)
-    set(gca, 'XTick', xticks);
-    set(gca, 'XTickLabel', xlab);
-    set(gca,'YColor','w')
-    xlabel('sec')
-    axis tight 
-    set(gca,'FontName','Arial','Fontsize',12,'FontWeight','normal','TickDir','out','Box','off');
-    idxPlot =idxPlot + 1;
-end
- %% plot responses and demixed responses of odor A vs odor B
-% 
-% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% plot responses and demixed responses of odor A vs odor B
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 % odorA = [15 15];
 % odorB = [1 8];
 % figure
@@ -579,9 +584,9 @@ end
 % 
 % set(gcf,'color','white', 'PaperPositionMode', 'auto');
 % 
-% 
-% 
- %% plot distribution of the best bin size
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% plot distribution of the best bin size
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 
 % bestBinWidth = [];
 % for idxExp = 1:length(List)
@@ -632,9 +637,10 @@ end
 % meanbkgSpikeRate = mean(bkgSpikeRate)
 % prctile25bkgSpikeRate = prctile(bkgSpikeRate, 25)
 
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% information vs time
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % THIS IS NOT WORKING. NOT ENOUGH MEMORY.
 % The best bin size seems to be 100 ms. Let's move 100ms bin by 5 ms step
 % from the -2 cycle to the 10th cycle and let's calculate the information
@@ -725,8 +731,9 @@ end
 % X = reshape(X',1,size(X,1)*size(X,2));
 % figure; plot(X)
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% data high
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 % odor_list = {'tmt3', 'dmt3', 'mmt3', 'iba3', 'iaa3',...
@@ -781,9 +788,9 @@ end
 
 
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% SPIKE PHASE-LOCKING
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % idxBslUnit = 1;
 % idxRspUnit = 1;
@@ -952,6 +959,125 @@ end
 % p(2,1).marginright = 10;
 % p(3,1).marginright = 10;
 % p.select('all');
-                
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% pca-score responses in a cycle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+idxResponse = 1;
+responseProfiles = [];
+for idxExp = 1:length(List)
+    for idxShank = 1:4
+        for idxUnit = 1:length(exp(idxExp).shank(idxShank).cell)
+            for idxOdor = 1:odors
+                app1 = [];
+                app1 = find(exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).aurocMax > 0.75);
+                app2 = [];
+                app2 = find(exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).fullCycleDigitalResponsePerCycle(1:4) > 0);
+                app3 = [];
+                app3 = find(exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).peakDigitalResponsePerCycle(1:4) > 0);
+                app4 = [];
+                app4 = find(exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).aurocMax < 0.4);
+                if ~isempty(app1) && ~isempty(app2) || ~isempty(app1) && ~isempty(app3) 
+                    responseProfiles(idxResponse:idxResponse+4,:) = exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).smoothedPsth(:,4*cycleLengthDeg:5*cycleLengthDeg);
+                    
+                    idxResponse =idxResponse + 5;
+                end
+            end
+        end
+    end
+end
+
+for i = 1:size(responseProfiles,1)
+    responseProfiles1(i,:) = responseProfiles(i,:);%smooth(responseProfiles(i,:), 0.005, 'rloess');
+end
+[coeff, score, latent,~,explained] = pca(responseProfiles1);
+
+
+
+Xfig = 900;
+Yfig = 800;
+figure;
+p = panel();
+set(gcf, 'Position',[1,5,Xfig,Yfig]);
+set(gcf,'Color','w')
+
+p.pack({1/2 1/2}, {50 50})
+
+p(1,1).select()
+plot(explained(1:10), 'k', 'linewidth', 2)
+axis tight
+xlabel('PC')
+ylabel('Variance explained %')
+p(1,1).title('Scree plot')
+set(gca,'FontName','Arial','Fontsize',12,'FontWeight','normal','TickDir','out','Box','off');
+
+p(1,2).select()
+hold on
+for i = 1:3
+    plot(coeff(:,i), 'linewidth', 2)
+end
+axis tight
+xlabel('phase in deg')
+ylabel('Firing rate (Hz)')
+set(gca,'FontName','Arial','Fontsize',12,'FontWeight','normal','TickDir','out','Box','off');
+p(1,2).title('The first 3 PCs during the first sniff')
+
+c = [102,194,165;252,141,98;141,160,203];
+
+
+p(2,1).select()
+k = 1;
+hold on
+for i = 1:6:size(score,1)-5
+    scatter(score(i:i+4,1),score(i:i+4,2), [],c(k,:)/255,  'filled') %c(k,:)/255,
+    k = k+1;
+    if k == 4
+        k = 1;
+    end
+end
+axis tight
+xlabel('PC 1 score')
+ylabel('PC 2 score')
+set(gca,'FontName','Arial','Fontsize',12,'FontWeight','normal','TickDir','out','Box','off');
+p(2,1).title('Scores of all responses on the first 2 PCs (grouped by odor/cell pair)')
+
+
+p(2,2).select()
+hold on
+idx= score(:,1);
+appRespProf = responseProfiles1(idx>20,:);
+% for i = 1:size(appRespProf,1)
+plot(mean(appRespProf),  'linewidth', 2)
+% end
+idx= score(:,2);
+appRespProf = responseProfiles1(idx>20,:);
+%for i = 1:size(appRespProf,1)
+plot(mean(appRespProf),  'linewidth', 2)
+%end
+idx= score(:,2);
+appRespProf = responseProfiles1(idx<-20,:);
+plot(mean(appRespProf), 'linewidth', 2)
+
+axis tight
+xlabel('phase in deg')
+ylabel('Firing rate (Hz)')
+set(gca,'FontName','Arial','Fontsize',12,'FontWeight','normal','TickDir','out','Box','off');
+p(2,2).title('Example of responses with high scores in one of the first 3 PC')
+
+
+
+
+p.de.margin = 2;
+p.margin = [8 15 4 10];
+p(1).marginbottom = 20;
+p(1,1).marginright = 10;
+p(2).marginbottom = 20;
+p(2,1).marginright = 10;
+p.select('all');
+
+
+
+
 
          
