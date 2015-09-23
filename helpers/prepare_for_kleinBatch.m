@@ -1,6 +1,6 @@
 
 
-for idxExperiment = 1 : length(List)
+for idxExperiment = 2 : length(List)
     cartella = List{idxExperiment};
     cd(cartella)
     disp(cartella)
