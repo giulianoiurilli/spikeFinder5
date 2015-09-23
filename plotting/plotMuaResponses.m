@@ -15,9 +15,10 @@ for idxOdor = 1:odors
     bigMuaApp = mean(bigMuaApp);
     subplot(8,2,idxPlot)
     xAxis = 1:length(bigMuaApp);
-    xticks = [1 1000 2000 3000];
+    xticks = [1 980 2000 3000];
     xlab = {'-1', '0', '1', '2'};
     area(bigMuaApp, 'FaceColor',[153,216,201]/255)
+    line([980 980], [0 max(bigMuaApp)], 'Color', [136,86,167]/255);
     set(gca, 'XTick', xticks);
     set(gca, 'XTickLabel', xlab);
     set(gca,'YColor','w')
