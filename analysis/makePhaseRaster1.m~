@@ -41,12 +41,14 @@ for idxShank = 1:4
                 piLength = piLength';
                 piLength = piLength / 180 * sigmaDeg; %how many seconds for sigmaDeg(usually 10 deg)
                 sv = SplitVec(piLength, 'consecutive','firstval'); 
-                sampleAt = piLength(90:180:end); %find nodes to fit with a spline
+                sampleAt = piLength(90:180:end);
                 sampleAt = [sampleAt(2) sampleAt]; %pad on left
-                x1 = -90:180:length(piLength); 
+                x1 = -180:180:length(piLength); x1(end) = [];
                 xx = -90:length(piLength); xx(end) = [];
                 piLengthSplined = spline(x1, sampleAt, xx);
-                piLength = piLengthSplined(91:end);
+                piLength = piLength
+                
+                
                 shank(idxShank).cell(idxUnit).odor(idxOdor).sdf_trialHz(idxTrial,:) = shank(idxShank).cell(idxUnit).odor(idxOdor).sdf_trialRad(idxTrial,:) ./ piLength;
             end
             psthBreathingBins(1,:) = [];
