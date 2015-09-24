@@ -45,65 +45,13 @@
 % sdf_trialNoWarp
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% plot average response timecourse for each odor
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 % odor_list = {'tmt3', 'dmt3', 'mmt3', 'iba3', 'iaa3',...
 %     'hed3', 'but3', 'tmt1', 'dmt1', 'mmt1',...
 %     'iba1', 'iaa1', 'hed1', 'btd1', 'rose'};
-% 
-% 
-% 
-% for idxOdor = 1:odors
-%     idxNeuron = 1;
-%     responseProfiles{idxOdor} = [];
-%     responseProfilesZ{idxOdor} = [];
-%     peakLatency{idxOdor} = [];
-%     unitOdorResponseLog{idxOdor} = [];
-%     for idxExp = 1:length(List)
-%         for idxShank = 1:4
-%             for idxUnit = 1:length(exp(idxExp).shank(idxShank).cell)
-%                 app1 = [];
-%                 app1 = find(exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).aurocMax > 0.75);
-%                 app2 = [];
-%                 app2 = find(exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).fullCycleDigitalResponsePerCycle(1:4) > 0);
-%                 app3 = [];
-%                 app3 = find(exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).peakDigitalResponsePerCycle(1:4) > 0);
-%                 app4 = [];
-%                 app4 = find(exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).aurocMax < 0.4);
-%                 %app5 = [];
-%                 %app5 = find(exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).peakDigitalResponsePerCycle(1:4) < 0);
-%                 app6 = [];
-%                 app6 = find(exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).fullCycleDigitalResponsePerCycle(1:4) < 0);
-%                 exc = 0;
-%                 if (~isempty(app1) && ~isempty(app2)) || (~isempty(app1) && ~isempty(app3))
-%                     exc = 1;
-%                 end
-%                 inh = 0;
-%                 if ~isempty(app4)
-%                     inh = 1;
-%                 end
-%                 responseProfiles{idxOdor}(idxNeuron,:) = mean(exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).smoothedPsth);
-% %                 if std(responseProfiles{idxOdor}(idxNeuron,1:preInhalations*cycleLengthDeg)) > 0
-% %                     responseProfilesZ{idxOdor}(idxNeuron,:) = (responseProfiles{idxOdor}(idxNeuron,:) - mean(responseProfiles{idxOdor}(idxNeuron,1:preInhalations*cycleLengthDeg))) /...
-% %                         std(responseProfiles{idxOdor}(idxNeuron,1:preInhalations*cycleLengthDeg));
-% %                 else
-%                     responseProfilesZ{idxOdor}(idxNeuron,:) = responseProfiles{idxOdor}(idxNeuron,:);
-% %                 end
-%                 app7 = [];
-%                 %app7= exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).peakLatencyPerCycle(1:4);
-%                 app7= exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).peakLatencyPerCycle(1);
-%                 app8 = [];
-%                 app8 = exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).peakAnalogicResponsePerCycle(1:4);
-%                 [~, maxI] = max(app8);
-%                 %peakLatency{idxOdor}(idxNeuron) = app7(maxI) + (maxI-1)*cycleLengthDeg;
-%                 peakLatency{idxOdor}(idxNeuron) = app7;
-%                 unitOdorResponseLog{idxOdor}(idxNeuron, :) = [idxExp idxShank idxUnit idxOdor exc inh exc+inh];
-%                 idxNeuron = idxNeuron+1;
-%             end
-%         end
-%     end
-% end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+A % plot average response timecourse for each odor
+
 % 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % %% plot responses by pairs of concentrations
@@ -1145,9 +1093,9 @@ for idxExp = 1:length(List)
     end
 end
 responseProfiles1 = [];
-for i = 1:size(responseProfiles,1)
-    responseProfiles1(i,:) = responseProfiles(i,:);%smooth(responseProfiles(i,:), 0.005, 'rloess');
-end
+
+    responseProfiles1 = responseProfiles;
+
 [coeff, score, latent,~,explained] = pca(responseProfiles1);
 
 
@@ -1201,23 +1149,23 @@ p(2,1).select()
 k = 1;
 hold on
 for i = 1:6:size(score,1)-5
-    scatter(score(i:i+4,1),score(i:i+4,2), [],c(k,:)/255,  'filled') %c(k,:)/255,
+    scatter(score(i:i+4,2),score(i:i+4,3), [],c(k,:)/255,  'filled') %c(k,:)/255,
     k = k+1;
-    if k == 4
-        k = 1;
+    if k == 15
+        k =1;
     end
 end
 axis tight
-xlabel('PC 1 score')
-ylabel('PC 2 score')
+xlabel('PC 2 score')
+ylabel('PC 3 score')
 set(gca,'FontName','Arial','Fontsize',12,'FontWeight','normal','TickDir','out','Box','off');
 p(2,1).title('Scores of all responses on the first 2 PCs (grouped by odor/cell pair)')
 
 
 p(2,2).select()
 hold on
-idx= score(:,1);
-appRespProf = responseProfiles1(idx>0.2,:);
+idx= score(:,3);
+appRespProf = responseProfiles1(idx>0.1,:);
 % for i = 1:size(appRespProf,1)
 plot(mean(appRespProf)*100,  'linewidth', 2)
 % end
@@ -1227,7 +1175,7 @@ appRespProf = responseProfiles1(idx>0.1,:);
 plot(mean(appRespProf)*100,  'linewidth', 2)
 %end
 idx= score(:,2);
-appRespProf = responseProfiles1(idx<-20,:);
+appRespProf = responseProfiles1(idx<-0.1,:);
 plot(mean(appRespProf)*100, 'linewidth', 2)
 
 axis tight
