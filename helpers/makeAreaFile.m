@@ -67,5 +67,5 @@ end
 
 cd(startingFolder)
 clearvars -except List exp 
-save('aPCx_2conc.mat', '-v7.3')
+save('plCoA_2conc.mat', '-v7.3')
     
