@@ -1,6 +1,6 @@
 %% plot responses timecourses by pairs of concentrations
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+function plot_responsesPairs(idxOdor1,idxOdor2, listodors)
 
 
 responseProfiles1 = [];
@@ -110,10 +110,10 @@ end
 
 responseProfiles1Final = excResponses1(:,2*cycleLengthDeg:8*cycleLengthDeg);
 responseProfiles1FinalMean = mean(responseProfiles1Final);
-responseProfiles1FinalMean = smooth(responseProfiles1FinalMean, 0.05, 'rloess');
+%responseProfiles1FinalMean = smooth(responseProfiles1FinalMean, 0.05, 'rloess');
 responseProfiles2Final = excResponses2(:,2*cycleLengthDeg:8*cycleLengthDeg);
 responseProfiles2FinalMean = mean(responseProfiles2Final);
-responseProfiles2FinalMean = smooth(responseProfiles2FinalMean, 0.05, 'rloess');
+%responseProfiles2FinalMean = smooth(responseProfiles2FinalMean, 0.05, 'rloess');
 
 % responseProfiles1FinalIn = inhResponses1(:,2*cycleLengthDeg:8*cycleLengthDeg);
 % responseProfiles1FinalMeanIn = mean(responseProfiles1FinalIn);
@@ -181,7 +181,7 @@ p.pack({1/3 1/3 1/3}, {50 50})
 p(1,1).select()
 imagesc(responseProfilesZ1Final, clims); colormap(brewermap([],'*RdBu')); axis tight %colorbar
 set(findobj(gcf, 'type','axes'), 'Visible','off')
-stringa = sprintf('Responses of units responding to %s 1:10000 (left) and-or 1:100 (right)', listodors{idxOdor1});
+stringa = sprintf('Responses of units responding to %s 1:10000 (left) and-or 1:100 (right)', listodor(idxOdor1));
 p(1).title(stringa);
 
 p(1,2).select()

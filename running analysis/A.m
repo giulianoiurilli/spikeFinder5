@@ -1,11 +1,6 @@
 % extract response timecourse for each odor
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-odor_list = {'tmt3', 'dmt3', 'mmt3', 'iba3', 'iaa3',...
-    'hed3', 'but3', 'tmt1', 'dmt1', 'mmt1',...
-    'iba1', 'iaa1', 'hed1', 'btd1', 'rose'};
-
-
 
 for idxOdor = 1:odors
     idxNeuron = 1;
