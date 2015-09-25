@@ -23,7 +23,7 @@ for idxExp = 1:length(List)
         end
     end
 end
-
+    responseProfiles1 = [];
 for i = 1:size(responseProfiles,1)
     responseProfiles1(i,:) = responseProfiles(i,:);%smooth(responseProfiles(i,:), 0.005, 'rloess');
 end
@@ -50,7 +50,7 @@ set(gca,'FontName','Arial','Fontsize',12,'FontWeight','normal','TickDir','out','
 
 p(1,2).select()
 hold on
-for i = 1:3
+for i = 1:4
     plot(coeff(:,i), 'linewidth', 2)
 end
 axis tight
@@ -66,15 +66,15 @@ p(2,1).select()
 k = 1;
 hold on
 for i = 1:6:size(score,1)-5
-    scatter(score(i:i+4,1),score(i:i+4,2), [],c(k,:)/255,  'filled') %c(k,:)/255,
+    scatter(score(i:i+4,2),score(i:i+4,4), [],c(k,:)/255,  'filled') %c(k,:)/255,
     k = k+1;
     if k == 4
         k = 1;
     end
 end
 axis tight
-xlabel('PC 1 score')
-ylabel('PC 2 score')
+xlabel('PC 2 score')
+ylabel('PC 4 score')
 set(gca,'FontName','Arial','Fontsize',12,'FontWeight','normal','TickDir','out','Box','off');
 p(2,1).title('Scores of all responses on the first 2 PCs (grouped by odor/cell pair)')
 
