@@ -1,7 +1,8 @@
 % extract response timecourse for each odor
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
+totUnits = 0;
+responsiveUnits = 0;
 for idxOdor = 1:odors
     idxNeuron = 1;
     responseProfiles{idxOdor} = [];
@@ -24,8 +25,10 @@ for idxOdor = 1:odors
                 app6 = [];
                 app6 = find(exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).fullCycleDigitalResponsePerCycle(1:4) < 0);
                 exc = 0;
+                totUnits = totUnits+1;
                 if (~isempty(app1) && ~isempty(app2)) || (~isempty(app1) && ~isempty(app3))
                     exc = 1;
+                    responsiveUnits = responsiveUnits + 1;
                 end
                 inh = 0;
                 if ~isempty(app4)

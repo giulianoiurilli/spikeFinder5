@@ -4,9 +4,9 @@
 load('breathing.mat', 'breath', 'sec_on_rsp');
 load('units.mat');
 load('parameters.mat');
-
+preInhalations = 10;
 edgesSpikeMatrixRad = 0:2*pi/360:(preInhalations+postInhalations)*2*pi;
-
+n_trials = 10;
 for idxShank = 1:4
     for idxUnit = 1:length(shank(idxShank).spiketimesUnit)
         sua = shank(idxShank).spiketimesUnit{idxUnit};

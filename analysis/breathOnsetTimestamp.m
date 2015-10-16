@@ -30,21 +30,43 @@ inhal_on(to_remove) = [];
 
 
 
- interInhalationDelay = diff(inhal_on);       
+interInhalationDelay = diff(inhal_on);
 
-
-
+app_on_rsp =  [];
+app_off_rsp1 = [];
+app_off_rsp2 = [];
+app_off_rsp3 = [];
+app_on_bsl = [];
+app_off_bsl1 = [];
+app_off_bsl2 = [];
+app_off_bsl3 = [];
 %find the first inhalation onset after the valve onset + a delay
 %[~,idx] = histc(dig_supra_thresh + delay, inhal_on);
 [~,idx] = histc(dig_supra_thresh, inhal_on);
-app_on_rsp = inhal_on(idx + 1)';
-app_off_rsp1 = inhal_on(idx + 2)';
-app_off_rsp2 = inhal_on(idx + 3)';
-app_off_rsp3 = inhal_on(idx + 4)';
-app_on_bsl = inhal_on(idx - 3)';
-app_off_bsl1 = inhal_on(idx - 2)';
-app_off_bsl2 = inhal_on(idx - 1)';
-app_off_bsl3 = inhal_on(idx)';
+app_on_rsp = inhal_on(idx)';
+for i = 1:length(idx)
+    dd = dig_supra_thresh(i) - app_on_rsp(i);
+    if dd > 0.120
+        app_on_rsp(i) = inhal_on(idx(i) + 1);        
+        app_off_rsp1(i) = inhal_on(idx(i) + 2);
+        app_off_rsp2(i) = inhal_on(idx(i) + 3);
+        app_off_rsp3(i) = inhal_on(idx(i) + 4);
+        app_on_bsl(i) = inhal_on(idx(i) - 3);
+        app_off_bsl1(i) = inhal_on(idx(i) - 2);
+        app_off_bsl2(i) = inhal_on(idx(i) - 1);
+        app_off_bsl3(i) = inhal_on(idx(i));
+    else
+        app_on_rsp(i) = inhal_on(idx(i));        
+        app_off_rsp1(i) = inhal_on(idx(i) + 1);
+        app_off_rsp2(i) = inhal_on(idx(i) + 2);
+        app_off_rsp3(i) = inhal_on(idx(i) + 3);
+        app_on_bsl(i) = inhal_on(idx(i) - 4);
+        app_off_bsl1(i) = inhal_on(idx(i) - 3);
+        app_off_bsl2(i) = inhal_on(idx(i) - 2);
+        app_off_bsl3(i) = inhal_on(idx(i) - 1);
+    end
+end
+        
 %here I try to fix the instances when the respiration signal suddenly fails
 %during the recording
 delay_on = app_on_rsp - dig_supra_thresh;
@@ -56,7 +78,7 @@ figure; histogram(delay_on, bin_delay)
 % delay_on(isnan(delay_on)) = exprnd(nanmean(delay_on), [1, n_nan]); % I assign a random delay chosen from an exponential distribution when the inhalation onset is > of some delay
 % figure; histogram(delay_on, bin_delay)
 %end
-sec_on_rsp = dig_supra_thresh + delay_on - 0.06;
+sec_on_rsp = dig_supra_thresh + delay_on;
 clear idx;
 
 
@@ -74,6 +96,11 @@ trial_odor = trial_log{3} - 1;
 app_on_rsp = [sec_on_rsp' double(trial_odor)];
 app_on_rsp = sortrows(app_on_rsp, 2);
 sec_on_rsp = app_on_rsp(:,1)';
+
+app_del = [delay_on' double(trial_odor)];
+app_del = sortrows(app_del, 2);
+delay_on = app_del(:,1)';
+
 
 app_off_rsp1 = [app_off_rsp1' double(trial_odor)];
 app_off_rsp1 = sortrows(app_off_rsp1, 2);
@@ -103,8 +130,11 @@ app_off_bsl3 = [app_off_bsl3' double(trial_odor)];
 app_off_bsl3 = sortrows(app_off_bsl3, 2);
 sec_off_bsl3 = app_off_bsl3(:,1)';
 
+
+
 n_trials_app = floor(length(sec_on_rsp)/odors);
 sec_on_rsp = reshape(sec_on_rsp,n_trials_app,odors);
+delay_on = reshape(delay_on,n_trials_app,odors);
 sec_off_rsp{1} = reshape(sec_off_rsp1,n_trials_app,odors);
 sec_off_rsp{2} = reshape(sec_off_rsp2,n_trials_app,odors);
 sec_off_rsp{3} = reshape(sec_off_rsp3,n_trials_app,odors);
@@ -134,4 +164,4 @@ end
 %     sigphase(:,:,k) = angle(y);
 % end
 
-save('breathing.mat', 'respiration','sec_on_rsp', 'sec_on_bsl', 'sec_off_rsp', 'sec_off_bsl', 'breath', 'interInhalationDelay', 'inhal_on', 'sniffs'); 
+save('breathing.mat', 'respiration','sec_on_rsp', 'sec_on_bsl', 'sec_off_rsp', 'sec_off_bsl', 'breath', 'interInhalationDelay', 'inhal_on', 'sniffs', 'delay_on'); 

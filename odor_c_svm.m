@@ -1,4 +1,4 @@
-function [mean_acc_svm, std_acc_svm, acc_svm] = odor_c_svm(data, trainingN, labels, repN, clas, tofolder)
+function [mean_acc_svm, std_acc_svm, acc_svm] = odor_c_svm(data, trainingN, labels, repN)
 
 
 

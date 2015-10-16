@@ -1,9 +1,10 @@
 %close all
 %clear all
 %delete('unitsNowarp.mat')
-load('breathing.mat', 'breath', 'sec_on_rsp');
-load('units.mat');
-load('parameters.mat');
+
+% load('breathing.mat', 'breath', 'sec_on_rsp');
+% load('units.mat');
+% load('parameters.mat');
 
 edgesSpikeMatrixNoWarp = -pre:1/1000:post;
 edgesSpikeMatrixNoWarp(end) = [];
@@ -17,7 +18,7 @@ for idxShank = 1:4
             shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrixNoWarp = zeros(n_trials,length(edgesSpikeMatrixNoWarp));
             shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).sdf_trialNoWarp = zeros(n_trials,length(edgesSpikeMatrixNoWarp));
             shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).sdf_trialNoWarp(:,end) = [];
-            for idxTrial = 1:n_trials
+            for idxTrial = 1:10
                 startOdor = sec_on_rsp(idxTrial, idxOdor);
                 sua_trial{idxTrial} = sua(find((sua > startOdor - pre) & (sua < startOdor + post))) - startOdor;
                 shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeTimesTrial{idxTrial} = sua_trial{idxTrial};

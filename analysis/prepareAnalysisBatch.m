@@ -26,13 +26,13 @@ for idxExperiment = 1 : length(List)
     %
     %     valveOnsetTimestamp
     %
-    %         try
-    %             breathOnsetTimestamp
-    %         catch
-    %             disp('Error during breathOnsetTimestamp')
-    %             disp(cartella)
-    %         end
-    %         clearvars -except List idxExperiment cartella
+            try
+                breathOnsetTimestamp
+            catch
+                disp('Error during breathOnsetTimestamp')
+                disp(cartella)
+            end
+            clearvars -except List idxExperiment cartella
     
     %     try
     %         for i = 1:4

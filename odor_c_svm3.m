@@ -1,4 +1,4 @@
-function [mean_acc_svm, std_acc_svm] = odor_c_svm_traj(data, n_neurons, trainingN, labels, repN, clas, tofolder)
+function [mean_acc_svm, std_acc_svm] = odor_c_svm_traj(data, n_neurons, trainingN, labels, repN)
 
 
 
@@ -37,12 +37,12 @@ end
 
 mean_acc_svm = mean(acc_svm);
 std_acc_svm = std(acc_svm);
-x = 2 : size(mean_acc_svm,2) + 1;
-h = figure;
-shadedErrorBar(x, mean_acc_svm, std_acc_svm, 'r');
-set(gca,'FontName','Arial','Fontsize',12, 'FontWeight', 'normal');
-set(h,'color','white', 'PaperPositionMode', 'auto');
-stringa_fig=sprintf('c_svm linear discrimination -%s .eps', clas);
-saveas(h,fullfile(tofolder,stringa_fig),'epsc')
+% x = 2 : size(mean_acc_svm,2) + 1;
+% h = figure;
+% shadedErrorBar(x, mean_acc_svm, std_acc_svm, 'r');
+% set(gca,'FontName','Arial','Fontsize',12, 'FontWeight', 'normal');
+% set(h,'color','white', 'PaperPositionMode', 'auto');
+% stringa_fig=sprintf('c_svm linear discrimination -%s .eps', clas);
+% saveas(h,fullfile(tofolder,stringa_fig),'epsc')
 
 
