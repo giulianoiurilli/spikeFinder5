@@ -1,14 +1,14 @@
 %clear all
 
 
-load('units.mat');
+load('unitsWarp.mat');
 load('parameters.mat');
 
 
 
 for idxShank = 1:4
-    for idxUnit = 1:length(shank(idxShank).spiketimesUnit)
-        sdfAllCyclesBsl = shank(idxShank).cell(idxUnit).cycleBslMultipleSdfHz;
+    for idxUnit = 1:length(shankWarp(idxShank).cell)
+        sdfAllCyclesBsl = shankWarp(idxShank).cell(idxUnit).cycleBslMultipleSdfHz;
         sdfCycleBslMean = mean(sdfAllCyclesBsl);
         %trova il picco nel ciclo medio della baseline
         [~, latencyPeakBsl] = max(sdfCycleBslMean);
@@ -36,23 +36,23 @@ for idxShank = 1:4
         amplitudePeakBslStd = std(meanAmplitudePeakBsl);
         amplitudePeakBslMean = mean(meanAmplitudePeakBsl);
         amplitudePeakBsl95 = prctile(meanAmplitudePeakBsl, 95);
-        shank(idxShank).cell(idxUnit).cycleBslPeakAmplitudeHz = [amplitudePeakBslMean, amplitudePeakBsl95];
-        shank(idxShank).cell(idxUnit).cycleBslPeakLatencyMeanHz = latencyPeakBsl;
+        shankWarp(idxShank).cell(idxUnit).cycleBslPeakAmplitudeHz = [amplitudePeakBslMean, amplitudePeakBsl95];
+        shankWarp(idxShank).cell(idxUnit).cycleBslPeakLatencyMeanHz = latencyPeakBsl;
         
         
         % in ogni ciclo post odore trova risposte (+1: exc, 0: no, -1: inh), ampiezza media della
         % risposta, ampiezza in ogni trial e d'
         for idxOdor = 1:odors
             
-            shank(idxShank).cell(idxUnit).odor(idxOdor).cyclePeakResponseDigitalHz = zeros(1, postInhalations);
-            shank(idxShank).cell(idxUnit).odor(idxOdor).cyclePeakResponseAnalogicHz = zeros(1, postInhalations);
-            shank(idxShank).cell(idxUnit).odor(idxOdor).cyclePeakResponseTrialHz = zeros(n_trials, postInhalations);
+            shankWarp(idxShank).cell(idxUnit).odor(idxOdor).cyclePeakResponseDigitalHz = zeros(1, postInhalations);
+            shankWarp(idxShank).cell(idxUnit).odor(idxOdor).cyclePeakResponseAnalogicHz = zeros(1, postInhalations);
+            shankWarp(idxShank).cell(idxUnit).odor(idxOdor).cyclePeakResponseTrialHz = zeros(n_trials, postInhalations);
             %shank(idxShank).cell(idxUnit).odor(idxOdor).cycleResponseDPrime = zeros(1, postInhalations);
-            shank(idxShank).cell(idxUnit).odor(idxOdor).cyclePeakLatencyHz = zeros(1, postInhalations);
+            shankWarp(idxShank).cell(idxUnit).odor(idxOdor).cyclePeakLatencyHz = zeros(1, postInhalations);
             sdfApp = zeros(n_trials, postInhalations * cycleLengthDeg);
             sdfAppMean = zeros(1, postInhalations * cycleLengthDeg);
             
-            sdfApp = shank(idxShank).cell(idxUnit).odor(idxOdor).sdf_trialHz(:, preInhalations * cycleLengthDeg + 1 : end);
+            sdfApp = shankWarp(idxShank).cell(idxUnit).odor(idxOdor).sdf_trialHz(:, preInhalations * cycleLengthDeg + 1 : end);
             sdfAppMean = mean(sdfApp);
             
             for idxCycle = 1:postInhalations
@@ -84,38 +84,38 @@ for idxShank = 1:4
                 %shank(idxShank).cell(idxUnit).odor(idxOdor).cycleResponseDPrime(idxCycle) = dPrimeRsp;
                 
                 goodTrials = numel(find(amplitudePeakRsp > amplitudePeakBsl95));
-                if  goodTrials >= 4 && amplitudePeakRspMean >  amplitudePeakBsl95
-                    shank(idxShank).cell(idxUnit).odor(idxOdor).cyclePeakResponseDigitalHz(idxCycle) = 1;
-                    shank(idxShank).cell(idxUnit).odor(idxOdor).cyclePeakLatencyHz(idxCycle) = latencyPeakRsp;
-                    shank(idxShank).cell(idxUnit).odor(idxOdor).cyclePeakResponseAnalogicHz(idxCycle) = amplitudePeakRspMean;
-                    shank(idxShank).cell(idxUnit).odor(idxOdor).cyclePeakResponseTrialHz(:,idxCycle) = amplitudePeakRsp;
+                if  goodTrials >= 3 && amplitudePeakRspMean >  amplitudePeakBsl95
+                    shankWarp(idxShank).cell(idxUnit).odor(idxOdor).cyclePeakResponseDigitalHz(idxCycle) = 1;
+                    shankWarp(idxShank).cell(idxUnit).odor(idxOdor).cyclePeakLatencyHz(idxCycle) = latencyPeakRsp;
+                    shankWarp(idxShank).cell(idxUnit).odor(idxOdor).cyclePeakResponseAnalogicHz(idxCycle) = amplitudePeakRspMean;
+                    shankWarp(idxShank).cell(idxUnit).odor(idxOdor).cyclePeakResponseTrialHz(:,idxCycle) = amplitudePeakRsp;
                     
                     
                 else
                     if amplitudePeakBslMean > 0.02 && amplitudePeakRspMean < amplitudePeakBslMean/2
-                        shank(idxShank).cell(idxUnit).odor(idxOdor).cyclePeakResponseDigitalHz(idxCycle) = -1;
-                        shank(idxShank).cell(idxUnit).odor(idxOdor).cyclePeakLatencyHz(idxCycle) = latencyPeakRsp;
-                        shank(idxShank).cell(idxUnit).odor(idxOdor).cyclePeakResponseAnalogicHz(idxCycle) = amplitudePeakRspMean;
-                        shank(idxShank).cell(idxUnit).odor(idxOdor).cyclePeakResponseTrialHz(:,idxCycle) = amplitudePeakRsp;
+                        shankWarp(idxShank).cell(idxUnit).odor(idxOdor).cyclePeakResponseDigitalHz(idxCycle) = -1;
+                        shankWarp(idxShank).cell(idxUnit).odor(idxOdor).cyclePeakLatencyHz(idxCycle) = latencyPeakRsp;
+                        shankWarp(idxShank).cell(idxUnit).odor(idxOdor).cyclePeakResponseAnalogicHz(idxCycle) = amplitudePeakRspMean;
+                        shankWarp(idxShank).cell(idxUnit).odor(idxOdor).cyclePeakResponseTrialHz(:,idxCycle) = amplitudePeakRsp;
                         
                     else
-                        shank(idxShank).cell(idxUnit).odor(idxOdor).cyclePeakResponseDigitalHz(idxCycle) = 0;
-                        shank(idxShank).cell(idxUnit).odor(idxOdor).cyclePeakLatencyHz(idxCycle) = latencyPeakRsp;
-                        shank(idxShank).cell(idxUnit).odor(idxOdor).cyclePeakResponseAnalogicHz(idxCycle) = amplitudePeakRspMean;
-                        shank(idxShank).cell(idxUnit).odor(idxOdor).cyclePeakResponseTrialHz(:,idxCycle) = amplitudePeakRsp;
+                        shankWarp(idxShank).cell(idxUnit).odor(idxOdor).cyclePeakResponseDigitalHz(idxCycle) = 0;
+                        shankWarp(idxShank).cell(idxUnit).odor(idxOdor).cyclePeakLatencyHz(idxCycle) = latencyPeakRsp;
+                        shankWarp(idxShank).cell(idxUnit).odor(idxOdor).cyclePeakResponseAnalogicHz(idxCycle) = amplitudePeakRspMean;
+                        shankWarp(idxShank).cell(idxUnit).odor(idxOdor).cyclePeakResponseTrialHz(:,idxCycle) = amplitudePeakRsp;
                         
                     end
                 end
                 app = [];
-                app = shank(idxShank).cell(idxUnit).odor(idxOdor).cyclePeakResponseTrialHz;
-                shank(idxShank).cell(idxUnit).odor(idxOdor).cyclePeakResponseTrial_ZscoredHz = (app - amplitudePeakBslMean)/amplitudePeakBslStd;
+                app = shankWarp(idxShank).cell(idxUnit).odor(idxOdor).cyclePeakResponseTrialHz;
+                shankWarp(idxShank).cell(idxUnit).odor(idxOdor).cyclePeakResponseTrial_ZscoredHz = (app - amplitudePeakBslMean)/amplitudePeakBslStd;
             end
         end
     end
 end
                 
                 
-save('units.mat', 'shank', '-append')            
+save('unitsWarp.mat', 'shankWarp', '-append')            
         
         
         

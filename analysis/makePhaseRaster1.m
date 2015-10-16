@@ -12,13 +12,13 @@ for idxShank = 1:4
         sua = shank(idxShank).spiketimesUnit{idxUnit};
         for idxOdor = 1:odors   
             psthBreathingBins = zeros(n_trials, 2 * (preInhalations + postInhalations));
-            shank(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrixRad = zeros(n_trials,length(edgesSpikeMatrixRad));
-            shank(idxShank).cell(idxUnit).odor(idxOdor).sdf_trialRad = zeros(n_trials,length(edgesSpikeMatrixRad));
-            shank(idxShank).cell(idxUnit).odor(idxOdor).sdf_trialHz = zeros(n_trials,length(edgesSpikeMatrixRad));
-            shank(idxShank).cell(idxUnit).odor(idxOdor).sdf_trialRad(:,end) = [];
-            shank(idxShank).cell(idxUnit).odor(idxOdor).sdf_trialHz(:,end) = [];
-            shank(idxShank).cell(idxUnit).odor(idxOdor).sniffBinnedPsth = [];
-            shank(idxShank).cell(idxUnit).odor(idxOdor).sniffBinnedBsl = [];            
+            shankWarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrixRad = zeros(n_trials,length(edgesSpikeMatrixRad));
+            shankWarp(idxShank).cell(idxUnit).odor(idxOdor).sdf_trialRad = zeros(n_trials,length(edgesSpikeMatrixRad));
+            shankWarp(idxShank).cell(idxUnit).odor(idxOdor).sdf_trialHz = zeros(n_trials,length(edgesSpikeMatrixRad));
+            shankWarp(idxShank).cell(idxUnit).odor(idxOdor).sdf_trialRad(:,end) = [];
+            shankWarp(idxShank).cell(idxUnit).odor(idxOdor).sdf_trialHz(:,end) = [];
+            shankWarp(idxShank).cell(idxUnit).odor(idxOdor).sniffBinnedPsth = [];
+            shankWarp(idxShank).cell(idxUnit).odor(idxOdor).sniffBinnedBsl = [];            
             for idxTrial = 1:n_trials
                 respiro = breath(idxTrial,:,idxOdor);
                 startOdor = sec_on_rsp(idxTrial, idxOdor);
@@ -27,13 +27,13 @@ for idxShank = 1:4
                     psthBreathingBins(idxTrial,:) = spikesBinnedByInhExh;
                 end
                 alpha_trial{idxTrial} = alpha;
-                shank(idxShank).cell(idxUnit).odor(idxOdor).alphaTrial{idxTrial} = alpha_trial{idxTrial};
+                shankWarp(idxShank).cell(idxUnit).odor(idxOdor).alphaTrial{idxTrial} = alpha_trial{idxTrial};
                 alpha = round(alpha, 2);
                 shiftedAlpha = alpha + round(preInhalations * 2*pi, 2);
                 indexes = histc(shiftedAlpha, edgesSpikeMatrixRad);
                 indexes(indexes > 0) = 1;
-                shank(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrixRad(idxTrial,:) = indexes;
-                shank(idxShank).cell(idxUnit).odor(idxOdor).sdf_trialRad(idxTrial,:) = spikeDensityRad(shank(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrixRad(idxTrial,:), sigmaDeg);
+                shankWarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrixRad(idxTrial,:) = indexes;
+                shankWarp(idxShank).cell(idxUnit).odor(idxOdor).sdf_trialRad(idxTrial,:) = spikeDensityRad(shankWarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrixRad(idxTrial,:), sigmaDeg);
                 %Morphing
                 piLength = piLength';
                 piLength = repmat(piLength, 1, 180);
@@ -47,10 +47,10 @@ for idxShank = 1:4
                 xx = -90:length(piLength); xx(end) = [];
                 piLengthSplined = spline(x1, sampleAt, xx);
                 piLength = piLengthSplined(91:end);
-                shank(idxShank).cell(idxUnit).odor(idxOdor).sdf_trialHz(idxTrial,:) = shank(idxShank).cell(idxUnit).odor(idxOdor).sdf_trialRad(idxTrial,:) ./ piLength;
+                shankWarp(idxShank).cell(idxUnit).odor(idxOdor).sdf_trialHz(idxTrial,:) = shankWarp(idxShank).cell(idxUnit).odor(idxOdor).sdf_trialRad(idxTrial,:) ./ piLength;
             end
             psthBreathingBins(1,:) = [];
-            shank(idxShank).cell(idxUnit).odor(idxOdor).sniffBinnedPsth = psthBreathingBins;
+            shankWarp(idxShank).cell(idxUnit).odor(idxOdor).sniffBinnedPsth = psthBreathingBins;
             psthBreathingBins = mean(psthBreathingBins);
             meanBsl = zeros(1, 2 * preInhalations);
             meanBsl(1:2:2*preInhalations-1) = mean(psthBreathingBins(1 : 2 : 2 * preInhalations - 1));
@@ -59,13 +59,13 @@ for idxShank = 1:4
             andadd = mod(2 * postInhalations, 2 * preInhalations);
             meanBsl = repmat(meanBsl, 1, 1 + repeatfor);
             meanBsl = [meanBsl meanBsl(1:andadd)];
-            shank(idxShank).cell(idxUnit).odor(idxOdor).sniffBinnedBsl = meanBsl;
+            shankWarp(idxShank).cell(idxUnit).odor(idxOdor).sniffBinnedBsl = meanBsl;
             clear alpha_trial
         end
         clear sua
     end
 end
 
-save('units.mat', 'shank', '-append')
+save('unitsWarp.mat', 'shankWarp', '-append')
 
                 

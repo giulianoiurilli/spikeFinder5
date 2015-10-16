@@ -3,13 +3,13 @@
         % crea una collezione di tutti i cicli pre-odore
 
 
-load('units.mat');
+load('unitsWarp.mat');
 load('parameters.mat');
 
 
 
 for idxShank = 1:4
-    for idxUnit = 1:length(shank(idxShank).spiketimesUnit)
+    for idxUnit = 1:length(shankWarp(idxShank).cell)
         sdfCycleBsl = zeros(n_trials * preInhalations * odors, cycleLengthDeg);
         binCycleBsl = zeros(n_trials * preInhalations * odors, cycleLengthDeg);
 
@@ -17,11 +17,11 @@ for idxShank = 1:4
         for idxOdor = 1:odors
             sdfApp = zeros(n_trials, (preInhalations + postInhalations) * cycleLengthDeg);
             sdfAppBsl = zeros(n_trials, preInhalations * cycleLengthDeg);
-            sdfApp = shank(idxShank).cell(idxUnit).odor(idxOdor).sdf_trialHz;
+            sdfApp = shankWarp(idxShank).cell(idxUnit).odor(idxOdor).sdf_trialHz;
             sdfAppBsl = sdfApp(:, 1 : preInhalations * cycleLengthDeg);
             binApp = zeros(n_trials, (preInhalations + postInhalations) * cycleLengthDeg);
             binAppBsl = zeros(n_trials, preInhalations * cycleLengthDeg);
-            binApp = shank(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrixRad;
+            binApp = shankWarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrixRad;
             binAppBsl = binApp(:, 1 : preInhalations * cycleLengthDeg);
             for idxCycle = 1:preInhalations
                 sdfCycleBsl((cycleCounter - 1) * n_trials + 1 : cycleCounter*n_trials,:) = sdfAppBsl(:, (idxCycle-1) * cycleLengthDeg + 1 : idxCycle * cycleLengthDeg);
@@ -29,10 +29,10 @@ for idxShank = 1:4
                 cycleCounter = cycleCounter + 1;
             end
         end
-        shank(idxShank).cell(idxUnit).cycleBslMultipleSdfHz = sdfCycleBsl;
-        shank(idxShank).cell(idxUnit).cycleBslMultipleBin = binCycleBsl;
+        shankWarp(idxShank).cell(idxUnit).cycleBslMultipleSdfHz = sdfCycleBsl;
+        shankWarp(idxShank).cell(idxUnit).cycleBslMultipleBin = binCycleBsl;
         
     end
 end
 
-save('units.mat', 'shank', '-append')   
+save('unitsWarp.mat', 'shankWarp', '-append')   

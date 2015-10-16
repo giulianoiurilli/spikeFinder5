@@ -48,14 +48,14 @@ for idxExperiment = 1 : length(List)
     %     end
     
     
-    try
-        disp('running... makeRastersNoWarp')
-        makeRastersNoWarp
-        
-    catch
-        disp('Error during makeRastersNoWarp')
-        disp(cartella)
-    end
+%     try
+%         disp('running... makeRastersNoWarp')
+%         makeRastersNoWarp
+%         
+%     catch
+%         disp('Error during makeRastersNoWarp')
+%         disp(cartella)
+%     end
     clearvars -except List idxExperiment cartella
             try
                 disp('running... makePhaseRaster1')
