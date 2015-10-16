@@ -16,6 +16,10 @@ for idxExp = 1:length(List)
                 app4 = find(exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).aurocMax < 0.4);
                 if ~isempty(app1) && ~isempty(app2) || ~isempty(app1) && ~isempty(app3) 
                     responseProfiles(idxResponse:idxResponse+4,:) = exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).smoothedPsth(:,4*cycleLengthDeg:5*cycleLengthDeg);
+<<<<<<< Updated upstream
+=======
+                    
+>>>>>>> Stashed changes
                     idxResponse =idxResponse + 5;
                 end
             end
@@ -26,9 +30,15 @@ end
 for i = 1:size(responseProfiles,1)
     responseProfiles1(i,:) = responseProfiles(i,:);%smooth(responseProfiles(i,:), 0.005, 'rloess');
 end
+<<<<<<< Updated upstream
 [coeff, score, latent,~,explained] = pca(zscore(responseProfiles1));
 
 %% plot
+=======
+[coeff, score, latent,~,explained] = pca(responseProfiles1);
+
+
+>>>>>>> Stashed changes
 
 Xfig = 900;
 Yfig = 800;
@@ -49,7 +59,11 @@ set(gca,'FontName','Arial','Fontsize',12,'FontWeight','normal','TickDir','out','
 
 p(1,2).select()
 hold on
+<<<<<<< Updated upstream
 for i = 1:2
+=======
+for i = 1:4
+>>>>>>> Stashed changes
     plot(coeff(:,i), 'linewidth', 2)
 end
 axis tight

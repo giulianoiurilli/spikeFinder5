@@ -1,8 +1,12 @@
 % extract response timecourse for each odor
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+<<<<<<< Updated upstream
 totUnits = 0;
 responsiveUnits = 0;
+=======
+
+>>>>>>> Stashed changes
 for idxOdor = 1:odors
     idxNeuron = 1;
     responseProfiles{idxOdor} = [];
@@ -25,10 +29,15 @@ for idxOdor = 1:odors
                 app6 = [];
                 app6 = find(exp(idxExp).shank(idxShank).cell(idxUnit).odor(idxOdor).fullCycleDigitalResponsePerCycle(1:4) < 0);
                 exc = 0;
+<<<<<<< Updated upstream
                 totUnits = totUnits+1;
                 if (~isempty(app1) && ~isempty(app2)) || (~isempty(app1) && ~isempty(app3))
                     exc = 1;
                     responsiveUnits = responsiveUnits + 1;
+=======
+                if (~isempty(app1) && ~isempty(app2)) || (~isempty(app1) && ~isempty(app3))
+                    exc = 1;
+>>>>>>> Stashed changes
                 end
                 inh = 0;
                 if ~isempty(app4)

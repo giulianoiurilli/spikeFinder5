@@ -67,5 +67,13 @@ end
 
 cd(startingFolder)
 clearvars -except List exp 
+<<<<<<< Updated upstream
 save('plCoA_2conc.mat', '-v7.3')
+=======
+<<<<<<< HEAD
+save('plCoA_conc_series.mat', '-v7.3')
+=======
+save('plCoA_2conc.mat', '-v7.3')
+>>>>>>> origin/master
+>>>>>>> Stashed changes
     
