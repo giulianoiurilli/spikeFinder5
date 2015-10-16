@@ -5,6 +5,7 @@
 load('breathing.mat', 'breath', 'sec_on_rsp');
 load('units.mat');
 load('parameters.mat');
+%delete('unitsNowarp.mat')
 
 edgesSpikeMatrixNoWarp = -pre:1/1000:post;
 edgesSpikeMatrixNoWarp(end) = [];
