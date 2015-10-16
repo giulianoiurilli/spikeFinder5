@@ -55,7 +55,7 @@ for idxShank = 1:4
 
                 
                 goodTrials = numel(find(cycleCountRsp > cycleCountBsl95));
-                if  goodTrials >= 3 && amplitudeCountRspMean >  cycleCountBsl95
+                if  goodTrials >= 5 && amplitudeCountRspMean >  cycleCountBsl95
                     shankWarp(idxShank).cell(idxUnit).odor(idxOdor).cycleSpikeRateResponseDigitalHz(idxCycle) = 1;
                     shankWarp(idxShank).cell(idxUnit).odor(idxOdor).cycleSpikeRateResponseAnalogicHz(idxCycle) = amplitudeCountRspMean;
                     shankWarp(idxShank).cell(idxUnit).odor(idxOdor).cycleSpikeRateResponseTrialHz(:,idxCycle) = cycleCountRsp;

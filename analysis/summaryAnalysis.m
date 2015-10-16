@@ -1,5 +1,5 @@
 toFolder = pwd;
-new_dir = 'Analysis figures';
+new_dir = 'Analysis figures - 101615';
 toFolder = fullfile(toFolder, new_dir);
 mkdir(toFolder)
 filename = sprintf('ave_att_analysis_summary-apCx.mat');

@@ -84,7 +84,7 @@ for idxShank = 1:4
                 %shank(idxShank).cell(idxUnit).odor(idxOdor).cycleResponseDPrime(idxCycle) = dPrimeRsp;
                 
                 goodTrials = numel(find(amplitudePeakRsp > amplitudePeakBsl95));
-                if  goodTrials >= 3 && amplitudePeakRspMean >  amplitudePeakBsl95
+                if  goodTrials >= 5 && amplitudePeakRspMean >  amplitudePeakBsl95
                     shankWarp(idxShank).cell(idxUnit).odor(idxOdor).cyclePeakResponseDigitalHz(idxCycle) = 1;
                     shankWarp(idxShank).cell(idxUnit).odor(idxOdor).cyclePeakLatencyHz(idxCycle) = latencyPeakRsp;
                     shankWarp(idxShank).cell(idxUnit).odor(idxOdor).cyclePeakResponseAnalogicHz(idxCycle) = amplitudePeakRspMean;

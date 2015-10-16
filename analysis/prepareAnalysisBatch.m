@@ -22,17 +22,17 @@ for idxExperiment = 1 : length(List)
     %Enter here the command lines
     
     
-      parameters
+%       parameters
     %
     %     valveOnsetTimestamp
     %
-            try
-                breathOnsetTimestamp
-            catch
-                disp('Error during breathOnsetTimestamp')
-                disp(cartella)
-            end
-            clearvars -except List idxExperiment cartella
+%             try
+%                 breathOnsetTimestamp
+%             catch
+%                 disp('Error during breathOnsetTimestamp')
+%                 disp(cartella)
+%             end
+%             clearvars -except List idxExperiment cartella
     
     %     try
     %         for i = 1:4
@@ -48,67 +48,68 @@ for idxExperiment = 1 : length(List)
     %     end
     
     
-%     try
-%         disp('running... makeRastersNoWarp')
-%         makeRastersNoWarp
-%         
-%     catch
-%         disp('Error during makeRastersNoWarp')
-%         disp(cartella)
-%     end
-    clearvars -except List idxExperiment cartella
-            try
-                disp('running... makePhaseRaster1')
-                makePhaseRaster1
+    try
+        disp('running... makeRastersNoWarp')
+        makeRastersNoWarp
+        
+    catch
+        disp('Error during makeRastersNoWarp')
+        disp(cartella)
+    end
+%     clearvars -except List idxExperiment cartella
+%             try
+%                 disp('running... makePhaseRaster1')
+%                 makePhaseRaster1
+%     
+%             catch
+%                 disp('Error during makePhaseRaster1')
+%                 disp(cartella)
+%             end
+%     
+%             clearvars -except List idxExperiment cartella
+%     
+%             try
+%                 disp('running... prepareBaseline')
+%                 prepareBaseline
+%     
+%             catch
+%                 disp('Error during prepareBaseline')
+%                 disp(cartella)
+%             end
+%     
+%             clearvars -except List idxExperiment cartella
+%     %
+%     %
+%     %
+%             try
+%                 disp('running... findPeakResponses')
+%                 findPeakResponses
+%     
+%             catch
+%                 disp('Error during findPeakResponses')
+%                 disp(cartella)
+%             end
+%             clearvars -except List idxExperiment cartella
+%     
+%             try
+%                 disp('running... findCycleSpikeRateResponse')
+%                 findCycleSpikeRateResponse
+%     
+%             catch
+%                 disp('Error during findCycleSpikeRateResponse')
+%                 disp(cartella)
+%             end
+%             clearvars -except List idxExperiment cartella
     
-            catch
-                disp('Error during makePhaseRaster1')
-                disp(cartella)
-            end
-    
-            clearvars -except List idxExperiment cartella
-    
-            try
-                disp('running... prepareBaseline')
-                prepareBaseline
-    
-            catch
-                disp('Error during prepareBaseline')
-                disp(cartella)
-            end
-    
-            clearvars -except List idxExperiment cartella
-    %
-    %
-    %
-            try
-                disp('running... findPeakResponses')
-                findPeakResponses
-    
-            catch
-                disp('Error during findPeakResponses')
-                disp(cartella)
-            end
-            clearvars -except List idxExperiment cartella
-    
-            try
-                disp('running... findCycleSpikeRateResponse')
-                findCycleSpikeRateResponse
-    
-            catch
-                disp('Error during findCycleSpikeRateResponse')
-                disp(cartella)
-            end
-            clearvars -except List idxExperiment cartella
-    
-            try
-                findOptimalResponseWindow
-                disp('running... findOptimalResponseWindow')
-            catch
-                disp('Error during findOptimalResponseWindow')
-                disp(cartella)
-            end
-            clearvars -except List idxExperiment cartella
+%             try
+%                 disp('running... findOptimalResponseWindowa')
+%                 findOptimalResponseWindow
+%                 
+%             catch
+%                 disp('Error during findOptimalResponseWindow')
+%                 disp(cartella)
+%             end
+%             clearvars -except List idxExperiment cartella
     
 %     try
 %         disp('running... partitionResponse')
