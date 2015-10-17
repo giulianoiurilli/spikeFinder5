@@ -66,6 +66,6 @@ for idxShank = 1:4
     end
 end
 
-save('unitsWarp.mat', 'shankWarp')
+save('unitsWarp.mat', 'shankWarp', '-v7.3')
 
                 
