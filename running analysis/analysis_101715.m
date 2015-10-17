@@ -127,7 +127,7 @@ neuralTrajectoriesAccuracy(3) = prctile5;
 neuralTrajectoriesAccuracy(4) = prctile95;
 neuralTrajectoriesAccuracyAll = acc_svm;
 
-%% make matrices of avg spike counts in overlapping 50 ms bins (every 5 ms) over the first 500 ms. Note that the response time
+%% make matrices of avg spike counts in overlapping 50 ms bins (every 5 ms) over the first 3500 ms. Note that the response time
 % window starts 50 ms after the first inhalation onset
 allBinAccuracy = [];
 from = 14500;
@@ -211,6 +211,91 @@ end
 
 figure;
 imagesc(accuracyMatrix), axis xy, axis square
+
+
+%% as before, but for respiration cycles
+allBinAccuracyWarp = [];
+from = 360 * 8;
+to = 360*18;
+responseWindowSize = to - from;
+halfBinSize = 10:10:floor(responseWindowSize/2);
+halfBinSize(end) = [];
+for idxBinSize = 1:length(halfBinSize);
+    timestep = 5;
+    timeBinEdges = [];
+    timeBinEdges = halfBinSize(idxBinSize)+1:timestep:responseWindowSize-halfBinSize(idxBinSize);
+    for idxBin = 1:length(timeBinEdges)
+        idxCell = 0;
+        spikeCountPopBin{idxBin} = zeros(goodUnits, n_trials, odors);
+        for idxExperiment = 1 : length(exp)
+            for idxShank = 1:4
+                for idxUnit = 1:length( exp(idxExperiment).shankWarp(idxShank).cell)
+                    if exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).keepUnit == 1
+                        idxCell = idxCell + 1;
+                        for idxOdor = 1:odors
+                            A = exp(idxExperiment).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).spikeWarp(:, from:to);
+                            spikeCounts = sum(A(:,timeBinEdges(idxBin)-halfBinSize(idxBinSize):timeBinEdges(idxBin)+halfBinSize(idxBinSize)),2);
+                            spikeCountPopBin{idxBin}(idxCell,:,idxOdor) =  spikeCounts';
+                            clear A;
+                            clear spikeCounts;
+                        end
+                    end
+                end
+            end
+        end
+    end
+    
+    % timecourse of the linear classification in the first 300 ms
+    binAccuracyWarp = zeros(length(timeBinEdges),4);
+    for idxBin = 1:length(timeBinEdges)
+        app = [];
+        app = spikeCountPopBin{idxBin};
+        dataAll = app;
+        neurons = size(dataAll,1);
+        trials = size(dataAll,2);
+        stimuli = size(dataAll,3);
+        dataAll = reshape(dataAll, neurons, trials .* stimuli);
+        dataAll = dataAll';
+        % rescale to [0 1];
+        dataAll = (dataAll - repmat(min(dataAll,[],1),size(dataAll,1),1))*spdiags(1./(max(dataAll,[],1)-min(dataAll,[],1))',0,size(dataAll,2),size(dataAll,2));
+        dataAll = dataAll';
+        dataAll = reshape(dataAll, neurons, trials, stimuli);
+        % Make labels
+        labels      = ones(1,size(dataAll,2));
+        app_labels  = labels;
+        for odor = 1:size(dataAll,3) - 1
+            labels  = [labels, app_labels + odor .* ones(1,size(dataAll,2))];
+        end
+        labels      = labels';
+        % set the number of repetitions for the bootstrap and the number of
+        % training and test trials for the cross-validation
+        repetitions = 100;
+        trainingN = floor(0.9*(trials * stimuli));
+        data = dataAll;
+        
+        
+        % run svm
+        [mean_acc_svm, std_acc_svm, acc_svm, prctile5, prctile95] = odor_c_svm_1leaveout(dataAll, trainingN, labels, repetitions);
+        binAccuracyWarp(idxBin,1) = mean_acc_svm;
+        binAccuracyWarp(:,2) = std_acc_svm;
+        binAccuracyWarp(:,3) = prctile5;
+        binAccuracyWarp(:,4) = prctile95;
+    end
+    allBinAccuracyWarp{idxBinSize} = binAccuracyWarp;
+end
+
+%%
+rows = length(timeBinEdges{1});
+columns = length(halBinSize);
+accuracyMatrixWarp = ones(rows,columns) * (100/odors);
+for i = 1:size(halfBinSize,2)
+    accuracyMatrixWarp(floor(size(allBinAccuracyWarp{1},1) - size(allBinAccuracyWarp{i},1) + 1):...
+        floor(size(allBinAccuracyWarp{1},1) - size(allBinAccuracyWarp{i},1))+floor(size(allBinAccuracyWarp{i},1)),i) = ...
+        allBinAccuracyWarp{i}(:,1);
+end
+
+figure;
+imagesc(accuracyMatrixWarp), axis xy, axis square
 
 
 
