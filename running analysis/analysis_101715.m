@@ -200,8 +200,9 @@ for idxBinSize = 1:length(halfBinSize);
 end
 
 %%
-
-accuracyMatrix = ones(96,24) * (100/odors);
+rows = length(timeBinEdges{1});
+columns = length(halBinSize);
+accuracyMatrix = ones(rows,columns) * (100/odors);
 for i = 1:size(halfBinSize,2)
     accuracyMatrix(floor(size(allBinAccuracy{1},1) - size(allBinAccuracy{i},1) + 1):...
         floor(size(allBinAccuracy{1},1) - size(allBinAccuracy{i},1))+floor(size(allBinAccuracy{i},1)),i) = ...
