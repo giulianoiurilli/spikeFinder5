@@ -5,7 +5,7 @@
 
 
 
-for idxExperiment = 1 : length(List)
+for idxExperiment = 3 : length(List)
     cartella = List{idxExperiment};
     %     folder1 = cartella(end-11:end-6)
     %     folder2 = cartella(end-4:end)
