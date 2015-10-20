@@ -1,7 +1,7 @@
 % dfold = '\\research.files.med.harvard.edu\Neurobio\DattaLab\Giuliano\tetrodes_data\15 odors\plCoA\awake';
-dfold = pwd;
-List = uipickfiles('FilterSpec', dfold, ...
-    'Prompt',    'Pick all the folders you want to analyze');
+% dfold = pwd;
+% List = uipickfiles('FilterSpec', dfold, ...
+%     'Prompt',    'Pick all the folders you want to analyze');
 
 
 
