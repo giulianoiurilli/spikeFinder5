@@ -200,10 +200,10 @@ for idxBinSize = 1:length(halfBinSize);
 end
 
 %%
-rows = length(timeBinEdges{1});
-columns = length(halBinSize);
+rows = length(timeBinEdges);
+columns = length(halfBinSize);
 accuracyMatrix = ones(rows,columns) * (100/odors);
-for i = 1:size(halfBinSize,2)
+for i = 1:54%size(halfBinSize,2)
     accuracyMatrix(floor(size(allBinAccuracy{1},1) - size(allBinAccuracy{i},1) + 1):...
         floor(size(allBinAccuracy{1},1) - size(allBinAccuracy{i},1))+floor(size(allBinAccuracy{i},1)),i) = ...
         allBinAccuracy{i}(:,1);
@@ -216,12 +216,12 @@ imagesc(accuracyMatrix), axis xy, axis square
 %% as before, but for respiration cycles
 allBinAccuracyWarp = [];
 from = 360 * 8;
-to = 360*18;
+to = 360*15;
 responseWindowSize = to - from;
-halfBinSize = 10:10:floor(responseWindowSize/2);
+halfBinSize = 10:10:180;
 halfBinSize(end) = [];
 for idxBinSize = 1:length(halfBinSize);
-    timestep = 5;
+    timestep = 10;
     timeBinEdges = [];
     timeBinEdges = halfBinSize(idxBinSize)+1:timestep:responseWindowSize-halfBinSize(idxBinSize);
     for idxBin = 1:length(timeBinEdges)
@@ -233,7 +233,7 @@ for idxBinSize = 1:length(halfBinSize);
                     if exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).keepUnit == 1
                         idxCell = idxCell + 1;
                         for idxOdor = 1:odors
-                            A = exp(idxExperiment).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).spikeWarp(:, from:to);
+                            A = exp(idxExperiment).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrixWarp(:, from:to  );
                             spikeCounts = sum(A(:,timeBinEdges(idxBin)-halfBinSize(idxBinSize):timeBinEdges(idxBin)+halfBinSize(idxBinSize)),2);
                             spikeCountPopBin{idxBin}(idxCell,:,idxOdor) =  spikeCounts';
                             clear A;
@@ -269,7 +269,7 @@ for idxBinSize = 1:length(halfBinSize);
         labels      = labels';
         % set the number of repetitions for the bootstrap and the number of
         % training and test trials for the cross-validation
-        repetitions = 100;
+        repetitions = 50;
         trainingN = floor(0.9*(trials * stimuli));
         data = dataAll;
         
@@ -285,17 +285,78 @@ for idxBinSize = 1:length(halfBinSize);
 end
 
 %%
-rows = length(timeBinEdges{1});
-columns = length(halBinSize);
-accuracyMatrixWarp = ones(rows,columns) * (100/odors);
+rows = length(timeBinEdges);
+columns = length(halfBinSize);
+accuracyMatrixCycle = ones(rows,columns) * (100/odors);
 for i = 1:size(halfBinSize,2)
-    accuracyMatrixWarp(floor(size(allBinAccuracyWarp{1},1) - size(allBinAccuracyWarp{i},1) + 1):...
+    accuracyMatrixCycle(floor(size(allBinAccuracyWarp{1},1) - size(allBinAccuracyWarp{i},1) + 1):...
         floor(size(allBinAccuracyWarp{1},1) - size(allBinAccuracyWarp{i},1))+floor(size(allBinAccuracyWarp{i},1)),i) = ...
         allBinAccuracyWarp{i}(:,1);
 end
 
 figure;
-imagesc(accuracyMatrixWarp), axis xy, axis square
+imagesc(accuracyMatrixCycle'), axis xy, axis square
+
+%%
+phaseBins = timeBinEdges - 171;
+phaseBins = phaseBins(1:18:end);
+phaseBins = mod(phaseBins, 360);
+phaseBins =  strtrim(cellstr(num2str(phaseBins'))');
+phaseTicks = 1:18:length(timeBinEdges)
+set(gca, 'XTick' , phaseTicks);
+set(gca, 'XTickLabel', phaseBins);
+winSizeBins = halfBinSize * 2;
+winSizeBins =  strtrim(cellstr(num2str(winSizeBins'))');
+set(gca, 'YTick' , halfBinSize/10);
+set(gca, 'YTickLabel', winSizeBins);
+
+
+%%
+for idxBinSize = 1:length(halfBinSize);
+    timestep = 10;
+    timeBinEdges{idxBinSize} = halfBinSize(idxBinSize)+1:timestep:responseWindowSize-halfBinSize(idxBinSize);
+end
+
+%%
+
+AMean = ones(10000,(to-from)+1)*NaN;
+AVar = ones(10000,(to-from)+1)*NaN;
+ACv = ones(10000,(to-from)+1)*NaN;
+B = zeros(odors,(to-from)+1);
+idxCellOdor = 0;
+for idxExperiment = 1 : length(exp)
+    for idxShank = 1:4
+        for idxUnit = 1:length( exp(idxExperiment).shankWarp(idxShank).cell)
+            if exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).keepUnit == 1
+               
+                for idxOdor = 1:odors
+                     idxCellOdor = idxCellOdor + 1;
+                    appMean = [];
+                    appVar = [];
+                    appCv = [];
+                    appMean = mean(exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).sdf_trialNoWarp(:, from:to));
+                    appVar = var(exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).sdf_trialNoWarp(:, from:to));
+                    appCv = (appVar.^2)./appMean;
+                    AMean(idxCellOdor,:) = appMean;
+                    AVar(idxCellOdor,:) = appVar;
+                    ACv(idxCellOdor,:) = appCv;
+                    B(idxOdor,:) = B(idxOdor,:) + std(exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).sdf_trialNoWarp(:, from:to));
+                end
+            end
+        end
+    end
+end
+figure
+plot(nanmean(AMean))
+figure
+plot(nanmean(AVar))
+figure
+plot(nanmean(ACv))
+xxx = (nanmean(AVar).^2)./nanmean(AMean);
+figure
+plot(xxx)
+
+
 
 
 
