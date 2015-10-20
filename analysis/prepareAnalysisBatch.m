@@ -24,7 +24,7 @@ for idxExperiment = 1 : length(List)
     
       parameters
     %
-    %     valveOnsetTimestamp
+         valveOnsetTimestamp
     %
             try
                 breathOnsetTimestamp
