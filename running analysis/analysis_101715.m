@@ -313,7 +313,7 @@ set(gca, 'YTickLabel', winSizeBins);
 
 %%
 for idxBinSize = 1:length(halfBinSize);
-    timestep = 10;
+    timestep = 360;
     timeBinEdges{idxBinSize} = halfBinSize(idxBinSize)+1:timestep:responseWindowSize-halfBinSize(idxBinSize);
 end
 

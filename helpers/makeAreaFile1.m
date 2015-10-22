@@ -1,7 +1,7 @@
 % dfold = pwd;
 % List = uipickfiles('FilterSpec', dfold, ...
 %     'Prompt',    'Pick all the folders you want to analyze');
-
+exp = [];
 startingFolder = pwd;
 for idxExperiment = 1 : length(List)
     cartella = List{idxExperiment};
@@ -82,6 +82,6 @@ end
 
 cd(startingFolder)
 clearvars -except List exp 
-save('plCoA_15odors.mat', '-v7.3')
+save('plCoA_concseries_Area.mat', '-v7.3')
 
     
