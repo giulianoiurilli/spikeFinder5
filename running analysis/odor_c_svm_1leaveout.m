@@ -1,4 +1,4 @@
-function [mean_acc_svm, std_acc_svm, acc_svm, prctile5, prctile95] = odor_c_svm_1leaveout(data, trainingN, labels, repN)
+function [mean_acc_svm, std_acc_svm, acc_svm, prctile25, prctile75] = odor_c_svm_1leaveout(data, trainingN, labels, repN)
 
 
 n_trials = size(data,2);
@@ -47,8 +47,8 @@ end
 
 mean_acc_svm = mean(acc_svm);
 std_acc_svm = std(acc_svm);
-prctile5 = prctile(acc_svm, 5);
-prctile95 = prctile(acc_svm, 95);
+prctile25 = prctile(acc_svm, 25);
+prctile75 = prctile(acc_svm, 75);
 
 
 

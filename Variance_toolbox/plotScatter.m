@@ -48,7 +48,7 @@ if isempty(time)
 end
 
 % default values (these can be overridden by the user if they pass a parameters structure as the last input
-showSelect = 1; showFanoAll = 1; axLim = 'auto';  mSize = 2.5;  propData = 1; initRand = 1;
+showSelect = 1; showFanoAll = 1; axLim = 'auto';  mSize = 10;  propData = 1; initRand = 1;
 axLen = 10; greyShade = 0.7; clockOn = 0; plotInExistingFig = 0; VaxisP = []; HaxisP = [];
 Pfields = {'showSelect', 'showFanoAll', 'axLim', 'mSize', 'initRand', 'propData', 'axLen', 'greyShade', 'clockOn', 'plotInExistingFig', 'VaxisP', 'HaxisP'};
 for i = 1:length(Pfields) % if a params structure was provided as an input, change the requested fields
@@ -102,7 +102,7 @@ plot( scatterAll.mn(whichPoints), scatterAll.var(whichPoints), 'k.', 'markersize
 if showSelect % now for select distribution
     whichPoints = randperm(length(scatterSelect.mn)); % now for dowselected (mean-matched) distribution
     whichPoints = whichPoints(1:round(propData*length(scatterSelect.mn)));
-    plot( scatterSelect.mn(whichPoints), scatterSelect.var(whichPoints), 'k.', 'markersize', mSize );
+    plot( scatterSelect.mn(whichPoints), scatterSelect.var(whichPoints), 'r.', 'markersize', mSize );
 end
 
 % PLOT SLOPES

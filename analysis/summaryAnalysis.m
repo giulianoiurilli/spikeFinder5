@@ -1,5 +1,5 @@
 toFolder = pwd;
-new_dir = 'Analysis figures - 101615';
+new_dir = 'Analysis figures - 102215';
 toFolder = fullfile(toFolder, new_dir);
 mkdir(toFolder)
 filename = sprintf('ave_att_analysis_summary-apCx.mat');
@@ -39,7 +39,7 @@ sdf_grand_average_inh = [];
 sdf_grand_std_inh = [];
 norm_sdf_grand_average_exc = [];
 norm_sdf_grand_average_inh = [];
-
+pre = 2;
 
 
 

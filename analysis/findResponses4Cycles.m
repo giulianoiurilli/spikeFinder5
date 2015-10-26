@@ -11,8 +11,8 @@ for idxExperiment = 1 : length(List)
                 appBsl = [];
                 appRsp = [];
                 % I take a window of 4 cycles
-                appBsl = sum(shankWarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrixRad(:,5*360 + 1:9*360), 2);
-                appRsp = sum(shankWarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrixRad(:,10*360 + 1:14*360), 2);
+                appBsl = sum(shankWarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrixRad(:,5*360 + 1 : 9*360), 2);
+                appRsp = sum(shankWarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrixRad(:,10*360 + 1 : 14*360), 2);
                 a = [];
                 a = {appBsl' appRsp'};
                 [t, df, pvals, surog] = statcond(a, 'mode', 'bootstrap', 'naccu', 1000);
@@ -37,7 +37,7 @@ end
 
 cd(startingFolder)
 clearvars -except List exp 
-save('aPCx_2conc_Area.mat', 'exp', '-append')
+save('aPCx_aveatt_Area.mat', 'exp', '-append')
                 
                             
                             
