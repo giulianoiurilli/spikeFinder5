@@ -126,7 +126,7 @@ odorDistPctile25 = zeros(1,9*2*2);
 for idxBin = 1:(9*2)
     A = squeeze(baselineAll(:,idxBin,:));
     A = A';
-    odorDist = pdist(A, 'cosine');
+    odorDist = pdist(A);
     odorDistMedian(idxBin) = median(odorDist);
     odorDistPctile75(idxBin) = prctile(odorDist,75);
     odorDistPctile25(idxBin) = prctile(odorDist,25);
@@ -153,7 +153,7 @@ for rep = 1:n_rep
             idx = randperm(odors);
             appA(:,idxCell) = appA(idx, idxCell);
         end
-        odorDistSim = pdist(appA, 'cosine');
+        odorDistSim = pdist(appA);
         odorDistMedianSim(rep, idxBin) = median(odorDistSim);
         odorDistPctile75Sim(rep, idxBin) = prctile(odorDistSim,75);
         odorDistPctile25Sim(rep, idxBin) = prctile(odorDistSim,25);
@@ -257,7 +257,7 @@ set(gca,'FontName','Arial','Fontsize',12, 'FontWeight', 'normal','Box','off','Ti
 
 
 
-%% Re-format trials variables for classification.
+%% Refor
 %   firingRestBinAllTrial = zeros(responsiveUnit, n_trials, 2, 9);
 %   firingOdorBinAllTrial = zeros(responsiveUnit, n_trials, 2, 9);
 
@@ -278,7 +278,7 @@ end
 
 
 
-%% Run cross-validated SVM classification (one-held-out)
+%%
 repetitions = 200;
 allBinAccuracy = [];
 for idxBin = 1:(9*2)
@@ -316,7 +316,7 @@ for idxBin = 1:(9*2)
     binAccuracy(4) = prctile75;
     allBinAccuracy{idxBin} = binAccuracy;
 end
-
+%%
 for idxBin = 1:(9*2)
     binAccuracy = zeros(1,4);
     dataAll = [];
@@ -353,7 +353,7 @@ for idxBin = 1:(9*2)
     allBinAccuracy{idxBin + 9*2} = binAccuracy;
 end
 
-%% Plot classification results
+%%
 for idxBin = 1:length(allBinAccuracy)
     meanAccuracy(idxBin) = allBinAccuracy{idxBin}(1);
     accuracy25(idxBin) = allBinAccuracy{idxBin}(3);
