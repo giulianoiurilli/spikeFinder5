@@ -21,7 +21,7 @@ odors = length(odorsRearranged);
 %% Find reponsive units
 responsiveUnit = 1;
 modifiedList = [1 2 3 4 6 8];
-for idxExp = 1 : length(List) - 1
+for idxExp = modifiedList%1 : length(List) %- 1
     for idxShank = 1:4
         for idxUnit = 1:length(exp(idxExp).shankWarp(idxShank).cell)
             responsivenessExc = zeros(1,odors);
@@ -56,7 +56,7 @@ Tstart = times - floor(boxWidth/2) + 1;
 Tend = times + ceil(boxWidth/2) + 1;
 
 idxCell = 1;
-for idxExp = 1 : length(List) - 1
+for idxExp = modifiedList%1 : length(List) %- 1
     cartella = List{idxExp};
     cd(cartella)
     disp(cartella)
@@ -174,6 +174,8 @@ for rep = 1:n_rep
 end
 %% Plot distances.
 timeS = -9*2:9*2 - 1;
+xTicks = timeS(1):2:timeS(end);
+xTicksLabels = {'-9', '-8', '-7', '-6', '5', '-4', '-3', '-2', '-1', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 figure; 
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
 set(gcf,'Position',[121 60 1235 738]);
@@ -184,8 +186,12 @@ plot(timeS, odorDistPctile25, ':', 'color', 'r', 'linewidth', 1);
 plot(timeS, mean(odorDistMedianSim), 'color', [0.7 0.7 0.7], 'linewidth', 2)
 hold off
 axis tight
+set(gca, 'XTick' , xTicks);
+set(gca, 'XTickLabel', xTicksLabels);
 xlabel('time-sniff bins')
 ylabel('inter-odor distance (spike count/100 ms)')
+title('Euclidean distance between odor population representations');
+legend('median data', 'third quartile data', 'first quartile data', 'shuffled data (mean of 200 repetitions)')
 set(gca,'FontName','Arial','Fontsize',12, 'FontWeight', 'normal','Box','off','TickDir','out', 'YDir','normal');
 
 %% Measure the variance explained by the first 3 PCs at each time point.
@@ -242,6 +248,8 @@ app75 = prctile(app,75);
 app25 = prctile(app,25);
 
 timeS = 1:9*2;
+xTicks = timeS(1):2:timeS(end);
+xTicksLabels = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
 figure;
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
 set(gcf,'Position',[121 60 1235 738]);
@@ -251,8 +259,12 @@ plot(timeS, app75, 'color', [0.7 0.7 0.7], 'linewidth', 1)
 plot(timeS, app25, 'color', [0.7 0.7 0.7], 'linewidth', 1)
 hold off
 axis tight
+set(gca, 'XTick' , xTicks);
+set(gca, 'XTickLabel', xTicksLabels);
 xlabel('time-sniff bins')
-ylabel('total variance explained by the first 3 PCs')
+ylabel('total variance explained by the first 3 PCs (%)')
+title('Total variance explained by the first 3 PCs')
+legend('data', 'shuffled data, first and third quartiles')
 set(gca,'FontName','Arial','Fontsize',12, 'FontWeight', 'normal','Box','off','TickDir','out', 'YDir','normal');
 
 
@@ -361,6 +373,8 @@ for idxBin = 1:length(allBinAccuracy)
 end
 
 timeS = -9*2:9*2 - 1;
+xTicks = timeS(1):2:timeS(end);
+xTicksLabels = {'-9', '-8', '-7', '-6', '5', '-4', '-3', '-2', '-1', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 figure; 
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
 set(gcf,'Position',[121 60 1235 738]);
@@ -370,12 +384,109 @@ plot(timeS, accuracy25, ':', 'color', 'r', 'linewidth', 1);
 plot(timeS, accuracy75, ':', 'color', 'r', 'linewidth', 1); 
 hold off
 axis tight
+set(gca, 'XTick' , xTicks);
+set(gca, 'XTickLabel', xTicksLabels);
 xlabel('time-sniff bins')
 ylabel('classification accuracy')
+title('one-leave-out, cross-validated SVM linear classification') 
 set(gca,'FontName','Arial','Fontsize',12, 'FontWeight', 'normal','Box','off','TickDir','out', 'YDir','normal');         
             
-            
-            
+%% number of spikes distribution
+n_cellOdorPairs = 0;
+for idxExp = modifiedList%1 : length(List) %- 1
+    for idxShank = 1:4
+        for idxUnit = 1:length(exp(idxExp).shankWarp(idxShank).cell)
+            responsivenessExc = zeros(1,odors);
+            responsivenessInh = zeros(1,odors);
+            for idxOdor = 1:15
+                responsivenessExc(idxOdor) = exp(idxExp).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).fourCyclesDigitalResponse == 1;
+                responsivenessInh(idxOdor) = exp(idxExp).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).fourCyclesDigitalResponse == -1;
+            end
+            n_cellOdorPairs =  n_cellOdorPairs + sum(responsivenessExc + responsivenessInh);
+        end
+    end
+end
+%%
+baselineAllSpikeDist = zeros(n_cellOdorPairs, 9*2);
+responseAllSpikeDist = zeros(n_cellOdorPairs, 9*2);
+idxCellOdorPair = 1;
+modifiedList = [1 2 3 4 6 8];
+for idxExp = modifiedList%1 : length(List) %- 1
+    cartella = List{idxExp};
+    cd(cartella)
+    disp(cartella)
+    load('breathing.mat', 'sniffs');
+    for idxShank = 1:4
+        for idxUnit = 1:length(exp(idxExp).shankWarp(idxShank).cell)
+            responsivenessExc = zeros(1,odors);
+            responsivenessInh = zeros(1,odors);
+            for idxOdor = 1:15
+                responsivenessExc(idxOdor) = exp(idxExp).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).fourCyclesDigitalResponse == 1;
+                responsivenessInh(idxOdor) = exp(idxExp).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).fourCyclesDigitalResponse == -1;
+            end
+            totResponsivenes = responsivenessExc + responsivenessInh;
+            if sum(totResponsivenes) > 0
+                odorsToUse = find(totResponsivenes == 1);
+                for idxOdor = odorsToUse
+                    A = exp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrixNoWarp;
+                    for idxTrial = 1:n_trials
+                        snif = [];
+                        idxSniffsRest = [];
+                        idxSniffsOdor = [];
+                        snif = sniffs(idxOdor).trial(idxTrial).sniffPower(:,1)';
+                        onset = find(snif > 0, 1);
+                        idxSniffsRest = floor(15000 + floor(snif(onset - 9 : onset - 1)* 1000));
+                        idxSniffsOdor = floor(floor(snif(onset : onset + 8) * 1000) + 15000);
+                        for idxSnif = 1:9
+                            
+                            firingRest = A(idxTrial, idxSniffsRest(idxSnif) + 1 : idxSniffsRest(idxSnif) + windowLength);
+                            csum = cumsum(single(firingRest(Tstart(1):Tend(end)+1)));
+                            count = csum(Tend - Tstart(1)+1) - csum(:,Tstart - Tstart(1)+1);
+                            firingRestBinTrial(idxTrial,:,idxSnif) = count;
+                            
+                            firingOdor = A(idxTrial, idxSniffsOdor(idxSnif) + 1 : idxSniffsOdor(idxSnif) + windowLength);
+                            csum = cumsum(single(firingOdor(Tstart(1):Tend(end)+1)));
+                            count = csum(:,Tend - Tstart(1)+1) - csum(:,Tstart - Tstart(1)+1);
+                            firingOdorBinTrial(idxTrial,:,idxSnif) = count;
+                            
+                        end
+                    end
+                    firingRestBinMean = squeeze(mean(firingRestBinTrial,1));
+                    firingOdorBinMean = squeeze(mean(firingOdorBinTrial,1));
+                    baselineAllSpikeDist(idxCellOdorPair,:) = firingRestBinMean(:);
+                    responseAllSpikeDist(idxCellOdorPair,:) = firingOdorBinMean(:);
+                    idxCellOdorPair = idxCellOdorPair + 1;
+                end
+            end
+        end
+    end
+end
+
+%%
+figure; 
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+set(gcf,'Position',[701 160 430 698]);
+suptitle('spike counts distributions')
+edges = 0.1:0.25:1;
+for idxBin = 1 : 9*2
+    x = histcounts(baselineAllSpikeDist(:,idxBin), 'normalization', 'pdf');
+    subplot(36,1,idxBin)
+    area(x, 'FaceColor', 'k')
+    %set(gca, ylim([0 1]))
+    axis tight
+    axis off
+end
+for idxBin = 1 : 9*2
+    x = histcounts(responseAllSpikeDist(:,idxBin), 'normalization', 'pdf');
+    subplot(36,1,idxBin + 9*2)
+    area(x, 'FaceColor', 'r')
+    %set(gca, ylim([0 1]))
+    axis tight
+    axis off
+end
+
+    
+                
             
             
             
