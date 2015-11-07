@@ -127,7 +127,7 @@ odorDistPctile25 = zeros(1,9*2*2);
 for idxBin = 1:(9*2)
     A = squeeze(baselineAll(:,idxBin,:));
     A = A';
-    odorDist = pdist(A);
+    odorDist = pdist(A, 'cosine');
     odorDistMedian(idxBin) = median(odorDist);
     odorDistPctile75(idxBin) = prctile(odorDist,75);
     odorDistPctile25(idxBin) = prctile(odorDist,25);
@@ -154,7 +154,7 @@ for rep = 1:n_rep
             idx = randperm(odors);
             appA(:,idxCell) = appA(idx, idxCell);
         end
-        odorDistSim = pdist(appA);
+        odorDistSim = pdist(appA, 'cosine');
         odorDistMedianSim(rep, idxBin) = median(odorDistSim);
         odorDistPctile75Sim(rep, idxBin) = prctile(odorDistSim,75);
         odorDistPctile25Sim(rep, idxBin) = prctile(odorDistSim,25);
