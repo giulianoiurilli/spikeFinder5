@@ -21,7 +21,7 @@ odors = length(odorsRearranged);
 %%
 excCellOdorPairs = 0;
 inhCellOdorPairs = 0;
-for idxExp = 1 %: length(List) %- 1
+for idxExp = 1: length(List) - 1
     for idxShank = 1:4
         for idxUnit = 1:length(exp(idxExp).shankWarp(idxShank).cell)
             responsivenessExc = zeros(1,odors);
@@ -82,7 +82,7 @@ inhFFSniff = zeros(inhCellOdorPairs,length(edgesSniff));
 
 idxCellOdorPairExc = 1;
 idxCellOdorPairInh = 1;
-for idxExp = 1 %: length(List) %- 1
+for idxExp = 1: length(List) - 1
     for idxShank = 1:4
         for idxUnit = 1:length(exp(idxExp).shankWarp(idxShank).cell)
             responsivenessExc = zeros(1,odors);
@@ -270,12 +270,8 @@ ylabel('variance')
 set(gca,'FontName','Arial','Fontsize',12, 'FontWeight', 'normal','Box','off','TickDir','out', 'YDir','normal');
 
 subplot(3,3,7)
-[AX, h1, h2] = plotyy(myResult.times, myResult.FanoFactorAll, myResult.times, myResult.FanoFactor);
-h1.LineWidth = 1;
-h2.LineWidth = 1;
-h1.Color = 'k';
-h2.Color = 'r';
-set(AX,{'ycolor'},{'k';'r'})
+plot(myResult.times, myResult.FanoFactorAll)%, myResult.times, myResult.FanoFactor);
+
 xlabel('time (ms)')
 ylabel('Fano factor')
 set(gca,'FontName','Arial','Fontsize',12, 'FontWeight', 'normal','Box','off','TickDir','out', 'YDir','normal');
@@ -311,12 +307,8 @@ xlabel('mean counts')
 ylabel('variance')
 set(gca,'FontName','Arial','Fontsize',12, 'FontWeight', 'normal','Box','off','TickDir','out', 'YDir','normal');
 subplot(3,3,8)
-[AX, h1, h2] = plotyy(myResultRad.times, myResultRad.FanoFactorAll, myResultRad.times, myResultRad.FanoFactor);
-h1.LineWidth = 1;
-h2.LineWidth = 1;
-h1.Color = 'k';
-h2.Color = 'r';
-set(AX,{'ycolor'},{'k';'r'})
+ plot(myResultRad.times, myResultRad.FanoFactorAll)
+
 xlabel('respiration phases (deg)')
 ylabel('Fano factor')
 set(gca,'FontName','Arial','Fontsize',12, 'FontWeight', 'normal','Box','off','TickDir','out', 'YDir','normal');
@@ -333,7 +325,7 @@ subplot(3,3,3)
 title('whole sniff bins')
 hold on
 plot(myResultSniff.times,myResultSniff.meanRateAll, 'k', 'lineWidth', 1);
-plot(myResultSniff.times,myResultSniff.meanRateSelect, 'r', 'lineWidth', 1);
+
 hold off
 xlabel('respiration phases (deg)')
 ylabel('spikes/1000 deg')
@@ -341,7 +333,7 @@ set(gca,'FontName','Arial','Fontsize',12, 'FontWeight', 'normal','Box','off','Ti
 subplot(3,3,6)
 plot(myResultSniff.scatterDataAll(4).mn, myResultSniff.scatterDataAll(4).var, '.', 'MarkerSize', 20, 'color', 'k')
 hold on
-plot(myResultSniff.scatterData(4).mn, myResultSniff.scatterData(4).var, '.', 'MarkerSize', 20, 'color', 'r')
+
 plot([0 100], [0 100], 'lineWidth', 1, 'color', [99,99,99]/255);
 hold off
 set(gca,'xlim',[0, ceil(max(myResultSniff.scatterDataAll(4).var))]);
@@ -351,12 +343,8 @@ xlabel('mean counts')
 ylabel('variance')
 set(gca,'FontName','Arial','Fontsize',12, 'FontWeight', 'normal','Box','off','TickDir','out', 'YDir','normal');
 subplot(3,3,9)
-[AX, h1, h2] = plotyy(myResultSniff.times, myResultSniff.FanoFactorAll, myResultSniff.times, myResultSniff.FanoFactor);
-h1.LineWidth = 1;
-h2.LineWidth = 1;
-h1.Color = 'k';
-h2.Color = 'r';
-set(AX,{'ycolor'},{'k';'r'})
+plot(myResultSniff.times, myResultSniff.FanoFactorAll)
+
 xlabel('respiration phases (deg)')
 ylabel('Fano factor')
 set(gca,'FontName','Arial','Fontsize',12, 'FontWeight', 'normal','Box','off','TickDir','out', 'YDir','normal');
@@ -378,7 +366,7 @@ subplot(3,3,1)
 title('50 ms bins')
 hold on
 plot(myResult.times,myResult.meanRateAll, 'k', 'lineWidth', 1);
-plot(myResult.times,myResult.meanRateSelect, 'r', 'lineWidth', 1);
+
 hold off
 xlabel('time (ms)')
 ylabel('spikes/s')
@@ -387,7 +375,7 @@ set(gca,'FontName','Arial','Fontsize',12, 'FontWeight', 'normal','Box','off','Ti
 subplot(3,3,4)
 plot(myResult.scatterDataAll(15).mn, myResult.scatterDataAll(15).var, '.', 'MarkerSize', 20, 'color', 'k')
 hold on
-plot(myResult.scatterData(15).mn, myResult.scatterData(15).var, '.', 'MarkerSize', 20, 'color', 'r')
+
 plot([0 100], [0 100], 'lineWidth', 1, 'color', [99,99,99]/255);
 hold off
 
@@ -399,12 +387,8 @@ ylabel('variance')
 set(gca,'FontName','Arial','Fontsize',12, 'FontWeight', 'normal','Box','off','TickDir','out', 'YDir','normal');
 
 subplot(3,3,7)
-[AX, h1, h2] = plotyy(myResult.times, myResult.FanoFactorAll, myResult.times, myResult.FanoFactor);
-h1.LineWidth = 1;
-h2.LineWidth = 1;
-h1.Color = 'k';
-h2.Color = 'r';
-set(AX,{'ycolor'},{'k';'r'})
+plot(myResult.times, myResult.FanoFactorAll)
+
 xlabel('time (ms)')
 ylabel('Fano factor')
 set(gca,'FontName','Arial','Fontsize',12, 'FontWeight', 'normal','Box','off','TickDir','out', 'YDir','normal');
@@ -422,7 +406,7 @@ subplot(3,3,2)
 title('60 deg bins')
 hold on
 plot(myResultRad.times,myResultRad.meanRateAll, 'k', 'lineWidth', 1);
-plot(myResultRad.times,myResultRad.meanRateSelect, 'r', 'lineWidth', 1);
+
 hold off
 xlabel('respiration phase (deg)')
 ylabel('spikes/1000 deg')
@@ -430,7 +414,7 @@ set(gca,'FontName','Arial','Fontsize',12, 'FontWeight', 'normal','Box','off','Ti
 subplot(3,3,5)
 plot(myResultRad.scatterDataAll(16).mn, myResultRad.scatterDataAll(16).var, '.', 'MarkerSize', 20, 'color', 'k')
 hold on
-plot(myResultRad.scatterData(16).mn, myResultRad.scatterData(16).var, '.', 'MarkerSize', 20, 'color', 'r')
+
 plot([0 100], [0 100], 'lineWidth', 1, 'color', [99,99,99]/255);
 hold off
 set(gca,'xlim',[0, ceil(max(myResultRad.scatterDataAll(16).var))]);
@@ -440,12 +424,8 @@ xlabel('mean counts')
 ylabel('variance')
 set(gca,'FontName','Arial','Fontsize',12, 'FontWeight', 'normal','Box','off','TickDir','out', 'YDir','normal');
 subplot(3,3,8)
-[AX, h1, h2] = plotyy(myResultRad.times, myResultRad.FanoFactorAll, myResultRad.times, myResultRad.FanoFactor);
-h1.LineWidth = 1;
-h2.LineWidth = 1;
-h1.Color = 'k';
-h2.Color = 'r';
-set(AX,{'ycolor'},{'k';'r'})
+plot(myResultRad.times, myResultRad.FanoFactorAll)
+
 xlabel('respiration phases (deg)')
 ylabel('Fano factor')
 set(gca,'FontName','Arial','Fontsize',12, 'FontWeight', 'normal','Box','off','TickDir','out', 'YDir','normal');
@@ -462,7 +442,7 @@ subplot(3,3,3)
 title('whole sniff bins')
 hold on
 plot(myResultSniff.times,myResultSniff.meanRateAll, 'k', 'lineWidth', 1);
-plot(myResultSniff.times,myResultSniff.meanRateSelect, 'r', 'lineWidth', 1);
+
 hold off
 xlabel('respiration phases (deg)')
 ylabel('spikes/1000 deg')
@@ -470,7 +450,7 @@ set(gca,'FontName','Arial','Fontsize',12, 'FontWeight', 'normal','Box','off','Ti
 subplot(3,3,6)
 plot(myResultSniff.scatterDataAll(4).mn, myResultSniff.scatterDataAll(4).var, '.', 'MarkerSize', 20, 'color', 'k')
 hold on
-plot(myResultSniff.scatterData(4).mn, myResultSniff.scatterData(4).var, '.', 'MarkerSize', 20, 'color', 'r')
+
 plot([0 100], [0 100], 'lineWidth', 1, 'color', [99,99,99]/255);
 hold off
 set(gca,'xlim',[0, ceil(max(myResultSniff.scatterDataAll(4).var))]);
@@ -480,24 +460,20 @@ xlabel('mean counts')
 ylabel('variance')
 set(gca,'FontName','Arial','Fontsize',12, 'FontWeight', 'normal','Box','off','TickDir','out', 'YDir','normal');
 subplot(3,3,9)
-[AX, h1, h2] = plotyy(myResultSniff.times, myResultSniff.FanoFactorAll, myResultSniff.times, myResultSniff.FanoFactor);
-h1.LineWidth = 1;
-h2.LineWidth = 1;
-h1.Color = 'k';
-h2.Color = 'r';
-set(AX,{'ycolor'},{'k';'r'})
+plot(myResultSniff.times, myResultSniff.FanoFactorAll)
+
 xlabel('respiration phases (deg)')
 ylabel('Fano factor')
 set(gca,'FontName','Arial','Fontsize',12, 'FontWeight', 'normal','Box','off','TickDir','out', 'YDir','normal');
 
 savefig('FanoFactorsAll.fig')
 %%
-plotAuRocTuning
-title('Tuning (auROC)')
-xlabel('odor id')
-ylabel('unit id')
-set(gca,'FontName','Arial','Fontsize',12, 'FontWeight', 'normal','Box','off','TickDir','out', 'YDir','normal');
-savefig('auROCtunings.fig')
+% plotAuRocTuning
+% title('Tuning (auROC)')
+% xlabel('odor id')
+% ylabel('unit id')
+% set(gca,'FontName','Arial','Fontsize',12, 'FontWeight', 'normal','Box','off','TickDir','out', 'YDir','normal');
+% savefig('auROCtunings.fig')
 
 
 

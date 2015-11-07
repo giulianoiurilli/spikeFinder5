@@ -1,0 +1,196 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>7 odors. Pairs of odors are highly similar. Tested at 2 concentrations.</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-10-26"><meta name="DC.source" content="sevenodors.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>7 odors. Pairs of odors are highly similar. Tested at 2 concentrations.</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1"><i>List of odors</i></a></li><li><a href="#2"><b>Anterior piriform cortex</b></a></li><li><a href="#3"><i>Tuning curves (auROC)</i></a></li><li><a href="#4"><i>Grand average of olfactory responses and Fano factor</i></a></li><li><a href="#5"><i>Timecourse of the distance between odors</i></a></li><li><a href="#6"><i>Timecourse of the total variance explained by the first three PCs</i></a></li><li><a href="#7"><i>Timecourse of linear classification</i></a></li><li><a href="#8"><i>Timecourse of spike count distributions</i></a></li><li><a href="#9"><i>Timecourse of the lifetime sparseness</i></a></li><li><a href="#10"><i>Timecourse of the population sparseness</i></a></li><li><a href="#11"><i>Similarity between tuning profiles of units recorded from the same shank</i></a></li><li><a href="#12"><i>Classification accuracy at different sniffs and with different windows (number of sniffs) - High concentrations</i></a></li><li><a href="#13"><i>Classification accuracy with concatenations of sniffs - High concentrations</i></a></li><li><a href="#14"><i>Classification accuracy at different sniffs and with different windows (number of sniffs) - Low concentrations</i></a></li><li><a href="#15"><i>Classification accuracy with concatenations of sniffs - Low concentrations</i></a></li><li><a href="#16"><b>Postero-lateral cortical amygdala</b></a></li><li><a href="#17"><i>Tuning curves (auROC)</i></a></li><li><a href="#18"><i>Grand average of olfactory responses and Fano factor</i></a></li><li><a href="#19"><i>Timecourse of the sistance between odors</i></a></li><li><a href="#20"><i>Timecourse of the total variance explained by the first three PCs</i></a></li><li><a href="#21"><i>Timecourse of linear classification</i></a></li><li><a href="#22"><i>Timecourse of spike count distributions</i></a></li><li><a href="#23"><i>Timecourse of the lifetime sparseness</i></a></li><li><a href="#24"><i>Timecourse of the population sparseness</i></a></li><li><a href="#25"><i>Similarity between tuning profiles of units recorded from the same shank</i></a></li><li><a href="#26"><i>Classification accuracy at different sniffs and with different windows (number of sniffs) - High concentrations</i></a></li><li><a href="#27"><i>Classification accuracy with concatenations of sniffs - High concentrations</i></a></li><li><a href="#28"><i>Classification accuracy at different sniffs and with different windows (number of sniffs) - Low concentrations</i></a></li><li><a href="#29"><i>Classification accuracy with concatenations of sniffs - Low concentrations</i></a></li></ul></div><h2><i>List of odors</i><a name="1"></a></h2><p>2,4,5-methylthiazole 4,5-methylthiazole 5-methylthiazole isoamyacetate isobutylacetate butanedione exanedione 2-phenyl-ethanol</p><h2><b>Anterior piriform cortex</b><a name="2"></a></h2><p>Number of responsive units: <b>80</b> Number of cell-odor pairs: <b>483</b></p><h2><i>Tuning curves (auROC)</i><a name="3"></a></h2><p>The response is taken over the first 4 sniffs.</p><img vspace="5" hspace="5" src="sevenodors_01.png" alt=""> <h2><i>Grand average of olfactory responses and Fano factor</i><a name="4"></a></h2><p>I used mean-matching (red, for each time bin I take only the cell-odor spike counts that don't exceed the overall firing and I regress the Fano factor), but I'm also showing spike counts and variances without mean-matching (black). The responses included in the left plots are aligne only to the first sniff. Note that the sub-sniff representation using a angle timescale can be misleading: there are of course more spikes in the exhalation phase because it lasts longer.</p><img vspace="5" hspace="5" src="sevenodors_02.png" alt=""> <h2><i>Timecourse of the distance between odors</i><a name="5"></a></h2><p>Here I aligned each sniff and the timescale is in ms and not in deg. I divide each sniff in two bins of 100 ms each.</p><img vspace="5" hspace="5" src="sevenodors_03.png" alt=""> <h2><i>Timecourse of the total variance explained by the first three PCs</i><a name="6"></a></h2><p>Here I aligned each sniff and the timescale is in ms and not in deg. I divide each sniff in two bins of 100 ms each.</p><img vspace="5" hspace="5" src="sevenodors_04.png" alt=""> <h2><i>Timecourse of linear classification</i><a name="7"></a></h2><p>Here I aligned each sniff and the timescale is in ms and not in deg. I divide each sniff in two bins of 100 ms each.</p><img vspace="5" hspace="5" src="sevenodors_05.png" alt=""> <h2><i>Timecourse of spike count distributions</i><a name="8"></a></h2><p>Each row is half a sniff (100 ms). Black is odor off and red is odor on.</p><img vspace="5" hspace="5" src="sevenodors_06.png" alt=""> <h2><i>Timecourse of the lifetime sparseness</i><a name="9"></a></h2><p>Each row is half a sniff (100 ms). Black is odor off and red is odor on.</p><img vspace="5" hspace="5" src="sevenodors_07.png" alt=""> <h2><i>Timecourse of the population sparseness</i><a name="10"></a></h2><p>Each row is half a sniff (100 ms). Black is odor off and red is odor on.</p><img vspace="5" hspace="5" src="sevenodors_08.png" alt=""> <h2><i>Similarity between tuning profiles of units recorded from the same shank</i><a name="11"></a></h2><p>Here I consider the response in a time window of 4 sniffs</p><img vspace="5" hspace="5" src="sevenodors_09.png" alt=""> <h2><i>Classification accuracy at different sniffs and with different windows (number of sniffs) - High concentrations</i><a name="12"></a></h2><img vspace="5" hspace="5" src="sevenodors_10.png" alt=""> <h2><i>Classification accuracy with concatenations of sniffs - High concentrations</i><a name="13"></a></h2><img vspace="5" hspace="5" src="sevenodors_11.png" alt=""> <h2><i>Classification accuracy at different sniffs and with different windows (number of sniffs) - Low concentrations</i><a name="14"></a></h2><img vspace="5" hspace="5" src="sevenodors_12.png" alt=""> <h2><i>Classification accuracy with concatenations of sniffs - Low concentrations</i><a name="15"></a></h2><img vspace="5" hspace="5" src="sevenodors_13.png" alt=""> <h2><b>Postero-lateral cortical amygdala</b><a name="16"></a></h2><p>Number of responsive units: <b>56</b> Number of cell-odor pairs: <b>271</b></p><h2><i>Tuning curves (auROC)</i><a name="17"></a></h2><p>The response is taken over the first 4 sniffs.</p><img vspace="5" hspace="5" src="sevenodors_14.png" alt=""> <h2><i>Grand average of olfactory responses and Fano factor</i><a name="18"></a></h2><p>I used mean-matching (red, for each time bin I take only the cell-odor spike counts that don't exceed the overall firing and I regress the Fano factor), but I'm also showing spike counts and variances without mean-matching (black). The responses included in the left plots are aligne only to the first sniff. Note that the sub-sniff representation using a angle timescale can be misleading: there are of course more spikes in the exhalation phase because it lasts longer.</p><img vspace="5" hspace="5" src="sevenodors_15.png" alt=""> <h2><i>Timecourse of the sistance between odors</i><a name="19"></a></h2><p>Here I aligned each sniff and the timescale is in ms and not in deg. I divide each sniff in two bins of 100 ms each.</p><img vspace="5" hspace="5" src="sevenodors_16.png" alt=""> <h2><i>Timecourse of the total variance explained by the first three PCs</i><a name="20"></a></h2><p>Here I aligned each sniff and the timescale is in ms and not in deg. I divide each sniff in two bins of 100 ms each.</p><img vspace="5" hspace="5" src="sevenodors_17.png" alt=""> <h2><i>Timecourse of linear classification</i><a name="21"></a></h2><p>Here I aligned each sniff and the timescale is in ms and not in deg. I divide each sniff in two bins of 100 ms each.</p><img vspace="5" hspace="5" src="sevenodors_18.png" alt=""> <h2><i>Timecourse of spike count distributions</i><a name="22"></a></h2><p>Each row is half a sniff (100 ms). Black is odor off and red is odor on.</p><img vspace="5" hspace="5" src="sevenodors_19.png" alt=""> <h2><i>Timecourse of the lifetime sparseness</i><a name="23"></a></h2><p>Each row is half a sniff (100 ms). Black is odor off and red is odor on.</p><img vspace="5" hspace="5" src="sevenodors_20.png" alt=""> <h2><i>Timecourse of the population sparseness</i><a name="24"></a></h2><p>Each row is half a sniff (100 ms). Black is odor off and red is odor on.</p><img vspace="5" hspace="5" src="sevenodors_21.png" alt=""> <h2><i>Similarity between tuning profiles of units recorded from the same shank</i><a name="25"></a></h2><p>Here I consider the response in a time window of 4 sniffs</p><img vspace="5" hspace="5" src="sevenodors_22.png" alt=""> <h2><i>Classification accuracy at different sniffs and with different windows (number of sniffs) - High concentrations</i><a name="26"></a></h2><img vspace="5" hspace="5" src="sevenodors_23.png" alt=""> <h2><i>Classification accuracy with concatenations of sniffs - High concentrations</i><a name="27"></a></h2><img vspace="5" hspace="5" src="sevenodors_24.png" alt=""> <h2><i>Classification accuracy at different sniffs and with different windows (number of sniffs) - Low concentrations</i><a name="28"></a></h2><img vspace="5" hspace="5" src="sevenodors_25.png" alt=""> <h2><i>Classification accuracy with concatenations of sniffs - Low concentrations</i><a name="29"></a></h2><img vspace="5" hspace="5" src="sevenodors_26.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% 7 odors. Pairs of odors are highly similar. Tested at 2 concentrations.
+%% _List of odors_
+% 2,4,5-methylthiazole 4,5-methylthiazole 5-methylthiazole
+% isoamyacetate isobutylacetate
+% butanedione exanedione
+% 2-phenyl-ethanol
+
+%% *Anterior piriform cortex*
+% Number of responsive units: *80*
+% Number of cell-odor pairs: *483*
+
+%% _Tuning curves (auROC)_
+% The response is taken over the first 4 sniffs.
+openfig('/Volumes/neurobio/DattaLab/Giuliano/tetrodes_data/2conc/aPCX/auROCtunings.fig');
+
+%% _Grand average of olfactory responses and Fano factor_
+% I used mean-matching (red, for each time bin I take only the cell-odor spike counts that don't exceed the overall firing and I regress the Fano factor), but I'm also showing spike counts and variances without mean-matching (black).
+% The responses included in the left plots are aligne only to the first
+% sniff.
+% Note that the sub-sniff representation using a angle timescale can be
+% misleading: there are of course more spikes in the exhalation phase
+% because it lasts longer.
+openfig('/Volumes/neurobio/DattaLab/Giuliano/tetrodes_data/2conc/aPCX/FanoFactors.fig');
+
+%% _Timecourse of the distance between odors_
+% Here I aligned each sniff and the timescale is in ms and not in deg. I
+% divide each sniff in two bins of 100 ms each.
+openfig('/Volumes/neurobio/DattaLab/Giuliano/tetrodes_data/2conc/aPCX/distance.fig');
+
+%% _Timecourse of the total variance explained by the first three PCs_
+% Here I aligned each sniff and the timescale is in ms and not in deg. I
+% divide each sniff in two bins of 100 ms each.
+openfig('/Volumes/neurobio/DattaLab/Giuliano/tetrodes_data/2conc/aPCX/threePCs.fig');
+
+%% _Timecourse of linear classification_
+% Here I aligned each sniff and the timescale is in ms and not in deg. I
+% divide each sniff in two bins of 100 ms each.
+openfig('/Volumes/neurobio/DattaLab/Giuliano/tetrodes_data/2conc/aPCX/classification.fig');
+
+%% _Timecourse of spike count distributions_
+% Each row is half a sniff (100 ms). Black is odor off and red is odor on.
+openfig('/Volumes/neurobio/DattaLab/Giuliano/tetrodes_data/2conc/aPCX/spikeDist.fig');
+
+%% _Timecourse of the lifetime sparseness_
+% Each row is half a sniff (100 ms). Black is odor off and red is odor on.
+openfig('/Volumes/neurobio/DattaLab/Giuliano/tetrodes_data/2conc/aPCX/ls.fig');
+
+%% _Timecourse of the population sparseness_
+% Each row is half a sniff (100 ms). Black is odor off and red is odor on.
+openfig('/Volumes/neurobio/DattaLab/Giuliano/tetrodes_data/2conc/aPCX/ps.fig');
+
+%% _Similarity between tuning profiles of units recorded from the same shank_
+% Here I consider the response in a time window of 4 sniffs
+openfig('/Volumes/neurobio/DattaLab/Giuliano/tetrodes_data/2conc/aPCX/sigCorr.fig');
+
+%% _Classification accuracy at different sniffs and with different windows (number of sniffs) - High concentrations_
+openfig('/Volumes/neurobio/DattaLab/Giuliano/tetrodes_data/2conc/aPCX/decodingByCyclesHigh.fig');
+
+%% _Classification accuracy with concatenations of sniffs - High concentrations_
+openfig('/Volumes/neurobio/DattaLab/Giuliano/tetrodes_data/2conc/aPCX/decodingBinWidthHigh.fig');
+%% _Classification accuracy at different sniffs and with different windows (number of sniffs) - Low concentrations_
+openfig('/Volumes/neurobio/DattaLab/Giuliano/tetrodes_data/2conc/aPCX/decodingByCyclesLow.fig');
+
+%% _Classification accuracy with concatenations of sniffs - Low concentrations_
+openfig('/Volumes/neurobio/DattaLab/Giuliano/tetrodes_data/2conc/aPCX/decodingBinWidthLow.fig');
+
+%% *Postero-lateral cortical amygdala*
+% Number of responsive units: *56*
+% Number of cell-odor pairs: *271*
+
+%% _Tuning curves (auROC)_
+% The response is taken over the first 4 sniffs.
+openfig('/Volumes/neurobio/DattaLab/Giuliano/tetrodes_data/2conc/plCoA/auROCtunings.fig');
+
+%% _Grand average of olfactory responses and Fano factor_
+% I used mean-matching (red, for each time bin I take only the cell-odor spike counts that don't exceed the overall firing and I regress the Fano factor), but I'm also showing spike counts and variances without mean-matching (black).
+% The responses included in the left plots are aligne only to the first
+% sniff.
+% Note that the sub-sniff representation using a angle timescale can be
+% misleading: there are of course more spikes in the exhalation phase
+% because it lasts longer.
+openfig('/Volumes/neurobio/DattaLab/Giuliano/tetrodes_data/2conc/plCoA/FanoFactors.fig');
+
+%% _Timecourse of the sistance between odors_
+% Here I aligned each sniff and the timescale is in ms and not in deg. I
+% divide each sniff in two bins of 100 ms each.
+openfig('/Volumes/neurobio/DattaLab/Giuliano/tetrodes_data/2conc/plCoA/distance.fig');
+
+%% _Timecourse of the total variance explained by the first three PCs_
+% Here I aligned each sniff and the timescale is in ms and not in deg. I
+% divide each sniff in two bins of 100 ms each.
+openfig('/Volumes/neurobio/DattaLab/Giuliano/tetrodes_data/2conc/plCoA/threePCs.fig');
+
+%% _Timecourse of linear classification_
+% Here I aligned each sniff and the timescale is in ms and not in deg. I
+% divide each sniff in two bins of 100 ms each.
+openfig('/Volumes/neurobio/DattaLab/Giuliano/tetrodes_data/2conc/plCoA/classification.fig');
+
+%% _Timecourse of spike count distributions_
+% Each row is half a sniff (100 ms). Black is odor off and red is odor on.
+openfig('/Volumes/neurobio/DattaLab/Giuliano/tetrodes_data/2conc/plCoA/spikeDist.fig');
+
+%% _Timecourse of the lifetime sparseness_
+% Each row is half a sniff (100 ms). Black is odor off and red is odor on.
+openfig('/Volumes/neurobio/DattaLab/Giuliano/tetrodes_data/2conc/plCoA/spikeDist.fig');
+
+%% _Timecourse of the population sparseness_
+% Each row is half a sniff (100 ms). Black is odor off and red is odor on.
+openfig('/Volumes/neurobio/DattaLab/Giuliano/tetrodes_data/2conc/plCoA/spikeDist.fig');
+
+%% _Similarity between tuning profiles of units recorded from the same shank_
+% Here I consider the response in a time window of 4 sniffs
+openfig('/Volumes/neurobio/DattaLab/Giuliano/tetrodes_data/2conc/plCoA/sigCorr.fig');
+
+%% _Classification accuracy at different sniffs and with different windows (number of sniffs) - High concentrations_
+openfig('/Volumes/neurobio/DattaLab/Giuliano/tetrodes_data/2conc/plCoA/decodingByCyclesHigh.fig');
+
+%% _Classification accuracy with concatenations of sniffs - High concentrations_
+openfig('/Volumes/neurobio/DattaLab/Giuliano/tetrodes_data/2conc/plCoA/decodingBinWidthHigh.fig');
+%% _Classification accuracy at different sniffs and with different windows (number of sniffs) - Low concentrations_
+openfig('/Volumes/neurobio/DattaLab/Giuliano/tetrodes_data/2conc/aPCX/decodingByCyclesLow.fig');
+
+%% _Classification accuracy with concatenations of sniffs - Low concentrations_
+openfig('/Volumes/neurobio/DattaLab/Giuliano/tetrodes_data/2conc/plCoA/decodingBinWidthLow.fig');
+##### SOURCE END #####
+--></body></html>

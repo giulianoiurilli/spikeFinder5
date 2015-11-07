@@ -4,6 +4,7 @@ for idxExperiment = 1 : length(List)
     cartella = List{idxExperiment};
     cd(cartella)
     load('unitsWarp.mat', 'shankWarp');
+    load('unitsNowarp.mat', 'shankNowarp');
     load('breathing.mat', 'sec_on_rsp', 'sec_on_bsl')
     load('parameters.mat');
     for idxShank = 1:4
@@ -38,7 +39,8 @@ for idxExperiment = 1 : length(List)
                 goodTrialsExc = appRsp > (meanBsl + 2*stdBsl);
                 goodTrialsInh = appRsp < (meanBsl - stdBsl);
                 goodTrials = sum(goodTrialsExc + goodTrialsInh);
-                exp(idxExperiment).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).goodTrials4cycles = goodTrials./n_trials;
+                exp(idxExperiment).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).goodExcTrials4cycles = sum(goodTrialsExc)./n_trials;
+                exp(idxExperiment).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).goodInhTrials4cycles = sum(goodTrialsInh)./n_trials;
                 
                 % Now I take the first 300 ms
                 appBsl = [];
@@ -61,11 +63,11 @@ for idxExperiment = 1 : length(List)
                 exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).pValue300ms = pvals;
                 if pvals < 0.05
                     if (mean(a{2}) > mean(a{1})) && (exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).keepUnit == 1)
-                        exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse300Ms = 1;
+                        exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse300ms = 1;
                         %exp(idxExperiment).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).auROC4cycles = findAuROC(appBsl, appRsp);
                     else
                         if (mean(a{2}) < mean(a{1})) && (exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).keepUnit == 1)
-                            exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse300Ms = -1;
+                            exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse300ms = -1;
                             %exp(idxExperiment).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).auROC4cycles = findAuROC(appBsl, appRsp);
                         end
                     end
@@ -75,7 +77,8 @@ for idxExperiment = 1 : length(List)
                 goodTrialsExc = appRsp > (meanBsl + 2*stdBsl);
                 goodTrialsInh = appRsp < (meanBsl - stdBsl);
                 goodTrials = sum(goodTrialsExc + goodTrialsInh);
-                exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).goodTrials300ms = goodTrials./n_trials;
+                exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).goodExcTrials300ms = sum(goodTrialsExc)./n_trials;
+                exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).goodInhTrials300ms = sum(goodTrialsInh)./n_trials;
                 exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).peakLatency300ms = shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).peakLatency;
                 exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).halfWidth300ms = shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).halfWidth;
             end
@@ -85,7 +88,7 @@ end
 
 cd(startingFolder)
 clearvars -except List exp
-save('aPCx_aveatt_Area.mat', 'exp', '-append')
+save('plCoA_aveatt_Area.mat', 'exp', '-append')
 
 
 

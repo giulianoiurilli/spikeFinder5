@@ -1,7 +1,25 @@
+odorsRearranged = 1:15; %15 odors
+%odorsRearranged = [8, 9, 10, 11, 12, 13, 14]; %7 odors high
+%odorsRearranged = [1,2,3,4,5,6,7]; %7 odors low
+%odorsRearranged = [12 13 14 15 1]; %3 odors pen
+%odorsRearranged = [2 3 4 5 6]; %3 odors iaa
+%odorsRearranged = [7 8 9 10 11]; %3 odors etg
+%odorsRearranged = [1 6 11]; %3 odors high
+%odorsRearranged = [14 4 9]; %3 odors medium
+%odorsRearranged = [12 2 7]; %3 odors low
+%odorsRearranged  = [12 13 14 15 1 2 3 4 5 6 7 8 9 10 11];
+%{"TMT", "MMB", "2MB", "2PT", "IAA", "PET", "BTN", "GER", "PB", "URI", "G&B", "B&P", "T&B", "TMM", "TMB"};
+%odorsRearranged = [1 2 3 4 5 6 7 8 9 10]; %aveatt 
+%odorsRearranged = [7 11 12 13]; %aveatt mix butanedione
+%odorsRearranged = [1 13 14 15]; %mixTMT
+
+
+odors = length(odorsRearranged);
+
 %% Find reponsive units
 responsiveUnit = 1;
 modifiedList = [1 2 3 4 6 8];
-for idxExp = 1 : length(List) %- 1
+for idxExp = 1 : length(List) - 1
     for idxShank = 1:4
         for idxUnit = 1:length(exp(idxExp).shankWarp(idxShank).cell)
             responsivenessExc = zeros(1,odors);
@@ -16,15 +34,15 @@ for idxExp = 1 : length(List) %- 1
                 %                 reliabilityExc(idxOdor) =  exp(idxExp).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).auROC > 0.75;
                 %                 reliabilityInh(idxOdor) =  exp(idxExp).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).auROC < 0.25;
             end
-            if sum(responsivenessExc + responsivenessInh) > 0
+            %if sum(responsivenessExc + responsivenessInh) > 0
                 responsiveUnit = responsiveUnit + 1;
-            end
+            %end
         end
     end
 end
 
 
-%%
+%% Build avearge and single trials PETH for each responding neuron. Bin size = 100ms. Timepoints evaluated: first and second 100 ms of a sniff. 9 sniffs pre-odor and 9 sniffs post-odor.
 baselineAll = zeros(responsiveUnit, 9*2, odors);
 responseAll = zeros(responsiveUnit, 9*2, odors);
 
@@ -36,7 +54,7 @@ Tstart = times - floor(boxWidth/2) + 1;
 Tend = times + ceil(boxWidth/2) + 1;
 
 idxCell = 1;
-for idxExp = 1 : length(List) %- 1
+for idxExp = 1 : length(List) - 1
     cartella = List{idxExp};
     cd(cartella)
     disp(cartella)
@@ -52,7 +70,9 @@ for idxExp = 1 : length(List) %- 1
                 responsivenessInh(idxOdor) = exp(idxExp).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).fourCyclesDigitalResponse == -1;
             end
             
-            if sum(responsivenessExc + responsivenessInh) > 0
+            %if sum(responsivenessExc + responsivenessInh) > 0
+                firingRestBinAllTrial(idxCell).spikes = zeros(n_trials, 9*2, odors);
+                firingOdorBinAllTrial(idxCell).spikes = zeros(n_trials, 9*2, odors);
                 for idxOdor = 1:odors
                     A = exp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrixNoWarp;
                     firingRestBinTrial = zeros(n_trials,2,9);
@@ -86,75 +106,43 @@ for idxExp = 1 : length(List) %- 1
                     firingOdorBinMean = squeeze(mean(firingOdorBinTrial,1));
                     baselineAll(idxCell,:,idxOdor) = firingRestBinMean(:);
                     responseAll(idxCell,:,idxOdor) = firingOdorBinMean(:);
+                    
+                    firingRestBinAllTrial(idxCell).spikes(:,:,idxOdor) = reshape(firingRestBinTrial, n_trials, 2*9);
+                    firingOdorBinAllTrial(idxCell).spikes(:,:,idxOdor) = reshape(firingOdorBinTrial, n_trials, 2*9);
                 end
                 idxCell = idxCell + 1;
-            end
+            %end
         end
     end
     clear sniffs
 end
-%% Subtract baselines
-app1 = [];
-app2 = [];
-meanBaselineAll1 = [];
-meanBaselineAll2 = [];
-app1 = reshape(baselineAll(:,1:2:size(baselineAll,2)-1,:), size(baselineAll,1), (size(baselineAll,2) ./2) *size(baselineAll,3));
-app2 = reshape(baselineAll(:,2:2:size(baselineAll,2),:), size(baselineAll,1), (size(baselineAll,2) ./2) *size(baselineAll,3));
-meanBaselineAll1 = mean(app1,2);
-meanBaselineAll2 = mean(app2,2);
-meanBaselineAll1 = repmat(meanBaselineAll1,1,(size(baselineAll,2) ./2) *size(baselineAll,3));
-meanBaselineAll1 = reshape(meanBaselineAll1, size(baselineAll,1), (size(baselineAll,2) ./2) ,size(baselineAll,3));
-meanBaselineAll2 = repmat(meanBaselineAll2,1,(size(baselineAll,2) ./2) *size(baselineAll,3));
-meanBaselineAll2 = reshape(meanBaselineAll2, size(baselineAll,1), (size(baselineAll,2) ./2) ,size(baselineAll,3));
-baselineAll(:,1:2:size(baselineAll,2)-1,:) = baselineAll(:,1:2:size(baselineAll,2)-1,:) - meanBaselineAll1;
-baselineAll(:,2:2:size(baselineAll,2),:) = baselineAll(:,2:2:size(baselineAll,2),:) - meanBaselineAll2;
-responseAll(:,1:2:size(responseAll,2)-1,:) = responseAll(:,1:2:size(responseAll,2)-1,:) - meanBaselineAll1;
-responseAll(:,2:2:size(responseAll,2),:) = responseAll(:,2:2:size(responseAll,2),:) - meanBaselineAll2;
 
-%% compute lifetime and population sparseness
-for idxBin = 1:9*2
-    X = squeeze(baselineAll(:,idxBin,:));
-    ps(idxBin,:) = population_sparseness(X, size(X,1), size(X,2));
-    ls(idxBin,:) = lifetime_sparseness(X, size(X,1), size(X,2));
+
+C = zeros(1,length(firingRestBinAllTrial));
+for idxUnit = 1:length(firingRestBinAllTrial)
+A = [];
+B = zeros(1,idxOdor);
+for idxOdor = 1:15
+    A = squeeze(firingRestBinAllTrial(idxUnit).spikes(:,1:16,idxOdor));
+    B(idxOdor) = mean(sum(A));
 end
-for idxBin = 1:9*2
-    X = squeeze(responseAll(:,idxBin,:));
-    ps(idxBin + 9*2,:) = population_sparseness(X, size(X,1), size(X,2));
-    ls(idxBin + 9*2,:) = lifetime_sparseness(X, size(X,1), size(X,2));
+C(idxUnit) = mean(B)*1000/1600;
 end
-%% plot
-figure; 
-set(gcf,'color','white', 'PaperPositionMode', 'auto');
-set(gcf,'Position',[701 110 430 748]);
-suptitle('lifetime sparseness')
-edges = 0:0.1:1;
-for idxBin = 1 : 9*2*2
-    x = histcounts(ls(idxBin,:),edges, 'normalization', 'probability');
-    subplot(36,1,idxBin)
-    if idxBin < 9*2+1
-        area(x, 'FaceColor', 'k')
-    else
-        area(x, 'FaceColor', 'r')
-    end
-    %set(gca, ylim([0 1]))
-    axis tight
-    axis off
-end
-%%
-figure; 
-set(gcf,'color','white', 'PaperPositionMode', 'auto');
-set(gcf,'Position',[701 110 430 748]);
-suptitle('population sparseness')
-edges = 0.2:0.1:1;
-for idxBin = 1 : 9*2*2
-    x = histcounts(ps(idxBin,:),edges, 'normalization', 'probability');
-    subplot(36,1,idxBin)
-    if idxBin < 9*2+1
-        area(x, 'FaceColor', 'k')
-    else
-        area(x, 'FaceColor', 'r')
-    end
-    %set(gca, ylim([0 1]))
-    axis tight
-    axis off
-end
+C(C == 0) = 0;
+figure;
+histogram(C, 100)
+median(C)
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

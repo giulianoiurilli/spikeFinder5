@@ -1,7 +1,7 @@
 %% number of spikes distribution
 modifiedList = [1 2 3 4 6 8];
 n_cellOdorPairs = 0;
-for idxExp = modifiedList%1 : length(List) %- 1
+for idxExp = 1 : length(List) %- 1
     for idxShank = 1:4
         for idxUnit = 1:length(exp(idxExp).shankWarp(idxShank).cell)
             responsivenessExc = zeros(1,odors);
@@ -27,7 +27,7 @@ baselineAllSpikeDist = zeros(n_cellOdorPairs, 9*2);
 responseAllSpikeDist = zeros(n_cellOdorPairs, 9*2);
 idxCellOdorPair = 1;
 modifiedList = [1 2 3 4 6 8];
-for idxExp = modifiedList%1 : length(List) %- 1
+for idxExp = 1 : length(List) %- 1
     cartella = List{idxExp};
     cd(cartella)
     disp(cartella)

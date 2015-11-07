@@ -1,0 +1,181 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Poissonian normalization of the neural output stabilizes the across trial variance and improves linear discriminability among odors.</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-10-27"><meta name="DC.source" content="analysis102715.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Poissonian normalization of the neural output stabilizes the across trial variance and improves linear discriminability among odors.</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">High-firing neurons have super-poissonian variance</a></li><li><a href="#11">Effects of five distinct transformations on linear discrimination among stimuli</a></li></ul></div><h2>High-firing neurons have super-poissonian variance<a name="1"></a></h2><img vspace="5" hspace="5" src="analysis102715_01.png" alt=""> <p><i>The grand-averaged PSTH on the left is obtained from responses locked only to the first sniff. But the linear classifications that I will show later were performed on PSTHs obtained by time-binning each sniff (100 ms bins). I didn't use the angle-binning for classification (as I did instead in the middle PSTH above) in order to avoid the bias induced by the different lengths of the inhalation and exhalation phases. The following results however should not be affected by these choices.</i> The scatter plots show that high-firing neurons have a spike count variance above their mean spike count (<img src="analysis102715_eq07657233533591063549.png" alt="$\lambda$"> of the Poisson distribution). Because the Poissonian noise should linearly scale with the mean, we can assume that these neurons greatly change their mean firing response, <img src="analysis102715_eq07657233533591063549.png" alt="$\lambda$">, on a trial-to-trial basis. This behavior increases the Fano factor of the neural population response and makes responses less consistent across trials (black line, bottom). Mean-matching (red dots and lines) is meant to randomly remove the contribution of those neurons whose activity largely exceed the overall firing rate of the population and consequently reduce the Fano factor. Note that the mean-matching method was introduced by Churchland et al., 2010 to exclude the possibilty that the reduction of the Fano factor during a response is trivially due to higher firing rates. Here, I'm employing mean-matching for a different goal. Also note, that after mean-matching there are still neurons that are activated and neurons that are suppressed by the stimuli, but the sum of their activity is flatter (red line, upper panel). It is very unlikely however that the brain completely ignores the output from those highly responding neurons. It is more likely instead that downstream brain areas use inhibition to down-weight the inputs from highly responding neurons. A type of normalization. Distinct however from that invoked in many works so far. I think indeed that the down-scaling method that the brain may want to use is the one that also stabilizes the variance of the responses across trials. The variance of any distribution is stabilized by the following transformation. Given</p><p><img src="analysis102715_eq17619638661461435987.png" alt="$var(x) = h(mean(x))$"></p><p>the stabilizing transformation is</p><p><img src="analysis102715_eq06989619416065271396.png" alt="$y = \int \frac{1}{\sqrt(h(x))}$"></p><p>For a Poissonian distribution</p><p><img src="analysis102715_eq00018898267914475435.png" alt="$var(x) = mean(x)$"></p><p>hence</p><p><img src="analysis102715_eq05492477788310835962.png" alt="$y = \sqrt(x)$"></p><h2>Effects of five distinct transformations on linear discrimination among stimuli<a name="11"></a></h2><p>This is the performance of a linear classifier <i>without transformation</i>.</p><img vspace="5" hspace="5" src="analysis102715_02.png" alt=""> <p>A <i>dumb normalization</i> generally raccomended for linear classification:</p><p><img src="analysis102715_eq02365660076899608101.png" alt="$y = \frac{x - min(x)}{max(x) - min(x)}$"></p><img vspace="5" hspace="5" src="analysis102715_03.png" alt=""> <p><i>Z-scoring</i> Here I z-scored each neuron response across trials.</p><img vspace="5" hspace="5" src="analysis102715_04.png" alt=""> <p>A transformation that <i>heavily</i> weights highly responding neurons down</p><p><img src="analysis102715_eq15453030863083957246.png" alt="$y = \frac{x}{1+x}$"></p><img vspace="5" hspace="5" src="analysis102715_05.png" alt=""> <p>Finally, the <i>appropriate</i> variance stabilizing transformation for Poisson spike counts:</p><p><img src="analysis102715_eq05492477788310835962.png" alt="$y = \sqrt(x)$"></p><img vspace="5" hspace="5" src="analysis102715_06.png" alt=""> <p>As expected, this transformation outperforms the other ones.</p><p>However, there is still an open question. Do the benefits of this transformation result only from the stabilization of the variance or from a more uniform distribution of the distances between the mean stimuli representations as well? To answer this crucial question I <i>z-scored the responses across neurons on a trial-to-trial basis instead that across trials</i>.</p><img vspace="5" hspace="5" src="analysis102715_07.png" alt=""> <p>The variance stabilization is still a plus as compared to the normalization of the average responses because it makes the linear decoder perform more accurately (smaller bias) and with a smaller error. I'm not an expert in this field, but I've never read something like this before.</p><p>Could a Hill function that down-scales low firing neurons inputs provide even better performances? I guess the answer is not since inhibitory responses diversify the tuning curves in the early phase of a response.</p><p>The variance of the highly responding neurons is actually super-poissonian. Should I extrapolate the Fano factor according to a generalized Poisson model (which has two lambdas) in order to ascertain the link function between the mean and the variance? I don't know, maybe. I'm not going to show further plots, but I can tell you that modeling the relationship between mean and variance with a power law did not do better than a dumb normalization.</p><p>I'm more interested in the synaptic mechanisms that could perform a variance stabilizing transformation in a downstream area such as the olfactory tubercle and on the manipulation of the inhibitory network during olfactory discrimination on a trial-by-trial basis. The point is not to mess up the network with some blue/yellow light, but to make lawful predictions about the effects of the manipulation. This will require me some more hard thinking and time, but I think it' is really worth of it.</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Poissonian normalization of the neural output stabilizes the across trial variance and improves linear discriminability among odors.
+
+%% High-firing neurons have super-poissonian variance
+openfig('/Volumes/neurobio/DattaLab/Giuliano/tetrodes_data/15 odors/aPCx/awake/FanoFactors.fig');
+
+%%
+% _The grand-averaged PSTH on the left is obtained from responses locked
+% only to the first sniff. But the linear classifications that I will show
+% later were performed on PSTHs obtained by time-binning each sniff (100 ms
+% bins). I didn't use the angle-binning for classification (as I did
+% instead in the middle PSTH above) in order to avoid the bias induced by
+% the different lengths of the inhalation and exhalation phases. The
+% following results however should not be affected by these choices._
+% The scatter plots show that high-firing neurons have a spike count variance above their mean spike count ($\lambda$ of the Poisson distribution). 
+% Because the Poissonian noise should linearly scale
+% with the mean, we can assume that these neurons greatly change their
+% mean firing response, $\lambda$, on a trial-to-trial basis. This behavior increases the Fano
+% factor of the neural population response and makes responses less
+% consistent across trials (black line, bottom). Mean-matching (red dots and lines) is meant to randomly remove the
+% contribution of those neurons whose activity largely exceed the overall
+% firing rate of the population and consequently reduce the Fano factor. Note that the mean-matching method was introduced by Churchland et al., 2010 
+% to exclude the possibilty that the reduction of the Fano factor during a response is trivially due to higher firing rates.
+% Here, I'm employing mean-matching for a different goal.
+% Also note, that after mean-matching there are still neurons that are activated
+% and neurons that are suppressed by the stimuli, but the sum of their
+% activity is flatter (red line, upper panel).
+% It is very unlikely however that the brain completely ignores the output
+% from those highly responding neurons. It is more likely instead that
+% downstream brain areas use inhibition to down-weight the inputs from highly responding neurons. A type of normalization.
+% Distinct however from that invoked in many works so far. 
+% I think indeed that the down-scaling method that the brain may want to use is the one that
+% also stabilizes the variance of the responses across trials. The variance of
+% any distribution is stabilized by the following transformation. Given 
+%%
+% $var(x) = h(mean(x))$
+%%
+% the stabilizing transformation is 
+%%
+% $y = \int \frac{1}{\sqrt(h(x))}$
+%%
+% For a Poissonian distribution 
+%% 
+% $var(x) = mean(x)$
+%%
+% hence
+%%
+% $y = \sqrt(x)$
+%%
+%% Effects of five distinct transformations on linear discrimination among stimuli
+% This is the performance of a linear classifier _without transformation_.
+%%
+openfig('/Volumes/neurobio/DattaLab/Giuliano/tetrodes_data/15 odors/aPCx/awake/classification1.fig');
+%%
+% A _dumb normalization_ generally raccomended for linear classification:
+%%
+% $y = \frac{x - min(x)}{max(x) - min(x)}$
+%%
+openfig('/Volumes/neurobio/DattaLab/Giuliano/tetrodes_data/15 odors/aPCx/awake/classification2.fig');
+%%
+% _Z-scoring_ Here I z-scored each neuron response across trials.
+%%
+openfig('/Volumes/neurobio/DattaLab/Giuliano/tetrodes_data/15 odors/aPCx/awake/classification3.fig');
+%%
+% A transformation that _heavily_ weights highly responding neurons down
+%%
+% $y = \frac{x}{1+x}$
+%%
+openfig('/Volumes/neurobio/DattaLab/Giuliano/tetrodes_data/15 odors/aPCx/awake/classification4.fig');
+%%
+% Finally, the _appropriate_ variance stabilizing transformation for
+% Poisson spike counts:
+%%
+% $y = \sqrt(x)$
+%%
+openfig('/Volumes/neurobio/DattaLab/Giuliano/tetrodes_data/15 odors/aPCx/awake/classification5.fig');
+%%
+% As expected, this transformation outperforms the other ones. 
+%%
+% However, there is still an open question. Do the benefits of this
+% transformation result only from the stabilization of the variance or from a
+% more uniform distribution of the distances between the mean stimuli
+% representations as well? To answer this crucial question I _z-scored
+% the responses across neurons on a trial-to-trial basis instead that across trials_. 
+openfig('/Volumes/neurobio/DattaLab/Giuliano/tetrodes_data/15 odors/aPCx/awake/classification6.fig');
+%%
+% The variance stabilization is still a plus as compared to the normalization of the
+% average responses because it makes the linear decoder perform more
+% accurately (smaller bias) and with a smaller error. I'm not an expert in this field, but I've never
+% read something like this before.
+%% 
+% Could a Hill function that down-scales low firing neurons inputs provide even
+% better performances? I guess the answer is not since inhibitory responses diversify the
+% tuning curves in the early phase of a response.
+%%
+% The variance of the highly responding neurons is actually super-poissonian. Should I extrapolate the Fano factor
+% according to a generalized Poisson model (which has two lambdas) in order
+% to ascertain the link function between the mean and the variance?
+% I don't know, maybe. I'm not going to show further plots, but I can tell you that modeling the relationship between mean and
+% variance with a power law did not do better than a dumb
+% normalization.
+%%
+% I'm more interested in the synaptic
+% mechanisms that could perform a variance stabilizing transformation in a
+% downstream area such as the olfactory tubercle and on the manipulation of
+% the inhibitory network during olfactory discrimination on a
+% trial-by-trial basis. The point is not to mess up the network with some
+% blue/yellow light, but to make lawful predictions about the effects of the
+% manipulation. This will require me some more hard thinking and time, but
+% I think it' is really worth of it.
+##### SOURCE END #####
+--></body></html>

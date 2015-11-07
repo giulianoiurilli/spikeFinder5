@@ -21,7 +21,7 @@ odors = length(odorsRearranged);
 %% Find reponsive units
 responsiveUnit = 1;
 modifiedList = [1 2 3 4 6 8];
-for idxExp = modifiedList%1 : length(List) %- 1
+for idxExp = 1 : length(List) %- 1
     for idxShank = 1:4
         for idxUnit = 1:length(exp(idxExp).shankWarp(idxShank).cell)
             responsivenessExc = zeros(1,odors);
@@ -44,7 +44,7 @@ for idxExp = modifiedList%1 : length(List) %- 1
 end
 
 
-%% Build avearge and single trials PETH for each responding neuron. Bin size = 100ms. Timepoints evaluated: first and second 100 ms of a sniff. 9 sniffs pre-odor and 9 sniffs post-odor.
+%% Build average and single trials PETH for each responding neuron. Bin size = 100ms. Timepoints evaluated: first and second 100 ms of a sniff. 9 sniffs pre-odor and 9 sniffs post-odor.
 baselineAll = zeros(responsiveUnit, 9*2, odors);
 responseAll = zeros(responsiveUnit, 9*2, odors);
 
@@ -56,7 +56,7 @@ Tstart = times - floor(boxWidth/2) + 1;
 Tend = times + ceil(boxWidth/2) + 1;
 
 idxCell = 1;
-for idxExp = modifiedList%1 : length(List) %- 1
+for idxExp = 1 : length(List) %- 1
     cartella = List{idxExp};
     cd(cartella)
     disp(cartella)
@@ -301,9 +301,20 @@ for idxBin = 1:(9*2)
     trials = size(dataAll,2);
     stimuli = size(dataAll,3);
     dataAll = reshape(dataAll, neurons, trials .* stimuli);
+    
+                %%dataAll = nthroot(dataAll,3);
+                %%dataAll = sqrt(dataAll)./(1+sqrt(dataAll));
+                %%dataAll = dataAll./(1+dataAll);
+                %%dataAll = dataAll./sqrt(1+dataAll);
+                %%dataAll = log(dataAll);
+                %%dataAll = zscore(dataAll);
+    dataAll = sqrt(dataAll);
     dataAll = dataAll';
-    % rescale to [0 1];
-    dataAll = (dataAll - repmat(min(dataAll,[],1),size(dataAll,1),1))*spdiags(1./(max(dataAll,[],1)-min(dataAll,[],1))',0,size(dataAll,2),size(dataAll,2));
+    %dataAll = zscore(dataAll);
+    dataAll(isinf(dataAll)) = 0;
+    dataAll(isnan(dataAll)) = 0;
+                % rescale to [0 1];
+                %dataAll = (dataAll - repmat(min(dataAll,[],1),size(dataAll,1),1))*spdiags(1./(max(dataAll,[],1)-min(dataAll,[],1))',0,size(dataAll,2),size(dataAll,2));
     dataAll = dataAll';
     dataAll = reshape(dataAll, neurons, trials, stimuli);
     % Make labels
@@ -337,9 +348,19 @@ for idxBin = 1:(9*2)
     trials = size(dataAll,2);
     stimuli = size(dataAll,3);
     dataAll = reshape(dataAll, neurons, trials .* stimuli);
+                %dataAll = nthroot(dataAll,3);
+                %dataAll = dataAll./(1+dataAll);
+                %dataAll = sqrt(dataAll)./(1+sqrt(dataAll));
+                %dataAll = dataAll./sqrt(1+dataAll);
+                %dataAll = log(dataAll);
+                %dataAll = zscore(dataAll);
+    dataAll = sqrt(dataAll);
     dataAll = dataAll';
-    % rescale to [0 1];
-    dataAll = (dataAll - repmat(min(dataAll,[],1),size(dataAll,1),1))*spdiags(1./(max(dataAll,[],1)-min(dataAll,[],1))',0,size(dataAll,2),size(dataAll,2));
+    %dataAll = zscore(dataAll);
+    dataAll(isinf(dataAll)) = 0;
+    dataAll(isnan(dataAll)) = 0;
+                % rescale to [0 1];
+                %dataAll = (dataAll - repmat(min(dataAll,[],1),size(dataAll,1),1))*spdiags(1./(max(dataAll,[],1)-min(dataAll,[],1))',0,size(dataAll,2),size(dataAll,2));
     dataAll = dataAll';
     dataAll = reshape(dataAll, neurons, trials, stimuli);
     % Make labels
@@ -388,7 +409,7 @@ set(gca, 'XTick' , xTicks);
 set(gca, 'XTickLabel', xTicksLabels);
 xlabel('time-sniff bins')
 ylabel('classification accuracy')
-title('one-leave-out, cross-validated SVM linear classification') 
+title('one-leave-out, cross-validated SVM linear classification on sqrt spike counts') 
 set(gca,'FontName','Arial','Fontsize',12, 'FontWeight', 'normal','Box','off','TickDir','out', 'YDir','normal');         
             
 %% number of spikes distribution

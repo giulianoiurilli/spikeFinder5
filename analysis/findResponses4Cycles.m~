@@ -37,8 +37,8 @@ for idxExperiment = 1 : length(List)
                 stdBsl = std(appBsl);
                 goodTrialsExc = appRsp > (meanBsl + 2*stdBsl);
                 goodTrialsInh = appRsp < (meanBsl - stdBsl);
-                goodTrials = sum(goodTrialsExc + goodTrialsInh);
-                exp(idxExperiment).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).goodTrials4cycles = goodTrials./n_trials;
+                goodTrials = sum(
+                exp(idxExperiment).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).goodTrials4cycles = numel(appRsp(app
                 
                 % Now I take the first 300 ms
                 appBsl = [];
@@ -70,12 +70,6 @@ for idxExperiment = 1 : length(List)
                         end
                     end
                 end
-                meanBsl = mean(appBsl);
-                stdBsl = std(appBsl);
-                goodTrialsExc = appRsp > (meanBsl + 2*stdBsl);
-                goodTrialsInh = appRsp < (meanBsl - stdBsl);
-                goodTrials = sum(goodTrialsExc + goodTrialsInh);
-                exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).goodTrials300ms = goodTrials./n_trials;
                 exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).peakLatency300ms = shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).peakLatency;
                 exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).halfWidth300ms = shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).halfWidth;
             end
