@@ -96,7 +96,7 @@ end
 
 cd(startingFolder)
 clearvars -except List exp
-save('plCoA_15odors_Area.mat', 'exp', '-append')
+save('plCoA_concseries_Area.mat', 'exp', '-append')
 
 
 

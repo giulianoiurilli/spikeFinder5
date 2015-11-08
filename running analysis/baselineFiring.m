@@ -1,7 +1,7 @@
 parameters
 %% count cells to initialize variables
 unit = 0;
-for idxExp = 1 : length(exp) - 1
+for idxExp = 1 : length(exp)% - 1
     for idxShank = 1:4
         for idxUnit = 1:length(exp(idxExp).shankWarp(idxShank).cell)
             unit = unit + 1;
@@ -12,7 +12,7 @@ end
 %% measure average firing rate over 14 seconds of baseline for all cells
 cellBslLog = zeros(unit,4);
 cell = 0;
-for idxExp = 1 : length(exp) %- 1
+for idxExp = 1 : length(exp)% - 1
     for idxShank = 1:4
         for idxUnit = 1:length(exp(idxExp).shankWarp(idxShank).cell)
             cell = cell + 1;
