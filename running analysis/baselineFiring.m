@@ -1,6 +1,7 @@
+parameters
 %% count cells to initialize variables
 unit = 0;
-for idxExp = 1 : length(List) - 1
+for idxExp = 1 : length(exp) - 1
     for idxShank = 1:4
         for idxUnit = 1:length(exp(idxExp).shankWarp(idxShank).cell)
             unit = unit + 1;
@@ -10,10 +11,11 @@ end
 
 %% measure average firing rate over 14 seconds of baseline for all cells
 cellBslLog = zeros(unit,4);
-cell = 1;
-for idxExp = 1 : length(List) - 1
+cell = 0;
+for idxExp = 1 : length(exp) %- 1
     for idxShank = 1:4
         for idxUnit = 1:length(exp(idxExp).shankWarp(idxShank).cell)
+            cell = cell + 1;
             cellBslLog(cell,1) = idxExp;
             cellBslLog(cell,2) = idxShank;
             cellBslLog(cell,3) = idxUnit;
@@ -31,7 +33,6 @@ for idxExp = 1 : length(List) - 1
             else
                 cellBslLog(cell,4) = NaN;
             end
-            cell = cell + 1;
         end
     end
 end
@@ -41,5 +42,6 @@ bslFR = cellBslLog(:,4);
 bslFR(isnan(bslFR)) = [];
 histfit(log10(bslFR),100);
 median(bslFR)
+
 %%
 save('baselineFiring.mat', 'cellBslLog');

@@ -1,6 +1,6 @@
 
 startingFolder = pwd;
-for idxExperiment = 1 : length(List)
+for idxExperiment = 1 : length(exp)
     cartella = List{idxExperiment};
     cd(cartella)
     load('unitsWarp.mat', 'shankWarp');
@@ -24,11 +24,11 @@ for idxExperiment = 1 : length(List)
                 exp(idxExperiment).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).auROC4cycles = findAuROC(appBsl, appRsp);
                 exp(idxExperiment).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).pValue4cycles = pvals;
                 if pvals < 0.05
-                    if (mean(a{2}) > mean(a{1})) && (exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).keepUnit == 1)
+                    if (mean(a{2}) > mean(a{1})) %&& (exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).keepUnit == 1)
                         exp(idxExperiment).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).fourCyclesDigitalResponse = 1;
                         %exp(idxExperiment).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).auROC4cycles = findAuROC(appBsl, appRsp);
                     else
-                        if (mean(a{2}) < mean(a{1})) && (exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).keepUnit == 1)
+                        if (mean(a{2}) < mean(a{1})) %&& (exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).keepUnit == 1)
                             exp(idxExperiment).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).fourCyclesDigitalResponse = -1;
                             %exp(idxExperiment).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).auROC4cycles = findAuROC(appBsl, appRsp);
                         end
@@ -48,8 +48,11 @@ for idxExperiment = 1 : length(List)
                 spike_matrix_app = shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrixNoWarp;
                 startBsl = repmat(pre*1000, n_trials, 1) - (sec_on_rsp(:,idxOdor) - sec_on_bsl(:,idxOdor))*1000;
                 for trialNumb = 1:n_trials
+                    %splCountBsl(trialNumb) = sum(spike_matrix_app(trialNumb,floor(startBsl(trialNumb) + 51) : floor(pre*1000)));
                     splCountBsl(trialNumb) = sum(spike_matrix_app(trialNumb,floor(startBsl(trialNumb) + 51) : floor(pre*1000)));
-                    splCountBsl(trialNumb) = splCountBsl(trialNumb)./floor((floor(pre*1000)-floor(startBsl(trialNumb) + 51))/(response_window*1000));
+                    %average spike count in a 300 ms window during the
+                    %baseline for each trial
+                    splCountBsl(trialNumb) = splCountBsl(trialNumb) ./ ceil( (floor(pre*1000)-floor(startBsl(trialNumb) + 51)) / (response_window*1000) );
                 end
                 appBsl = splCountBsl;
                 appRsp = sum(spike_matrix_app(:, floor(pre*1000+51) : floor(pre*1000 + response_window*1000)), 2)';
@@ -61,12 +64,19 @@ for idxExperiment = 1 : length(List)
                 exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl300ms = appBsl;
                 exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC300ms = findAuROC(appBsl, appRsp);
                 exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).pValue300ms = pvals;
+                exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).peakLatency300ms = [];
+                exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).halfWidth300ms = [];
                 if pvals < 0.05
-                    if (mean(a{2}) > mean(a{1})) && (exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).keepUnit == 1)
+                    if (mean(a{2}) > mean(a{1})) %&& (exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).keepUnit == 1)
                         exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse300ms = 1;
                         %exp(idxExperiment).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).auROC4cycles = findAuROC(appBsl, appRsp);
+                        sdf_response = mean(shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).sdf_trialNoWarp(:, floor(pre*1000) : floor(pre*1000 + 1 + 1000)));
+                        [peak_sdf, idx] = max(sdf_response);
+                        exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).peakLatency300ms = idx;
+                        lengthResp  = find(sdf_response > max(sdf_response)/2);
+                        exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).halfWidth300ms = length(lengthResp);
                     else
-                        if (mean(a{2}) < mean(a{1})) && (exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).keepUnit == 1)
+                        if (mean(a{2}) < mean(a{1})) %&& (exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).keepUnit == 1)
                             exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse300ms = -1;
                             %exp(idxExperiment).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).auROC4cycles = findAuROC(appBsl, appRsp);
                         end
@@ -79,8 +89,6 @@ for idxExperiment = 1 : length(List)
                 goodTrials = sum(goodTrialsExc + goodTrialsInh);
                 exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).goodExcTrials300ms = sum(goodTrialsExc)./n_trials;
                 exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).goodInhTrials300ms = sum(goodTrialsInh)./n_trials;
-                exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).peakLatency300ms = shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).peakLatency;
-                exp(idxExperiment).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).halfWidth300ms = shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).halfWidth;
             end
         end
     end
@@ -88,7 +96,7 @@ end
 
 cd(startingFolder)
 clearvars -except List exp
-save('plCoA_aveatt_Area.mat', 'exp', '-append')
+save('plCoA_15odors_Area.mat', 'exp', '-append')
 
 
 
