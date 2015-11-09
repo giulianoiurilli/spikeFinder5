@@ -4,6 +4,12 @@ stringa{2} = 'responses_3mediumlow.mat';
 stringa{3} = 'responses_3medium.mat';
 stringa{4} = 'responses_3mediumhigh.mat';
 stringa{5} = 'responses_3high.mat';
+
+% stringa{1} = 'baselines_3low.mat';
+% stringa{2} = 'baselines_3mediumlow.mat';
+% stringa{3} = 'baselines_3medium.mat';
+% stringa{4} = 'baselines_3mediumhigh.mat';
+% stringa{5} = 'baselines_3high.mat';
 %%
 dist4 = [];
 dist300 = [];
@@ -14,7 +20,7 @@ for idxConc = 1:5
         BBB = responses4MinusMean(trackExperiment4(:,1)==idxExp,:); %controllare dove va l'indice
         BBB = BBB';
         %BBB = bsxfun(@minus, BBB, nanmean(BBB)) ./  repmat(diag(sqrt(BBB'*BBB))', 3,1);
-        %BBB = zscore(BBB);
+        BBB = zscore(BBB);
         
         % n_rep = 500;
         % for idxRep = 1:n_rep
@@ -27,10 +33,10 @@ for idxConc = 1:5
         app = nanmean(pdist(BBB, 'correlation'));
         dist4(idxExp) = app;
         
-        BBB = responses300MinusMean(trackExperiment300(:,1)==idxExp,:); %controllare dove va l'indice;
+        BBB = responses300(trackExperiment300(:,1)==idxExp,:); %controllare dove va l'indice;
         BBB = BBB';
         %BBB = bsxfun(@minus, BBB, nanmean(BBB)) ./  repmat(diag(sqrt(BBB'*BBB))', 3,1);
-        %BBB = zscore(BBB);
+        BBB = zscore(BBB);
 
         % n_rep = 500;
         % for idxRep = 1:n_rep

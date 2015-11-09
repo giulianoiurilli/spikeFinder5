@@ -4,17 +4,17 @@
 saveR(1)    = 0;   %odorsRearranged = 1:15; %15 odors
 saveR(2)    = 0;   %odorsRearranged = [8, 9, 10, 11, 12, 13, 14]; %7 odors high
 saveR(3)    = 0;   %odorsRearranged = [1,2,3,4,5,6,7]; %7 odors low
-saveR(4)    = 0;   %odorsRearranged = [12 13 14 15 1]; %3 odors pen
-saveR(5)    = 0;   %odorsRearranged = [2 3 4 5 6]; %3 odors iaa
-saveR(6)    = 0;   %odorsRearranged = [7 8 9 10 11]; %3 odors etg
-saveR(7)    = 0;   %odorsRearranged = [1 6 11]; %3 odors high
-saveR(8)    = 0;   %odorsRearranged = [15 5 10]; %3 odors medium-high
-saveR(9)    = 0;   %odorsRearranged = [14 4 9]; %3 odors medium
-saveR(10)   = 0;   %odorsRearranged = [13 3 8]; %3 odors medium-low
-saveR(11)   = 0;   %odorsRearranged = [12 2 7]; %3 odors low
-saveR(12)   = 0;   %odorsRearranged  = [12 13 14 15 1 2 3 4 5 6 7 8 9 10 11];
+saveR(4)    = 1;   %odorsRearranged = [12 13 14 15 1]; %3 odors pen
+saveR(5)    = 1;   %odorsRearranged = [2 3 4 5 6]; %3 odors iaa
+saveR(6)    = 1;   %odorsRearranged = [7 8 9 10 11]; %3 odors etg
+saveR(7)    = 1;   %odorsRearranged = [1 6 11]; %3 odors high
+saveR(8)    = 1;   %odorsRearranged = [15 5 10]; %3 odors medium-high
+saveR(9)    = 1;   %odorsRearranged = [14 4 9]; %3 odors medium
+saveR(10)   = 1;   %odorsRearranged = [13 3 8]; %3 odors medium-low
+saveR(11)   = 1;   %odorsRearranged = [12 2 7]; %3 odors low
+saveR(12)   = 1;   %odorsRearranged  = [12 13 14 15 1 2 3 4 5 6 7 8 9 10 11];
 %{"TMT", "MMB", "2MB", "2PT", "IAA", "PET", "BTN", "GER", "PB", "URI", "G&B", "B&P", "T&B", "TMM", "TMB"};
-saveR(13)   = 1;   %odorsRearranged = [1 2 3 4 5 6 7 8 9 10]; %aveatt
+saveR(13)   = 0;   %odorsRearranged = [1 2 3 4 5 6 7 8 9 10]; %aveatt
 saveR(14)   = 0;   %odorsRearranged = [7 11 12 13]; %aveatt mix butanedione
 saveR(15)   = 0;   %odorsRearranged = [1 13 14 15]; %mixTMT
  
@@ -98,7 +98,7 @@ for idx2Save = toBeSaved
     info300 = zeros(responsiveUnit300ms, 1);
     
     responses4AllTrials = zeros(responsiveUnit4cycles, n_trials, odors);
-    responses300AllTrials = zeros(responsiveUnit300ms, n_trials, odors);
+    responses300AllTrials = zeros(responsiveUnit300ms, n_teials, odors);
     
     idxCell4 = 0;
     idxCell300 = 0;
@@ -128,7 +128,7 @@ for idx2Save = toBeSaved
                         trackExperiment4(idxCell4,[1,2]) = [idxExp, idxShank];
                         responses4MinusMean(idxCell4, idxO) = mean(exp(idxExp).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).fourCyclesAnalogicResponse) - ...
                             mean(exp(idxExp).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).fourCyclesAnalogicBsl);
-                        responses4AllTrials(idxCell4,:, idxO) = exp(idxExp).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).fourCyclesAnalogicResponse';
+                        responses4AllTrials(idxCell4,:, idxO)
                         
                     end
                     info4(idxCell4) = exp(idxExp).shankWarp(idxShank).cell(idxUnit).I4Cycles;
@@ -143,7 +143,6 @@ for idx2Save = toBeSaved
 %                                 responses300(idxCell300, idxO) = mean(exp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl300ms);
                         responses300MinusMean(idxCell300, idxO) = mean(exp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms) - ...
                             mean(exp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl300ms);
-                        responses300AllTrials(idxCell300, :, idxO) = exp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms;
                     end
                     info300(idxCell300) = exp(idxExp).shankNowarp(idxShank).cell(idxUnit).I300ms;
                 end
@@ -151,5 +150,5 @@ for idx2Save = toBeSaved
         end
     end
     
-    save(['responses_' tags(idx2Save).caz '.mat'], 'responses4MinusMean', 'responses300MinusMean','responses4', 'responses300', 'info4', 'info300','trackExperiment4','trackExperiment300', 'responses4AllTrials', 'responses300AllTrials')
+    save(['responses_' tags(idx2Save).caz '.mat'], 'responses4MinusMean', 'responses300MinusMean','responses4', 'responses300', 'info4', 'info300','trackExperiment4','trackExperiment300')
 end

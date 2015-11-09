@@ -1,4 +1,4 @@
-listOdors = [12 2 7; 13 3 8; 14 4 9; 15 5 10; 1 6 11];
+listOdors = [1 2 3 4; 6 7 8 9];
     
 for idxExp = 1: length(exp) %- 1
     %initialize:
@@ -11,10 +11,12 @@ for idxExp = 1: length(exp) %- 1
             cells = cells + 1;
         end
     end
-    excP300ms = zeros(cells,5,3);
-    inhP300ms = zeros(cells,5,3);
-    excP4Cycles = zeros(cells,5,3);
-    inhP4Cycles = zeros(cells,5,3);
+    excP300ms = zeros(cells,2,4);
+    inhP300ms = zeros(cells,2,4);
+    excP4Cycles = zeros(cells,2,4);
+    inhP4Cycles = zeros(cells,2,4);
+    excP4CyclesResp = zeros(cells,2,4);
+    excP300msResp = zeros(cells,2,4);
     
  
     for idxShank = 1:4
@@ -23,31 +25,37 @@ for idxExp = 1: length(exp) %- 1
             idxCell300 = idxCell300 + 1;
             
             
-            for idxConc = 1:5
-                odorsToUse = listOdors(idxConc,:);
+            for idxValence = 1:2
+                odorsToUse = listOdors(idxValence,:);
                 
                 idxO = 0;
                 for idxOdor = odorsToUse
                     idxO = idxO + 1;
                     if (exp(idxExp).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).fourCyclesDigitalResponse == 1) && (exp(idxExp).shankWarp(idxShank).cell(idxUnit).keepUnit == 1)
-                        excP4Cycles(idxCell4, idxConc, idxO) = 1;
+                        excP4Cycles(idxCell4, idxValence, idxO) = 1;
+                        excP4CyclesResp(idxCell4, idxValence, idxO) = mean(exp(idxExp).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).fourCyclesAnalogicResponse) -...
+                            mean(exp(idxExp).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).fourCyclesAnalogicBsl);
                     else
-                        excP4Cycles(idxCell4, idxConc, idxO) = 0;
+                        excP4Cycles(idxCell4, idxValence, idxO) = 0;
+                        excP4CyclesResp(idxCell4, idxValence, idxO) = 0;
                     end
                     if (exp(idxExp).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).fourCyclesDigitalResponse == -1) && (exp(idxExp).shankWarp(idxShank).cell(idxUnit).keepUnit == 1)
-                        inhP4Cycles(idxCell4, idxConc, idxO) = 1;
+                        inhP4Cycles(idxCell4, idxValence, idxO) = 1;
                     else
-                        inhP4Cycles(idxCell4, idxConc, idxO) = 0;
+                        inhP4Cycles(idxCell4, idxValence, idxO) = 0;
                     end
                     if (exp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse300ms == 1) && (exp(idxExp).shankNowarp(idxShank).cell(idxUnit).keepUnit == 1)
-                        excP300ms(idxCell300, idxConc, idxO) = 1;
+                        excP300ms(idxCell300, idxValence, idxO) = 1;
+                        excP300msResp(idxCell4, idxValence, idxO) = mean(exp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms) -...
+                            mean(exp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl300ms);
                     else
-                        excP300ms(idxCell300, idxConc, idxO) = 0;
+                        excP300ms(idxCell300, idxValence, idxO) = 0;
+                        excP300msResp(idxCell4, idxValence, idxO) = 0;
                     end
                     if (exp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse300ms == -1) && (exp(idxExp).shankNowarp(idxShank).cell(idxUnit).keepUnit == 1)
-                        inhP300ms(idxCell300, idxConc, idxO) = 1;
+                        inhP300ms(idxCell300, idxValence, idxO) = 1;
                     else
-                        inhP300ms(idxCell300, idxConc, idxO) = 0;
+                        inhP300ms(idxCell300, idxValence, idxO) = 0;
                     end
                 end
             end
@@ -57,16 +65,35 @@ for idxExp = 1: length(exp) %- 1
     atLeastOneI4_temp = mean(inhP4Cycles,3);
     atLeastOneE300_temp = mean(excP300ms,3);
     atLeastOneI300_temp = mean(inhP300ms,3);
+    P4Resp = squeeze(sum(excP4CyclesResp, 3));
+    P300Resp = squeeze(sum(excP300msResp,3));
     
     atLeastOneE4 = atLeastOneE4_temp > 0;
     pRespondingCells(idxExp).atLeastOneE4 = mean(atLeastOneE4, 1)*100;
+    pRespondingCells(idxExp).atLeastOneE4Resp = P4Resp;
+    
     atLeastOneI4 = atLeastOneI4_temp > 0;
     pRespondingCells(idxExp).atLeastOneI4 = mean(atLeastOneI4)*100;
+    
     atLeastOneE300 = atLeastOneE300_temp > 0;
     pRespondingCells(idxExp).atLeastOneE300 = mean(atLeastOneE300)*100;
+    pRespondingCells(idxExp).atLeastOneE300Resp = P300Resp;
+    
     atLeastOneI300 = atLeastOneI300_temp > 0;
     pRespondingCells(idxExp).atLeastOneI300 = mean(atLeastOneI300)*100;
 end
+
+respondingCellsPapcx = pRespondingCells;
+save('respCellsPplCOA.mat', 'respondingCellsPplcoa');
+
+%%
+x = cat(1,pRespondingCells.atLeastOneE4Resp);
+xzeros = sum(x,2);
+x(xzeros==0,:) = [];
+figure;
+scatter(x(:,1),x(:,2), 'filled')
+axis square
+
  
  
  
