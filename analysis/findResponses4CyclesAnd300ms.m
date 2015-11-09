@@ -96,7 +96,11 @@ end
 
 cd(startingFolder)
 clearvars -except List exp
+<<<<<<< HEAD
 save('plCoA_concseries_Area.mat', 'exp', '-append')
+=======
+save('aPCx_concseries_Area.mat', 'exp', '-append')
+>>>>>>> origin/master
 
 
 
