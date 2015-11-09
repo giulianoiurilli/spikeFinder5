@@ -1,5 +1,5 @@
     dataAll = [];
-    dataAll = responses300AllTrials(:,:,5:8);
+    dataAll = responses1000AllTrials(:,:,;
     neurons = size(dataAll,1);
     trials = size(dataAll,2);
     stimuli = size(dataAll,3);

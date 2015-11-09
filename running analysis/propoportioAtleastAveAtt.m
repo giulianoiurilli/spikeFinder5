@@ -4,6 +4,7 @@ for idxExp = 1: length(exp) %- 1
     %initialize:
     idxCell4 = 0;
     idxCell300 = 0;
+    idxCell1000 = 0;
     cells = 0;
     %count total number of cells across shanks per experiment:
     for idxShank = 1:4
@@ -12,17 +13,20 @@ for idxExp = 1: length(exp) %- 1
         end
     end
     excP300ms = zeros(cells,2,4);
+    excP1000ms = zeros(cells,2,4);
     inhP300ms = zeros(cells,2,4);
     excP4Cycles = zeros(cells,2,4);
     inhP4Cycles = zeros(cells,2,4);
     excP4CyclesResp = zeros(cells,2,4);
     excP300msResp = zeros(cells,2,4);
+    auROC1s = zeros(cells,2,4);
     
  
     for idxShank = 1:4
         for idxUnit = 1:length(exp(idxExp).shankWarp(idxShank).cell)
             idxCell4 = idxCell4 + 1;
             idxCell300 = idxCell300 + 1;
+            idxCell1000 = idxCell1000 + 1;
             
             
             for idxValence = 1:2
@@ -57,6 +61,11 @@ for idxExp = 1: length(exp) %- 1
                     else
                         inhP300ms(idxCell300, idxValence, idxO) = 0;
                     end
+                    if (exp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == -1) && (exp(idxExp).shankNowarp(idxShank).cell(idxUnit).keepUnit == 1)
+                        excP1000ms(idxCell1000, idxValence, idxO) = 1;
+                    else
+                        auROC1s(idxCell1000, idxValence, idxO) = exp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC1000ms;
+                    end
                 end
             end
         end
@@ -67,10 +76,12 @@ for idxExp = 1: length(exp) %- 1
     atLeastOneI300_temp = mean(inhP300ms,3);
     P4Resp = squeeze(sum(excP4CyclesResp, 3));
     P300Resp = squeeze(sum(excP300msResp,3));
+    au1s = squeeze(sum(auROC1s,3));
     
     atLeastOneE4 = atLeastOneE4_temp > 0;
     pRespondingCells(idxExp).atLeastOneE4 = mean(atLeastOneE4, 1)*100;
     pRespondingCells(idxExp).atLeastOneE4Resp = P4Resp;
+    pRespondingCells(idxExp).atLeastOneE1000auROC = au1s;
     
     atLeastOneI4 = atLeastOneI4_temp > 0;
     pRespondingCells(idxExp).atLeastOneI4 = mean(atLeastOneI4)*100;
@@ -84,10 +95,10 @@ for idxExp = 1: length(exp) %- 1
 end
 
 respondingCellsPplcoa = pRespondingCells;
-save('respCellsPplCOA.mat', 'respondingCellsPplcoa');
+save('respCellsPplcoaAveAtt.mat', 'respondingCellsPplcoa');
 
 %%
-x = cat(1,pRespondingCells.atLeastOneE4Resp);
+x = cat(1,pRespondingCells.atLeastOneE1000auROC);
 xzeros = sum(x,2);
 x(xzeros==0,:) = [];
 figure;
