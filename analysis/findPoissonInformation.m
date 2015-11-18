@@ -1,6 +1,6 @@
 startingFolder = pwd;
 %for idxExp = 1 : length(List)
-for idxExp =  1:length(exp)
+for idxExp =  1:length(exp) 
     for idxShank = 1:4
         for idxUnit = 1:length(exp(idxExp).shankWarp(idxShank).cell)
             A = zeros(n_trials, odors);
@@ -15,4 +15,4 @@ for idxExp =  1:length(exp)
 end
 cd(startingFolder)
 clearvars -except List exp
-save('aPCx_2conc_Area.mat', 'exp', '-append')
+save('plCoA_aveatt_Area.mat', 'exp', '-append')
