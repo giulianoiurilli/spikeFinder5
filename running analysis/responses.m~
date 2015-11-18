@@ -69,7 +69,6 @@ baseline300 = zeros(responsiveUnit300ms, odors);
 variance300 = zeros(responsiveUnit300ms, odors);
 info300 = zeros(responsiveUnit300ms, 1);
 ls300 = zeros(responsiveUnit300ms, 1); 
-fanoFactor300 = zeros(responsiveUnit300ms, 1); 
 
 responses1 = zeros(responsiveUnit1s, odors);
 responses1MinusMean = zeros(responsiveUnit1s, odors);
@@ -78,7 +77,6 @@ baseline1 = zeros(responsiveUnit1s, odors);
 variance1 = zeros(responsiveUnit1s, odors);
 info1 = zeros(responsiveUnit1s, 1);
 ls1 = zeros(responsiveUnit1s, 1);
-fanoFactor1 = zeros(responsiveUnit1s, 1);
 
 idxCell4 = 0;
 idxCell300 = 0;
@@ -130,11 +128,6 @@ for idxExp = 1: length(exp) %- 1
                 end
                 info300(idxCell300) = exp(idxExp).shankNowarp(idxShank).cell(idxUnit).I300ms; 
                 ls300(idxCell300) = lifetime_sparseness(responses300(idxCell300, idxO),1, size(responses300,2));
-                boxWidth = 300;
-                weightingEpsilon = 1 * boxWidth/1000;
-                regWeights = n_trials ./ (responses300(idxCell300, :) + weightingEpsilon) .^ 2;
-                [B, stdB] = lscov(responses300(idxCell300, :)', variance300(idxCell300, :)', regWeights);
-                fanoFactor300(idxCell300) = B;
             end
             if sum(responsivenessExc1s + responsivenessInh1s) > 0  %&& (exp(idxExp).shankNowarp(idxShank).cell(idxUnit).keepUnit == 1)
                 idxCell1 = idxCell1 + 1;
@@ -153,9 +146,6 @@ for idxExp = 1: length(exp) %- 1
                 ls1(idxCell1) = lifetime_sparseness(responses1(idxCell1, idxO),1, size(responses1,2));
                 boxWidth = 1000;
                 weightingEpsilon = 1 * boxWidth/1000;
-                regWeights = n_trials ./ (responses1(idxCell1, :) + weightingEpsilon) .^ 2;
-                [B, stdB] = lscov(responses1(idxCell1, :)', variance1(idxCell1, :)', regWeights);
-                fanoFactor1(idxCell1) = B;
             end
         end
     end
