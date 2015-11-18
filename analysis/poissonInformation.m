@@ -1,4 +1,4 @@
- function I = poissonInformation(A) 
+function I = poissonInformation(A) 
 
 Aall = reshape(A, size(A,1)*size(A,2), 1);
 
