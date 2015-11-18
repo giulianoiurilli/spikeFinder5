@@ -8,6 +8,12 @@ for idxExp = 1: length(exp) %- 1
 end
 
 %%
+odorsRearranged = 1:15; %15 odors
+%odorsRearranged = [1,2,3,4,5,6,7]; %7 odors low
+%odorsRearranged = [8, 9, 10, 11, 12, 13, 14]; %7 odors high
+
+odors = length(odorsRearranged);
+
 responses300ms = zeros(cells, odors);
 responses4Cycles = zeros(cells, odors);
 idxCell = 0;
@@ -15,18 +21,20 @@ for idxExp = 1: length(exp) %- 1
     for idxShank = 1:4
         for idxUnit = 1:length(exp(idxExp).shankWarp(idxShank).cell)
             idxCell = idxCell + 1;
-            for idxOdor = 1:odors
+            idxO = 0;
+            for idxOdor = odorsRearranged
+                idxO = idxO + 1;
                 if exp(idxExp).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).fourCyclesDigitalResponse == 1
-                    responses4Cycles(idxCell, idxOdor) = mean(exp(idxExp).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).fourCyclesAnalogicResponse) - ...
+                    responses4Cycles(idxCell, idxO) = mean(exp(idxExp).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).fourCyclesAnalogicResponse) - ...
                     mean(exp(idxExp).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).fourCyclesAnalogicBsl);
                 else
-                    responses4Cycles(idxCell, idxOdor) = 0;
+                    responses4Cycles(idxCell, idxO) = 0;
                 end
                 if exp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse300ms == 1
-                    responses300ms(idxCell, idxOdor) = mean(exp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms) - ...
+                    responses300ms(idxCell, idxO) = mean(exp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms) - ...
                     mean(exp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl300ms);
                 else
-                    responses300ms(idxCell, idxOdor) = 0;
+                    responses300ms(idxCell, idxO) = 0;
                 end
             end
         end
@@ -92,6 +100,9 @@ h1.EdgeColor = [213 62 79]/255;
 axis tight
 set(gca,'FontName','Arial','Fontsize',11,'FontWeight','normal','TickDir','out','Box','off');
 title('lifetime sparseness  - first 300 ms')
+
+
+
 
 
 %%

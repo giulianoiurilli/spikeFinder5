@@ -33,8 +33,8 @@ for idxExp = 1: length(exp) %- 1
     for idxShank = 1:4
         idxCell4Cycles = 0;
         idxCell300ms = 0;
-        tuningCell4Cycles(idxShank).shank = zeros(responsiveUnit4Cycles, odors);
-        tuningCell300ms(idxShank).shank = zeros(responsiveUnit300ms, odors);
+        tuningCell4Cycles(idxShank).shank = [];
+        tuningCell300ms(idxShank).shank = [];
         for idxUnit = 1:length(exp(idxExp).shankWarp(idxShank).cell)
             responsivenessExc4Cycles = zeros(1,odors);
             responsivenessInh4Cycles = zeros(1,odors);
@@ -64,21 +64,36 @@ for idxExp = 1: length(exp) %- 1
         end
         % sigCorr W 4Cycles
         if size(tuningCell4Cycles(idxShank).shank,1) > 1;
-            tuningCell4Cycles(idxShank).shank = tuningCell4Cycles(idxShank).shank';
-            tuningCell4Cycles(idxShank).shank = zscore(tuningCell4Cycles(idxShank).shank);
-            tuningCell4Cycles(idxShank).shank = tuningCell4Cycles(idxShank).shank';
+            %             tuningCell4Cycles(idxShank).shank = tuningCell4Cycles(idxShank).shank';
+            %             tuningCell4Cycles(idxShank).shank = zscore(tuningCell4Cycles(idxShank).shank);
+            %             tuningCell4Cycles(idxShank).shank = tuningCell4Cycles(idxShank).shank';
+            %             rho = [];
+            %             rho = pdist(tuningCell4Cycles(idxShank).shank, 'correlation');
+            
+            app = [];
+            app = tuningCell4Cycles(idxShank).shank;
+            app = app';
+            app = zscore(app);
+            app = app';
             rho = [];
-            rho = pdist(tuningCell4Cycles(idxShank).shank, 'correlation');
+            rho = pdist(app, 'correlation');
             rho = 1 - rho;
             sigCorrW4Cycles = [sigCorrW4Cycles rho];
         end 
         % sigCorr W 300ms
         if size(tuningCell300ms(idxShank).shank,1) > 1;
-            tuningCell300ms(idxShank).shank = tuningCell300ms(idxShank).shank';
-            tuningCell300ms(idxShank).shank = zscore(tuningCell300ms(idxShank).shank);
-            tuningCell300ms(idxShank).shank = tuningCell300ms(idxShank).shank';
+%             tuningCell300ms(idxShank).shank = tuningCell300ms(idxShank).shank';
+%             tuningCell300ms(idxShank).shank = zscore(tuningCell300ms(idxShank).shank);
+%             tuningCell300ms(idxShank).shank = tuningCell300ms(idxShank).shank';
+%             rho = [];
+%             rho = pdist(tuningCell300ms(idxShank).shank, 'correlation');
+            app = [];
+            app = tuningCell300ms(idxShank).shank;
+            app = app';
+            app = zscore(app);
+            app = app';
             rho = [];
-            rho = pdist(tuningCell300ms(idxShank).shank, 'correlation');
+            rho = pdist(app, 'correlation');
             rho = 1 - rho;
             sigCorrW300ms = [sigCorrW300ms rho];
         end 
@@ -86,7 +101,7 @@ for idxExp = 1: length(exp) %- 1
     % sigCorr B 4Cycles
     for probe = 1:3
         for next = probe+1 : 4
-            if (size(tuningCell4Cycles(probe).shank,1) >= 1) && (size(tuningCell4Cycles(next).shank,1) >= 1)
+            if (size(tuningCell4Cycles(probe).shank,1) > 1) && (size(tuningCell4Cycles(next).shank,1) > 1)
                 app = corr(tuningCell4Cycles(probe).shank', tuningCell4Cycles(next).shank');
                 index = find(triu(ones(size(app))));
                 appp = app(index);
@@ -105,7 +120,7 @@ for idxExp = 1: length(exp) %- 1
     % sigCorr B 300ms
     for probe = 1:3
         for next = probe+1 : 4
-            if (size(tuningCell300ms(probe).shank,1) >= 1) && (size(tuningCell300ms(next).shank,1) >= 1)
+            if (size(tuningCell300ms(probe).shank,1) > 1) && (size(tuningCell300ms(next).shank,1) > 1)
                 app = corr(tuningCell300ms(probe).shank', tuningCell300ms(next).shank');
                 index = find(triu(ones(size(app))));
                 appp = app(index);

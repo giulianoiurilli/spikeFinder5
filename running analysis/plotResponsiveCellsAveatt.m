@@ -8,9 +8,9 @@ set(gcf,'Position',[497 246 1102 748]);
 
 hold on
 Exp_E4aPCx = cat(1,respondingCellsPapcx.atLeastOneE4);
-errorbar(xValence, mean(Exp_E4aPCx,1), std(Exp_E4aPCx)/sqrt(size(Exp_E4aPCx,1)), 'color', [26, 152, 80]/255)
-Exp_E4plCOA = cat(1,respondingCellsPplCOA .atLeastOneE4);
-errorbar(xValence, mean(Exp_E4plCOA,1), std(Exp_E4plCOA)/sqrt(size(Exp_E4plCOA,1)), 'color', [215, 48, 39]/255)
+errorbar(xValence, mean(Exp_E4aPCx,1), std(Exp_E4aPCx)/sqrt(size(Exp_E4aPCx,1)), 'k')
+Exp_E4plCOA = cat(1,respondingCellsPplcoa .atLeastOneE4);
+errorbar(xValence, mean(Exp_E4plCOA,1), std(Exp_E4plCOA)/sqrt(size(Exp_E4plCOA,1)), 'r')
 
 title({'Exc 4 cycles';'percentage of responding cells  for each experiment'})
 axis tight
@@ -26,9 +26,9 @@ set(gcf,'Position',[497 246 1102 748]);
 
 hold on
 Exp_I4aPCx = cat(1,respondingCellsPapcx.atLeastOneI4);
-errorbar(xValence, mean(Exp_I4aPCx,1), std(Exp_I4aPCx)/sqrt(size(Exp_I4aPCx,1)), 'color', [26, 152, 80]/255)
-Exp_I4plCOA = cat(1,respondingCellsPplCOA .atLeastOneI4);
-errorbar(xValence, mean(Exp_I4plCOA,1), std(Exp_I4plCOA)/sqrt(size(Exp_I4plCOA,1)), 'color', [215, 48, 39]/255)
+errorbar(xValence, mean(Exp_I4aPCx,1), std(Exp_I4aPCx)/sqrt(size(Exp_I4aPCx,1)), 'k')
+Exp_I4plCOA = cat(1,respondingCellsPplcoa .atLeastOneI4);
+errorbar(xValence, mean(Exp_I4plCOA,1), std(Exp_I4plCOA)/sqrt(size(Exp_I4plCOA,1)), 'r')
 
 title({'Inh 4 cycles';'percentage of responding cells  for each experiment'})
 axis tight
@@ -44,9 +44,9 @@ set(gcf,'Position',[497 246 1102 748]);
 
 hold on
 Exp_E300aPCx = cat(1,respondingCellsPapcx.atLeastOneE300);
-errorbar(xValence, mean(Exp_E300aPCx,1), std(Exp_E300aPCx)/sqrt(size(Exp_E300aPCx,1)), 'color', [26, 152, 80]/255)
-Exp_E300plCOA = cat(1,respondingCellsPplCOA .atLeastOneE300);
-errorbar(xValence, mean(Exp_E300plCOA,1), std(Exp_E300plCOA)/sqrt(size(Exp_E300plCOA,1)), 'color', [215, 48, 39]/255)
+errorbar(xValence, mean(Exp_E300aPCx,1), std(Exp_E300aPCx)/sqrt(size(Exp_E300aPCx,1)), 'k')
+Exp_E300plCOA = cat(1,respondingCellsPplcoa .atLeastOneE300);
+errorbar(xValence, mean(Exp_E300plCOA,1), std(Exp_E300plCOA)/sqrt(size(Exp_E300plCOA,1)), 'r')
 
 title({'Exc 300 ms';'percentage of responding cells  for each experiment'})
 axis tight
@@ -62,9 +62,9 @@ set(gcf,'Position',[497 246 1102 748]);
 
 hold on
 Exp_I300aPCx = cat(1,respondingCellsPapcx.atLeastOneI300);
-errorbar(xValence, mean(Exp_I300aPCx,1), std(Exp_I300aPCx)/sqrt(size(Exp_I300aPCx,1)), 'color', [26, 152, 80]/255)
-Exp_I300plCOA = cat(1,respondingCellsPplCOA .atLeastOneI300);
-errorbar(xValence, mean(Exp_I300plCOA,1), std(Exp_I300plCOA)/sqrt(size(Exp_I300plCOA,1)), 'color', [215, 48, 39]/255)
+errorbar(xValence, mean(Exp_I300aPCx,1), std(Exp_I300aPCx)/sqrt(size(Exp_I300aPCx,1)), 'k')
+Exp_I300plCOA = cat(1,respondingCellsPplcoa .atLeastOneI300);
+errorbar(xValence, mean(Exp_I300plCOA,1), std(Exp_I300plCOA)/sqrt(size(Exp_I300plCOA,1)), 'r')
 
 title({'Inh 300 ms';'percentage of responding cells  for each experiment'})
 axis tight

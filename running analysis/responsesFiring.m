@@ -427,6 +427,12 @@ set(gca,'FontName','Arial','Fontsize',12,'FontWeight','normal','TickDir','out','
 title('spike count vs peak latency vs half width response - first 300 ms')
 
 
+%%
+save('responseFiring.mat', 'peakLat', 'hWidth', 'excFanoRsp300ms', 'excFanoRsp4cycles', 'excMeanRsp300ms', 'excVarRsp300ms', 'excMeanRsp4cycles', 'excVarRsp4cycles',...
+    'excAuRoc300ms', 'inhAuRoc300ms', 'excAuRoc4cycles', 'inhAuRoc4cycles', 'allUnits', 'excDeltaSpikes4cycles', 'inhDeltaSpikes4cycles', 'excDeltaSpikes300ms', 'inhDeltaSpikes300ms') 
+close all
+
+
 
 
 

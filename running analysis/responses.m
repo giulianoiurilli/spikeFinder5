@@ -1,5 +1,5 @@
 %%
-%odorsRearranged = 1:15; %15 odors
+odorsRearranged = 1:15; %15 odors
 %odorsRearranged = [8, 9, 10, 11, 12, 13, 14]; %7 odors high
 %odorsRearranged = [1,2,3,4,5,6,7]; %7 odors low
 %odorsRearranged = [12 13 14 15 1]; %3 odors pen
@@ -12,7 +12,7 @@
 %odorsRearranged = [12 2 7]; %3 odors low
 %odorsRearranged  = [12 13 14 15 1 2 3 4 5 6 7 8 9 10 11];
 %{"TMT", "MMB", "2MB", "2PT", "IAA", "PET", "BTN", "GER", "PB", "URI", "G&B", "B&P", "T&B", "TMM", "TMB"};
-odorsRearranged = [1 2 3 4  6 7 8 9]; %aveatt
+%odorsRearranged = [1 2 3 4  6 7 8 9]; %aveatt
 %odorsRearranged = [7 11 12 13]; %aveatt mix butanedione
 %odorsRearranged = [1 13 14 15]; %mixTMT
 
@@ -43,13 +43,13 @@ for idxExp = 1: length(exp) %- 1
                 responsivenessExc1s(idxO) = exp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1;
                 responsivenessInh1s(idxO) = exp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == -1;
             end
-            if sum(responsivenessExc4cycles + responsivenessInh4cycles) > 0 && (exp(idxExp).shankWarp(idxShank).cell(idxUnit).keepUnit == 1)
+            if sum(responsivenessExc4cycles + responsivenessInh4cycles) > 0 %&& (exp(idxExp).shankWarp(idxShank).cell(idxUnit).keepUnit == 1)
                 responsiveUnit4cycles = responsiveUnit4cycles + 1;
             end
-            if sum(responsivenessExc300ms + responsivenessInh300ms) > 0 && (exp(idxExp).shankNowarp(idxShank).cell(idxUnit).keepUnit == 1)
+            if sum(responsivenessExc300ms + responsivenessInh300ms) > 0 %&& (exp(idxExp).shankNowarp(idxShank).cell(idxUnit).keepUnit == 1)
                 responsiveUnit300ms = responsiveUnit300ms + 1;
             end
-            if sum(responsivenessExc1s + responsivenessInh1s) > 0 && (exp(idxExp).shankNowarp(idxShank).cell(idxUnit).keepUnit == 1)
+            if sum(responsivenessExc1s + responsivenessInh1s) > 0 %&& (exp(idxExp).shankNowarp(idxShank).cell(idxUnit).keepUnit == 1)
                 responsiveUnit1s = responsiveUnit1s + 1;
             end
         end
@@ -69,6 +69,7 @@ responses300AllTrials = zeros(responsiveUnit300ms, n_trials, odors);
 responses1 = zeros(responsiveUnit1s, odors);
 responses1MinusMean = zeros(responsiveUnit1s, odors);
 responses1AllTrials = zeros(responsiveUnit1s, n_trials, odors);
+info1 = zeros(responsiveUnit1s, 1);
 
 idxCell4 = 0;
 idxCell300 = 0;
@@ -92,7 +93,7 @@ for idxExp = 1: length(exp) %- 1
                 responsivenessExc1s(idxO) = exp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1;
                 responsivenessInh1s(idxO) = exp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == -1;
             end
-            if sum(responsivenessExc4cycles + responsivenessInh4cycles) > 0 && (exp(idxExp).shankWarp(idxShank).cell(idxUnit).keepUnit == 1)
+            if sum(responsivenessExc4cycles + responsivenessInh4cycles) > 0 %&& (exp(idxExp).shankWarp(idxShank).cell(idxUnit).keepUnit == 1)
                 idxCell4 = idxCell4 + 1;
                 idxO = 0;
                 for idxOdor = odorsRearranged
@@ -105,7 +106,7 @@ for idxExp = 1: length(exp) %- 1
                 end
                 info4(idxCell4) = exp(idxExp).shankWarp(idxShank).cell(idxUnit).I4Cycles;    
             end
-            if sum(responsivenessExc300ms + responsivenessInh300ms) > 0  && (exp(idxExp).shankNowarp(idxShank).cell(idxUnit).keepUnit == 1)
+            if sum(responsivenessExc300ms + responsivenessInh300ms) > 0  %&& (exp(idxExp).shankNowarp(idxShank).cell(idxUnit).keepUnit == 1)
                 idxCell300 = idxCell300 + 1;
                 idxO = 0;
                 for idxOdor = odorsRearranged
@@ -114,10 +115,11 @@ for idxExp = 1: length(exp) %- 1
                     responses300MinusMean(idxCell300, idxO) = mean(exp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms) - ...
                         mean(exp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl300ms);
                     responses300AllTrials(idxCell300, :, idxO) = exp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms;
+                    
                 end
                 info300(idxCell300) = exp(idxExp).shankNowarp(idxShank).cell(idxUnit).I300ms;   
             end
-            if sum(responsivenessExc1s + responsivenessInh1s) > 0  && (exp(idxExp).shankNowarp(idxShank).cell(idxUnit).keepUnit == 1)
+            if sum(responsivenessExc1s + responsivenessInh1s) > 0  %&& (exp(idxExp).shankNowarp(idxShank).cell(idxUnit).keepUnit == 1)
                 idxCell1 = idxCell1 + 1;
                 idxO = 0;
                 for idxOdor = odorsRearranged

@@ -1,7 +1,7 @@
 function ls = lifetime_sparseness(rspIntensity, num, odors);
 
 rspIntensity(rspIntensity(:)<0) = 0;
-
+ls = zeros(1,num);
 for k = 1:num
     a = 0;
     b = 0;

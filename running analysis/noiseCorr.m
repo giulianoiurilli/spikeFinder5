@@ -33,8 +33,8 @@ for idxExp = 1: length(exp) %- 1
     for idxShank = 1:4
         idxCell4Cycles = 0;
         idxCell300ms = 0;
-        tuningCell4Cycles(idxShank).shank = zeros(responsiveUnit4Cycles,n_trials, odors);
-        tuningCell300ms(idxShank).shank = zeros(responsiveUnit300ms,n_trials, odors);
+        tuningCell4Cycles(idxShank).shank = [];
+        tuningCell300ms(idxShank).shank = [];
         for idxUnit = 1:length(exp(idxExp).shankWarp(idxShank).cell)
             responsivenessExc4Cycles = zeros(1,odors);
             responsivenessInh4Cycles = zeros(1,odors);
@@ -50,14 +50,16 @@ for idxExp = 1: length(exp) %- 1
             if sum(responsivenessExc4Cycles + responsivenessInh4Cycles) > 0
                 idxCell4Cycles = idxCell4Cycles + 1;
                 for idxOdor = 1:odors
-                    tuningCell4Cycles(idxShank).shank(idxCell4Cycles,:,idxOdor) = exp(idxExp).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).fourCyclesAnalogicResponse';
+                    tuningCell4Cycles(idxShank).shank(idxCell4Cycles,:,idxOdor) = exp(idxExp).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).fourCyclesAnalogicResponse' -...
+                        exp(idxExp).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).fourCyclesAnalogicBsl';
                 end
             end
             %300 ms
             if sum(responsivenessExc300ms + responsivenessInh300ms) > 0
                 idxCell300ms = idxCell300ms + 1;
                 for idxOdor = 1:odors
-                    tuningCell300ms(idxShank).shank(idxCell300ms,:,idxOdor) = exp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms; 
+                    tuningCell300ms(idxShank).shank(idxCell300ms,:,idxOdor) = exp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms -...
+                        exp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl300ms;
                 end
             end
         end
@@ -87,7 +89,7 @@ for idxExp = 1: length(exp) %- 1
     % sigCorr B 4Cycles
     for probe = 1:3
         for next = probe+1 : 4
-            if (size(tuningCell4Cycles(probe).shank,1) >= 1) && (size(tuningCell4Cycles(next).shank,1) >= 1)
+            if (size(tuningCell4Cycles(probe).shank,1) > 1) && (size(tuningCell4Cycles(next).shank,1) > 1)
                 app = corr(tuningCell4Cycles(probe).shank', tuningCell4Cycles(next).shank');
                 index = find(triu(ones(size(app))));
                 appp = app(index);
@@ -106,7 +108,7 @@ for idxExp = 1: length(exp) %- 1
     % sigCorr B 300ms
     for probe = 1:3
         for next = probe+1 : 4
-            if (size(tuningCell300ms(probe).shank,1) >= 1) && (size(tuningCell300ms(next).shank,1) >= 1)
+            if (size(tuningCell300ms(probe).shank,1) > 1) && (size(tuningCell300ms(next).shank,1) > 1)
                 app = corr(tuningCell300ms(probe).shank', tuningCell300ms(next).shank');
                 index = find(triu(ones(size(app))));
                 appp = app(index);
