@@ -1,11 +1,10 @@
-function ls = lifetime_sparseness(rspIntensity)
+function ls = lifetime_sparseness(rspIntensity,num,odors);
 
 
 
 rspIntensity(rspIntensity(:)<0) = 0;
 rep = 100;
 ls = zeros(1,rep);
-odors = size(rspIntensity,2);
 
 A = rspIntensity;
 
@@ -26,4 +25,4 @@ for idxRep = 1:rep
     ls(rep) = (1 - (a/b)) / (1 - 1/odors);
 end
 
-ls = median(ls);
+ls = median

@@ -136,7 +136,7 @@ end
 
 cd(startingFolder)
 clearvars -except List exp
-save('aPCx_aveatt_Area.mat', 'exp', '-append')
+save('aPCx_15odors_Area.mat', 'exp', '-append')
 
 
 

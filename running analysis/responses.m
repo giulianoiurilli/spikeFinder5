@@ -1,5 +1,5 @@
 %%
-%odorsRearranged = 1:15; %15 odors
+odorsRearranged = 1:15; %15 odors
 %odorsRearranged = [8, 9, 10, 11, 12, 13, 14]; %7 odors high
 %odorsRearranged = [1,2,3,4,5,6,7]; %7 odors low
 %odorsRearranged = [12 13 14 15 1]; %3 odors pen
@@ -129,7 +129,7 @@ for idxExp = 1: length(exp) %- 1
                     
                 end
                 info300(idxCell300) = exp(idxExp).shankNowarp(idxShank).cell(idxUnit).I300ms; 
-                ls300(idxCell300) = lifetime_sparseness(responses300(idxCell300, idxO),1, size(responses300,2));
+                ls300(idxCell300) = lifetime_sparseness(responses300(idxCell300, :));
                 boxWidth = 300;
                 weightingEpsilon = 1 * boxWidth/1000;
                 regWeights = n_trials ./ (responses300(idxCell300, :) + weightingEpsilon) .^ 2;
@@ -150,7 +150,7 @@ for idxExp = 1: length(exp) %- 1
                     
                 end
                 info1(idxCell1) = exp(idxExp).shankNowarp(idxShank).cell(idxUnit).I1s;
-                ls1(idxCell1) = lifetime_sparseness(responses1(idxCell1, idxO),1, size(responses1,2));
+                ls1(idxCell1) = lifetime_sparseness(responses1(idxCell1, :));
                 boxWidth = 1000;
                 weightingEpsilon = 1 * boxWidth/1000;
                 regWeights = n_trials ./ (responses1(idxCell1, :) + weightingEpsilon) .^ 2;
@@ -161,4 +161,4 @@ for idxExp = 1: length(exp) %- 1
     end
 end
 
-save('responsesHigh.mat', 'responses4MinusMean', 'responses300MinusMean','responses4', 'responses300', 'info4', 'info300', 'responses4AllTrials', 'responses300AllTrials', 'responses1', 'responses1MinusMean', 'responses1AllTrials')
+save('responses.mat', 'responses4MinusMean', 'responses300MinusMean','responses4', 'responses300', 'info4', 'info300', 'responses4AllTrials', 'responses300AllTrials', 'responses1', 'responses1MinusMean', 'responses1AllTrials')
