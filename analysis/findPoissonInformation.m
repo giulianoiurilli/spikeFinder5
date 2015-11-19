@@ -21,5 +21,5 @@ toc
 tic
 cd(startingFolder)
 clearvars -except List exp
-save('aPCx_2conc_Area.mat', 'exp', '-append')
+save('aPCx_aveatt_Area.mat', 'exp', '-append')
 toc
