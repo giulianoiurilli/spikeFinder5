@@ -12,6 +12,8 @@ for idxExp =  1:length(exp)
             end
             exp(idxExp).shankNowarp(idxShank).cell(idxUnit).I300ms = poissonInformation(A300ms);
             exp(idxExp).shankNowarp(idxShank).cell(idxUnit).I1s = poissonInformation(A1s);
+            exp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls300ms = lifetime_sparseness(median(A300ms),1,odors);
+            exp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls1s = lifetime_sparseness(median(A1s),1,odors);
         end
     end
 end
@@ -19,5 +21,5 @@ toc
 tic
 cd(startingFolder)
 clearvars -except List exp
-save('plCoA_concseries_Area.mat', 'exp', '-append')
+save('aPCx_2conc_Area.mat', 'exp', '-append')
 toc
