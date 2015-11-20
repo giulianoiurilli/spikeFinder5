@@ -1,5 +1,5 @@
 %%
-odorsRearranged = 1:15; %15 odors
+%odorsRearranged = 1:15; %15 odors
 %odorsRearranged = [8, 9, 10, 11, 12, 13, 14]; %7 odors high
 %odorsRearranged = [1,2,3,4,5,6,7]; %7 odors low
 %odorsRearranged = [12 13 14 15 1]; %3 odors pen
@@ -12,7 +12,7 @@ odorsRearranged = 1:15; %15 odors
 %odorsRearranged = [12 2 7]; %3 odors low
 %odorsRearranged  = [12 13 14 15 1 2 3 4 5 6 7 8 9 10 11];
 %{"TMT", "MMB", "2MB", "2PT", "IAA", "PET", "BTN", "GER", "PB", "URI", "G&B", "B&P", "T&B", "TMM", "TMB"};
-%odorsRearranged = [1 2 3 4  6 7 8 9]; %aveatt
+odorsRearranged = [1 2 3 4 5  6 7 8 9 10]; %aveatt
 %odorsRearranged = [7 11 12 13]; %aveatt mix butanedione
 %odorsRearranged = [1 13 14 15]; %mixTMT
 
@@ -131,7 +131,7 @@ for idxExp = 1: length(exp) %- 1
                     
                 end
                 info300(idxCell300) = exp(idxExp).shankNowarp(idxShank).cell(idxUnit).I300ms; 
-                ls300(idxCell300) = lifetime_sparseness(squeeze(responses1AllTrials(idxCell300, :, :)));
+                ls300(idxCell300) = exp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls300ms; 
                 boxWidth = 300;
                 weightingEpsilon = 1 * boxWidth/1000;
                 regWeights = n_trials ./ (responses300(idxCell300, :) + weightingEpsilon) .^ 2;
@@ -153,7 +153,7 @@ for idxExp = 1: length(exp) %- 1
                     
                 end
                 info1(idxCell1) = exp(idxExp).shankNowarp(idxShank).cell(idxUnit).I1s;
-                ls1(idxCell1) = lifetime_sparseness(squeeze(responses1AllTrials(idxCell1, :, :)));
+                ls1(idxCell1) = exp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls1s;
                 boxWidth = 1000;
                 weightingEpsilon = 1 * boxWidth/1000;
                 regWeights = n_trials ./ (responses1(idxCell1, :) + weightingEpsilon) .^ 2;
