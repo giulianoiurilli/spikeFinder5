@@ -25,14 +25,16 @@ startingFolder = pwd;
 for idxExp =  1:length(exp) 
     for idxShank = 1:4
         for idxUnit = 1:length(exp(idxExp).shankWarp(idxShank).cell)
-            A300ms = zeros(n_trials, odors + 1);
-            A1s = zeros(n_trials, odors + 1);
+%             A300ms = zeros(n_trials, odors + 1);
+%             A1s = zeros(n_trials, odors + 1);
+            A300ms = zeros(n_trials, odors);
+            A1s = zeros(n_trials, odors);
             for idxOdor = 1:odors
                 A300ms(:, idxOdor) = exp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms';
                 A1s(:, idxOdor) = exp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms';
             end
-            A300ms(:, idxOdor+1) = exp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl300ms';
-            A1s(:, idxOdor+1) = exp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms';
+%             A300ms(:, idxOdor+1) = exp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl300ms';
+%             A1s(:, idxOdor+1) = exp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms';
             exp(idxExp).shankNowarp(idxShank).cell(idxUnit).I300ms = poissonInformation(A300ms);
             exp(idxExp).shankNowarp(idxShank).cell(idxUnit).I1s = poissonInformation(A1s);
             exp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls300ms = lifetime_sparseness(A300ms);
@@ -44,5 +46,5 @@ toc
 tic
 cd(startingFolder)
 clearvars -except List exp
-save('aPCx_aveatt_Area.mat', 'exp', '-append')
+save('plCoA_aveatt_Area.mat', 'exp', '-append')
 toc
