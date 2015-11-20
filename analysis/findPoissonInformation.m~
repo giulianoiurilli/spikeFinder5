@@ -12,7 +12,7 @@
 %odorsRearranged = [12 2 7]; %3 odors low
 %odorsRearranged  = [12 13 14 15 1 2 3 4 5 6 7 8 9 10 11];
 %{"TMT", "MMB", "2MB", "2PT", "IAA", "PET", "BTN", "GER", "PB", "URI", "G&B", "B&P", "T&B", "TMM", "TMB"};
-odorsRearranged = [1 2 3 4 5  6 7 8 9 10]; %aveatt
+odorsRearranged = [1 2 3 4  6 7 8 9]; %aveatt
 %odorsRearranged = [7 11 12 13]; %aveatt mix butanedione
 %odorsRearranged = [1 13 14 15]; %mixTMT
 
@@ -25,14 +25,12 @@ startingFolder = pwd;
 for idxExp =  1:length(exp) 
     for idxShank = 1:4
         for idxUnit = 1:length(exp(idxExp).shankWarp(idxShank).cell)
-            A300ms = zeros(n_trials, odors + 1);
-            A1s = zeros(n_trials, odors + 1);
+            A300ms = zeros(n_trials, odors);
+            A1s = zeros(n_trials, odors);
             for idxOdor = 1:odors
                 A300ms(:, idxOdor) = exp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms';
                 A1s(:, idxOdor) = exp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms';
             end
-            A300ms(:, idxOdor+1) = exp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl300ms';
-            A1s(:, idxOdor+1) = exp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms';
             exp(idxExp).shankNowarp(idxShank).cell(idxUnit).I300ms = poissonInformation(A300ms);
             exp(idxExp).shankNowarp(idxShank).cell(idxUnit).I1s = poissonInformation(A1s);
             exp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls300ms = lifetime_sparseness(A300ms);
