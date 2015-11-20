@@ -1,28 +1,27 @@
-function [mean_acc_svm, std_acc_svm, acc_svm, prctile25, prctile75] = odor_c_svm_1leaveout(data, trainingN, labels, repN)
+function [mean_acc_svm, std_acc_svm, acc_svm, prctile25, prctile75] = odor_c_svm_1leaveout(dataTot, trainingN, labels, repN)
 
 
 
 
-% nClassifiers = nchoosek(size(dataTot,3),2);
-% v = 1:size(dataTot,3);
-% C = nchoosek(v,2);
-% 
-% 
-% mean_acc_svm = zeros(nClassifiers,size(dataTot,1)-1);
-% std_acc_svm = zeros(nClassifiers,size(dataTot,1)-1);
-% prctile25 = zeros(nClassifiers,size(dataTot,1)-1);
-% prctile75 = zeros(nClassifiers,size(dataTot,1)-1);
-% labels = [];
-% labels = ones(size(dataTot,2),1);
-% labels = [labels;labels+labels];
-% for idxClass = 1:nClassifiers
-%     data = zeros(size(dataTot,1), size(dataTot,2),2);
-%     stimuliToClass = C(idxClass,:);
-%     data(:,:,1) =  dataTot(:,:,stimuliToClass(1));
-%     data(:,:,2) =  dataTot(:,:,stimuliToClass(2));
-%     
+nClassifiers = nchoosek(size(dataTot,3),2);
+v = 1:size(dataTot,3);
+C = nchoosek(v,2);
+
+data = zeros(size(dataTot,1), size(dataTot,2),2);
+mean_acc_svm = zeros(nClassifiers,size(dataTot,1)-1);
+std_acc_svm = zeros(nClassifiers,size(dataTot,1)-1);
+prctile25 = zeros(nClassifiers,size(dataTot,1)-1);
+prctile75 = zeros(nClassifiers,size(dataTot,1)-1);
+labels = [];
+labels = ones(size(dataTot,2),1);
+labels = [labels;labels+labels];
+for idxClass = 1:nClassifiers
+    stimuliToClass = C(idxClass,:);
+    data(:,:,1) =  dataTot(:,:,stimuliToClass(1));
+    data(:,:,2) =  dataTot(:,:,stimuliToClass(2));
     
-    acc_svm = zeros(repN, size(data,1)-1);
+    
+    
     n_trials = size(data,2);
     classes = size(data,3);
     jumpTrials = 0:n_trials:(classes-1)*n_trials;
@@ -67,11 +66,11 @@ function [mean_acc_svm, std_acc_svm, acc_svm, prctile25, prctile75] = odor_c_svm
         %end
     end
     
-    mean_acc_svm = mean(acc_svm);
-    std_acc_svm = std(acc_svm);
-    prctile25 = prctile(acc_svm,5);
-    prctile75 = prctile(acc_svm,95);
-% end
+    mean_acc_svm(idxClass,:) = mean(acc_svm);
+    std_acc_svm(idxClass,:) = std(acc_svm);
+    prctile25(idxClass,:) = prctile(acc_svm,5);
+    prctile75(idxClass,:) = prctile(acc_svm,95);
+end
 
 
 

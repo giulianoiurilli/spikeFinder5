@@ -23,7 +23,7 @@ for idxRep = 1:rep
     
     a = a^2;
     
-    ls(rep) = (1 - (a/b)) / (1 - 1/odors);
+    ls(idxRep) = (1 - (a/b)) / (1 - 1/odors);
 end
 
 ls = median(ls);
