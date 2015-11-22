@@ -57,5 +57,5 @@ for a = linspace(0,1,steps)
         end
     end
 end
-I = median(I,2);
+I = mean(I,2);
 I = max(I);
