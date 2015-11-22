@@ -1,8 +1,8 @@
     dataAll = [];
     %dataAll = responses1AllTrials(:,:,5:8);
-    dataAll = responses300AllTrials;
-    dataAll(info300==0, :,:) = [];
-    dataAll(:,:,7:15)=[];
+    dataAll = responses1AllTrials;
+    dataAll(info1==0, :,:) = [];
+    %dataAll(:,:,7:15)=[];
     neurons = size(dataAll,1);
     trials = size(dataAll,2);
     stimuli = size(dataAll,3);
