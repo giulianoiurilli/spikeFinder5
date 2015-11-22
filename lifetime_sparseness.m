@@ -26,4 +26,4 @@ for idxRep = 1:rep
     ls(idxRep) = (1 - (a/b)) / (1 - 1/odors);
 end
 
-ls = mean(ls);
+ls = median(ls);
