@@ -1,11 +1,11 @@
 load('parameters.mat')
-load('breathing.mat', 'sec_on_rsp', 'sec_on_bsl')
+%load('breathing.mat', 'sec_on_rsp', 'sec_on_bsl')
 load('unitsNowarp.mat')
 
 for idxShank = 1:4
     for idxUnit = 1:length(shankNowarp(idxShank).cell)
         for idxOdor = 1:odors
-            spike_matrix_app = shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrixNoWarp;
+            spike_matrix_app = single(shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrixNoWarp);
             startBsl = repmat(pre*1000, n_trials, 1) - (sec_on_rsp(:,idxOdor) - sec_on_bsl(:,idxOdor))*1000;
             for trialNumb = 1:n_trials
                 splCountBsl(trialNumb) = sum(spike_matrix_app(trialNumb,floor(startBsl(trialNumb) + 51) : floor(pre*1000)));

@@ -8,8 +8,8 @@ rep = 200;
 auR = 0.5 * ones(1,rep);
 
 for idxRep = 1:rep
-    idxTestBsl = randi(size(bslVect,1),ceil(size(bslVect,1)*0.2),1);
-    idxTestRsp = randi(size(rspVect,1),ceil(size(rspVect,1)*0.2),1);
+    idxTestBsl = randi(size(bslVect,2),ceil(size(bslVect,2)*0.8),1);
+    idxTestRsp = randi(size(rspVect,2),ceil(size(rspVect,2)*0.8),1);
     bslVectT = bslVect(idxTestBsl);
     rspVectT = rspVect(idxTestRsp);
     criterion = linspace(0,max([rspVectT(:)' bslVectT(:)']), 20);
