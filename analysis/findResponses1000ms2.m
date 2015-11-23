@@ -19,7 +19,7 @@ odorsRearranged = [8, 9, 10, 11, 12, 13, 14]; %7 odors high
 %%
 
 startingFolder = pwd;
-for idxExp = 1 : length(List)
+for idxExp = 1 : length(exp)
     cartella = List{idxExp};
     cd(cartella)
     load('unitsNowarp.mat', 'shankNowarp');
@@ -28,7 +28,7 @@ for idxExp = 1 : length(List)
     for idxShank = 1:4
         for idxUnit = 1:length(shankNowarp(idxShank).cell)
             idxO = 0;
-            for idxOdor = 1:odorsRearranged
+            for idxOdor = odorsRearranged
                 idxO = idxO + 1;
                 spike_matrix_app = single(shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrixNoWarp);
                 espe(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO).spikeMatrix = spike_matrix_app;
@@ -73,9 +73,6 @@ for idxExp = 1 : length(List)
                 if pvals < 0.05 && (mean(a{2}) == mean(a{1}))
                     esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO).pValue300ms = 1;
                 end
-                if esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO).auROC300ms < 0.45
-                    esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO).DigitalResponse300ms = -1;
-                end
                 meanBsl = mean(appBsl);
                 stdBsl = std(appBsl);
                 goodTrialsExc = appRsp > (meanBsl + 2*stdBsl);
@@ -112,9 +109,6 @@ for idxExp = 1 : length(List)
                 end
                 if pvals < 0.01 && (mean(a{2}) == mean(a{1}))
                     esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO).pValue1000ms = 1;
-                end
-                if esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO).auROC1000ms < 0.45
-                    esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO).DigitalResponse1000ms = -1;
                 end
                 meanBsl = mean(appBsl);
                 stdBsl = std(appBsl);
@@ -153,9 +147,6 @@ for idxExp = 1 : length(List)
                 if pvals < 0.01 && (mean(a{2}) == mean(a{1}))
                     esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO).pValue2000ms = 1;
                 end
-                if esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO).auROC2000ms < 0.45
-                    esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO).DigitalResponse2000ms = -1;
-                end
                 meanBsl = mean(appBsl);
                 stdBsl = std(appBsl);
                 goodTrialsExc = appRsp > (meanBsl + 2*stdBsl);
@@ -169,7 +160,7 @@ for idxExp = 1 : length(List)
 end
 
 cd(startingFolder)
-clearvars -except List esp espe
+clearvars -except List esp espe 
 
 save('aPCx_2conc_AreaNew1High.mat', 'espe', '-v7.3')
 save('aPCx_2conc_AreaNew2High.mat', 'esp')

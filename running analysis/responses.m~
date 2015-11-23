@@ -90,7 +90,7 @@ for idxExp = 1: length(esp) %- 1
                     auRoc300(idxCell300, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC300ms;
                 end
                 info300(idxCell300) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).I300ms; 
-                ls300(idxCell300) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls300ms; 
+                ls300(idxCell300) = lifetime_sparseness(auRoc1(idxCell1,:));%esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls300ms; 
                 boxWidth = 300;
                 weightingEpsilon = 1 * boxWidth/1000;
                 regWeights = n_trials ./ (responses300(idxCell300, :) + weightingEpsilon) .^ 2;
@@ -112,7 +112,7 @@ for idxExp = 1: length(esp) %- 1
                     auRoc1(idxCell1, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC1000ms;
                 end
                 info1(idxCell1) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).I1s;
-                ls1(idxCell1) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls1s;
+                ls1(idxCell1) = lifetime_sparseness(auRoc1(idxCell1,:));%esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls1s;
                 boxWidth = 1000;
                 weightingEpsilon = 1 * boxWidth/1000;
                 regWeights = n_trials ./ (responses1(idxCell1, :) + weightingEpsilon) .^ 2;

@@ -1,12 +1,14 @@
-%function plotRasterResponse(idxExp, idxShank, idxUnit, odorsRearranged)
+%function plotRasterResponse(espe,idxExp, idxShank, idxUnit, odorsRearranged)
+
+odorsRearranged = 1:length(odorsRearranged);
 A = [];
 titolo = sprintf('exp%d, shank %d, unit %d', idxExp, idxShank, idxUnit);
-app = exp(1).shankNowarp(1).cell(1).odor(1).spikeMatrixNoWarp;
+app = espe(1).shankNowarp(1).cell(1).odor(1).spikeMatrix;
 trialsN = size(app,1);
 for idxOdor = odorsRearranged
     for idxTrial = 1:trialsN
         app = [];
-        app = exp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrixNoWarp(idxTrial,:);
+        app = espe(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrix(idxTrial,:);
         app1=[];
         app1 = find(app==1);
         app1 = (app1./1000) - 15;

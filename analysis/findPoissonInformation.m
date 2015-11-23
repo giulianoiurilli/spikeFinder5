@@ -1,10 +1,10 @@
 %%
 %odorsRearranged = 1:15; 
 %odorsRearranged = 1:10;
-odorsRearranged = 1:7;
+%odorsRearranged = 1:7;
 %odorsRearranged = 1:5;
 %odorsRearranged = 1:3; 
-%odorsRearranged = [8, 9, 10, 11, 12, 13, 14]; %7 odors high
+odorsRearranged = [8, 9, 10, 11, 12, 13, 14]; %7 odors high
 %odorsRearranged = [1,2,3,4,5,6,7]; %7 odors low
 %odorsRearranged = [12 13 14 15 1]; %3 odors pen
 %odorsRearranged = [2 3 4 5 6]; %3 odors iaa

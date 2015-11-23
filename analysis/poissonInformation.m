@@ -13,7 +13,7 @@ l1All = mean(Aall) * (1 - l2All);
 
 px = zeros(size(A,2) .* ceil(size(A,1)*0.2),1);
 
-rep = 100;
+rep = 200;
 steps = 10;
 I = zeros(steps,rep);
 idxa = 0;
@@ -58,6 +58,6 @@ for a = linspace(0,1,steps)
     end
 end
 
-I = median(I,2);
+I = mean(I,2);
 I = max(I);
 
