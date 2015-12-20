@@ -1,7 +1,7 @@
     dataAll = [];
     %dataAll = responses1AllTrials(:,:,5:8);
-    dataAll = responses1AllTrials;
-    dataAll(info1==0, :,:) = [];
+    dataAll = responses300AllTrialsPcx;
+    %dataAll(info1==0, :,:) = [];
     %dataAll(:,:,7:15)=[];
     neurons = size(dataAll,1);
     trials = size(dataAll,2);
@@ -40,6 +40,6 @@
     
     labels      = labels';
     trainingN = floor(0.9*(trials * stimuli));
-    repetitions = 200;
+    repetitions = 500;
     [mean_acc_svmApcx, std_acc_svmApcx, acc_svmApcx, prctile25Apcx, prctile75Apcx] = odor_c_svm_1leaveout(dataAll, trainingN, labels, repetitions);
     

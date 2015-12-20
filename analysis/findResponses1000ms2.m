@@ -1,6 +1,6 @@
 %%
 %odorsRearranged = 1:15; %15 odors
-odorsRearranged = [8, 9, 10, 11, 12, 13, 14]; %7 odors high
+%odorsRearranged = [8, 9, 10, 11, 12, 13, 14]; %7 odors high
 %odorsRearranged = [1,2,3,4,5,6,7]; %7 odors low
 %odorsRearranged = [12 13 14 15 1]; %3 odors pen
 %odorsRearranged = [2 3 4 5 6]; %3 odors iaa
@@ -15,11 +15,14 @@ odorsRearranged = [8, 9, 10, 11, 12, 13, 14]; %7 odors high
 %odorsRearranged = [1 2 3 4 5  6 7 8 9 10]; %aveatt
 %odorsRearranged = [7 11 12 13]; %aveatt mix butanedione
 %odorsRearranged = [1 13 14 15]; %mixTMT
+%{"TMT", "MMB", "2MB", "PET", "BTN", "GER"};
+%odorsRearranged = [1 2 3 6 7 8]; 
+odorsRearranged = 1:14;
 
 %%
 
 startingFolder = pwd;
-for idxExp = 1 : length(exp)
+for idxExp = 1 : length(exp)%-1
     cartella = List{idxExp};
     cd(cartella)
     load('unitsNowarp.mat', 'shankNowarp');
@@ -162,8 +165,8 @@ end
 cd(startingFolder)
 clearvars -except List esp espe 
 
-save('aPCx_2conc_AreaNew1High.mat', 'espe', '-v7.3')
-save('aPCx_2conc_AreaNew2High.mat', 'esp')
+save('plCoA_2conc_AreaNew1All.mat', 'espe', '-v7.3')
+save('plCoA_2conc_AreaNew2All.mat', 'esp')
 
 
 

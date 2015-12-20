@@ -22,7 +22,8 @@ function [mean_acc_svm, std_acc_svm, acc_svm, prctile25, prctile75] = odor_c_svm
 %     data(:,:,2) =  dataTot(:,:,stimuliToClass(2));
 %     
     
-    acc_svm = zeros(repN, size(data,1)-1);
+    %acc_svm = zeros(repN, size(data,1)-1);
+    acc_svm = zeros(repN, 1);
     n_trials = size(data,2);
     classes = size(data,3);
     jumpTrials = 0:n_trials:(classes-1)*n_trials;
@@ -54,7 +55,7 @@ function [mean_acc_svm, std_acc_svm, acc_svm, prctile25, prctile75] = odor_c_svm
         j                           = 0;
         %for cValue = [0.01 0.05 0.1 0.5]
         %params = sprintf('-t 0 -c %d -q', cValue)
-        for units = 2:size(data,2) %size(data,2) %
+        for units = 100%2:size(data,2) %size(data,2) %
             j                       = j + 1;
             idxUnits                = randsample(size(data,2), units);%1:units;%
             trainData               = app_trainData(:,idxUnits);

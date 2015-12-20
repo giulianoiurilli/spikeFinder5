@@ -1,9 +1,10 @@
 parameters
+odors = 7;
 %% count cells to initialize variables
 unit = 0;
-for idxExp = 1 : length(exp)% - 1
+for idxExp = 1 : length(espe)% - 1
     for idxShank = 1:4
-        for idxUnit = 1:length(exp(idxExp).shankWarp(idxShank).cell)
+        for idxUnit = 1:length(espe(idxExp).shankNowarp(idxShank).cell)
             unit = unit + 1;
         end
     end
@@ -12,9 +13,9 @@ end
 %% measure average firing rate over 14 seconds of baseline for all cells
 cellBslLog = zeros(unit,4);
 cell = 0;
-for idxExp = 1 : length(exp)% - 1
+for idxExp = 1 : length(espe)% - 1
     for idxShank = 1:4
-        for idxUnit = 1:length(exp(idxExp).shankWarp(idxShank).cell)
+        for idxUnit = 1:length(espe(idxExp).shankNowarp(idxShank).cell)
             cell = cell + 1;
             cellBslLog(cell,1) = idxExp;
             cellBslLog(cell,2) = idxShank;
@@ -23,7 +24,7 @@ for idxExp = 1 : length(exp)% - 1
             bsl = zeros(n_trials,odors);
             for idxOdor = 1:odors
                 A = [];
-                A = exp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrixNoWarp;
+                A = espe(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrix;
                 bsl(:,idxOdor) = sum(A(:,1:14000),2)./14;
                 A = sum(A(:));
                 B = B + A;
@@ -40,8 +41,8 @@ end
 %%
 bslFR = cellBslLog(:,4);
 bslFR(isnan(bslFR)) = [];
-histfit(log10(bslFR),100);
+% histfit(log10(bslFR),100);
 median(bslFR)
 
 %%
-save('baselineFiring.mat', 'cellBslLog');
+%save('baselineFiring.mat', 'cellBslLog');

@@ -1,4 +1,4 @@
-%function plotRasterResponse(espe,idxExp, idxShank, idxUnit, odorsRearranged)
+function plotRasterResponse(espe,idxExp, idxShank, idxUnit, odorsRearranged)
 
 odorsRearranged = 1:length(odorsRearranged);
 A = [];
@@ -24,17 +24,19 @@ Xfig = 900;
 Yfig = 800;
 figure;
 p = panel();
-set(gcf, 'Position',[1,5,Xfig,Yfig]);
+%set(gcf, 'Position',[1,5,Xfig,Yfig]);
+set(gcf,'Position',[302 611 666 418]);
 
 p.pack('h',{50 50});
-
-p(1).pack('v', {1/15 1/15 1/15 1/15 1/15 ...
-    1/15 1/15 1/15 1/15 1/15 ...
-    1/15 1/15 1/15 1/15 1/15});
-p(2).pack('v', {1/15 1/15 1/15 1/15 1/15 ...
-    1/15 1/15 1/15 1/15 1/15 ...
-    1/15 1/15 1/15 1/15 1/15});
-
+% 
+% p(1).pack('v', {1/15 1/15 1/15 1/15 1/15 ...
+%     1/15 1/15 1/15 1/15 1/15 ...
+%     1/15 1/15 1/15 1/15 1/15});
+% p(2).pack('v', {1/15 1/15 1/15 1/15 1/15 ...
+%     1/15 1/15 1/15 1/15 1/15 ...
+%     1/15 1/15 1/15 1/15 1/15});
+p(1).pack('v', {1/7 1/7 1/7 1/7 1/7 1/7 1/7});
+p(2).pack('v', {1/7 1/7 1/7 1/7 1/7 1/7 1/7});
 % Raster plots
 idxPlot = 1;
 for idxOdor = 1:length(odorsRearranged)

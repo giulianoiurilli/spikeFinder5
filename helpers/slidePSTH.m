@@ -21,7 +21,7 @@ for idxTrial = 1:nTrials
 end
 
 slidingPSTH = slidingPSTH(:,1:moveBy:end);
-%slidingPSTH = mean(slidingPSTH,1);
+slidingPSTH = mean(slidingPSTH,1);
 
 
 
