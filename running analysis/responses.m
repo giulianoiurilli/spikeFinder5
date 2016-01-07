@@ -1,5 +1,5 @@
 %%
-odorsRearranged = 1:14; %15 odors and 
+odorsRearranged = 1:10; %15 odors and 
 %{"TMT", "MMB", "2MB", "2PT", "IAA", "PET", "BTN", "GER", "PB", "URI", "G&B", "B&P", "T&B", "TMM", "TMB"};
 %odorsRearranged = 1:10; %aveatt
 %odorsRearranged = 1:7; %2conc
@@ -411,58 +411,58 @@ for idxExp = 1: length(esp) %- 1
 end
 
 %%
-% responses300MinusMeanCoa = responses300MinusMean;
-% responses300Coa = responses300;
-% info300Coa = info300;
-% responses300AllTrialsCoa = responses300AllTrials;
-% responses1Coa = responses1;
-% responses1MinusMeanCoa = responses1MinusMean;
-% responses1AllTrialsCoa = responses1AllTrials;
-% cellLog300Coa = cellLog300;
-% cellLog1Coa = cellLog1;
-% cellLog1ExcCoa = cellLogExc1;
-% fanoFactor300Coa = fanoFactor300;
-% fanoFactor1Coa = fanoFactor1;
-% ls300Coa = ls300;
-% ls1Coa = ls1;
-% baseline300Coa = baseline300;
-% baseline1Coa = baseline1;
-% variance300Coa = variance300;
-% variance1Coa = variance1;
-% auRoc300Coa = auRoc300;
-% auRoc1Coa = auRoc1;
-% fanoFactor300Coa = fanoFactor300;
-% fanoFactor1Coa = fanoFactor1;
+responses300MinusMeanCoa = responses300MinusMean;
+responses300Coa = responses300;
+info300Coa = info300;
+responses300AllTrialsCoa = responses300AllTrials;
+responses1Coa = responses1;
+responses1MinusMeanCoa = responses1MinusMean;
+responses1AllTrialsCoa = responses1AllTrials;
+cellLog300Coa = cellLog300;
+cellLog1Coa = cellLog1;
+cellLog1ExcCoa = cellLogExc1;
+fanoFactor300Coa = fanoFactor300;
+fanoFactor1Coa = fanoFactor1;
+ls300Coa = ls300;
+ls1Coa = ls1;
+baseline300Coa = baseline300;
+baseline1Coa = baseline1;
+variance300Coa = variance300;
+variance1Coa = variance1;
+auRoc300Coa = auRoc300;
+auRoc1Coa = auRoc1;
+fanoFactor300Coa = fanoFactor300;
+fanoFactor1Coa = fanoFactor1;
 %%
-responses300MinusMeanPcx = responses300MinusMean;
-responses300Pcx = responses300;
-info300Pcx = info300;
-responses300AllTrialsPcx = responses300AllTrials;
-responses1Pcx = responses1;
-responses1MinusMeanPcx= responses1MinusMean;
-responses1AllTrialsPcx= responses1AllTrials;
-cellLog300Pcx = cellLog300;
-cellLog1Pcx = cellLog1;
-cellLogExc1Pcx = cellLogExc1;
-fanoFactor300Pcx = fanoFactor300;
-fanoFactor1Pcx = fanoFactor1;
-ls300Pcx = ls300;
-ls1Pcx = ls1;
-baseline300Pcx = baseline300;
-baseline1Pcx = baseline1;
-variance300Pcx = variance300;
-variance1Pcx = variance1;
-auRoc300Pcx= auRoc300;
-auRoc1Pcx = auRoc1;
-fanoFactor300Pcx = fanoFactor300;
-fanoFactor1Pcx = fanoFactor1;
+% responses300MinusMeanPcx = responses300MinusMean;
+% responses300Pcx = responses300;
+% info300Pcx = info300;
+% responses300AllTrialsPcx = responses300AllTrials;
+% responses1Pcx = responses1;
+% responses1MinusMeanPcx= responses1MinusMean;
+% responses1AllTrialsPcx= responses1AllTrials;
+% cellLog300Pcx = cellLog300;
+% cellLog1Pcx = cellLog1;
+% cellLogExc1Pcx = cellLogExc1;
+% fanoFactor300Pcx = fanoFactor300;
+% fanoFactor1Pcx = fanoFactor1;
+% ls300Pcx = ls300;
+% ls1Pcx = ls1;
+% baseline300Pcx = baseline300;
+% baseline1Pcx = baseline1;
+% variance300Pcx = variance300;
+% variance1Pcx = variance1;
+% auRoc300Pcx= auRoc300;
+% auRoc1Pcx = auRoc1;
+% fanoFactor300Pcx = fanoFactor300;
+% fanoFactor1Pcx = fanoFactor1;
 
 
 
 %%
 % save('responses.mat', 'responses300MinusMean','responses300', 'info300', 'responses300AllTrials', 'responses1', 'responses1MinusMean', 'responses1AllTrials', 'cellLog300', 'cellLog1',...
 %     'fanoFactor300', 'fanoFactor1', 'ls300', 'ls1', 'baseline300','baseline1', 'variance300','variance1', 'auRoc300', 'auRoc1')
-% save('responsesCoa.mat', 'responses300MinusMeanCoa','responses300Coa', 'info300Coa', 'responses300AllTrialsCoa', 'responses1Coa', 'responses1MinusMeanCoa', 'responses1AllTrialsCoa', 'cellLog300Coa', 'cellLog1Coa','cellLog1Coa',...
-%   'fanoFactor300Coa', 'fanoFactor1Coa', 'ls300Coa', 'ls1Coa', 'baseline300Coa','baseline1Coa', 'variance300Coa','variance1Coa', 'auRoc300Coa', 'auRoc1Coa', 'fanoFactor300Coa', 'fanoFactor1Coa')
-save('responsesPcx.mat', 'responses300MinusMeanPcx','responses300Pcx', 'info300Pcx', 'responses300AllTrialsPcx', 'responses1Pcx', 'responses1MinusMeanPcx', 'responses1AllTrialsPcx', 'cellLog300Pcx','cellLogExc1Pcx', 'cellLog1Pcx',...
-   'fanoFactor300Pcx', 'fanoFactor1Pcx', 'ls300Pcx', 'ls1Pcx', 'baseline300Pcx','baseline1Pcx', 'variance300Pcx','variance1Pcx', 'auRoc300Pcx', 'auRoc1Pcx', 'fanoFactor300Pcx', 'fanoFactor1Pcx')
+save('responsesCoa.mat', 'responses300MinusMeanCoa','responses300Coa', 'info300Coa', 'responses300AllTrialsCoa', 'responses1Coa', 'responses1MinusMeanCoa', 'responses1AllTrialsCoa', 'cellLog300Coa', 'cellLog1Coa','cellLog1Coa',...
+  'fanoFactor300Coa', 'fanoFactor1Coa', 'ls300Coa', 'ls1Coa', 'baseline300Coa','baseline1Coa', 'variance300Coa','variance1Coa', 'auRoc300Coa', 'auRoc1Coa', 'fanoFactor300Coa', 'fanoFactor1Coa')
+% save('responsesPcx.mat', 'responses300MinusMeanPcx','responses300Pcx', 'info300Pcx', 'responses300AllTrialsPcx', 'responses1Pcx', 'responses1MinusMeanPcx', 'responses1AllTrialsPcx', 'cellLog300Pcx','cellLogExc1Pcx', 'cellLog1Pcx',...
+%    'fanoFactor300Pcx', 'fanoFactor1Pcx', 'ls300Pcx', 'ls1Pcx', 'baseline300Pcx','baseline1Pcx', 'variance300Pcx','variance1Pcx', 'auRoc300Pcx', 'auRoc1Pcx', 'fanoFactor300Pcx', 'fanoFactor1Pcx')

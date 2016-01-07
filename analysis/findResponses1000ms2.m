@@ -17,12 +17,12 @@
 %odorsRearranged = [1 13 14 15]; %mixTMT
 %{"TMT", "MMB", "2MB", "PET", "BTN", "GER"};
 %odorsRearranged = [1 2 3 6 7 8]; 
-odorsRearranged = 1:14;
+odorsRearranged = 1:15;
 
 %%
 
 startingFolder = pwd;
-for idxExp = 1 : length(exp)%-1
+for idxExp = 1 : 11%length(exp)%-1
     cartella = List{idxExp};
     cd(cartella)
     load('unitsNowarp.mat', 'shankNowarp');
@@ -165,8 +165,8 @@ end
 cd(startingFolder)
 clearvars -except List esp espe 
 
-save('plCoA_2conc_AreaNew1All.mat', 'espe', '-v7.3')
-save('plCoA_2conc_AreaNew2All.mat', 'esp')
+save('aPCX_2conc_AreaNew1All.mat', 'espe', '-v7.3')
+save('aPCX_2conc_AreaNew2All.mat', 'esp')
 
 
 

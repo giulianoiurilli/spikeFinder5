@@ -5,7 +5,7 @@ logInh = [];
 for idxExp = unique(cellLogExc1(:,1))'
     cartella = List{idxExp};
     cartella = cartella(end-11:end);
-    prima = '/Volumes/Tetrodes Backup1/15odors/plCOA';
+    prima = '/Volumes/Tetrodes Backup1/aveatt/plCOA';
     cartella = fullfile(prima,cartella);
     cd(cartella)
     load('breathSniffs.mat', 'sniffs');
