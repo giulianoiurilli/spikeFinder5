@@ -5,7 +5,7 @@ logInh = [];
 for idxExp = unique(cellLogExc1(:,1))'
     cartella = List{idxExp};
     cartella = cartella(end-11:end);
-    prima = '/Volumes/Tetrodes Backup1/15odors/aPCX';
+    prima = '/Volumes/Tetrodes Backup1/15odors/plCOA';
     cartella = fullfile(prima,cartella);
     cd(cartella)
     load('breathSniffs.mat', 'sniffs');
@@ -92,8 +92,10 @@ for idxEntry = 1:size(logExc,1)
     idxUnit = logExc(idxEntry,3);
     idxOdor = logExc(idxEntry,4);
     cartella = List{idxExp};
+    cartella = cartella(end-11:end);
+    cartella = fullfile(prima,cartella);
     cd(cartella)
-    load('breathing.mat', 'sniffs');
+    load('breathSniffs.mat', 'sniffs');
     A = single(espe(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrix);
     snipCellOdorSniff = [];
     if idxExp == 7
@@ -125,52 +127,57 @@ end
 
 %%
 %%
-indici = -4:10;
-for idxEntry = 1:size(logExc,1)
-    idxExp = logExc(idxEntry,1);
-    idxShank = logExc(idxEntry,2);
-    idxUnit = logExc(idxEntry,3);
-    idxOdor = logExc(idxEntry,4);
-    cartella = List{idxExp};
-    cd(cartella)
-    load('breathing.mat', 'sniffs');
-    A = single(espe(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrix);
-    snipCellOdorSniff = [];
-    if idxExp == 7
-        for idxTrial = 1:5
-            onsets(idxTrial) = find(sniffs(idxOdor).trial(idxTrial).sniffPower(:,1) >= 0,1);
-        end
-    else
-        for idxTrial = 1:10
-            onsets(idxTrial) = find(sniffs(idxOdor).trial(idxTrial).sniffPower(:,1) >= 0,1);
-        end
-    end
-    for idxSniff = 1:15
-        if idxExp == 7
-            for idxTrial = 1:5
-                app(idxTrial,:) = A(idxTrial, 15000 + floor(sniffs(idxOdor).trial(idxTrial).sniffPower(onsets(idxTrial) + indici(idxSniff),1)*1000) :...
-                    15000 + floor(sniffs(idxOdor).trial(idxTrial).sniffPower(onsets(idxTrial) + indici(idxSniff),1)*1000) + 299);
-            end
-        else
-            for idxTrial = 1:10
-                app(idxTrial,:) = A(idxTrial, 15000 + floor(sniffs(idxOdor).trial(idxTrial).sniffPower(onsets(idxTrial) + indici(idxSniff),1)*1000) :...
-                    15000 + floor(sniffs(idxOdor).trial(idxTrial).sniffPower(onsets(idxTrial) + indici(idxSniff),1)*1000) + 299);
-            end
-        end
-        snipCellOdorSniff(idxSniff,:) = slidePSTH(app, 50, 5);
-    end
-    respCellOdorPairPSTHExc1(idxEntry,:) = reshape(snipCellOdorSniff',1,size(snipCellOdorSniff,1) * size(snipCellOdorSniff,2));
-end
+% indici = -4:10;
+% for idxEntry = 1:size(logExc,1)
+%     idxExp = logExc(idxEntry,1);
+%     idxShank = logExc(idxEntry,2);
+%     idxUnit = logExc(idxEntry,3);
+%     idxOdor = logExc(idxEntry,4);
+%     cartella = List{idxExp};
+%     cartella = cartella(end-11:end);
+%     prima = '/Volumes/Tetrodes Backup1/15odors/aPCX';
+%     cartella = fullfile(prima,cartella);
+%     cd(cartella)
+%     load('breathSniffs.mat', 'sniffs');
+%     A = single(espe(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrix);
+%     snipCellOdorSniff = [];
+%     if idxExp == 7
+%         for idxTrial = 1:5
+%             onsets(idxTrial) = find(sniffs(idxOdor).trial(idxTrial).sniffPower(:,1) >= 0,1);
+%         end
+%     else
+%         for idxTrial = 1:10
+%             onsets(idxTrial) = find(sniffs(idxOdor).trial(idxTrial).sniffPower(:,1) >= 0,1);
+%         end
+%     end
+%     for idxSniff = 1:15
+%         if idxExp == 7
+%             for idxTrial = 1:5
+%                 app(idxTrial,:) = A(idxTrial, 15000 + floor(sniffs(idxOdor).trial(idxTrial).sniffPower(onsets(idxTrial) + indici(idxSniff),1)*1000) :...
+%                     15000 + floor(sniffs(idxOdor).trial(idxTrial).sniffPower(onsets(idxTrial) + indici(idxSniff),1)*1000) + 299);
+%             end
+%         else
+%             for idxTrial = 1:10
+%                 app(idxTrial,:) = A(idxTrial, 15000 + floor(sniffs(idxOdor).trial(idxTrial).sniffPower(onsets(idxTrial) + indici(idxSniff),1)*1000) :...
+%                     15000 + floor(sniffs(idxOdor).trial(idxTrial).sniffPower(onsets(idxTrial) + indici(idxSniff),1)*1000) + 299);
+%             end
+%         end
+%         snipCellOdorSniff(idxSniff,:) = slidePSTH(app, 50, 5);
+%     end
+%     respCellOdorPairPSTHExc1(idxEntry,:) = reshape(snipCellOdorSniff',1,size(snipCellOdorSniff,1) * size(snipCellOdorSniff,2));
+% end
 
 %%
-countOdorSniff = zeros(size(cellLogExc1,1),7,15);
+countOdorSniff = zeros(size(cellLogExc1,1),10,15);
 for idxEntry = 1:size(cellLogExc1,1)
     idxExp = cellLog1(idxEntry,1);
     idxShank = cellLog1(idxEntry,2);
     idxUnit = cellLog1(idxEntry,3);
     cartella = List{idxExp};
+    cartella = cartella(end-11:end);
+    cartella = fullfile(prima,cartella);
     cd(cartella)
-    load('breathing.mat', 'sniffs');
+    load('breathSniffs.mat', 'sniffs');
     for idxOdor = 1:odors
         A = single(espe(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrix);
         

@@ -50,5 +50,6 @@ toc
 tic
 cd(startingFolder)
 clearvars -except List esp
-save('plCoA_2conc_AreaNew2All.mat', 'esp', '-append')
+save('aPCX_2conc_AreaNew2All.mat', 'esp')
+% save('aPCX_2conc_AreaNew2All.mat', 'esp', '-append')
 toc
