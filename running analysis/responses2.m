@@ -12,7 +12,7 @@ for idxExp = unique(cellLogExc1(:,1))'
     for idxShank = unique(expApp(:,2))'
         shankApp = expApp(expApp(:,2)==idxShank,:);
         for idxUnit = unique(shankApp(:,3))'
-            for idxOdor = 1:length(odorsRearranged)
+            for idxOdor = odorsRearranged
                 if esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).pValue300ms < 0.05
                     p300 = 1;
                     else p300 = 0;
@@ -219,7 +219,9 @@ for idxExp = 1: length(esp) %- 1
     for idxShank = 1:4
         for idxUnit = 1:length(esp(idxExp).shankNowarp(idxShank).cell)
             neuron = neuron + 1;
-            for idxOdor = 1:odors
+            idxO = 0;
+            for idxOdor = odorRearranged
+                idxO = idxO + 1;
                 A = single(espe(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrix);
                 if idxExp == 2
                     for idxTrial = 1:5
@@ -242,7 +244,7 @@ for idxExp = 1: length(esp) %- 1
                                 15000 + floor(sniffs(idxOdor).trial(idxTrial).sniffPower(onsets(idxTrial) + indici(idxSniff),1)*1000) + 299);
                         end
                     end
-                    countOdorSniff(neuron,idxOdor,idxSniff) = mean(sum(app,2));
+                    countOdorSniff(neuron,idxO,idxSniff) = mean(sum(app,2));
                 end
             end
         end

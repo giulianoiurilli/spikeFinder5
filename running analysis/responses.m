@@ -1,7 +1,7 @@
 load('parameters.mat')
 folder = pwd;
 %%
-odorsRearranged = 1:8; %15 odors and 
+odorsRearranged = [1 2 5 6 7 8 9 10]%1:8; %15 odors and 
 %{"TMT", "MMB", "2MB", "2PT", "IAA", "PET", "BTN", "GER", "PB", "URI", "G&B", "B&P", "T&B", "TMM", "TMB"};
 %odorsRearranged = 1:10; %aveatt
 %odorsRearranged = 1:7; %2conc
