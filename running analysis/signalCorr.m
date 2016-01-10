@@ -29,7 +29,7 @@ for idxesp = 1: length(esp) %- 1
             responsivenessInh300ms = zeros(1,odors);
             for idxOdor = 1:odors
 %                 responsivenessExc300ms(idxOdor) = esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse300ms == 1;
-responsivenessExc300ms(idxOdor) = esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).pValue300ms < 0.05;
+                responsivenessExc300ms(idxOdor) = esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).pValue300ms < 0.05;
                 responsivenessInh300ms(idxOdor) = esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse300ms == -1;
             end
             if sum(responsivenessExc300ms + responsivenessInh300ms) > 0
@@ -98,7 +98,8 @@ set(gca,'FontName','Arial','Fontsize',12,'FontWeight','normal','TickDir','out','
 title('signal correlation within/between - first 300 ms')
 
 %%
-save('signalCorrelationCoaHigh.mat',  'sigCorrW300msCoa', 'sigCorrB300msCoa');
+%save('signalCorrelationCoaHigh.mat',  'sigCorrW300msCoa', 'sigCorrB300msCoa');
 %save('signalCorrelationPcxHigh.mat',  'sigCorrW300msPcx', 'sigCorrB300msPcx');
 
+%%
 

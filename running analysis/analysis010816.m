@@ -1,17 +1,18 @@
+respCellOdorPairPSTHExc = [];
 cellOdorPairExc = 0;
 cellOdorPairInh = 0;
 logExc = [];
 logInh = [];
-for idxExp = unique(cellLogExc1(:,1))'
+for idxExp = unique(cellLogExc1App(:,1))'
     cartella = List{idxExp};
-    cartella = cartella(end-11:end);
-    prima = '/Volumes/Tetrodes Backup1/2conc/aPCX';
-    cartella = fullfile(prima,cartella);
+%     cartella = cartella(end-11:end);
+%     prima = '/Volumes/Tetrodes Backup1/2conc/aPCX';
+%     cartella = fullfile(prima,cartella);
     cd(cartella)
-    load('breathSniffs.mat', 'sniffs');
+    load('breathing.mat', 'sniffs');
     k = size(sniffs(1).trial);
     ripetizioni(idxExp) = k(2);
-    expApp = cellLogExc1(cellLogExc1(:,1)==idxExp,:);
+    expApp = cellLogExc1App(cellLogExc1App(:,1)==idxExp,:);
     for idxShank = unique(expApp(:,2))'
         shankApp = expApp(expApp(:,2)==idxShank,:);
         for idxUnit = unique(shankApp(:,3))'
@@ -92,13 +93,11 @@ for idxEntry = 1:size(logExc,1)
     idxUnit = logExc(idxEntry,3);
     idxOdor = logExc(idxEntry,4);
     cartella = List{idxExp};
-    cartella = cartella(end-11:end);
-    cartella = fullfile(prima,cartella);
     cd(cartella)
-    load('breathSniffs.mat', 'sniffs');
+    load('breathing.mat', 'sniffs');
     A = single(espe(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrix);
     snipCellOdorSniff = [];
-    if idxExp == 7
+    if idxExp == 2
         for idxTrial = 1:5
             onsets(idxTrial) = find(sniffs(idxOdor).trial(idxTrial).sniffPower(:,1) >= 0,1);
         end
@@ -108,7 +107,7 @@ for idxEntry = 1:size(logExc,1)
         end
     end
     for idxSniff = 1:15
-        if idxExp == 7
+        if idxExp == 2
             for idxTrial = 1:5
                 app(idxTrial,:) = A(idxTrial, 15000 + floor(sniffs(idxOdor).trial(idxTrial).sniffPower(onsets(idxTrial) + indici(idxSniff),1)*1000) :...
                     15000 + floor(sniffs(idxOdor).trial(idxTrial).sniffPower(onsets(idxTrial) + indici(idxSniff),1)*1000) + 299);
@@ -168,20 +167,18 @@ end
 % end
 
 %%
-countOdorSniff = zeros(size(cellLogExc1,1),10,15);
-for idxEntry = 1:size(cellLogExc1,1)
-    idxExp = cellLog1(idxEntry,1);
-    idxShank = cellLog1(idxEntry,2);
-    idxUnit = cellLog1(idxEntry,3);
+countOdorSniff = zeros(size(cellLogExc1App,1),odors,15);
+for idxEntry = 1:size(cellLogExc1App,1)
+    idxExp = cellLogExc1App(idxEntry,1);
+    idxShank = cellLogExc1App(idxEntry,2);
+    idxUnit = cellLogExc1App(idxEntry,3);
     cartella = List{idxExp};
-    cartella = cartella(end-11:end);
-    cartella = fullfile(prima,cartella);
     cd(cartella)
-    load('breathSniffs.mat', 'sniffs');
+    load('breathing.mat', 'sniffs');
     for idxOdor = 1:odors
         A = single(espe(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrix);
         
-        if idxExp == 7
+        if idxExp == 2
             for idxTrial = 1:5
                 onsets(idxTrial) = find(sniffs(idxOdor).trial(idxTrial).sniffPower(:,1) >= 0,1);
             end
@@ -191,7 +188,7 @@ for idxEntry = 1:size(cellLogExc1,1)
             end
         end
         for idxSniff = 1:15
-            if idxExp == 7
+            if idxExp == 2
                 for idxTrial = 1:5
                     app(idxTrial,:) = A(idxTrial, 15000 + floor(sniffs(idxOdor).trial(idxTrial).sniffPower(onsets(idxTrial) + indici(idxSniff),1)*1000) :...
                         15000 + floor(sniffs(idxOdor).trial(idxTrial).sniffPower(onsets(idxTrial) + indici(idxSniff),1)*1000) + 299);
@@ -224,12 +221,12 @@ distSniff = nanmean(distSniff);
 distSniffNorm = (distSniff ./ nanmean(distSniff(1:4)) - 1).*100;
 
 %%
-% for idxExp = unique(cellLogExc1(:,1))'
+% for idxExp = unique(cellLogExc1App(:,1))'
 %     cartella = List{idxExp};
 %     cd(cartella)
 %     load('breathing.mat', 'sniffs');
 %     
-%     expApp = cellLogExc1(cellLogExc1(:,1)==idxExp,:);   
+%     expApp = cellLogExc1App(cellLogExc1App(:,1)==idxExp,:);   
 %     for idxShank = unique(expApp(:,2))'
 %         shankApp = expApp(expApp(:,2)==idxShank,:);
 %         for idxUnit = unique(shankApp(:,3))'

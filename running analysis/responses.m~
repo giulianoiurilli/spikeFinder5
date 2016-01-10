@@ -1,7 +1,7 @@
 load('parameters.mat')
 folder = pwd;
 %%
-odorsRearranged = 1:8; %15 odors and 
+odorsRearranged = 1:15; %15 odors and 
 %{"TMT", "MMB", "2MB", "2PT", "IAA", "PET", "BTN", "GER", "PB", "URI", "G&B", "B&P", "T&B", "TMM", "TMB"};
 %odorsRearranged = 1:10; %aveatt
 %odorsRearranged = 1:7; %2conc
@@ -102,11 +102,11 @@ for idxExp =  1:length(esp)
             B1000ms = zeros(n_trials, odors);
             A1000ms = zeros(n_trials, odors);
             for idxOdor = 1:odors
-                R1000ms(:, idxOdor) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms';
-                B1000ms(:, idxOdor) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms';
+                R1000ms(:, idxOdor) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms';
+                B1000ms(:, idxOdor) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl300ms';
             end
             A1000ms = R1000ms - B1000ms;
-            esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls1s = lifetime_sparseness(A1000ms);
+            esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls300ms = lifetime_sparseness(A1000ms);
         end
     end
 end
@@ -233,7 +233,7 @@ for idxExp = 1: length(esp) %- 1
                 auROCTot1s(neuroneOdore) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC1000ms;
             end
             ls300msTot(neurone) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls300ms;
-            ls1sTot(neurone) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls1s;
+            ls1sTot(neurone) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls300ms;
             
             %vincolo reliability
             responsivenessExc300ms(aurocs300ms<=0.75) = 0;
@@ -536,9 +536,9 @@ save('responses.mat', 'responses300MinusMean','responses300', 'info300', 'respon
    'fanoFactor300', 'fanoFactor1', 'ls300', 'ls1', 'baseline300','baseline1', 'variance300','variance1', 'auRoc300', 'auRoc1', 'fanoFactor300', 'fanoFactor1', 'auROCTot300ms', 'auROCTot1s', 'ls300msTot', 'ls1sTot')
 % %%
 cd(folder)
-
+load('parameters.mat')
 responses2
 % %%
-
+load('parameters.mat')
 responses3
 cd(folder)

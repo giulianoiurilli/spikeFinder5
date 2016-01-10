@@ -22,7 +22,7 @@ odorsRearranged = 1:15;
 %%
 
 startingFolder = pwd;
-for idxExp = 1 : 11%length(exp)%-1
+for idxExp = 1 : length(List)%-1
     cartella = List{idxExp};
     cd(cartella)
     load('unitsNowarp.mat', 'shankNowarp');
@@ -165,8 +165,8 @@ end
 cd(startingFolder)
 clearvars -except List esp espe 
 
-save('aPCX_2conc_AreaNew1All.mat', 'espe', '-v7.3')
-save('aPCX_2conc_AreaNew2All.mat', 'esp')
+save('aPCX_15odors_AreaNew1.mat', 'espe', '-v7.3')
+save('aPCX_15odors_AreaNew2.mat', 'esp')
 
 
 

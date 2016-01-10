@@ -1,4 +1,4 @@
-function slidingPSTH = slidePSTH(spikesVect, binSize, moveBy)
+function [slidingPSTHmn, slidingPSTHsd, slidingPSTHcv] = slidePSTH(spikesVect, binSize, moveBy)
 
 if nargin < 3
     moveBy = 5;
@@ -21,7 +21,9 @@ for idxTrial = 1:nTrials
 end
 
 slidingPSTH = slidingPSTH(:,1:moveBy:end);
-slidingPSTH = mean(slidingPSTH,1);
+slidingPSTHmn = nanmean(slidingPSTH,1);
+slidingPSTHsd = nanstd(slidingPSTH,1);
+slidingPSTHcv = slidingPSTHsd ./ slidingPSTHmn;
 
 
 
