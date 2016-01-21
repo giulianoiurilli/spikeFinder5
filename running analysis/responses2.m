@@ -220,7 +220,7 @@ for idxExp = 1: length(esp) %- 1
         for idxUnit = 1:length(esp(idxExp).shankNowarp(idxShank).cell)
             neuron = neuron + 1;
             idxO = 0;
-            for idxOdor = odorRearranged
+            for idxOdor = odorsRearranged
                 idxO = idxO + 1;
                 A = single(espe(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrix);
                 if idxExp == 2

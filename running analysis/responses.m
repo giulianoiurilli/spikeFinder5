@@ -1,7 +1,7 @@
 load('parameters.mat')
 folder = pwd;
 %%
-odorsRearranged = [1 2 5 6 7 8 9 10]%1:8; %15 odors and 
+odorsRearranged = 1:8; %[1 2 5 6 7 8 9 10];% %15 odors and 
 %{"TMT", "MMB", "2MB", "2PT", "IAA", "PET", "BTN", "GER", "PB", "URI", "G&B", "B&P", "T&B", "TMM", "TMB"};
 %odorsRearranged = 1:10; %aveatt
 %odorsRearranged = 1:7; %2conc
@@ -83,9 +83,11 @@ for idxExp =  1:length(esp)
             R300ms = zeros(n_trials, odors);
             B300ms = zeros(n_trials, odors);
             A300ms = zeros(n_trials, odors);
-            for idxOdor = 1:odors
-                R300ms(:, idxOdor) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms';
-                B300ms(:, idxOdor) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl300ms';
+            idxO = 0;
+            for idxOdor = odorsRearranged
+                idxO = idxO + 1;
+                R300ms(:, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms';
+                B300ms(:, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl300ms';
             end
             A300ms = R300ms - B300ms;
             esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls300ms = lifetime_sparseness(A300ms);
@@ -101,15 +103,59 @@ for idxExp =  1:length(esp)
             R1000ms = zeros(n_trials, odors);
             B1000ms = zeros(n_trials, odors);
             A1000ms = zeros(n_trials, odors);
-            for idxOdor = 1:odors
-                R1000ms(:, idxOdor) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms';
-                B1000ms(:, idxOdor) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms';
+            idxO = 0;
+            for idxOdor = odorsRearranged
+                idxO = idxO + 1;
+                R1000ms(:, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms';
+                B1000ms(:, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms';
             end
             A1000ms = R1000ms - B1000ms;
             esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls1s = lifetime_sparseness(A1000ms);
         end
     end
 end
+%%
+%compute population sparseness for delta responses
+pop_sparseness300 = zeros(1,odors);
+pop_sparseness1000 = zeros(1,odors);
+for idxOdor = 1:odors
+    R300ms = zeros(n_trials, cells);
+    B300ms = zeros(n_trials, cells);
+    A300ms = zeros(n_trials, cells);
+    idxC = 0;
+    for idxExp =  1:length(esp)
+        for idxShank = 1:4
+            for idxUnit = 1:length(esp(idxExp).shankNowarp(idxShank).cell)
+                idxC = idxC + 1;
+                R300ms(:, idxC) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms';
+                B300ms(:, idxC) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl300ms';
+            end
+        end
+    end
+    A300ms = R300ms;% - B300ms;
+    A300ms = (A300ms - min(A300ms(:))) ./ (max(A300ms(:)) - min(A300ms(:)));
+    pop_sparseness300(idxOdor) = population_sparseness(A300ms);
+end
+
+for idxOdor = 1:odors
+    R1000ms = zeros(n_trials, cells);
+    B1000ms = zeros(n_trials, cells);
+    A1000ms = zeros(n_trials, cells);
+    idxC = 0;
+    for idxExp =  1:length(esp)
+        for idxShank = 1:4
+            for idxUnit = 1:length(esp(idxExp).shankNowarp(idxShank).cell)
+                idxC = idxC + 1;
+                R1000ms(:, idxC) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms';
+                B1000ms(:, idxC) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms';
+            end
+        end
+    end
+    A1000ms = R1000ms;% - B1000ms;
+    A1000ms = (A1000ms - min(A1000ms(:))) ./ (max(A1000ms(:)) - min(A1000ms(:)));
+    pop_sparseness1000(idxOdor) = population_sparseness(A1000ms);
+end
+
 %%
 responses300 = zeros(responsiveUnit300ms, odors);
 responses300MinusMean = zeros(responsiveUnit300ms, odors);
@@ -533,7 +579,7 @@ fanoFactor1 = fanoFactor1;
 % save('responsesCoaLow.mat', 'responses300MinusMeanCoa','responses300Coa', 'info300Coa', 'responses300AllTrialsCoa', 'responses1Coa', 'responses1MinusMeanCoa', 'responses1AllTrialsCoa', 'cellLog300Coa', 'cellLog1Coa','cellLog1Coa',...
 %   'fanoFactor300Coa', 'fanoFactor1Coa', 'ls300Coa', 'ls1Coa', 'baseline300Coa','baseline1Coa', 'variance300Coa','variance1Coa', 'auRoc300Coa', 'auRoc1Coa', 'fanoFactor300Coa', 'fanoFactor1Coa')
 save('responses.mat', 'responses300MinusMean','responses300', 'info300', 'responses300AllTrials', 'responses1', 'responses1MinusMean', 'responses1AllTrials', 'cellLog300','cellLogExc1', 'cellLog1',...
-   'fanoFactor300', 'fanoFactor1', 'ls300', 'ls1', 'baseline300','baseline1', 'variance300','variance1', 'auRoc300', 'auRoc1', 'fanoFactor300', 'fanoFactor1', 'auROCTot300ms', 'auROCTot1s', 'ls300msTot', 'ls1sTot')
+   'fanoFactor300', 'fanoFactor1', 'ls300', 'ls1', 'baseline300','baseline1', 'variance300','variance1', 'auRoc300', 'auRoc1', 'fanoFactor300', 'fanoFactor1', 'auROCTot300ms', 'auROCTot1s', 'ls300msTot', 'ls1sTot', 'pop_sparseness300', 'pop_sparseness1000')
 % %%
 cd(folder)
 

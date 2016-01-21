@@ -1,9 +1,21 @@
-odors = 10;
+odors = 15;
 idxCell1000ms = 0;
+appIdxCell = 0;
 for idxesp = 1:length(esp) %- 1
     for idxShank = 1:4
         for idxUnit = 1:length(esp(idxesp).shankNowarp(idxShank).cell)
             idxCell1000ms = idxCell1000ms + 1;
+            
+%             if idxesp == 7
+%                 appIdxCell = appIdxCell + 1;
+%                 for idxOdor = 1:odors
+%                     app = [];
+%                      app= esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms - ...
+%                     esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms;
+%                     appResp(appIdxCell,:,idxOdor) = [app app];
+%                 end
+%             end
+                
             for idxOdor = 1:odors
                 responseCell1000ms(idxCell1000ms,:,idxOdor) = esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms - ...
                     esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms;
@@ -19,7 +31,7 @@ dataAll = [];
 %dataAll(:,:,7:15)=[];
 dataAll = responseCell1000ms;
 
-                                                                                dataAll(:,:,3:4) = [];
+                                                                                %dataAll(:,:,3:4) = [];
 
 
 neurons = size(dataAll,1);
@@ -65,5 +77,5 @@ trainingN = floor(0.9*(trials * stimuli));
 repetitions = 500;
 [mean_acc_svm, std_acc_svm, acc_svm, prctile25, prctile75] = odor_c_svm_1leaveout(dataAll, trainingN, labels, repetitions);
 
-save('responses.mat', 'mean_acc_svm', 'std_acc_svm', 'prctile25', 'prctile75', 'acc_svm', '-append');
+save('responsesL.mat', 'mean_acc_svm', 'std_acc_svm', 'prctile25', 'prctile75', 'acc_svm', '-append');
                                                                                 %save('valence.mat', 'mean_acc_svm', 'std_acc_svm', 'prctile25', 'prctile75', 'acc_svm');

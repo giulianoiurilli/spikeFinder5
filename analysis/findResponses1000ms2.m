@@ -17,8 +17,8 @@
 %odorsRearranged = [1 13 14 15]; %mixTMT
 %{"TMT", "MMB", "2MB", "PET", "BTN", "GER"};
 %odorsRearranged = [1 2 3 6 7 8]; 
-odorsRearranged = 1:15;
-
+odorsRearranged = [1 2 5 6 7 8 9 10];
+odors = length(odorsRearranged);
 %%
 
 startingFolder = pwd;
@@ -165,8 +165,8 @@ end
 cd(startingFolder)
 clearvars -except List esp espe 
 
-save('aPCX_15odors_AreaNew1.mat', 'espe', '-v7.3')
-save('aPCX_15odors_AreaNew2.mat', 'esp')
+save('plCOA_aveatt_AreaNew1.mat', 'espe', '-v7.3')
+save('plCOA_aveatt_AreaNew2.mat', 'esp')
 
 
 

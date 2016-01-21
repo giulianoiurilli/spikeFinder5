@@ -1,0 +1,507 @@
+figure; plot(mean(pcx.respCellOdorPairPSTHExcMn), 'LineWidth', 2, 'Color', 'k')
+hold on; plot(mean(coa.respCellOdorPairPSTHExcMn), 'LineWidth', 2, 'Color', 'r')
+%axis off
+box off
+title('15 odors', 'FontName', 'DIscondensed', 'FontSize', 14)
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+
+figure; plot(mean(pcxAA.respCellOdorPairPSTHExcMn), 'LineWidth', 2, 'Color', 'k')
+hold on; plot(mean(coaAA.respCellOdorPairPSTHExcMn), 'LineWidth', 2, 'Color', 'r')
+%axis off
+box off
+title('Innately Relevant Odors', 'FontName', 'DIscondensed', 'FontSize', 14)
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+figure; plot(mean(pcxH.respCellOdorPairPSTHExcMn), 'LineWidth', 2, 'Color', 'k')
+hold on; plot(mean(coaH.respCellOdorPairPSTHExcMn), 'LineWidth', 2, 'Color', 'r')
+axis off
+box off
+title('odor dilution: 1/1000', 'FontName', 'DIscondensed', 'FontSize', 14)
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+
+figure; plot(mean(pcxL.respCellOdorPairPSTHExcMn), 'LineWidth', 2, 'Color', 'k')
+hold on; plot(mean(coaL.respCellOdorPairPSTHExcMn), 'LineWidth', 2, 'Color', 'r')
+axis off
+box off
+title('odor dilution: 1/10', 'FontName', 'DIscondensed', 'FontSize', 14)
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+
+%%
+
+figure; plot(pcx.distSniffNorm, 'LineWidth', 2, 'Color', 'k')
+hold on; plot(coa.distSniffNorm, 'LineWidth', 2, 'Color', 'r')
+grid on
+ylabel('Change of correlation distasce between odor representations relative to rest', 'FontName', 'DIscondensed', 'FontSize', 14)
+xlabel('respiration cycle', 'FontName', 'DIscondensed', 'FontSize', 14)
+title('15 odors - odor dilution: 1/100', 'FontName', 'DIscondensed', 'FontSize', 14)
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+
+figure; plot(pcxAA.distSniffNorm, 'LineWidth', 2, 'Color', 'k')
+hold on; plot(coaAA.distSniffNorm, 'LineWidth', 2, 'Color', 'r')
+grid on
+ylabel('Change of correlation distasce between odor representations relative to rest', 'FontName', 'DIscondensed', 'FontSize', 14)
+xlabel('respiration cycle', 'FontName', 'DIscondensed', 'FontSize', 14)
+title('Innately Relevant Odors - odor dilution: 1/100', 'FontName', 'DIscondensed', 'FontSize', 14)
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+figure; plot(pcxH.distSniffNorm, 'LineWidth', 2, 'Color', 'k')
+hold on; plot(coaH.distSniffNorm, 'LineWidth', 2, 'Color', 'r')
+grid on
+xlabel('respiration cycle', 'FontName', 'DIscondensed', 'FontSize', 14)
+title('7 odors - odor dilution: 1/1000', 'FontName', 'DIscondensed', 'FontSize', 14)
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+figure; plot(pcxL.distSniffNorm, 'LineWidth', 2, 'Color', 'k')
+hold on; plot(coaL.distSniffNorm, 'LineWidth', 2, 'Color', 'r')
+grid on
+xlabel('respiration cycle', 'FontName', 'DIscondensed', 'FontSize', 14)
+title('7 odors - odor dilution: 1/10', 'FontName', 'DIscondensed', 'FontSize', 14)
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+
+%%
+
+edges300 = -0.05:0.1:1.05;
+figure;
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+set(gcf,'Position',[497 246 1102 748]);
+[N,edges] = histcounts(pcx.ls300msTot, edges300);
+edges(1) = [];
+h1 = area(edges, N./length(pcx.ls300msTot));
+h1.FaceColor = 'k';
+h1.EdgeColor = 'k';
+hold on
+[N,edges] = histcounts(coa.ls300msTot, edges300);
+edges(1) = [];
+h1 = area(edges, N./length(coa.ls300msTot));
+h1.FaceColor = 'r';
+h1.EdgeColor = 'r';
+axis tight
+set(gca,'FontName','Arial','Fontsize',11,'FontWeight','normal','TickDir','out','Box','off');
+title('lifetime sparseness  - first 300 ms')
+
+
+edges300 = -0.05:0.1:1.05;
+figure;
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+set(gcf,'Position',[497 246 1102 748]);
+[N,edges] = histcounts(pcx.ls1sTot, edges300);
+edges(1) = [];
+h1 = area(edges, N./length(pcx.ls1sTot));
+h1.FaceColor = 'k';
+h1.EdgeColor = 'k';
+hold on
+[N,edges] = histcounts(coa.ls1sTot, edges300);
+edges(1) = [];
+h1 = area(edges, N./length(coa.ls1sTot));
+h1.FaceColor = 'r';
+h1.EdgeColor = 'r';
+axis tight
+set(gca,'FontName','Arial','Fontsize',11,'FontWeight','normal','TickDir','out','Box','off');
+title('lifetime sparseness  - first 1000 ms')
+
+edges300 = -0.05:0.1:1.05;
+figure;
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+set(gcf,'Position',[497 246 1102 748]);
+[N,edges] = histcounts(pcxH.ls300msTot, edges300);
+edges(1) = [];
+h1 = area(edges, N./length(pcxH.ls300msTot));
+h1.FaceColor = 'k';
+h1.EdgeColor = 'k';
+hold on
+[N,edges] = histcounts(coaH.ls300msTot, edges300);
+edges(1) = [];
+h1 = area(edges, N./length(coaH.ls300msTot));
+h1.FaceColor = 'r';
+h1.EdgeColor = 'r';
+axis tight
+set(gca,'FontName','Arial','Fontsize',11,'FontWeight','normal','TickDir','out','Box','off');
+title('lifetime sparseness  - first 300 ms - Low')
+
+edges300 = -0.05:0.1:1.05;
+figure;
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+set(gcf,'Position',[497 246 1102 748]);
+[N,edges] = histcounts(pcxH.ls1sTot, edges300);
+edges(1) = [];
+h1 = area(edges, N./length(pcxH.ls1sTot));
+h1.FaceColor = 'k';
+h1.EdgeColor = 'k';
+hold on
+[N,edges] = histcounts(coaH.ls1sTot, edges300);
+edges(1) = [];
+h1 = area(edges, N./length(coaH.ls1sTot));
+h1.FaceColor = 'r';
+h1.EdgeColor = 'r';
+axis tight
+set(gca,'FontName','Arial','Fontsize',11,'FontWeight','normal','TickDir','out','Box','off');
+title('lifetime sparseness  - first 1000 s - Low')
+
+edges300 = -0.05:0.1:1.05;
+figure;
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+set(gcf,'Position',[497 246 1102 748]);
+[N,edges] = histcounts(pcxL.ls300msTot, edges300);
+edges(1) = [];
+h1 = area(edges, N./length(pcxL.ls300msTot));
+h1.FaceColor = 'k';
+h1.EdgeColor = 'k';
+hold on
+[N,edges] = histcounts(coaL.ls300msTot, edges300);
+edges(1) = [];
+h1 = area(edges, N./length(coaL.ls300msTot));
+h1.FaceColor = 'r';
+h1.EdgeColor = 'r';
+axis tight
+set(gca,'FontName','Arial','Fontsize',11,'FontWeight','normal','TickDir','out','Box','off');
+title('lifetime sparseness  - first 300 ms - High')
+
+edges300 = -0.05:0.1:1.05;
+figure;
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+set(gcf,'Position',[497 246 1102 748]);
+[N,edges] = histcounts(pcxL.ls1sTot, edges300);
+edges(1) = [];
+h1 = area(edges, N./length(pcxL.ls1sTot));
+h1.FaceColor = 'k';
+h1.EdgeColor = 'k';
+hold on
+[N,edges] = histcounts(coaL.ls1sTot, edges300);
+edges(1) = [];
+h1 = area(edges, N./length(coaL.ls1sTot));
+h1.FaceColor = 'r';
+h1.EdgeColor = 'r';
+axis tight
+set(gca,'FontName','Arial','Fontsize',11,'FontWeight','normal','TickDir','out','Box','off');
+title('lifetime sparseness  - first 1000 s - High')
+
+edges300 = -0.05:0.1:1.05;
+figure;
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+set(gcf,'Position',[497 246 1102 748]);
+[N,edges] = histcounts(pcxAA.ls300msTot, edges300);
+edges(1) = [];
+h1 = area(edges, N./length(pcxAA.ls300msTot));
+h1.FaceColor = 'k';
+h1.EdgeColor = 'k';
+hold on
+[N,edges] = histcounts(coaAA.ls300msTot, edges300);
+edges(1) = [];
+h1 = area(edges, N./length(coaAA.ls300msTot));
+h1.FaceColor = 'r';
+h1.EdgeColor = 'r';
+axis tight
+set(gca,'FontName','Arial','Fontsize',11,'FontWeight','normal','TickDir','out','Box','off');
+title('lifetime sparseness  - first 300 ms')
+
+
+edges300 = -0.05:0.1:1.05;
+figure;
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+set(gcf,'Position',[497 246 1102 748]);
+[N,edges] = histcounts(pcxAA.ls1sTot, edges300);
+edges(1) = [];
+h1 = area(edges, N./length(pcxAA.ls1sTot));
+h1.FaceColor = 'k';
+h1.EdgeColor = 'k';
+hold on
+[N,edges] = histcounts(coaAA.ls1sTot, edges300);
+edges(1) = [];
+h1 = area(edges, N./length(coaAA.ls1sTot));
+h1.FaceColor = 'r';
+h1.EdgeColor = 'r';
+axis tight
+set(gca,'FontName','Arial','Fontsize',11,'FontWeight','normal','TickDir','out','Box','off');
+title('lifetime sparseness  - first 1000 ms')
+%%
+% edges300 = 0:0.1:1;
+% figure;
+% set(gcf,'color','white', 'PaperPositionMode', 'auto');
+% set(gcf,'Position',[497 246 1102 748]);
+% [N,edges] = histcounts(pcx.auROCTot300ms, edges300);
+% edges(1) = [];
+% plot(edges, N./length(pcx.auROCTot300ms), 'k');
+% hold on
+% [N,edges] = histcounts(coa.auROCTot300ms, edges300);
+% edges(1) = [];
+% plot(edges, N./length(coa.auROCTot300ms), 'r');
+% axis tight
+% set(gca,'FontName','Arial','Fontsize',11,'FontWeight','normal','TickDir','out','Box','off');
+% title('auROC  - first 300 ms')
+% 
+% edges300 = 0:0.1:1;
+% figure;
+% set(gcf,'color','white', 'PaperPositionMode', 'auto');
+% set(gcf,'Position',[497 246 1102 748]);
+% [N,edges] = histcounts(pcx.auROCTot1s, edges300);
+% edges(1) = [];
+% plot(edges, N./length(pcx.auROCTot1s), 'k');
+% hold on
+% [N,edges] = histcounts(coa.auROCTot1s, edges300);
+% edges(1) = [];
+% plot(edges, N./length(coa.auROCTot1s), 'r');
+% axis tight
+% set(gca,'FontName','Arial','Fontsize',11,'FontWeight','normal','TickDir','out','Box','off');
+% title('auROC  - first 1000 ms')
+
+% edges300 = 0:0.1:1;
+% figure;
+% set(gcf,'color','white', 'PaperPositionMode', 'auto');
+% set(gcf,'Position',[497 246 1102 748]);
+% [N,edges] = histcounts(pcxH.auROCTot300ms, edges300);
+% edges(1) = [];
+% plot(edges, N./length(pcxH.auROCTot300ms), 'k');
+% hold on
+% [N,edges] = histcounts(coaH.auROCTot300ms, edges300);
+% edges(1) = [];
+% plot(edges, N./length(coaH.auROCTot300ms), 'r');
+% axis tight
+% set(gca,'FontName','Arial','Fontsize',11,'FontWeight','normal','TickDir','out','Box','off');
+% title('auROC - L   - first 300 ms')
+% 
+% edges300 = 0:0.1:1;
+% figure;
+% set(gcf,'color','white', 'PaperPositionMode', 'auto');
+% set(gcf,'Position',[497 246 1102 748]);
+% [N,edges] = histcounts(pcxH.auROCTot1s, edges300);
+% edges(1) = [];
+% plot(edges, N./length(pcxH.auROCTot1s), 'k');
+% hold on
+% [N,edges] = histcounts(coaH.auROCTot1s, edges300);
+% edges(1) = [];
+% plot(edges, N./length(coaH.auROCTot1s), 'r');
+% axis tight
+% set(gca,'FontName','Arial','Fontsize',11,'FontWeight','normal','TickDir','out','Box','off');
+% title('auROC - L  - first 1000 ms')
+% 
+% edges300 = 0:0.1:1;
+% figure;
+% set(gcf,'color','white', 'PaperPositionMode', 'auto');
+% set(gcf,'Position',[497 246 1102 748]);
+% [N,edges] = histcounts(pcxL.auROCTot300ms, edges300);
+% edges(1) = [];
+% plot(edges, N./length(pcxL.auROCTot300ms), 'k');
+% hold on
+% [N,edges] = histcounts(coaL.auROCTot300ms, edges300);
+% edges(1) = [];
+% plot(edges, N./length(coaL.auROCTot300ms), 'r');
+% axis tight
+% set(gca,'FontName','Arial','Fontsize',11,'FontWeight','normal','TickDir','out','Box','off');
+% title('auROC - H   - first 300 ms')
+% 
+% edges300 = 0:0.1:1;
+% figure;
+% set(gcf,'color','white', 'PaperPositionMode', 'auto');
+% set(gcf,'Position',[497 246 1102 748]);
+% [N,edges] = histcounts(pcxL.auROCTot1s, edges300);
+% edges(1) = [];
+% plot(edges, N./length(pcxL.auROCTot1s), 'k');
+% hold on
+% [N,edges] = histcounts(coaL.auROCTot1s, edges300);
+% edges(1) = [];
+% plot(edges, N./length(coaL.auROCTot1s), 'r');
+% axis tight
+% set(gca,'FontName','Arial','Fontsize',11,'FontWeight','normal','TickDir','out','Box','off');
+% title('auROC - H  - first 1000 ms')
+
+% edges300 = 0:0.1:1;
+% figure;
+% set(gcf,'color','white', 'PaperPositionMode', 'auto');
+% set(gcf,'Position',[497 246 1102 748]);
+% [N,edges] = histcounts(pcxAA.auROCTot300ms, edges300);
+% edges(1) = [];
+% plot(edges, N./length(pcxAA.auROCTot300ms), 'k');
+% hold on
+% [N,edges] = histcounts(coaAA.auROCTot300ms, edges300);
+% edges(1) = [];
+% plot(edges, N./length(coaAA.auROCTot300ms), 'r');
+% axis tight
+% set(gca,'FontName','Arial','Fontsize',11,'FontWeight','normal','TickDir','out','Box','off');
+% title('auROC -AA - first 300 ms')
+% 
+% edges300 = 0:0.1:1;
+% figure;
+% set(gcf,'color','white', 'PaperPositionMode', 'auto');
+% set(gcf,'Position',[497 246 1102 748]);
+% [N,edges] = histcounts(pcxAA.auROCTot1s, edges300);
+% edges(1) = [];
+% plot(edges, N./length(pcxAA.auROCTot1s), 'k');
+% hold on
+% [N,edges] = histcounts(coaAA.auROCTot1s, edges300);
+% edges(1) = [];
+% plot(edges, N./length(coaAA.auROCTot1s), 'r');
+% axis tight
+% set(gca,'FontName','Arial','Fontsize',11,'FontWeight','normal','TickDir','out','Box','off');
+% title('auROC -AA - first 1000 ms')
+
+%%
+figure;
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+h1 = cdfplot(pcx.auROCTot300ms);
+set(h1, 'linewidth', 2, 'color', 'k')
+hold on
+h2 = cdfplot(coa.auROCTot300ms);
+set(h2, 'linewidth', 2, 'color', 'r')
+title('auROC - 15 - first 1000 ms')
+
+figure;
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+h1 = cdfplot(pcxAA.auROCTot300ms);
+set(h1, 'linewidth', 2, 'color', 'k')
+hold on
+h2 = cdfplot(coaAA.auROCTot300ms);
+set(h2, 'linewidth', 2, 'color', 'r')
+title('auROC - AA - first 1000 ms')
+
+figure;
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+h1 = cdfplot(pcxH.auROCTot300ms);
+set(h1, 'linewidth', 2, 'color', 'k')
+hold on
+h2 = cdfplot(coaH.auROCTot300ms);
+set(h2, 'linewidth', 2, 'color', 'r')
+title('auROC - Low - first 1000 ms')
+% 
+figure;
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+h1 = cdfplot(pcxL.auROCTot300ms);
+set(h1, 'linewidth', 2, 'color', 'k')
+hold on
+h2 = cdfplot(coaL.auROCTot300ms);
+set(h2, 'linewidth', 2, 'color', 'r')
+title('auROC - High - first 1000 ms')
+
+figure;
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+h1 = cdfplot(pcx.auROCTot1s);
+set(h1, 'linewidth', 2, 'color', 'k')
+hold on
+h2 = cdfplot(coa.auROCTot1s);
+set(h2, 'linewidth', 2, 'color', 'r')
+title('auROC - 15 - first 1000 ms')
+
+figure;
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+h1 = cdfplot(pcxAA.auROCTot1s);
+set(h1, 'linewidth', 2, 'color', 'k')
+hold on
+h2 = cdfplot(coaAA.auROCTot1s);
+set(h2, 'linewidth', 2, 'color', 'r')
+title('auROC - AA - first 1000 ms')
+
+figure;
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+h1 = cdfplot(pcxH.auROCTot1s);
+set(h1, 'linewidth', 2, 'color', 'k')
+hold on
+h2 = cdfplot(coaH.auROCTot1s);
+set(h2, 'linewidth', 2, 'color', 'r')
+title('auROC - Low - first 1000 ms')
+% 
+figure;
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+h1 = cdfplot(pcxL.auROCTot1s);
+set(h1, 'linewidth', 2, 'color', 'k')
+hold on
+h2 = cdfplot(coaL.auROCTot1s);
+set(h2, 'linewidth', 2, 'color', 'r')
+title('auROC - High - first 1000 ms')
+%%
+pcx.sigCorrW1000ms(isnan(pcx.sigCorrW1000ms)) = [];
+pcx.sigCorrB1000ms(isnan(pcx.sigCorrB1000ms)) = [];
+pcxAA.sigCorrW1000ms(isnan(pcxAA.sigCorrW1000ms)) = [];
+pcxAA.sigCorrB1000ms(isnan(pcxAA.sigCorrB1000ms)) = [];
+pcxH.sigCorrW1000ms(isnan(pcxH.sigCorrW1000ms)) = [];
+pcxH.sigCorrB1000ms(isnan(pcxH.sigCorrB1000ms)) = [];
+pcxL.sigCorrW1000ms(isnan(pcxL.sigCorrW1000ms)) = [];
+pcxL.sigCorrB1000ms(isnan(pcxL.sigCorrB1000ms)) = [];
+
+coa.sigCorrW1000ms(isnan(coa.sigCorrW1000ms)) = [];
+coa.sigCorrB1000ms(isnan(coa.sigCorrB1000ms)) = [];
+coaAA.sigCorrW1000ms(isnan(coaAA.sigCorrW1000ms)) = [];
+coaAA.sigCorrB1000ms(isnan(coaAA.sigCorrB1000ms)) = [];
+coaH.sigCorrW1000ms(isnan(coaH.sigCorrW1000ms)) = [];
+coaH.sigCorrB1000ms(isnan(coaH.sigCorrB1000ms)) = [];
+coaL.sigCorrW1000ms(isnan(coaL.sigCorrW1000ms)) = [];
+coaL.sigCorrB1000ms(isnan(coaL.sigCorrB1000ms)) = [];
+
+
+scPcxMW = [pcx.sigCorrW1000ms ];%pcxAA.sigCorrW1000ms pcxH.sigCorrW1000ms];
+scPcxMB = [pcx.sigCorrB1000ms ];%pcxAA.sigCorrB1000ms pcxH.sigCorrB1000ms];
+sccoaMW = [coa.sigCorrW1000ms ];%coaAA.sigCorrW1000ms coaH.sigCorrW1000ms];
+sccoaMB = [coa.sigCorrB1000ms ];%coaAA.sigCorrB1000ms coaH.sigCorrB1000ms];
+
+
+
+scPcxMW1 = nanmean(scPcxMW);
+scPcxMB1 = nanmean(scPcxMB);
+scPcxSEW = nanstd(scPcxMW) ./ sqrt(size(scPcxMW,2));
+scPcxSEB = nanstd(scPcxMB) ./ sqrt(size(scPcxMB,2));
+scPcxM = [scPcxMW1 scPcxMB1];
+scPcxSE = [scPcxSEW scPcxSEB];
+
+scPcxAAMW = nanmean(pcxAA.sigCorrW1000ms);
+scPcxAAMB = nanmean(pcxAA.sigCorrB1000ms);
+scPcxAASEW = nanstd(pcxAA.sigCorrW1000ms) ./ sqrt(size(pcxAA.sigCorrW1000ms,2));
+scPcxAASEB = nanstd(pcxAA.sigCorrB1000ms) ./ sqrt(size(pcxAA.sigCorrB1000ms,2));
+scPcxAAM = [scPcxAAMW scPcxAAMB];
+scPcxAASE = [scPcxAASEW scPcxAASEB];
+
+% scPcxHMW = nanmean(pcxH.sigCorrW1000ms);
+% scPcxHMB = nanmean(pcxH.sigCorrB1000ms);
+% scPcxHSEW = nanstd(pcxH.sigCorrW1000ms) ./ sqrt(size(pcxH.sigCorrW1000ms,2));
+% scPcxHSEB = nanstd(pcxH.sigCorrB1000ms) ./ sqrt(size(pcxH.sigCorrB1000ms,2));
+% scPcxHM = [scPcxHMW scPcxHMB];
+% scPcxHSE = [scPcxHSEW scPcxHSEB];
+% 
+% scPcxLMW = nanmean(pcxL.sigCorrW1000ms);
+% scPcxLMB = nanmean(pcxL.sigCorrB1000ms);
+% scPcxLSEW = nanstd(pcxL.sigCorrW1000ms) ./ sqrt(size(pcxL.sigCorrW1000ms,2));
+% scPcxLSEB = nanstd(pcxL.sigCorrB1000ms) ./ sqrt(size(pcxL.sigCorrB1000ms,2));
+% scPcxLM = [scPcxLMW scPcxLMB];
+% scPcxLSE = [scPcxLSEW scPcxLSEB];
+
+sccoaMW1 = nanmean(sccoaMW);
+sccoaMB1 = nanmean(sccoaMB);
+sccoaSEW = nanstd(sccoaMW) ./ sqrt(size(sccoaMW,2));
+sccoaSEB = nanstd(sccoaMB) ./ sqrt(size(sccoaMB,2));
+sccoaM = [sccoaMW1 sccoaMB1];
+sccoaSE = [sccoaSEW sccoaSEB];
+
+% sccoaAAMW = nanmean(coaAA.sigCorrW1000ms);
+% sccoaAAMB = nanmean(coaAA.sigCorrB1000ms);
+% sccoaAASEW = nanstd(coaAA.sigCorrW1000ms) ./ sqrt(size(coaAA.sigCorrW1000ms,2));
+% sccoaAASEB = nanstd(coaAA.sigCorrB1000ms) ./ sqrt(size(coaAA.sigCorrB1000ms,2));
+% sccoaAAM = [sccoaAAMW sccoaAAMB];
+% sccoaAASE = [sccoaAASEW sccoaAASEB];
+
+% sccoaHMW = nanmean(coaH.sigCorrW1000ms);
+% sccoaHMB = nanmean(coaH.sigCorrB1000ms);
+% sccoaHSEW = nanstd(coaH.sigCorrW1000ms) ./ size(coaH.sigCorrW1000ms,2);
+% sccoaHSEB = nanstd(coaH.sigCorrB1000ms) ./ size(coaH.sigCorrB1000ms,2);
+% sccoaHM = [sccoaHMW sccoaHMB];
+% sccoaHSE = [sccoaHSEW sccoaHSEB];
+% 
+% sccoaLMW = nanmean(coaL.sigCorrW1000ms);
+% sccoaLMB = nanmean(coaL.sigCorrB1000ms);
+% sccoaLSEW = nanstd(coaL.sigCorrW1000ms) ./ sqrt(size(coaL.sigCorrW1000ms,2));
+% sccoaLSEB = nanstd(coaL.sigCorrB1000ms) ./ sqrt(size(coaL.sigCorrB1000ms,2));
+% sccoaLM = [sccoaLMW sccoaLMB];
+% sccoaLSE = [sccoaLSEW sccoaLSEB];
+
+figure;
+errorbar(scPcxM, scPcxSE, '-ks', 'linewidth', 2, 'MarkerEdgeColor', 'k', 'MarkerFaceColor', 'k', 'MarkerSize', 10)
+hold on
+errorbar(sccoaM, sccoaSE, '-rs', 'linewidth', 2, 'MarkerEdgeColor', 'r', 'MarkerFaceColor', 'r', 'MarkerSize', 10)
+
+% figure;
+% errorbar(scPcxAAM, scPcxAASE, '-ks', 'linewidth', 2, 'MarkerEdgeColor', 'k', 'MarkerFaceColor', 'k', 'MarkerSize', 10)
+% hold on
+% errorbar(sccoaAAM, sccoaAASE, '-rs', 'linewidth', 2, 'MarkerEdgeColor', 'r', 'MarkerFaceColor', 'r', 'MarkerSize', 10)
+
+% figure;
+% errorbar(scPcxHM, scPcxHSE, '-ks', 'linewidth', 2, 'MarkerEdgeColor', 'k', 'MarkerFaceColor', 'k', 'MarkerSize', 10)
+% hold on
+% errorbar(sccoaHM, sccoaHSE, '-rs', 'linewidth', 2, 'MarkerEdgeColor', 'r', 'MarkerFaceColor', 'r', 'MarkerSize', 10)
+% 
+% figure;
+% errorbar(scPcxLM, scPcxLSE, '-ks', 'linewidth', 2, 'MarkerEdgeColor', 'k', 'MarkerFaceColor', 'k', 'MarkerSize', 10)
+% hold on
+% errorbar(sccoaLM, sccoaLSE, '-rs', 'linewidth', 2, 'MarkerEdgeColor', 'r', 'MarkerFaceColor', 'r', 'MarkerSize', 10)
