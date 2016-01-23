@@ -1,12 +1,7 @@
 load('parameters.mat')
 folder = pwd;
 %%
-%odorsRearranged = [1 5 7 8 10 15 12];% pcxL
-%odorsRearranged = [11 14 4 6 9 13 3];% pcxH
-%odorsRearranged = [1 3 5 7 9 12 13];% coaL
-odorsRearranged = [2 6 8 10 11 14 15];% coaH
-%odorsRearranged = 1:15;
-
+odorsRearranged = 1:15; %[1 2 5 6 7 8 9 10];% %15 odors and 
 %{"TMT", "MMB", "2MB", "2PT", "IAA", "PET", "BTN", "GER", "PB", "URI", "G&B", "B&P", "T&B", "TMM", "TMB"};
 %odorsRearranged = 1:10; %aveatt
 %odorsRearranged = 1:7; %2conc
@@ -127,7 +122,7 @@ end
 %compute population sparseness for delta responses
 pop_sparseness300 = zeros(1,odors);
 pop_sparseness1000 = zeros(1,odors);
-for idxOdor = odorsRearranged
+for idxOdor = 1:odors
     R300ms = zeros(n_trials, cells);
     B300ms = zeros(n_trials, cells);
     A300ms = zeros(n_trials, cells);
@@ -146,7 +141,7 @@ for idxOdor = odorsRearranged
     pop_sparseness300(idxOdor) = population_sparseness(A300ms);
 end
 
-for idxOdor = odorsRearranged
+for idxOdor = 1:odors
     R1000ms = zeros(n_trials, cells);
     B1000ms = zeros(n_trials, cells);
     A1000ms = zeros(n_trials, cells);
@@ -261,7 +256,7 @@ idxCellInh300 = 0;
 idxCellInh1 = 0;
 neuroneOdore = 0;
 neurone = 0;
-for idxExp = 1: length(esp) %- 1
+for idxExp = list2%1: length(esp) %- 1
     for idxShank = 1:4
         for idxUnit = 1:length(esp(idxExp).shankNowarp(idxShank).cell)
             neurone = neurone + 1;
@@ -587,9 +582,9 @@ fanoFactor1 = fanoFactor1;
 %     'fanoFactor300', 'fanoFactor1', 'ls300', 'ls1', 'baseline300','baseline1', 'variance300','variance1', 'auRoc300', 'auRoc1')
 % save('responsesCoaLow.mat', 'responses300MinusMeanCoa','responses300Coa', 'info300Coa', 'responses300AllTrialsCoa', 'responses1Coa', 'responses1MinusMeanCoa', 'responses1AllTrialsCoa', 'cellLog300Coa', 'cellLog1Coa','cellLog1Coa',...
 %   'fanoFactor300Coa', 'fanoFactor1Coa', 'ls300Coa', 'ls1Coa', 'baseline300Coa','baseline1Coa', 'variance300Coa','variance1Coa', 'auRoc300Coa', 'auRoc1Coa', 'fanoFactor300Coa', 'fanoFactor1Coa')
-save('responsesH.mat', 'responses300MinusMean','responses300', 'info300', 'responses300AllTrials', 'responses1', 'responses1MinusMean', 'responses1AllTrials', 'cellLog300','cellLogExc1', 'cellLog1',...
+save('responses.mat', 'responses300MinusMean','responses300', 'info300', 'responses300AllTrials', 'responses1', 'responses1MinusMean', 'responses1AllTrials', 'cellLog300','cellLogExc1', 'cellLog1',...
    'fanoFactor300', 'fanoFactor1', 'ls300', 'ls1', 'baseline300','baseline1', 'variance300','variance1', 'auRoc300', 'auRoc1', 'fanoFactor300', 'fanoFactor1', 'auROCTot300ms', 'auROCTot1s', 'ls300msTot', 'ls1sTot', 'pop_sparseness300', 'pop_sparseness1000')
-%%
+% %%
 cd(folder)
 
 responses2

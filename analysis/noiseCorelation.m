@@ -19,8 +19,8 @@ for idxesp = 1: length(esp) %- 1
                 idxO = 0;
                 for idxOdor = odorsRearranged
                     idxO = idxO + 1;
-                    tuningCell300ms(idxShank).shank(idxCell300ms,:,idxO) = esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms -...
-                        median(esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms);
+                    tuningCell300ms(idxShank).shank(idxCell300ms,:,idxO) = (esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms -...
+                        median(esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms));% ./ std((esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms));
                 end
 %             end
         end
@@ -79,8 +79,8 @@ for idxesp = 1: length(esp) %- 1
                 idxO = 0;
                 for idxOdor = odorsRearranged
                     idxO = idxO + 1;
-                    tuningCell1000ms(idxShank).shank(idxCell1000ms,:,idxO) = esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms -...
-                        median(esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms);
+                    tuningCell1000ms(idxShank).shank(idxCell1000ms,:,idxO) = (esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms -...
+                        median(esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms));% ./ std(esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms);
                 end
 %             end
         end

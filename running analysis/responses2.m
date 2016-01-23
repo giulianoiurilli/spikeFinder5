@@ -267,6 +267,6 @@ distSniffNorm = (distSniff ./ nanmean(distSniff(1:4)) - 1).*100;
 
 %%
 cd(folder)
-save('responses.mat', 'respCellOdorPairPSTHExcMn', 'respCellOdorPairPSTHExcSd', 'respCellOdorPairPSTHExcCv', 'distSniff', 'distSniffNorm', '-append')
+save('responsesH.mat', 'respCellOdorPairPSTHExcMn', 'respCellOdorPairPSTHExcSd', 'respCellOdorPairPSTHExcCv', 'distSniff', 'distSniffNorm', '-append')
 
                     

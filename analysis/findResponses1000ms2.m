@@ -165,8 +165,8 @@ end
 cd(startingFolder)
 clearvars -except List esp espe 
 
-save('pcx_15_1.mat', 'espe', '-v7.3')
-save('pcx_15_2.mat', 'esp')
+save('coa_15_2_1.mat', 'espe', '-v7.3')
+save('coa_15_2_2.mat', 'esp')
 
 
 
