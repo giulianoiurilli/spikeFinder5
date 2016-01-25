@@ -132,23 +132,25 @@ for idxesp = 1: length(esp) %- 1
         idxCell300ms = 0;
         tuningCell300ms(idxShank).shank = [];
         for idxUnit = 1:length(esp(idxesp).shankNowarp(idxShank).cell)
-            responsivenessExc300ms = zeros(1,odors);
-            aurocs300ms = 0.5*ones(1,odors);
-            idxO = 0;
-            for idxOdor = odorsRearranged
-                idxO = idxO + 1;
-                responsivenessExc300ms(idxO) = esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).pValue300ms < 0.05;
-                aurocs300ms(idxO) =  esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC300ms;
-            end
-            responsivenessExc300ms(aurocs300ms<=0.75) = 0;
-%             if sum(responsivenessExc300ms) > 0
+            if esp(idxesp).shankNowarp(idxShank).cell(idxUnit).good == 1
+                responsivenessExc300ms = zeros(1,odors);
+                aurocs300ms = 0.5*ones(1,odors);
+                idxO = 0;
+                for idxOdor = odorsRearranged
+                    idxO = idxO + 1;
+                    responsivenessExc300ms(idxO) = esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).pValue300ms < 0.05;
+                    aurocs300ms(idxO) =  esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC300ms;
+                end
+                responsivenessExc300ms(aurocs300ms<=0.75) = 0;
+                %             if sum(responsivenessExc300ms) > 0
                 idxCell300ms = idxCell300ms + 1;
                 idxO = 0;
                 for idxOdor = odorsRearranged
                     idxO = idxO + 1;
-                    tuningCell300ms(idxShank).shank(idxCell300ms,idxO) = mean(esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms);% - median(esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl300ms);
+                    tuningCell300ms(idxShank).shank(idxCell300ms,idxO) = median(esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms);% - median(esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl300ms);
                 end
-%             end
+                %             end
+            end
         end
         if size(tuningCell300ms(idxShank).shank,1) > 1;
             app = [];
@@ -191,23 +193,25 @@ for idxesp = 1: length(esp) %- 1
         idxCell1000ms = 0;
         tuningCell1000ms(idxShank).shank = [];
         for idxUnit = 1:length(esp(idxesp).shankNowarp(idxShank).cell)
-            responsivenessExc1000ms = zeros(1,odors);
-            aurocs1s = 0.5*ones(1,odors);
-            idxO = 0;
-            for idxOdor = odorsRearranged
-                idxO = idxO + 1;
-                responsivenessExc1000ms(idxO) = esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).pValue1000ms < 0.05;
-                aurocs1000ms(idxO) =  esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC1000ms;
-            end
-            responsivenessExc1000ms(aurocs1000ms<=0.75) = 0;
-%             if sum(responsivenessExc1000ms) > 0
+            if esp(idxesp).shankNowarp(idxShank).cell(idxUnit).good == 1
+                responsivenessExc1000ms = zeros(1,odors);
+                aurocs1s = 0.5*ones(1,odors);
+                idxO = 0;
+                for idxOdor = odorsRearranged
+                    idxO = idxO + 1;
+                    responsivenessExc1000ms(idxO) = esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).pValue1000ms < 0.05;
+                    aurocs1000ms(idxO) =  esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC1000ms;
+                end
+                responsivenessExc1000ms(aurocs1000ms<=0.75) = 0;
+                %             if sum(responsivenessExc1000ms) > 0
                 idxCell1000ms = idxCell1000ms + 1;
                 idxO = 0;
                 for idxOdor = odorsRearranged
                     idxO = idxO + 1;
-                    tuningCell1000ms(idxShank).shank(idxCell1000ms,idxO) = mean(esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms);%  - median(esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms);
+                    tuningCell1000ms(idxShank).shank(idxCell1000ms,idxO) = median(esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms);%  - median(esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms);
                 end
-              %end
+                %end
+            end
         end
         if size(tuningCell1000ms(idxShank).shank,1) > 1;
             app = [];

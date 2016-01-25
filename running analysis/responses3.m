@@ -98,5 +98,5 @@ noiseCorelation
 
 %%
 cd(folder)
-save('responsesH.mat', 'tot_units', 'pR300', 'SEpR300', 'SEpR300', 'pR1000', 'SEpR1000', 'cellOdorPairSpikeCount300', 'spikeCountChangeExc1000', 'spikeCountChangeCVExc300', 'spikeCountChangeCVExc1000',...
+save('responsesH8.mat', 'tot_units', 'pR300', 'SEpR300', 'SEpR300', 'pR1000', 'SEpR1000', 'cellOdorPairSpikeCount300', 'spikeCountChangeExc1000', 'spikeCountChangeCVExc300', 'spikeCountChangeCVExc1000',...
     'lsExc300', 'lsExc1000', 'infoExc300', 'infoExc1000', 'sigCorrW300ms', 'sigCorrB300ms', 'sigCorrW1000ms', 'sigCorrB1000ms', 'noiseCorrW300ms', 'noiseCorrB300ms', 'noiseCorrW1000ms', 'noiseCorrB1000ms','-append')

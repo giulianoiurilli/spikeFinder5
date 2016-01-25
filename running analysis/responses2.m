@@ -218,33 +218,35 @@ for idxExp = 1: length(esp) %- 1
     load('breathing.mat', 'sniffs');
     for idxShank = 1:4
         for idxUnit = 1:length(esp(idxExp).shankNowarp(idxShank).cell)
-            neuron = neuron + 1;
-            idxO = 0;
-            for idxOdor = odorsRearranged
-                idxO = idxO + 1;
-                A = single(espe(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrix);
-                if idxExp == 2
-                    for idxTrial = 1:5
-                        onsets(idxTrial) = find(sniffs(idxOdor).trial(idxTrial).sniffPower(:,1) >= 0,1);
-                    end
-                else
-                    for idxTrial = 1:10
-                        onsets(idxTrial) = find(sniffs(idxOdor).trial(idxTrial).sniffPower(:,1) >= 0,1);
-                    end
-                end
-                for idxSniff = 1:15
+            if esp(idxExp).shankNowarp(idxShank).cell(idxUnit).good == 1
+                neuron = neuron + 1;
+                idxO = 0;
+                for idxOdor = odorsRearranged
+                    idxO = idxO + 1;
+                    A = single(espe(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrix);
                     if idxExp == 2
                         for idxTrial = 1:5
-                            app(idxTrial,:) = A(idxTrial, 15000 + floor(sniffs(idxOdor).trial(idxTrial).sniffPower(onsets(idxTrial) + indici(idxSniff),1)*1000) :...
-                                15000 + floor(sniffs(idxOdor).trial(idxTrial).sniffPower(onsets(idxTrial) + indici(idxSniff),1)*1000) + 299);
+                            onsets(idxTrial) = find(sniffs(idxOdor).trial(idxTrial).sniffPower(:,1) >= 0,1);
                         end
                     else
                         for idxTrial = 1:10
-                            app(idxTrial,:) = A(idxTrial, 15000 + floor(sniffs(idxOdor).trial(idxTrial).sniffPower(onsets(idxTrial) + indici(idxSniff),1)*1000) :...
-                                15000 + floor(sniffs(idxOdor).trial(idxTrial).sniffPower(onsets(idxTrial) + indici(idxSniff),1)*1000) + 299);
+                            onsets(idxTrial) = find(sniffs(idxOdor).trial(idxTrial).sniffPower(:,1) >= 0,1);
                         end
                     end
-                    countOdorSniff(neuron,idxO,idxSniff) = mean(sum(app,2));
+                    for idxSniff = 1:15
+                        if idxExp == 2
+                            for idxTrial = 1:5
+                                app(idxTrial,:) = A(idxTrial, 15000 + floor(sniffs(idxOdor).trial(idxTrial).sniffPower(onsets(idxTrial) + indici(idxSniff),1)*1000) :...
+                                    15000 + floor(sniffs(idxOdor).trial(idxTrial).sniffPower(onsets(idxTrial) + indici(idxSniff),1)*1000) + 299);
+                            end
+                        else
+                            for idxTrial = 1:10
+                                app(idxTrial,:) = A(idxTrial, 15000 + floor(sniffs(idxOdor).trial(idxTrial).sniffPower(onsets(idxTrial) + indici(idxSniff),1)*1000) :...
+                                    15000 + floor(sniffs(idxOdor).trial(idxTrial).sniffPower(onsets(idxTrial) + indici(idxSniff),1)*1000) + 299);
+                            end
+                        end
+                        countOdorSniff(neuron,idxO,idxSniff) = mean(sum(app,2));
+                    end
                 end
             end
         end
@@ -267,6 +269,6 @@ distSniffNorm = (distSniff ./ nanmean(distSniff(1:4)) - 1).*100;
 
 %%
 cd(folder)
-save('responsesH.mat', 'respCellOdorPairPSTHExcMn', 'respCellOdorPairPSTHExcSd', 'respCellOdorPairPSTHExcCv', 'distSniff', 'distSniffNorm', '-append')
+save('responsesH8.mat', 'respCellOdorPairPSTHExcMn', 'respCellOdorPairPSTHExcSd', 'respCellOdorPairPSTHExcCv', 'distSniff', 'distSniffNorm', '-append')
 
                     

@@ -1,10 +1,13 @@
 load('parameters.mat')
 folder = pwd;
 %%
-%odorsRearranged = [1 5 7 8 10 15 12];% pcxL
-%odorsRearranged = [11 14 4 6 9 13 3];% pcxH
-%odorsRearranged = [1 3 5 7 9 12 13];% coaL
-odorsRearranged = [2 6 8 10 11 14 15];% coaH
+
+%odorsRearranged = [1 2 5 10 15 7 8];% pcxL
+%odorsRearranged = [14 6 4 12 13 3 11 ];% pcxH
+odorsRearranged = [14 6 4 12 13 3 11 9];% pcxH8
+%odorsRearranged = [6 1 3 13 12 7 5];% coaL
+%odorsRearranged = [14 2 15 4 10 11 8];% coaH
+%odorsRearranged = [14 2 15 4 10 11 8 9];% coaH8
 %odorsRearranged = 1:15;
 
 %{"TMT", "MMB", "2MB", "2PT", "IAA", "PET", "BTN", "GER", "PB", "URI", "G&B", "B&P", "T&B", "TMM", "TMB"};
@@ -34,50 +37,52 @@ cells = 0;
 for idxExp = 1: length(esp) %- 1
     for idxShank = 1:4
         for idxUnit = 1:length(esp(idxExp).shankNowarp(idxShank).cell)
-            cells = cells + 1;
-            responsivenessExc300ms = zeros(1,odors);
-            responsivenessInh300ms = zeros(1,odors);
-            responsivenessExc1s = zeros(1,odors);
-            responsivenessInh1s = zeros(1,odors);
-            idxO = 0;
-            aurocs300ms = 0.5*ones(1,odors);
-            aurocs1s = 0.5*ones(1,odors);
-            for idxOdor = odorsRearranged
-                idxO = idxO + 1;
-%                 responsivenessExc300ms(idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse300ms == 1;
-                  responsivenessInh300ms(idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse300ms == -1;
-                  responsivenessExc300ms(idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).pValue300ms < 0.05;
-                  
-%                 responsivenessExc1s(idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1;
-                responsivenessInh1s(idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == -1;
-                responsivenessExc300ms(idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).pValue1000ms < 0.05;
-                aurocs300ms(idxO) =  esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC300ms;
-                aurocs1s(idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC1000ms;
-            end
-            %vincolo reliability
-            
-            responsivenessExc300ms(aurocs300ms<=0.75) = 0;
-            responsivenessExc1s(aurocs1s<=0.75) = 0;
-            responsivenessInh300ms(aurocs300ms>=0.35) = 0;
-            responsivenessInh1s(aurocs1s>=0.35) = 0;
-
-            if sum(responsivenessExc300ms + responsivenessInh300ms) > 0 
-                responsiveUnit300ms = responsiveUnit300ms + 1;
-            end
-            if sum(responsivenessExc1s + responsivenessInh1s) > 0 
-                responsiveUnit1s = responsiveUnit1s + 1;
-            end
-            if sum(responsivenessExc300ms) > 0
-                responsiveUnitExc300ms = responsiveUnitExc300ms + 1;
-            end
-            if sum(responsivenessInh300ms) > 0
-                responsiveUnitInh300ms = responsiveUnitInh300ms + 1;
-            end
-            if sum(responsivenessExc1s + responsivenessExc300ms) > 0
-                responsiveUnitExc1s = responsiveUnitExc1s + 1;
-            end
-            if sum(responsivenessInh1s + responsivenessInh300ms) > 0
-                responsiveUnitInh1s = responsiveUnitInh1s + 1;
+            if esp(idxExp).shankNowarp(idxShank).cell(idxUnit).good == 1
+                cells = cells + 1;
+                responsivenessExc300ms = zeros(1,odors);
+                responsivenessInh300ms = zeros(1,odors);
+                responsivenessExc1s = zeros(1,odors);
+                responsivenessInh1s = zeros(1,odors);
+                idxO = 0;
+                aurocs300ms = 0.5*ones(1,odors);
+                aurocs1s = 0.5*ones(1,odors);
+                for idxOdor = odorsRearranged
+                    idxO = idxO + 1;
+                    %                 responsivenessExc300ms(idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse300ms == 1;
+                    responsivenessInh300ms(idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse300ms == -1;
+                    responsivenessExc300ms(idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).pValue300ms < 0.05;
+                    
+                    %                 responsivenessExc1s(idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1;
+                    responsivenessInh1s(idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == -1;
+                    responsivenessExc300ms(idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).pValue1000ms < 0.05;
+                    aurocs300ms(idxO) =  esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC300ms;
+                    aurocs1s(idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC1000ms;
+                end
+                %vincolo reliability
+                
+                responsivenessExc300ms(aurocs300ms<=0.75) = 0;
+                responsivenessExc1s(aurocs1s<=0.75) = 0;
+                responsivenessInh300ms(aurocs300ms>=0.35) = 0;
+                responsivenessInh1s(aurocs1s>=0.35) = 0;
+                
+                if sum(responsivenessExc300ms + responsivenessInh300ms) > 0
+                    responsiveUnit300ms = responsiveUnit300ms + 1;
+                end
+                if sum(responsivenessExc1s + responsivenessInh1s) > 0
+                    responsiveUnit1s = responsiveUnit1s + 1;
+                end
+                if sum(responsivenessExc300ms) > 0
+                    responsiveUnitExc300ms = responsiveUnitExc300ms + 1;
+                end
+                if sum(responsivenessInh300ms) > 0
+                    responsiveUnitInh300ms = responsiveUnitInh300ms + 1;
+                end
+                if sum(responsivenessExc1s + responsivenessExc300ms) > 0
+                    responsiveUnitExc1s = responsiveUnitExc1s + 1;
+                end
+                if sum(responsivenessInh1s + responsivenessInh300ms) > 0
+                    responsiveUnitInh1s = responsiveUnitInh1s + 1;
+                end
             end
         end
     end
@@ -135,9 +140,11 @@ for idxOdor = odorsRearranged
     for idxExp =  1:length(esp)
         for idxShank = 1:4
             for idxUnit = 1:length(esp(idxExp).shankNowarp(idxShank).cell)
-                idxC = idxC + 1;
-                R300ms(:, idxC) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms';
-                B300ms(:, idxC) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl300ms';
+                if esp(idxExp).shankNowarp(idxShank).cell(idxUnit).good == 1
+                    idxC = idxC + 1;
+                    R300ms(:, idxC) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms';
+                    B300ms(:, idxC) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl300ms';
+                end
             end
         end
     end
@@ -154,9 +161,11 @@ for idxOdor = odorsRearranged
     for idxExp =  1:length(esp)
         for idxShank = 1:4
             for idxUnit = 1:length(esp(idxExp).shankNowarp(idxShank).cell)
-                idxC = idxC + 1;
-                R1000ms(:, idxC) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms';
-                B1000ms(:, idxC) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms';
+                if esp(idxExp).shankNowarp(idxShank).cell(idxUnit).good == 1
+                    idxC = idxC + 1;
+                    R1000ms(:, idxC) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms';
+                    B1000ms(:, idxC) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms';
+                end
             end
         end
     end
@@ -264,270 +273,272 @@ neurone = 0;
 for idxExp = 1: length(esp) %- 1
     for idxShank = 1:4
         for idxUnit = 1:length(esp(idxExp).shankNowarp(idxShank).cell)
-            neurone = neurone + 1;
-            responsivenessExc300ms = zeros(1,odors);
-            responsivenessInh300ms = zeros(1,odors);
-            responsivenessExc1s = zeros(1,odors);
-            responsivenessInh1s = zeros(1,odors);
-            aurocs300ms = 0.5*ones(1,odors);
-            aurocs1s = 0.5*ones(1,odors);
-            idxO = 0;
-            for idxOdor = odorsRearranged
-                neuroneOdore = neuroneOdore + 1;
-                idxO = idxO + 1;
-%                 responsivenessExc300ms(idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse300ms == 1;
-                 responsivenessInh300ms(idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse300ms == -1;
-                  responsivenessExc300ms(idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).pValue300ms < 0.05;
+            if esp(idxExp).shankNowarp(idxShank).cell(idxUnit).good == 1
+                neurone = neurone + 1;
+                responsivenessExc300ms = zeros(1,odors);
+                responsivenessInh300ms = zeros(1,odors);
+                responsivenessExc1s = zeros(1,odors);
+                responsivenessInh1s = zeros(1,odors);
+                aurocs300ms = 0.5*ones(1,odors);
+                aurocs1s = 0.5*ones(1,odors);
+                idxO = 0;
+                for idxOdor = odorsRearranged
+                    neuroneOdore = neuroneOdore + 1;
+                    idxO = idxO + 1;
+                    %                 responsivenessExc300ms(idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse300ms == 1;
+                    responsivenessInh300ms(idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse300ms == -1;
+                    responsivenessExc300ms(idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).pValue300ms < 0.05;
+                    
+                    %                 responsivenessExc1s(idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1;
+                    responsivenessInh1s(idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == -1;
+                    responsivenessExc1s(idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).pValue1000ms < 0.05;
+                    aurocs300ms(idxO) =  esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC300ms;
+                    aurocs1s(idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC1000ms;
+                    auROCTot300ms(neuroneOdore) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC300ms;
+                    auROCTot1s(neuroneOdore) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC1000ms;
+                end
+                ls300msTot(neurone) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls300ms;
+                ls1sTot(neurone) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls1s;
                 
-%                 responsivenessExc1s(idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1;
-                responsivenessInh1s(idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == -1;
-                responsivenessExc1s(idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).pValue1000ms < 0.05;
-                aurocs300ms(idxO) =  esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC300ms;
-                aurocs1s(idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC1000ms;
-                auROCTot300ms(neuroneOdore) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC300ms;
-                auROCTot1s(neuroneOdore) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC1000ms;
-            end
-            ls300msTot(neurone) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls300ms;
-            ls1sTot(neurone) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls1s;
-            
-            %vincolo reliability
-            responsivenessExc300ms(aurocs300ms<=0.75) = 0;
-            responsivenessExc1s(aurocs1s<=0.75) = 0;
-            responsivenessInh300ms(aurocs300ms>=0.35) = 0;
-            responsivenessInh1s(aurocs1s>=0.35) = 0;
-
-            if sum(responsivenessExc300ms + responsivenessInh300ms) > 0
-                idxCell300 = idxCell300 + 1;
-                idxO = 0;
-                for idxOdor = odorsRearranged
-                    try
-                    idxO = idxO + 1;
-                    responses300(idxCell300, idxO) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms);
-                    responses300MinusMean(idxCell300, idxO) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms) - ...
-                        mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl300ms);
-                    responses300AllTrials(idxCell300, :, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms -...
-                        esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl300ms;
-                    baseline300(idxCell300, idxO) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl300ms);
-                    variance300(idxCell300, idxO) = var(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms);
-                    auRoc300(idxCell300, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC300ms;
-                    onset300(idxCell300, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).onsetLatency;
-                    peak300(idxCell300, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).peakLatency;
-                    width300(idxCell300, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).halfWidth;
-                    catch
-                    end
-                end
-                resp300(idxCell300,:) = responsivenessExc300ms + responsivenessInh300ms;
-                onset300(idxCell300, (responsivenessExc300ms + responsivenessInh300ms)<1) = NaN;
-                peak300(idxCell300, (responsivenessExc300ms + responsivenessInh300ms)<1) = NaN;
-                width300(idxCell300, (responsivenessExc300ms + responsivenessInh300ms)<1) = NaN;
-                In = [];
-                In = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).I300ms; 
-                In = mean(In,2);
-                In = max(In);
-                if ~isempty(In)
-                info300(idxCell300) = In;
-                ls300(idxCell300) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls300ms;
-                else
-                info300(idxCell300) = NaN;
-                ls300(idxCell300) = NaN;
-                end
-                boxWidth = 300;
-                weightingEpsilon = 1 * boxWidth/1000;
-                regWeights = n_trials ./ (responses300(idxCell300, :) + weightingEpsilon) .^ 2;
-                [B, stdB] = lscov(responses300(idxCell300, :)', variance300(idxCell300, :)', regWeights);
-                fanoFactor300(idxCell300) = B;
-                cellLog300(idxCell300,:) = [idxExp, idxShank, idxUnit];
-            end
-            if sum(responsivenessExc1s + responsivenessInh1s) > 0  
-                idxCell1 = idxCell1 + 1;
-                idxO = 0;
-                for idxOdor = odorsRearranged
-                    try
-                    idxO = idxO + 1;
-                    responses1(idxCell1, idxO) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms);
-                    responses1MinusMean(idxCell1, idxO) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms) - ...
-                        mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms);
-                    responses1AllTrials(idxCell1, :, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms;
-                    baseline1(idxCell1, idxO) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms);
-                    variance1(idxCell1, idxO) = var(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms);
-                    auRoc1(idxCell1, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC1000ms;
-                    onset1(idxCell1, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).onsetLatency;
-                    peak1(idxCell1, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).peakLatency;
-                    width1(idxCell1, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).halfWidth;
-                    catch
-                    end
-                end
-                resp1(idxCell1,:) = responsivenessExc1s + responsivenessInh1s;
-                onset1(idxCell1, (responsivenessExc1s + responsivenessInh1s)<1) = NaN;
-                peak1(idxCell1, (responsivenessExc1s + responsivenessInh1s)<1) = NaN;
-                width1(idxCell1, (responsivenessExc1s + responsivenessInh1s)<1) = NaN;
-                In = [];
-                In = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).I1s;
-                In = mean(In,2);
-                In = max(In);
-                if ~isempty(In)
-                info1(idxCell1) = In;
-                ls1(idxCell1) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls1s;
-                else
-                info1(idxCell1) = NaN;
-                ls1(idxCell1) = NaN;
-                end
-                %info1(idxCell1) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).I1s;
+                %vincolo reliability
+                responsivenessExc300ms(aurocs300ms<=0.75) = 0;
+                responsivenessExc1s(aurocs1s<=0.75) = 0;
+                responsivenessInh300ms(aurocs300ms>=0.35) = 0;
+                responsivenessInh1s(aurocs1s>=0.35) = 0;
                 
-                boxWidth = 1000;
-                weightingEpsilon = 1 * boxWidth/1000;
-                regWeights = n_trials ./ (responses1(idxCell1, :) + weightingEpsilon) .^ 2;
-                [B, stdB] = lscov(responses1(idxCell1, :)', variance1(idxCell1, :)', regWeights);
-                fanoFactor1(idxCell1) = B;
-                cellLog1(idxCell1,:) = [idxExp, idxShank, idxUnit];
-            end
-            if sum(responsivenessExc300ms) > 0
-                idxCellExc300 = idxCellExc300 + 1;
-                idxO = 0;
-                for idxOdor = odorsRearranged
-                    try
-                    idxO = idxO + 1;
-                    responsesExc300(idxCellExc300, idxO) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms);
-                    responsesExc300MinusMean(idxCellExc300, idxO) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms - ...
-                        esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl300ms);
-                    responsesExc300MinusStd(idxCellExc300, idxO) = std(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms - ...
-                        esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl300ms);
-                    responsesExc300MinusCV(idxCellExc300, idxO) = responsesExc300MinusStd(idxCellExc300, idxO)./responsesExc300MinusMean(idxCellExc300, idxO);
-                    baselineExc300(idxCellExc300, idxO) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl300ms);
-                    varianceExc300(idxCellExc300, idxO) = var(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms);
-                    auRocExc300(idxCellExc300, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC300ms;
-                    onsetExc300(idxCellExc300, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).onsetLatency;
-                    peakExc300(idxCellExc300, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).peakLatency;
-                    widthExc300(idxCellExc300, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).halfWidth;
-                    catch
+                if sum(responsivenessExc300ms + responsivenessInh300ms) > 0
+                    idxCell300 = idxCell300 + 1;
+                    idxO = 0;
+                    for idxOdor = odorsRearranged
+                        try
+                            idxO = idxO + 1;
+                            responses300(idxCell300, idxO) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms);
+                            responses300MinusMean(idxCell300, idxO) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms) - ...
+                                mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl300ms);
+                            responses300AllTrials(idxCell300, :, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms -...
+                                esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl300ms;
+                            baseline300(idxCell300, idxO) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl300ms);
+                            variance300(idxCell300, idxO) = var(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms);
+                            auRoc300(idxCell300, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC300ms;
+                            onset300(idxCell300, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).onsetLatency;
+                            peak300(idxCell300, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).peakLatency;
+                            width300(idxCell300, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).halfWidth;
+                        catch
+                        end
                     end
-                end
-                respExc300(idxCellExc300,:) = responsivenessExc300ms;
-                onsetExc300(idxCellExc300, responsivenessExc300ms<1) = NaN;
-                peakExc300(idxCellExc300, responsivenessExc300ms<1) = NaN;
-                widthExc300(idxCellExc300, responsivenessExc300ms<1) = NaN;
-                In = [];
-                In = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).I300ms;
-                In = mean(In,2);
-                In = max(In);
-                if ~isempty(In)
-                infoExc300(idxCellExc300) = In;
-                lsExc300(idxCellExc300) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls300ms;
-                else
-                infoExc300(idxCellExc300) = NaN;
-                lsExc300(idxCellExc300) = NaN;
-                end
-                weightingEpsilon = 1 * boxWidth/1000;
-                regWeights = n_trials ./ (responsesExc300(idxCellExc300, :) + weightingEpsilon) .^ 2;
-                [B, stdB] = lscov(responsesExc300(idxCellExc300, :)', varianceExc300(idxCellExc300, :)', regWeights);
-                fanoFactorExc300(idxCellExc300) = B;
-                cellLogExc300(idxCellExc300,:) = [idxExp, idxShank, idxUnit];
-            end
-            if sum(responsivenessExc1s + responsivenessExc300ms) > 0  
-                idxCellExc1 = idxCellExc1 + 1;
-                idxO = 0;
-                for idxOdor = odorsRearranged
-                    try
-                    idxO = idxO + 1;
-                    responsesExc1(idxCellExc1, idxO) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms);
-                    responsesExc1000MinusMean(idxCellExc1, idxO) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms - ...
-                        esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms);
-                    responsesExc1000MinusStd(idxCellExc1, idxO) = std(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms - ...
-                        esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms);
-                    responsesExc1000MinusCV(idxCellExc1, idxO) = responsesExc1000MinusStd(idxCellExc1, idxO)./responsesExc1000MinusMean(idxCellExc1, idxO);
-                    baselineExc1(idxCellExc1, idxO) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms);
-                    varianceExc1(idxCellExc1, idxO) = var(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms);
-                    auRocExc1(idxCellExc1, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC1000ms;
-                    onsetExc1(idxCellExc1, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).onsetLatency;
-                    peakExc1(idxCellExc1, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).peakLatency;
-                    widthExc1(idxCellExc1, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).halfWidth;
-                    catch
+                    resp300(idxCell300,:) = responsivenessExc300ms + responsivenessInh300ms;
+                    onset300(idxCell300, (responsivenessExc300ms + responsivenessInh300ms)<1) = NaN;
+                    peak300(idxCell300, (responsivenessExc300ms + responsivenessInh300ms)<1) = NaN;
+                    width300(idxCell300, (responsivenessExc300ms + responsivenessInh300ms)<1) = NaN;
+                    In = [];
+                    In = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).I300ms;
+                    In = mean(In,2);
+                    In = max(In);
+                    if ~isempty(In)
+                        info300(idxCell300) = In;
+                        ls300(idxCell300) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls300ms;
+                    else
+                        info300(idxCell300) = NaN;
+                        ls300(idxCell300) = NaN;
                     end
+                    boxWidth = 300;
+                    weightingEpsilon = 1 * boxWidth/1000;
+                    regWeights = n_trials ./ (responses300(idxCell300, :) + weightingEpsilon) .^ 2;
+                    [B, stdB] = lscov(responses300(idxCell300, :)', variance300(idxCell300, :)', regWeights);
+                    fanoFactor300(idxCell300) = B;
+                    cellLog300(idxCell300,:) = [idxExp, idxShank, idxUnit];
                 end
-                respExc1(idxCellExc1,:) = (responsivenessExc1s + responsivenessExc300ms) > 0;
-                onsetExc1(idxCellExc1, responsivenessExc1s<1) = NaN;
-                peakExc1(idxCellExc1, responsivenessExc1s<1) = NaN;
-                widthExc1(idxCellExc1, responsivenessExc1s<1) = NaN;
-                In = [];
-                In = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).I1s;
-                In = mean(In,2);
-                In = max(In);
-                if ~isempty(In)
-                infoExc1(idxCellExc1) = In;
-                lsExc1(idxCellExc1) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls1s;
-                else
-                infoExc1(idxCellExc1) = NaN;
-                lsExc1(idxCellExc1) = NaN;
+                if sum(responsivenessExc1s + responsivenessInh1s) > 0
+                    idxCell1 = idxCell1 + 1;
+                    idxO = 0;
+                    for idxOdor = odorsRearranged
+                        try
+                            idxO = idxO + 1;
+                            responses1(idxCell1, idxO) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms);
+                            responses1MinusMean(idxCell1, idxO) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms) - ...
+                                mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms);
+                            responses1AllTrials(idxCell1, :, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms;
+                            baseline1(idxCell1, idxO) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms);
+                            variance1(idxCell1, idxO) = var(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms);
+                            auRoc1(idxCell1, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC1000ms;
+                            onset1(idxCell1, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).onsetLatency;
+                            peak1(idxCell1, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).peakLatency;
+                            width1(idxCell1, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).halfWidth;
+                        catch
+                        end
+                    end
+                    resp1(idxCell1,:) = responsivenessExc1s + responsivenessInh1s;
+                    onset1(idxCell1, (responsivenessExc1s + responsivenessInh1s)<1) = NaN;
+                    peak1(idxCell1, (responsivenessExc1s + responsivenessInh1s)<1) = NaN;
+                    width1(idxCell1, (responsivenessExc1s + responsivenessInh1s)<1) = NaN;
+                    In = [];
+                    In = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).I1s;
+                    In = mean(In,2);
+                    In = max(In);
+                    if ~isempty(In)
+                        info1(idxCell1) = In;
+                        ls1(idxCell1) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls1s;
+                    else
+                        info1(idxCell1) = NaN;
+                        ls1(idxCell1) = NaN;
+                    end
+                    %info1(idxCell1) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).I1s;
+                    
+                    boxWidth = 1000;
+                    weightingEpsilon = 1 * boxWidth/1000;
+                    regWeights = n_trials ./ (responses1(idxCell1, :) + weightingEpsilon) .^ 2;
+                    [B, stdB] = lscov(responses1(idxCell1, :)', variance1(idxCell1, :)', regWeights);
+                    fanoFactor1(idxCell1) = B;
+                    cellLog1(idxCell1,:) = [idxExp, idxShank, idxUnit];
                 end
-                boxWidth = 1000;
-                weightingEpsilon = 1 * boxWidth/1000;
-                regWeights = n_trials ./ (responsesExc1(idxCellExc1, :) + weightingEpsilon) .^ 2;
-                [B, stdB] = lscov(responsesExc1(idxCellExc1, :)', varianceExc1(idxCellExc1, :)', regWeights);
-                fanoFactorExc1(idxCellExc1) = B;
-                cellLogExc1(idxCellExc1,:) = [idxExp, idxShank, idxUnit];
-            end
-            if sum(responsivenessInh300ms) > 0
-                idxCellInh300 = idxCellInh300 + 1;
-                idxO = 0;
-                for idxOdor = odorsRearranged
-                    idxO = idxO + 1;
-                    responsesInh300(idxCellInh300, idxO) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms);
-                    responsesInh300MinusMean(idxCellInh300, idxO) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms) - ...
-                        mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl300ms);
-                    baselineInh300(idxCellInh300, idxO) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl300ms);
-                    varianceInh300(idxCellInh300, idxO) = var(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms);
-                    auRocInh300(idxCellInh300, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC300ms;
+                if sum(responsivenessExc300ms) > 0
+                    idxCellExc300 = idxCellExc300 + 1;
+                    idxO = 0;
+                    for idxOdor = odorsRearranged
+                        try
+                            idxO = idxO + 1;
+                            responsesExc300(idxCellExc300, idxO) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms);
+                            responsesExc300MinusMean(idxCellExc300, idxO) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms - ...
+                                esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl300ms);
+                            responsesExc300MinusStd(idxCellExc300, idxO) = std(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms - ...
+                                esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl300ms);
+                            responsesExc300MinusCV(idxCellExc300, idxO) = responsesExc300MinusStd(idxCellExc300, idxO)./responsesExc300MinusMean(idxCellExc300, idxO);
+                            baselineExc300(idxCellExc300, idxO) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl300ms);
+                            varianceExc300(idxCellExc300, idxO) = var(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms);
+                            auRocExc300(idxCellExc300, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC300ms;
+                            onsetExc300(idxCellExc300, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).onsetLatency;
+                            peakExc300(idxCellExc300, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).peakLatency;
+                            widthExc300(idxCellExc300, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).halfWidth;
+                        catch
+                        end
+                    end
+                    respExc300(idxCellExc300,:) = responsivenessExc300ms;
+                    onsetExc300(idxCellExc300, responsivenessExc300ms<1) = NaN;
+                    peakExc300(idxCellExc300, responsivenessExc300ms<1) = NaN;
+                    widthExc300(idxCellExc300, responsivenessExc300ms<1) = NaN;
+                    In = [];
+                    In = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).I300ms;
+                    In = mean(In,2);
+                    In = max(In);
+                    if ~isempty(In)
+                        infoExc300(idxCellExc300) = In;
+                        lsExc300(idxCellExc300) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls300ms;
+                    else
+                        infoExc300(idxCellExc300) = NaN;
+                        lsExc300(idxCellExc300) = NaN;
+                    end
+                    weightingEpsilon = 1 * boxWidth/1000;
+                    regWeights = n_trials ./ (responsesExc300(idxCellExc300, :) + weightingEpsilon) .^ 2;
+                    [B, stdB] = lscov(responsesExc300(idxCellExc300, :)', varianceExc300(idxCellExc300, :)', regWeights);
+                    fanoFactorExc300(idxCellExc300) = B;
+                    cellLogExc300(idxCellExc300,:) = [idxExp, idxShank, idxUnit];
                 end
-                respInh300(idxCellInh300,:) = responsivenessInh300ms;
-                 In = [];
-                In = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).I300ms; 
-                In = mean(In,2);
-                In = max(In);             
-                if ~isempty(In)
-                infoInh300(idxCellInh300) = In;
-                lsInh300(idxCellInh300) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls300ms;
-                else
-                infoInh300(idxCellInh300) = NaN;
-                lsInh300(idxCellInh300) = NaN;
+                if sum(responsivenessExc1s + responsivenessExc300ms) > 0
+                    idxCellExc1 = idxCellExc1 + 1;
+                    idxO = 0;
+                    for idxOdor = odorsRearranged
+                        try
+                            idxO = idxO + 1;
+                            responsesExc1(idxCellExc1, idxO) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms);
+                            responsesExc1000MinusMean(idxCellExc1, idxO) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms - ...
+                                esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms);
+                            responsesExc1000MinusStd(idxCellExc1, idxO) = std(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms - ...
+                                esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms);
+                            responsesExc1000MinusCV(idxCellExc1, idxO) = responsesExc1000MinusStd(idxCellExc1, idxO)./responsesExc1000MinusMean(idxCellExc1, idxO);
+                            baselineExc1(idxCellExc1, idxO) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms);
+                            varianceExc1(idxCellExc1, idxO) = var(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms);
+                            auRocExc1(idxCellExc1, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC1000ms;
+                            onsetExc1(idxCellExc1, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).onsetLatency;
+                            peakExc1(idxCellExc1, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).peakLatency;
+                            widthExc1(idxCellExc1, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).halfWidth;
+                        catch
+                        end
+                    end
+                    respExc1(idxCellExc1,:) = (responsivenessExc1s + responsivenessExc300ms) > 0;
+                    onsetExc1(idxCellExc1, responsivenessExc1s<1) = NaN;
+                    peakExc1(idxCellExc1, responsivenessExc1s<1) = NaN;
+                    widthExc1(idxCellExc1, responsivenessExc1s<1) = NaN;
+                    In = [];
+                    In = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).I1s;
+                    In = mean(In,2);
+                    In = max(In);
+                    if ~isempty(In)
+                        infoExc1(idxCellExc1) = In;
+                        lsExc1(idxCellExc1) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls1s;
+                    else
+                        infoExc1(idxCellExc1) = NaN;
+                        lsExc1(idxCellExc1) = NaN;
+                    end
+                    boxWidth = 1000;
+                    weightingEpsilon = 1 * boxWidth/1000;
+                    regWeights = n_trials ./ (responsesExc1(idxCellExc1, :) + weightingEpsilon) .^ 2;
+                    [B, stdB] = lscov(responsesExc1(idxCellExc1, :)', varianceExc1(idxCellExc1, :)', regWeights);
+                    fanoFactorExc1(idxCellExc1) = B;
+                    cellLogExc1(idxCellExc1,:) = [idxExp, idxShank, idxUnit];
                 end
-                boxWidth = 300;
-                weightingEpsilon = 1 * boxWidth/1000;
-                regWeights = n_trials ./ (responsesInh300(idxCellInh300, :) + weightingEpsilon) .^ 2;
-                [B, stdB] = lscov(responsesInh300(idxCellInh300, :)', varianceInh300(idxCellInh300, :)', regWeights);
-                fanoFactorInh300(idxCellInh300) = B;
-                cellLogInh300(idxCellInh300,:) = [idxExp, idxShank, idxUnit];
-            end
-            if sum(responsivenessInh1s + responsivenessInh300ms) > 0  
-                idxCellInh1 = idxCellInh1 + 1;
-                idxO = 0;
-                for idxOdor = odorsRearranged
-                    idxO = idxO + 1;
-                    responsesInh1(idxCellInh1, idxO) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms);
-                    responsesInh1MinusMean(idxCellInh1, idxO) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms) - ...
-                        mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms);
-                    responsesInh1AllTrials(idxCellInh1, :, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms;
-                    baselineInh1(idxCellInh1, idxO) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms);
-                    varianceInh1(idxCellInh1, idxO) = var(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms);
-                    auRocInh1(idxCellInh1, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC1000ms;
+                if sum(responsivenessInh300ms) > 0
+                    idxCellInh300 = idxCellInh300 + 1;
+                    idxO = 0;
+                    for idxOdor = odorsRearranged
+                        idxO = idxO + 1;
+                        responsesInh300(idxCellInh300, idxO) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms);
+                        responsesInh300MinusMean(idxCellInh300, idxO) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms) - ...
+                            mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl300ms);
+                        baselineInh300(idxCellInh300, idxO) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl300ms);
+                        varianceInh300(idxCellInh300, idxO) = var(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms);
+                        auRocInh300(idxCellInh300, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC300ms;
+                    end
+                    respInh300(idxCellInh300,:) = responsivenessInh300ms;
+                    In = [];
+                    In = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).I300ms;
+                    In = mean(In,2);
+                    In = max(In);
+                    if ~isempty(In)
+                        infoInh300(idxCellInh300) = In;
+                        lsInh300(idxCellInh300) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls300ms;
+                    else
+                        infoInh300(idxCellInh300) = NaN;
+                        lsInh300(idxCellInh300) = NaN;
+                    end
+                    boxWidth = 300;
+                    weightingEpsilon = 1 * boxWidth/1000;
+                    regWeights = n_trials ./ (responsesInh300(idxCellInh300, :) + weightingEpsilon) .^ 2;
+                    [B, stdB] = lscov(responsesInh300(idxCellInh300, :)', varianceInh300(idxCellInh300, :)', regWeights);
+                    fanoFactorInh300(idxCellInh300) = B;
+                    cellLogInh300(idxCellInh300,:) = [idxExp, idxShank, idxUnit];
                 end
-                respInh1(idxCellInh1,:) = (responsivenessInh1s + responsivenessInh300ms)>0;
-                  In = [];
-                In = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).I1s; 
-                In = mean(In,2);
-                In = max(In);        
-                if ~isempty(In)
-                infoInh1(idxCellInh1) = In;
-                lsInh1(idxCellInh1) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls1s;
-                else
-                infoInh1(idxCellInh1) = NaN;
-                lsInh1(idxCellInh1) = NaN;
+                if sum(responsivenessInh1s + responsivenessInh300ms) > 0
+                    idxCellInh1 = idxCellInh1 + 1;
+                    idxO = 0;
+                    for idxOdor = odorsRearranged
+                        idxO = idxO + 1;
+                        responsesInh1(idxCellInh1, idxO) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms);
+                        responsesInh1MinusMean(idxCellInh1, idxO) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms) - ...
+                            mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms);
+                        responsesInh1AllTrials(idxCellInh1, :, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms;
+                        baselineInh1(idxCellInh1, idxO) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms);
+                        varianceInh1(idxCellInh1, idxO) = var(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms);
+                        auRocInh1(idxCellInh1, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC1000ms;
+                    end
+                    respInh1(idxCellInh1,:) = (responsivenessInh1s + responsivenessInh300ms)>0;
+                    In = [];
+                    In = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).I1s;
+                    In = mean(In,2);
+                    In = max(In);
+                    if ~isempty(In)
+                        infoInh1(idxCellInh1) = In;
+                        lsInh1(idxCellInh1) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls1s;
+                    else
+                        infoInh1(idxCellInh1) = NaN;
+                        lsInh1(idxCellInh1) = NaN;
+                    end
+                    boxWidth = 1000;
+                    weightingEpsilon = 1 * boxWidth/1000;
+                    regWeights = n_trials ./ (responsesInh1(idxCellInh1, :) + weightingEpsilon) .^ 2;
+                    [B, stdB] = lscov(responsesInh1(idxCellInh1, :)', varianceInh1(idxCellInh1, :)', regWeights);
+                    fanoFactorInh1(idxCellInh1) = B;
+                    cellLogInh1(idxCellInh1,:) = [idxExp, idxShank, idxUnit];
                 end
-                boxWidth = 1000;
-                weightingEpsilon = 1 * boxWidth/1000;
-                regWeights = n_trials ./ (responsesInh1(idxCellInh1, :) + weightingEpsilon) .^ 2;
-                [B, stdB] = lscov(responsesInh1(idxCellInh1, :)', varianceInh1(idxCellInh1, :)', regWeights);
-                fanoFactorInh1(idxCellInh1) = B;
-                cellLogInh1(idxCellInh1,:) = [idxExp, idxShank, idxUnit];
             end
         end
     end
@@ -587,7 +598,7 @@ fanoFactor1 = fanoFactor1;
 %     'fanoFactor300', 'fanoFactor1', 'ls300', 'ls1', 'baseline300','baseline1', 'variance300','variance1', 'auRoc300', 'auRoc1')
 % save('responsesCoaLow.mat', 'responses300MinusMeanCoa','responses300Coa', 'info300Coa', 'responses300AllTrialsCoa', 'responses1Coa', 'responses1MinusMeanCoa', 'responses1AllTrialsCoa', 'cellLog300Coa', 'cellLog1Coa','cellLog1Coa',...
 %   'fanoFactor300Coa', 'fanoFactor1Coa', 'ls300Coa', 'ls1Coa', 'baseline300Coa','baseline1Coa', 'variance300Coa','variance1Coa', 'auRoc300Coa', 'auRoc1Coa', 'fanoFactor300Coa', 'fanoFactor1Coa')
-save('responsesH.mat', 'responses300MinusMean','responses300', 'info300', 'responses300AllTrials', 'responses1', 'responses1MinusMean', 'responses1AllTrials', 'cellLog300','cellLogExc1', 'cellLog1',...
+save('responsesH8.mat', 'responses300MinusMean','responses300', 'info300', 'responses300AllTrials', 'responses1', 'responses1MinusMean', 'responses1AllTrials', 'cellLog300','cellLogExc1', 'cellLog1',...
    'fanoFactor300', 'fanoFactor1', 'ls300', 'ls1', 'baseline300','baseline1', 'variance300','variance1', 'auRoc300', 'auRoc1', 'fanoFactor300', 'fanoFactor1', 'auROCTot300ms', 'auROCTot1s', 'ls300msTot', 'ls1sTot', 'pop_sparseness300', 'pop_sparseness1000')
 %%
 cd(folder)
