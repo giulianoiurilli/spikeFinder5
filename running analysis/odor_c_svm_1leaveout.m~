@@ -1,4 +1,4 @@
-function [mean_acc_svm, std_acc_svm, acc_svm, prctile25, prctile75, CM] = odor_c_svm_1leaveout(data, trainingN, labels, repN)
+function [mean_acc_svm, std_acc_svm, acc_svm, prctile25, prctile75, predict_label, dec_values, testLabel] = odor_c_svm_1leaveout(data, trainingN, labels, repN)
 
 
 
@@ -24,6 +24,8 @@ function [mean_acc_svm, std_acc_svm, acc_svm, prctile25, prctile75, CM] = odor_c
     
     %acc_svm = zeros(repN, size(data,1)-1);
     acc_svm = zeros(repN, 1);
+    prediction = zeros(classes, repN);
+    actual = zeros(classes, repN);
     n_trials = size(data,2);
     classes = size(data,3);
     jumpTrials = 0:n_trials:(classes-1)*n_trials;
@@ -33,8 +35,6 @@ function [mean_acc_svm, std_acc_svm, acc_svm, prctile25, prctile75, CM] = odor_c
     numTrain    = trainingN;
     numTest     = numInst - numTrain;
     numLabels   = max(labels);
-    prediction = zeros(classes, repN);
-    actual = zeros(classes, repN);
     
     
     
@@ -72,10 +72,9 @@ function [mean_acc_svm, std_acc_svm, acc_svm, prctile25, prctile75, CM] = odor_c
         %end
     end
     
-    prediction = prediction(:);
-    actual = actual(:);
-    CM = confusionmat(actual, prediction);
-    CM = CM ./ repmat(sum(CM,2), 1, size(CM,2));
+prediction = prediction(:);
+actual = actual';
+CM = confusionmat(actual, prediction);
     mean_acc_svm = mean(acc_svm);
     std_acc_svm = std(acc_svm);
     prctile25 = prctile(acc_svm,5);

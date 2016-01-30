@@ -104,6 +104,16 @@ for idxEntry = 1:size(logExc,1)
     load('breathing.mat', 'sniffs');
     A = single(espe(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrix);
     snipCellOdorSniff = [];
+    idxO = 0;
+    for idxOdor = odorsRearranged
+        idxO = idxO + 1;
+        appBsl(idxO) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms);
+        appRsp(idxO) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms);
+        appDelta(idxO) = appRsp(idxO) - appBsl(idxO);
+    end
+bslExc1(idxEntry) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms);
+
+
 %     if idxExp == 2
 %         for idxTrial = 1:5
 %             onsets(idxTrial) = find(sniffs(idxOdor).trial(idxTrial).sniffPower(:,1) >= 0,1);

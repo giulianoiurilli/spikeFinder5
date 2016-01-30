@@ -50,13 +50,7 @@ stimuli = size(dataAll,3);
 dataAll = reshape(dataAll, neurons, trials .* stimuli);
 
 
-%sort based on information
-%         dataAll = [dataAll info300];
-%         dataAll = sortrows(dataAll,size(dataAll,2));
-%         dataAll = flipud(dataAll);
-%         dataAll(:,size(dataAll,2)) = [];
 
-%dataAll = dataAll';
 
 %dataAll = sqrt(dataAll);
 dataAll = dataAll';
@@ -70,17 +64,17 @@ dataAll = double(dataAll);
 labels      = ones(1,size(dataAll,2));
 app_labels  = labels;
 
-                                                                                    for odor = 1:size(dataAll,3) - 1
-                                                                                        if odor < 5
-                                                                                        labels  = [labels, app_labels];
-                                                                                        else
-                                                                                            labels  = [labels, app_labels + ones(1,size(dataAll,2))];
-                                                                                        end
-                                                                                    end
+%                                                                                     for odor = 1:size(dataAll,3) - 1
+%                                                                                         if odor < 5
+%                                                                                         labels  = [labels, app_labels];
+%                                                                                         else
+%                                                                                             labels  = [labels, app_labels + ones(1,size(dataAll,2))];
+%                                                                                         end
+%                                                                                     end
 
-% for odor = 1:size(dataAll,3) - 1
-%     labels  = [labels, app_labels + odor .* ones(1,size(dataAll,2))];
-% end
+for odor = 1:size(dataAll,3) - 1
+    labels  = [labels, app_labels + odor .* ones(1,size(dataAll,2))];
+end
 
 labels      = labels';
 trainingN = floor(0.9*(trials * stimuli));
@@ -88,4 +82,4 @@ repetitions = 1000;
 [mean_acc_svm, std_acc_svm, acc_svm, prctile25, prctile75] = odor_c_svm_1leaveout(dataAll, trainingN, labels, repetitions);
 
 %save('responses.mat', 'mean_acc_svm', 'std_acc_svm', 'prctile25', 'prctile75', 'acc_svm', '-append');
-                                                                                save('valence.mat', 'mean_acc_svm', 'std_acc_svm', 'prctile25', 'prctile75', 'acc_svm');
+%                                                                                 save('valence.mat', 'mean_acc_svm', 'std_acc_svm', 'prctile25', 'prctile75', 'acc_svm');
