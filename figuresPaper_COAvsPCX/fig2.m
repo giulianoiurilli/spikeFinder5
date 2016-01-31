@@ -7,6 +7,8 @@
 % coa2 = load('/Volumes/Tetrodes Backup1/january2/coa/aa/coa_AA_2_2.mat');
 % coaR = load('/Volumes/Tetrodes Backup1/january2/coa/aa/responses.mat');
 
+
+odorsRearranged = 1:15;
 %% Set figure size
 figure
 set(gcf,'Name', 'Figure 2: Odor Responses', 'NumberTitle', 'off');
@@ -20,7 +22,7 @@ p(1).pack('v', {1/2 1/2});
 p(1,1).pack('h', {1/5 1/5 1/5 1/5 1/5});
 p(1,2).pack('h', {1/5 1/5 1/5 1/5 1/5});
 p(2).pack('h', {30 70});
-p(2,1).pack('v', {1/2 1/2});
+p(2,1).pack('v', {1/4 1/4 1/4 1/4});
 p(2,2).pack('v', {45 10 45});
 p(2,2,1).pack('h', {20 40 20 20});
 p(2,2,3).pack('h', {40 60});
@@ -108,7 +110,7 @@ end
 l2 = p(1,2).ylabel({'Cortical'; 'Amygdala'});
 set(l2, 'Color', 'r');
 
-%% B - response grand averages of mean
+%% B - excatatory response grand averages of mean
 %plot mean
 meanPCX = mean(pcxR.respCellOdorPairPSTHExcMn);
 app = std(pcxR.respCellOdorPairPSTHExcMn)./sqrt(size(pcxR.respCellOdorPairPSTHExcMn,1));
@@ -118,9 +120,9 @@ app = std(coaR.respCellOdorPairPSTHExcMn)./sqrt(size(coaR.respCellOdorPairPSTHEx
 semCOA = [app; app];
 t = 1:length(meanPCX); 
 p(2, 1, 1).select();
-[hl(1), hp] = PlotMeanWithFilledSemBand(t, meanPCX, semPCX(2,:), semPCX(1,:), 'k', 2, 'k', 0.2);
+hl(1) = PlotMeanWithFilledSemBand(t, meanPCX, semPCX(2,:), semPCX(1,:), 'k', 2, 'k', 0.2);
 hold on; 
-[hl(2), hp] = PlotMeanWithFilledSemBand(t, meanCOA, semCOA(2,:), semCOA(1,:), 'r', 2, 'r', 0.2);
+hl(2) = PlotMeanWithFilledSemBand(t, meanCOA, semCOA(2,:), semCOA(1,:), 'r', 2, 'r', 0.2);
 endPatch = 60;
 for idx = 1:15
     patchX =  [idx*endPatch-10 idx*endPatch-10 idx*endPatch+5 idx*endPatch+5];
@@ -136,7 +138,7 @@ set(gca, 'YTick' , plotTicks);
 set(gca, 'YTickLabel', plotLabels);
 ylabel('Firing rate (Hz)')
 
-%% C - response grand averages of coefficient of variation
+%% C - excitatory response grand averages of coefficient of variation
 %plot cv
 meanFFPCX = nanmean(pcxR.respCellOdorPairPSTHExcFF);
 app = nanstd(pcxR.respCellOdorPairPSTHExcCv)./sqrt(size(pcxR.respCellOdorPairPSTHExcFF,1));
@@ -146,9 +148,9 @@ app = nanstd(coaR.respCellOdorPairPSTHExcCv)./sqrt(size(coaR.respCellOdorPairPST
 semFFCOA = [app; app];
 t = 1:length(meanFFPCX);
 p(2, 1, 2).select();
-[hl(3), hp] = PlotMeanWithFilledSemBand(t, meanFFPCX, semFFPCX(2,:), semFFPCX(1,:), 'k', 2, 'k', 0.2);
+hl(3) = PlotMeanWithFilledSemBand(t, meanFFPCX, semFFPCX(2,:), semFFPCX(1,:), 'k', 2, 'k', 0.2);
 hold on; 
-[hl(4), hp] = PlotMeanWithFilledSemBand(t, meanFFCOA, semFFCOA(2,:), semFFCOA(1,:), 'r', 2, 'r', 0.2);
+hl(4) = PlotMeanWithFilledSemBand(t, meanFFCOA, semFFCOA(2,:), semFFCOA(1,:), 'r', 2, 'r', 0.2);
 endPatch = 60;
 for idx = 1:15
     patchX =  [idx*endPatch-10 idx*endPatch-10 idx*endPatch+5 idx*endPatch+5];
@@ -160,9 +162,60 @@ VerticalLine(gca,60*4,'k--','LineWidth',1);
 set(gca,'XColor','w')
 ylabel('Fano factor -this plot is CV, change!')
 
+%% B - inhibitory response grand averages of mean
+%plot mean
+meanPCX = mean(pcxR.respCellOdorPairPSTHInhMn);
+app = std(pcxR.respCellOdorPairPSTHInhMn)./sqrt(size(pcxR.respCellOdorPairPSTHInhMn,1));
+semPCX = [app; app];
+meanCOA = mean(coaR.respCellOdorPairPSTHInhMn);
+app = std(coaR.respCellOdorPairPSTHInhMn)./sqrt(size(coaR.respCellOdorPairPSTHInhMn,1));
+semCOA = [app; app];
+t = 1:length(meanPCX); 
+p(2, 1, 1).select();
+hl(1) = PlotMeanWithFilledSemBand(t, meanPCX, semPCX(2,:), semPCX(1,:), 'k', 2, 'k', 0.2);
+hold on; 
+hl(2) = PlotMeanWithFilledSemBand(t, meanCOA, semCOA(2,:), semCOA(1,:), 'r', 2, 'r', 0.2);
+endPatch = 60;
+for idx = 1:15
+    patchX =  [idx*endPatch-10 idx*endPatch-10 idx*endPatch+5 idx*endPatch+5];
+    patchY  = [0 1 1 0];
+    p1 = patch(patchX, patchY, [1 1 1]);
+    set(p1, 'EdgeColor', 'none'); 
+end
+VerticalLine(gca,60*4,'k--','LineWidth',1);
+set(gca,'XColor','w')
+plotTicks = 0:0.25:1;
+plotLabels = {'0', '5', '10', '15', '20'}; 
+set(gca, 'YTick' , plotTicks);
+set(gca, 'YTickLabel', plotLabels);
+ylabel('Firing rate (Hz)')
 
+%% C - inhibitory response grand averages of coefficient of variation
+%plot cv
+meanFFPCX = nanmean(pcxR.respCellOdorPairPSTHInhFF);
+app = nanstd(pcxR.respCellOdorPairPSTHInhCv)./sqrt(size(pcxR.respCellOdorPairPSTHInhFF,1));
+semFFPCX = [app; app];
+meanFFCOA = nanmean(coaR.respCellOdorPairPSTHInhFF);
+app = nanstd(coaR.respCellOdorPairPSTHInhCv)./sqrt(size(coaR.respCellOdorPairPSTHInhFF,1));
+semFFCOA = [app; app];
+t = 1:length(meanFFPCX);
+p(2, 1, 2).select();
+hl(3) = PlotMeanWithFilledSemBand(t, meanFFPCX, semFFPCX(2,:), semFFPCX(1,:), 'k', 2, 'k', 0.2);
+hold on; 
+hl(4) = PlotMeanWithFilledSemBand(t, meanFFCOA, semFFCOA(2,:), semFFCOA(1,:), 'r', 2, 'r', 0.2);
+endPatch = 60;
+for idx = 1:15
+    patchX =  [idx*endPatch-10 idx*endPatch-10 idx*endPatch+5 idx*endPatch+5];
+    patchY  = [1.4 2.8 2.8 1.4];
+    p1 = patch(patchX, patchY, [1 1 1]);
+    set(p1, 'EdgeColor', 'none'); 
+end
+VerticalLine(gca,60*4,'k--','LineWidth',1);
+set(gca,'XColor','w')
+ylabel('Fano factor')
 %% D - baseline
-%baseline firing
+[BslCOA, DeltaRspCOA, ffCOA, fanoFactorCOA]  = find_Baseline_DeltaRsp_FanoFactor(coa2.esp, odorsRearranged);
+[BslPCX, DeltaRspPCX, ffPCX, fanoFactorPCX]  = find_Baseline_DeltaRsp_FanoFactor(pcx2.esp, odorsRearranged);
 allBsl = [BslCOA BslPCX];
 maxBsl = max(allBsl);
 minBsl = min(allBsl);
@@ -176,24 +229,27 @@ edges = log10(edges(1:end-1));
 h1 = area(edges, N1);
 h1.FaceColor = 'k';
 h1.EdgeColor = 'k';
-alpha(h1, 0.5)
+alpha(h1, 0)
 hold on; 
 h2 = area(edges, N2);
 h2.FaceColor = 'r';
 h2.EdgeColor = 'r';
-alpha(h2, 0.5)
+alpha(h2, 0)
 xlabel('baseline firing (log10, Hz)')
 set(gca,'YColor','w','box','off')
 
 
 %% E - delta response
-%delta response
 allD = [DeltaRspCOA DeltaRspPCX];
 maxD = max(allD)+5;
 minD = min(allD)-5;
 edges = minD:maxD;
 [N3,edges] = histcounts(DeltaRspPCX, edges,'normalization', 'probability');
 [N4,edges] = histcounts(DeltaRspCOA, edges,'normalization', 'probability');
+[N5,edges] = histcounts(pcx2.deltaExcR1000ms, edges); N5 = N5./length(DeltaRspPCX);
+[N6,edges] = histcounts(coa2.deltaExcR1000ms, edges); N6 = N6./length(DeltaRspPCX);
+[N7,edges] = histcounts(pcx2.deltaInhR1000ms, edges); N7 = N7./length(DeltaRspPCX);
+[N8,edges] = histcounts(coa2.deltaInhR1000ms, edges); N8 = N8./length(DeltaRspPCX);
 
 
 p(2, 2, 1, 2).select();
@@ -201,24 +257,45 @@ edges(end) = [];
 h1 = area(edges, N3);
 h1.FaceColor = 'k';
 h1.EdgeColor = 'k';
-alpha(h1, 0.5)
+alpha(h1, 0)
 hold on; 
 h2 = area(edges, N4);
 h2.FaceColor = 'r';
 h2.EdgeColor = 'r';
-alpha(h2, 0.5)
+alpha(h2, 0)
+h3 = area(edges, N5);
+h3.FaceColor = 'k';
+h3.EdgeColor = 'k';
+alpha(h3, 0.5)
+hold on; 
+h4 = area(edges, N6);
+h4.FaceColor = 'r';
+h4.EdgeColor = 'r';
+alpha(h4, 0.5)
+h5 = area(edges, N7);
+h5.FaceColor = 'k';
+h5.EdgeColor = 'k';
+alpha(h5, 0.5)
+hold on; 
+h5 = area(edges, N8);
+h5.FaceColor = 'r';
+h5.EdgeColor = 'r';
+alpha(h5, 0.5)
 xlim([-5 20])
 xlabel('response (Hz)')
 set(gca,'YColor','w','box','off')
 
 %% F - Fano factor
-
-allD = [fanoFactorCOA fanoFactorPCX];
+allD = [ffCOA ffPCX];
 maxD = max(allD)+5;
 minD = min(allD)-5;
 edges = minD:0.5:maxD;
-[N3,edges] = histcounts(fanoFactorPCX, edges,'normalization', 'probability');
-[N4,edges] = histcounts(fanoFactorCOA, edges,'normalization', 'probability');
+[N3,edges] = histcounts(ffPCX, edges,'normalization', 'probability');
+[N4,edges] = histcounts(ffCOA, edges,'normalization', 'probability');
+[N5,edges] = histcounts(pcx2.ffExcR1000ms, edges); N5 = N5./length(ffPCX);
+[N6,edges] = histcounts(coa2.ffExcR1000ms, edges); N6 = N6./length(ffCOA);
+[N7,edges] = histcounts(pcx2.ffInhR1000ms, edges); N7 = N7./length(ffPCX);
+[N8,edges] = histcounts(coa2.ffInhR1000ms, edges); N8 = N8./length(ffCOA);
 
 
 p(2, 2, 1, 3).select();
@@ -226,26 +303,95 @@ edges(end) = [];
 h1 = area(edges, N3);
 h1.FaceColor = 'k';
 h1.EdgeColor = 'k';
-alpha(h1, 0.5)
+alpha(h1, 0)
 hold on; 
 h2 = area(edges, N4);
 h2.FaceColor = 'r';
 h2.EdgeColor = 'r';
+alpha(h2, 0)
+xlim([-1 10])
+
+h3 = area(edges, N5);
+h3.FaceColor = 'k';
+h3.EdgeColor = 'k';
+alpha(h3, 0.5)
+hold on; 
+h4 = area(edges, N6);
+h4.FaceColor = 'r';
+h4.EdgeColor = 'r';
+alpha(h4, 0.5)
+xlim([-1 10])
+
+h5 = area(edges, N7);
+h5.FaceColor = 'k';
+h5.EdgeColor = 'k';
+alpha(h5, 0.5)
+hold on; 
+h6 = area(edges, N8);
+h6.FaceColor = 'r';
+h6.EdgeColor = 'r';
 alpha(h2, 0.5)
 xlim([-1 10])
 xlabel('Fano factor')
 set(gca,'YColor','w','box','off')
 %% G - auROC
-%auROC
+
+edges = 0:0.1:1;
+[N3,edges] = histcounts(pcxR.auROCTot1s, edges,'normalization', 'probability');
+[N4,edges] = histcounts(coaR.auROCTot1s, edges,'normalization', 'probability');
+[N5,edges] = histcounts(pcx2.rocExcR1000ms, edges); N5 = N5./length(pcxR.auROCTot1s);
+[N6,edges] = histcounts(coa2.rocExcR1000ms, edges); N6 = N6./length(coaR.auROCTot1s);
+[N7,edges] = histcounts(pcx2.rocInhR1000ms, edges); N7 = N7./length(pcxR.auROCTot1s);
+[N8,edges] = histcounts(coa2.rocInhR1000ms, edges); N8 = N8./length(coaR.auROCTot1s);
+
 p(2, 2, 1, 4).select();
-h1 = cdfplot(pcxR.auROCTot1s);
-set(h1, 'linewidth', 2, 'color', 'k')
-hold on
-h2 = cdfplot(coaR.auROCTot1s);
-set(h2, 'linewidth', 2, 'color', 'r')
+edges(end) = [];
+h1 = area(edges, N3);
+h1.FaceColor = 'k';
+h1.EdgeColor = 'k';
+alpha(h1, 0)
+hold on; 
+h2 = area(edges, N4);
+h2.FaceColor = 'r';
+h2.EdgeColor = 'r';
+alpha(h2, 0)
+xlim([-1 10])
+
+h3 = area(edges, N5);
+h3.FaceColor = 'k';
+h3.EdgeColor = 'k';
+alpha(h3, 0.5)
+hold on; 
+h4 = area(edges, N6);
+h4.FaceColor = 'r';
+h4.EdgeColor = 'r';
+alpha(h4, 0.5)
+xlim([-1 10])
+
+h5 = area(edges, N7);
+h5.FaceColor = 'k';
+h5.EdgeColor = 'k';
+alpha(h5, 0.5)
+hold on; 
+h6 = area(edges, N8);
+h6.FaceColor = 'r';
+h6.EdgeColor = 'r';
+alpha(h2, 0.5)
+xlim([-0.05 1.05])
 set(gca,'YColor','w','box','off')
 xlabel('auROC')
 title('')
+
+
+% p(2, 2, 1, 4).select();
+% h1 = cdfplot(pcxR.auROCTot1s);
+% set(h1, 'linewidth', 2, 'color', 'k')
+% hold on
+% h2 = cdfplot(coaR.auROCTot1s);
+% set(h2, 'linewidth', 2, 'color', 'r')
+% set(gca,'YColor','w','box','off')
+% xlabel('auROC')
+% title('')
 %%
 p(2, 2, 2).select();
 set(gca,'XColor','w', 'YColor','w')
@@ -283,7 +429,8 @@ p(2, 2, 3, 1).ylabel('Fraction of peak');
 p(2, 2, 3, 1, 2).select();
 set(gca,'XColor','w', 'YColor','w')
 %% H - kinetics features
-findKineticsFeatures
+[onsetExc1Coa, peakExc1Coa, hwidthExc1Coa] =  findKineticsFeatures(coa2.esp, odorsRearranged);
+[onsetExc1Pcx, peakExc1Pcx, hwidthExc1Pcx] =  findKineticsFeatures(pcx2.esp, odorsRearranged);
 onsetMean1 = [mean(onsetExc1Coa) 0];
 onsetMean2 = [0 mean(onsetExc1Pcx)];
 onsetSem1 = [std(onsetExc1Coa)./sqrt(length(onsetExc1Coa)) 0];
@@ -343,38 +490,6 @@ p(2, 2, 3, 2, 3).title('Half-width');
 
 p(2, 2, 3, 2).ylabel('Time (ms)');
 
-
-%% H - kinetics features
-% findKineticsFeatures
-% 
-% onsets_app = [onsetExc1Coa; onsetExc1Pcx];
-% g1 = []; g1 = ones(length(onsetExc1Coa),1);
-% g2 = []; g2 = 2*ones(length(onsetExc1Pcx),1);
-% groupingV = [g1; g2];
-% onsets = [onsets_app groupingV];
-% peaks_app = [peakExc1Coa; peakExc1Pcx];
-% g1 = []; g1 = ones(length(peakExc1Coa),1);
-% g2 = []; g2 = 2*ones(length(peakExc1Pcx),1);
-% groupingV = [g1; g2];
-% peaks = [peaks_app groupingV];
-% hwidths_app = [hwidthExc1Coa; hwidthExc1Pcx];
-% g1 = []; g1 = ones(length(hwidthExc1Coa),1);
-% g2 = []; g2 = 2*ones(length(hwidthExc1Pcx),1);
-% groupingV = [g1; g2];
-% hwidths = [hwidths_app groupingV];
-% 
-% 
-% p(2, 2, 2, 2, 1).select();
-% b1 = boxplot(onsets(:,1), onsets(:,2), 'plotstyle', 'traditional', 'boxstyle', 'outline', 'colors', 'rk', 'notch', 'on', 'symbol', '');
-% set(gca, 'XTickLabel', {' '})
-% 
-% p(2, 2, 2, 2, 2).select();
-% b2 = boxplot(peaks(:,1), peaks(:,2), 'plotstyle', 'traditional', 'boxstyle', 'outline', 'colors', 'rk', 'notch', 'on', 'symbol', '');
-% set(gca, 'XTickLabel', {' '})
-% 
-% p(2, 2, 2, 2, 3).select();
-% b2 = boxplot(hwidths(:,1), hwidths(:,2), 'plotstyle', 'traditional', 'boxstyle', 'outline', 'colors', 'rk', 'notch', 'on', 'symbol', '');
-% set(gca, 'XTickLabel', {' '})
 
 %% show panels
 

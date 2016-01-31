@@ -12,6 +12,7 @@
 % coaRL = load('/Volumes/Tetrodes Backup1/january2/coa/15/responsesL.mat');
 % coa2HL = load('/Volumes/Tetrodes Backup1/january2/coa/15/coa_15_2_2.mat');
 
+odorsRearranged = 1:15;
 
 %% Set figure size
 figure
@@ -25,22 +26,34 @@ p.pack('h', {40 60});
 p(1).pack('v', {6 47 47});
 p(1,2).pack('h', {1/5 1/5 1/5 1/5 1/5});
 p(1,3).pack('h', {1/5 1/5 1/5 1/5 1/5});
-p(2).pack('v', {1/3 1/3 1/3});
-p(2,1).pack('h', {70 30});
-p(2,2).pack('h', {70 30});
+p(2).pack('v', {1/2 1/2});
+p(2,1).pack('h', {1/2 1/2});
+p(2,2).pack('h', {1/2 1/2});
 p(2,3).pack('h', {70 30});
-p(2,1,2).pack('v', {1/2 1/2});
-p(2,2,2).pack('v', {1/2 1/2});
-p(2,3,2).pack('v', {1/2 1/2});
+
+
+p = panel();
+p.pack('v', {80 20});
+p(1).pack('h', {40 60});
+p(1,2).pack('v', {6 47 47});
+p(1,3).pack('h', {1/5 1/5 1/5 1/5 1/5});
+p(1,3).pack('h', {1/5 1/5 1/5 1/5 1/5});
+p(2).pack('v', {1/2 1/2});
+p(2,1).pack('h', {1/2 1/2});
+p(2,2).pack('h', {1/2 1/2});
+p(2,3).pack('h', {70 30});
+
 
 
 % p.select('all');
 % p.identify()
 
 %% Tuning curves (auROC)
+tuningCurves15Coa = makeTuningCurves(coa2.esp, coaR.tot_units, odorsRearranged);
+tuningCurves15Pcx = makeTuningCurves(pcx2.esp, pcxR.tot_units, odorsRearranged);
+
 p(1,1).select();
 set(gca,'XColor','w', 'YColor','w')
-%makeTuningCurves
 clims = [0 1];
 p(1,2,1).select()
 imagesc(tuningCurves15Coa(:,1:3), clims); colormap(brewermap([],'*RdBu')); axis tight
@@ -120,12 +133,18 @@ set(l2, 'Color', 'k');
 
 
 %% Odors activated
-proportionActivatingOdors
+pcxHlist = [14 6 4 12 13 3 11];% pcxH
+coaHlist = [14 2 15 4 10 11 8];% coaH
+pcxLlist = [1 2 5 10 15 7 8];% pcxL
+coaLlist = [6 1 3 13 12 7 5];% coaL
+[actOdorPcx, auROCsortPcx] = proportionActivatingOdors(pcx2.esp, odorsRarranged);
+[actOdorCoa, auROCsortCoa] = proportionActivatingOdors(coa2.esp, odorsRarranged);
+[actOdorPcxH, auROCsortPcxH] = proportionActivatingOdors(pcx2HL.esp, pcxHlist);
+[actOdorCoaHv, auROCsortCoaL] = proportionActivatingOdors(coa2HL.esp, coaHlist);
+[actOdorPcxL, auROCsortPcxL] = proportionActivatingOdors(pcx2HL.esp, pcxLlist);
+[actOdorCoaL, auROCsortCoaL] = proportionActivatingOdors(coa2HL.esp, coaLlist);
 
-% templ1 = zeros(16,2); templ2 = zeros(16,2);
-% templ1(:,1) = 1; templ2(:,2) = 1;
-% templPcxMean = templ2; templPcxSem = templ2;
-% templCoaMean = templ1; templCoaSem = templ1;
+
 longList = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15'};
 shortList = {'0', '1', '2', '3', '4', '5', '6', '7'};
 longTicks = 0.15:15.15;
@@ -149,25 +168,7 @@ SEMPPcxL = sqrt((PPcxL .* (1 - PPcxL)) ./ sum(N));
 N = histcounts(actOdorCoaL,0:8); 
 PCoaL = N./ sum(N);
 SEMPCoaL = sqrt((PCoaL .* (1 - PCoaL)) ./ sum(N));
-% PPcx = [PPcx' PPcx'];
-% SEMPPcx = [SEMPPcx' SEMPPcx'];
-% PcxMean = PPcx .*  templPcxMean;
-% PcxSem = SEMPPcx .* templPcxSem;
-% PCoa = [PCoa' PCoa'];
-% SEMPCoa = [SEMPCoa' SEMPCoa'];
-% CoaMean = PCoa .*  templCoaMean;
-% CoaSem = SEMPCoa .* templCoaSem;
 
-% p(2, 1, 1).select();
-% b1 = barwitherr(CoaSem, CoaMean, [], '.r');
-% b1(1).FaceColor = 'r'; 
-% b1(1).EdgeColor = 'r';
-% hold on
-% b2 = barwitherr(PcxSem, PcxMean, [], '.k');
-% b2(1).FaceColor = 'k'; 
-% b2(1).EdgeColor = 'k';
-% set(gca,'XColor','w', 'box','off')
-% hold on
 
 p(2, 1, 1).select();
 errorbar(0:15, PCoa, SEMPCoa, 'or', 'LineWidth', 1, 'MarkerEdgeColor', 'r', 'MarkerFaceColor', 'r', 'MarkerSize', 8)

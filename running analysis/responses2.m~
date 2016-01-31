@@ -80,19 +80,7 @@ for idxExp = unique(cellLogExc1(:,1))'
 end
 
 
-%%
-% cattura = [];
-% v = [5 1 1; 5 1 11; 5 4 1];
-% for idxV = 1:3
-%     for idxEntry = 1:size(logExc,1)
-%         if isequal(logExc(idxEntry,1:3), v(idxV,:))
-%             cattura = [cattura idxEntry];
-%         end
-%     end
-% end
-% 
-% logExc(cattura,:) = [];   
-%%
+%% Significant excitatory responses
 indici = -4:10;
 for idxEntry = 1:size(logExc,1)
     idxExp = logExc(idxEntry,1);
@@ -104,16 +92,6 @@ for idxEntry = 1:size(logExc,1)
     load('breathing.mat', 'sniffs');
     A = single(espe(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrix);
     snipCellOdorSniff = [];
-    idxO = 0;
-    for idxOdor = odorsRearranged
-        idxO = idxO + 1;
-        appBsl(idxO) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms);
-        appRsp(idxO) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms);
-        appDelta(idxO) = appRsp(idxO) - appBsl(idxO);
-    end
-bslExc1(idxEntry) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms);
-
-
 %     if idxExp == 2
 %         for idxTrial = 1:5
 %             onsets(idxTrial) = find(sniffs(idxOdor).trial(idxTrial).sniffPower(:,1) >= 0,1);
@@ -138,8 +116,55 @@ bslExc1(idxEntry) = mean(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(id
         snipCellOdorSniff = [snipCellOdorSniff app];
     end
     [respCellOdorPairPSTHExcMn(idxEntry,:), respCellOdorPairPSTHExcSd(idxEntry,:), respCellOdorPairPSTHExcFF(idxEntry,:)] = slidePSTH(snipCellOdorSniff, 50, 5);
+    R1000ms = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms';
+    B1000ms  = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms';
+    rocExcR1000ms(idxEntry) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auRoc1000ms;
+    deltaExcR1000ms(idxEntry) = mean(R1000ms - B1000ms);
+    ffExcR1000ms(idxEntry) = var(R1000ms) ./ mean(R1000ms);    
 end
 
+%% Significant inhibitory responses
+indici = -4:10;
+for idxEntry = 1:size(logInh,1)
+    idxExp = logInh(idxEntry,1);
+    idxShank = logInh(idxEntry,2);
+    idxUnit = logInh(idxEntry,3);
+    idxOdor = logInh(idxEntry,4);
+    cartella = List{idxExp};
+    cd(cartella)
+    load('breathing.mat', 'sniffs');
+    A = single(espe(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrix);
+    snipCellOdorSniff = [];
+%     if idxExp == 2
+%         for idxTrial = 1:5
+%             onsets(idxTrial) = find(sniffs(idxOdor).trial(idxTrial).sniffPower(:,1) >= 0,1);
+%         end
+%     else
+        for idxTrial = 1:10
+            onsets(idxTrial) = find(sniffs(idxOdor).trial(idxTrial).sniffPower(:,1) >= 0,1);
+        end
+%     end
+    for idxSniff = 1:15
+%         if idxExp == 2
+%             for idxTrial = 1:5
+%                 app(idxTrial,:) = A(idxTrial, 15000 + floor(sniffs(idxOdor).trial(idxTrial).sniffPower(onsets(idxTrial) + indici(idxSniff),1)*1000) :...
+%                     15000 + floor(sniffs(idxOdor).trial(idxTrial).sniffPower(onsets(idxTrial) + indici(idxSniff),1)*1000) + 299);
+%             end
+%         else
+            for idxTrial = 1:10
+                app(idxTrial,:) = A(idxTrial, 15000 + floor(sniffs(idxOdor).trial(idxTrial).sniffPower(onsets(idxTrial) + indici(idxSniff),1)*1000) :...
+                    15000 + floor(sniffs(idxOdor).trial(idxTrial).sniffPower(onsets(idxTrial) + indici(idxSniff),1)*1000) + 299);
+            end
+%         end
+        snipCellOdorSniff = [snipCellOdorSniff app];
+    end
+    [respCellOdorPairPSTHInhMn(idxEntry,:), respCellOdorPairPSTHInhSd(idxEntry,:), respCellOdorPairPSTHInhFF(idxEntry,:)] = slidePSTH(snipCellOdorSniff, 50, 5);
+    R1000ms = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms';
+    B1000ms  = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms';
+    rocInhR1000ms(idxEntry) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auRoc1000ms;
+    deltaInhR1000ms(idxEntry) = mean(R1000ms - B1000ms);
+    ffInhR1000ms(idxEntry) = var(R1000ms) ./ mean(R1000ms);
+end
 
 %%
 % indici = -4:10;
@@ -220,67 +245,71 @@ end
 %     end
 % end
 
-%%
-countOdorSniff = zeros(cells,odors,15);
-neuron = 0;
-for idxExp = 1: length(esp) %- 1
-    cartella = List{idxExp};
-    cd(cartella)
-    load('breathing.mat', 'sniffs');
-    for idxShank = 1:4
-        for idxUnit = 1:length(esp(idxExp).shankNowarp(idxShank).cell)
-            if esp(idxExp).shankNowarp(idxShank).cell(idxUnit).good == 1
-                neuron = neuron + 1;
-                idxO = 0;
-                %odorsRearranged = keepNewOrder(idxExp,:);
-                for idxOdor = odorsRearranged
-                    idxO = idxO + 1;
-                    A = single(espe(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrix);
-%                     if idxExp == 2
-%                         for idxTrial = 1:5
+% %%
+% countOdorSniff = zeros(cells,odors,15);
+% neuron = 0;
+% for idxExp = 1: length(esp) %- 1
+%     cartella = List{idxExp};
+%     cd(cartella)
+%     load('breathing.mat', 'sniffs');
+%     for idxShank = 1:4
+%         for idxUnit = 1:length(esp(idxExp).shankNowarp(idxShank).cell)
+%             if esp(idxExp).shankNowarp(idxShank).cell(idxUnit).good == 1
+%                 neuron = neuron + 1;
+%                 idxO = 0;
+%                 %odorsRearranged = keepNewOrder(idxExp,:);
+%                 for idxOdor = odorsRearranged
+%                     idxO = idxO + 1;
+%                     A = single(espe(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrix);
+% %                     if idxExp == 2
+% %                         for idxTrial = 1:5
+% %                             onsets(idxTrial) = find(sniffs(idxOdor).trial(idxTrial).sniffPower(:,1) >= 0,1);
+% %                         end
+% %                     else
+%                         for idxTrial = 1:10
 %                             onsets(idxTrial) = find(sniffs(idxOdor).trial(idxTrial).sniffPower(:,1) >= 0,1);
 %                         end
-%                     else
-                        for idxTrial = 1:10
-                            onsets(idxTrial) = find(sniffs(idxOdor).trial(idxTrial).sniffPower(:,1) >= 0,1);
-                        end
-%                     end
-                    for idxSniff = 1:15
-%                         if idxExp == 2
-%                             for idxTrial = 1:5
+% %                     end
+%                     for idxSniff = 1:15
+% %                         if idxExp == 2
+% %                             for idxTrial = 1:5
+% %                                 app(idxTrial,:) = A(idxTrial, 15000 + floor(sniffs(idxOdor).trial(idxTrial).sniffPower(onsets(idxTrial) + indici(idxSniff),1)*1000) :...
+% %                                     15000 + floor(sniffs(idxOdor).trial(idxTrial).sniffPower(onsets(idxTrial) + indici(idxSniff),1)*1000) + 299);
+% %                             end
+% %                         else
+%                             for idxTrial = 1:10
 %                                 app(idxTrial,:) = A(idxTrial, 15000 + floor(sniffs(idxOdor).trial(idxTrial).sniffPower(onsets(idxTrial) + indici(idxSniff),1)*1000) :...
 %                                     15000 + floor(sniffs(idxOdor).trial(idxTrial).sniffPower(onsets(idxTrial) + indici(idxSniff),1)*1000) + 299);
 %                             end
-%                         else
-                            for idxTrial = 1:10
-                                app(idxTrial,:) = A(idxTrial, 15000 + floor(sniffs(idxOdor).trial(idxTrial).sniffPower(onsets(idxTrial) + indici(idxSniff),1)*1000) :...
-                                    15000 + floor(sniffs(idxOdor).trial(idxTrial).sniffPower(onsets(idxTrial) + indici(idxSniff),1)*1000) + 299);
-                            end
-%                         end
-                        countOdorSniff(neuron,idxO,idxSniff) = mean(sum(app,2));
-                    end
-                end
-            end
-        end
-    end
-end
-%%
-  
-for idxSniff = 1:15
-    Bapp = squeeze(countOdorSniff(:,:,idxSniff));
-    for idxRep = 1:1000
-        idxCell = randsample(size(Bapp,1), 100);
-        B = Bapp(idxCell,:);
-        B = B';
-        B = zscore(B);
-        distSniff(idxRep, idxSniff) = nanmean(pdist(B, 'correlation'));
-    end
-end
-distSniff = nanmean(distSniff);        
-distSniffNorm = (distSniff ./ nanmean(distSniff(1:4)) - 1).*100;
+% %                         end
+%                         countOdorSniff(neuron,idxO,idxSniff) = mean(sum(app,2));
+%                     end
+%                 end
+%             end
+%         end
+%     end
+% end
+% %%
+%   
+% for idxSniff = 1:15
+%     Bapp = squeeze(countOdorSniff(:,:,idxSniff));
+%     for idxRep = 1:1000
+%         idxCell = randsample(size(Bapp,1), 100);
+%         B = Bapp(idxCell,:);
+%         B = B';
+%         B = zscore(B);
+%         distSniff(idxRep, idxSniff) = nanmean(pdist(B, 'correlation'));
+%     end
+% end
+% distSniff = nanmean(distSniff);        
+% distSniffNorm = (distSniff ./ nanmean(distSniff(1:4)) - 1).*100;
 
 %%
 cd(folder)
-save('responses.mat', 'respCellOdorPairPSTHExcMn', 'respCellOdorPairPSTHExcSd', 'respCellOdorPairPSTHExcCv', 'distSniff', 'distSniffNorm', '-append')
-
+save('responses.mat', 'respCellOdorPairPSTHExcMn', 'respCellOdorPairPSTHExcSd', 'respCellOdorPairPSTHExcFF',...
+    'respCellOdorPairPSTHExcMn', 'respCellOdorPairPSTHExcSd', 'respCellOdorPairPSTHExcFF', 'rocExcR1000ms', 'deltaExcR1000ms', 'ffExcR1000ms',  '-append')
+ 
+    rocInhR1000ms(idxEntry) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auRoc1000ms;
+    deltaInhR1000ms(idxEntry) = mean(R1000ms - B1000ms);
+    ffInhR1000ms(idxEntry) = var(R1000ms) ./ mean(R1000ms);
                     
