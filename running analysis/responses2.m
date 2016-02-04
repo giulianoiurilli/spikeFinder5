@@ -72,7 +72,7 @@ for idxExp = unique(cellLogExc1(:,1))'
                 if (respI300 + respI1000) > 0
                     cellOdorPairInh = cellOdorPairInh + 1;
                     newEntry = [idxExp idxShank idxUnit idxOdor];
-                    logInh = [logExc; newEntry];
+                    logInh = [logInh; newEntry];
                 end
             end
         end
@@ -115,12 +115,13 @@ for idxEntry = 1:size(logExc,1)
 %         end
         snipCellOdorSniff = [snipCellOdorSniff app];
     end
-    [respCellOdorPairPSTHExcMn(idxEntry,:), respCellOdorPairPSTHExcSd(idxEntry,:), respCellOdorPairPSTHExcFF(idxEntry,:)] = slidePSTH(snipCellOdorSniff, 50, 5);
+    [respCellOdorPairPSTHExcMn(idxEntry,:), respCellOdorPairPSTHExcSd(idxEntry,:), respCellOdorPairPSTHExcFF(idxEntry,:), respCellOdorPairPSTHExcCV(idxEntry,:)] = slidePSTH(snipCellOdorSniff, 50, 5);
     R1000ms = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms';
     B1000ms  = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms';
-    rocExcR1000ms(idxEntry) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auRoc1000ms;
+    rocExcR1000ms(idxEntry) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC1000ms;
     deltaExcR1000ms(idxEntry) = mean(R1000ms - B1000ms);
-    ffExcR1000ms(idxEntry) = var(R1000ms) ./ mean(R1000ms);    
+    ffExcR1000ms(idxEntry) = var(R1000ms) ./ mean(R1000ms); 
+    cvExcR1000ms(idxEntry) = std(R1000ms) ./ mean(R1000ms); 
 end
 
 %% Significant inhibitory responses
@@ -158,12 +159,13 @@ for idxEntry = 1:size(logInh,1)
 %         end
         snipCellOdorSniff = [snipCellOdorSniff app];
     end
-    [respCellOdorPairPSTHInhMn(idxEntry,:), respCellOdorPairPSTHInhSd(idxEntry,:), respCellOdorPairPSTHInhFF(idxEntry,:)] = slidePSTH(snipCellOdorSniff, 50, 5);
+    [respCellOdorPairPSTHInhMn(idxEntry,:), respCellOdorPairPSTHInhSd(idxEntry,:), respCellOdorPairPSTHInhFF(idxEntry,:), respCellOdorPairPSTHInhCV(idxEntry,:)] = slidePSTH(snipCellOdorSniff, 50, 5);
     R1000ms = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms';
     B1000ms  = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms';
-    rocInhR1000ms(idxEntry) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auRoc1000ms;
+    rocInhR1000ms(idxEntry) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC1000ms;
     deltaInhR1000ms(idxEntry) = mean(R1000ms - B1000ms);
     ffInhR1000ms(idxEntry) = var(R1000ms) ./ mean(R1000ms);
+    cvInhR1000ms(idxEntry) = std(R1000ms) ./ mean(R1000ms);
 end
 
 %%
@@ -306,7 +308,7 @@ end
 
 %%
 cd(folder)
-save('responses.mat', 'respCellOdorPairPSTHExcMn', 'respCellOdorPairPSTHExcSd', 'respCellOdorPairPSTHExcFF',...
-    'respCellOdorPairPSTHExcMn', 'respCellOdorPairPSTHExcSd', 'respCellOdorPairPSTHExcFF', 'rocExcR1000ms', 'deltaExcR1000ms', 'ffExcR1000ms',...
-    'rocInhR1000ms', 'deltaInhR1000ms', 'ffInhR1000ms', '-append')
+save('responses.mat', 'respCellOdorPairPSTHExcMn', 'respCellOdorPairPSTHExcSd', 'respCellOdorPairPSTHExcFF', 'respCellOdorPairPSTHExcCV',...
+    'respCellOdorPairPSTHInhMn', 'respCellOdorPairPSTHInhSd', 'respCellOdorPairPSTHInhFF', 'respCellOdorPairPSTHInhCV', 'rocExcR1000ms', 'deltaExcR1000ms', 'ffExcR1000ms',...
+    'rocInhR1000ms', 'deltaInhR1000ms', 'ffInhR1000ms', 'cvExcR1000ms', 'cvInhR1000ms', '-append')
                     

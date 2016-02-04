@@ -15,7 +15,7 @@ for idxExp =  1:length(esp)
 end
 responsesExc1 = zeros(c, odors);
 c = 0;
-
+aurocs1000msSorted = [];
 for idxExp =  1:length(esp)
     for idxShank = 1:4
         for idxUnit = 1:length(esp(idxExp).shankNowarp(idxShank).cell)

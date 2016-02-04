@@ -1,4 +1,4 @@
-function [Bsl, DeltaRsp, ff, fanoFactor] = find_Baseline_DeltaRsp_FanoFactor(esp, odors)
+function [Bsl, DeltaRsp, ff, cv, fanoFactor] = find_Baseline_DeltaRsp_FanoFactor(esp, odors)
 
 n_trials = 10;
 
@@ -18,6 +18,7 @@ Bsl = zeros(1,c);
 fanoFactor = zeros(1,c);
 DeltaRsp = zeros(c, length(odors)); 
 ff  = zeros(c, length(odors)); 
+cv  = zeros(c, length(odors)); 
 c = 0;
 for idxExp =  1:length(esp)
     for idxShank = 1:4
@@ -37,6 +38,7 @@ for idxExp =  1:length(esp)
                 RspMean = mean(R1000ms - B1000ms);
                 RspMeanAbs = mean(R1000ms);
                 RspVar = var(R1000ms);
+                RspStd = std(R1000ms);
                 %DeltaRsp(c) = mean(RspMean);
                 DeltaRsp(c,:) = RspMean;
                 Bsl(c) = mean(mean(B1000ms));
@@ -46,6 +48,7 @@ for idxExp =  1:length(esp)
                 [B, stdB] = lscov(RspMeanAbs', RspVar', regWeights);
                 fanoFactor(c) = B;
                 ff(c,:) = RspVar ./ RspMean;
+                cv(c,:) = RspStd ./ RspMean;
             end
         end
     end

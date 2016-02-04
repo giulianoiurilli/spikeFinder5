@@ -1,10 +1,24 @@
-function [tuningCurves] = makeTuningCurves(esp, odors, tot_units)
-
+function [tuningCurves] = makeTuningCurves(esp, odors)
 
 
 odorsRearranged = odors;
 odors = length(odorsRearranged);
-tuningCurves = 0.5 * ones(tot_units, odors);
+idxCell1 = 0;
+for idxesp = 1:length(esp) 
+    for idxShank = 1:4
+        for idxUnit = 1:length(esp(idxesp).shankNowarp(idxShank).cell)
+            if esp(idxesp).shankNowarp(idxShank).cell(idxUnit).good == 1
+                idxCell1 = idxCell1 + 1;
+                idxO = 0;
+                for idxOdor = odorsRearranged
+                    idxO = idxO + 1;
+                end
+            end
+        end
+    end
+end
+
+tuningCurves = 0.5 * ones(idxCell1, odors);
 cells = 0;
 for idxExp = 1: length(esp) %- 1
     for idxShank = 1:4

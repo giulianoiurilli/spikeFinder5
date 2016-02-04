@@ -1,9 +1,10 @@
-% pcx1 = load('/Volumes/Tetrodes Backup1/january2/pcx/aa/pcx_AA_2_1.mat');
-% pcx2 = load('/Volumes/Tetrodes Backup1/january2/pcx/aa/pcx_AA_2_2.mat');
-% pcxR = load('/Volumes/Tetrodes Backup1/january2/pcx/aa/responses.mat');
-% pcxRH = load('/Volumes/Tetrodes Backup1/january2/pcx/15/responsesH.mat');
-% pcxRL = load('/Volumes/Tetrodes Backup1/january2/pcx/15/responsesL.mat');
-% pcx2HL = load('/Volumes/Tetrodes Backup1/january2/pcx/15/pcx_15_2_2.mat');
+pcx1 = load('/Volumes/Tetrodes Backup1/january2/pcx/aa/pcx_AA_2_1.mat');
+pcx2 = load('/Volumes/Tetrodes Backup1/january2/pcx/aa/pcx_AA_2_2.mat');
+pcxR = load('/Volumes/Tetrodes Backup1/january2/pcx/aa/responses.mat');
+pcxRH = load('/Volumes/Tetrodes Backup1/january2/pcx/15/responsesH.mat');
+pcxRL = load('/Volumes/Tetrodes Backup1/january2/pcx/15/responsesL.mat');
+pcx2HL = load('/Volumes/Tetrodes Backup1/january2/pcx/15/pcx_15_2_2.mat');
+% pcxRH8 = load('/Volumes/Tetrodes Backup1/january2/pcx/15/responsesH8.mat');
 % 
 % coa1 = load('/Volumes/Tetrodes Backup1/january2/coa/aa/coa_AA_2_1.mat');
 % coa2 = load('/Volumes/Tetrodes Backup1/january2/coa/aa/coa_AA_2_2.mat');
@@ -11,6 +12,7 @@
 % coaRH = load('/Volumes/Tetrodes Backup1/january2/coa/15/responsesH.mat');
 % coaRL = load('/Volumes/Tetrodes Backup1/january2/coa/15/responsesL.mat');
 % coa2HL = load('/Volumes/Tetrodes Backup1/january2/coa/15/coa_15_2_2.mat');
+% coaRH8 = load('/Volumes/Tetrodes Backup1/january2/coa/15/responsesH8.mat');
 
 odorsRearranged = 1:15;
 
@@ -140,7 +142,7 @@ coaLlist = [6 1 3 13 12 7 5];% coaL
 [actOdorPcx, auROCsortPcx] = proportionActivatingOdors(pcx2.esp, odorsRarranged);
 [actOdorCoa, auROCsortCoa] = proportionActivatingOdors(coa2.esp, odorsRarranged);
 [actOdorPcxH, auROCsortPcxH] = proportionActivatingOdors(pcx2HL.esp, pcxHlist);
-[actOdorCoaHv, auROCsortCoaL] = proportionActivatingOdors(coa2HL.esp, coaHlist);
+[actOdorCoaH, auROCsortCoaH] = proportionActivatingOdors(coa2HL.esp, coaHlist);
 [actOdorPcxL, auROCsortPcxL] = proportionActivatingOdors(pcx2HL.esp, pcxLlist);
 [actOdorCoaL, auROCsortCoaL] = proportionActivatingOdors(coa2HL.esp, coaLlist);
 

@@ -99,4 +99,5 @@ noiseCorelation
 %%
 cd(folder)
 save('responses.mat', 'tot_units', 'pR300', 'SEpR300', 'SEpR300', 'pR1000', 'SEpR1000', 'cellOdorPairSpikeCount300', 'spikeCountChangeExc1000', 'spikeCountChangeCVExc300', 'spikeCountChangeCVExc1000',...
-    'lsExc300', 'lsExc1000', 'infoExc300', 'infoExc1000', 'sigCorrW300ms', 'sigCorrB300ms', 'sigCorrW1000ms', 'sigCorrB1000ms', 'noiseCorrW300ms', 'noiseCorrB300ms', 'noiseCorrW1000ms', 'noiseCorrB1000ms','-append')
+    'lsExc300', 'lsExc1000', 'infoExc300', 'infoExc1000', 'sigCorrW300ms', 'sigCorrB300ms', 'sigCorrW1000ms', 'sigCorrB1000ms', 'noiseCorrW300ms', 'noiseCorrB300ms', 'noiseCorrW1000ms', 'noiseCorrB1000ms',...
+    'sigCorrWBSL1000ms', 'sigCorrBBSL1000ms', 'noiseCorrWBSL1000ms', 'noiseCorrBBSL1000ms', '-append')
