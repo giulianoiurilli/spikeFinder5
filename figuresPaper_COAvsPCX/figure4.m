@@ -91,8 +91,8 @@ t2 = p(1,2).title('PCX coding space');
 set(t2, 'Color', 'k');
 %% C - Optimal number of clusters
 clustersN = [1:15, 20 30 40 50 60 70];
-[EmeanCoa, EstdCoa, EmeanShuffledCoa, EsemShuffledCoa, EmeanDecorrCoa, EsemDecorrCoa] = findBestNumberOfClusters(coa2.esp, odorsRearranged);
-[EmeanPcx, EstdPcx, EmeanShuffledPcx, EsemShuffledPcx, EmeanDecorrPcx, EsemDecorrPcx] = findBestNumberOfClusters(pcx2.esp, odorsRearranged);
+% [EmeanCoa, EstdCoa, EmeanShuffledCoa, EsemShuffledCoa, EmeanDecorrCoa, EsemDecorrCoa] = findBestNumberOfClusters(coa2.esp, odorsRearranged, clustersN);
+% [EmeanPcx, EstdPcx, EmeanShuffledPcx, EsemShuffledPcx, EmeanDecorrPcx, EsemDecorrPcx] = findBestNumberOfClusters(pcx2.esp, odorsRearranged, clustersN);
 p(2,1).select()
 x = 1:21;
 %optClusters = [EmeanCoa; EmeanPcx];
