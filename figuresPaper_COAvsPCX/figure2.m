@@ -78,8 +78,8 @@ set(gca,'XTick',[])
 set(gca,'XTickLabel',[])
 set(gca,'YTick',[])
 set(gca,'YTickLabel',[])
-l1 = p(1,2).ylabel({'Cortical Amygdala', 'Neurons'});
-set(l1, 'Color', 'r');
+% l1 = p(1,2).ylabel({'Cortical Amygdala', 'Neurons'});
+% set(l1, 'Color', 'r');
 
 p(1,3,1).select()
 imagesc(tuningCurves15Pcx(:,1:3), clims); colormap(brewermap([],'*RdBu')); axis tight
@@ -116,20 +116,20 @@ set(gca,'XTick',[])
 set(gca,'XTickLabel',[])
 set(gca,'YTick',[])
 set(gca,'YTickLabel',[])
-l2 = p(1,3).ylabel({'Piriform Cortex', 'Neurons'});
-set(l2, 'Color', 'k');
+% l2 = p(1,3).ylabel({'Piriform Cortex', 'Neurons'});
+% set(l2, 'Color', 'k');
 
 %% C - Odors activated
 pcxHlist = [14 6 4 12 13 3 11];% pcxH
 coaHlist = [14 2 15 4 10 11 8];% coaH
 pcxLlist = [1 2 5 10 15 7 8];% pcxL
 coaLlist = [6 1 3 13 12 7 5];% coaL
-[actOdorPcx, auROCsortPcx] = proportionActivatingOdors(pcx2.esp, odorsRearranged);
-[actOdorCoa, auROCsortCoa] = proportionActivatingOdors(coa2.esp, odorsRearranged);
-[actOdorPcxH, auROCsortPcxH] = proportionActivatingOdors(pcx2HL.esp, pcxHlist);
-[actOdorCoaH, auROCsortCoaH] = proportionActivatingOdors(coa2HL.esp, coaHlist);
-[actOdorPcxL, auROCsortPcxL] = proportionActivatingOdors(pcx2HL.esp, pcxLlist);
-[actOdorCoaL, auROCsortCoaL] = proportionActivatingOdors(coa2HL.esp, coaLlist);
+% [actOdorPcx, auROCsortPcx] = proportionActivatingOdors(pcx2.esp, odorsRearranged);
+% [actOdorCoa, auROCsortCoa] = proportionActivatingOdors(coa2.esp, odorsRearranged);
+% [actOdorPcxH, auROCsortPcxH] = proportionActivatingOdors(pcx2HL.esp, pcxHlist);
+% [actOdorCoaH, auROCsortCoaH] = proportionActivatingOdors(coa2HL.esp, coaHlist);
+% [actOdorPcxL, auROCsortPcxL] = proportionActivatingOdors(pcx2HL.esp, pcxLlist);
+% [actOdorCoaL, auROCsortCoaL] = proportionActivatingOdors(coa2HL.esp, coaLlist);
 
 
 longList = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15'};
@@ -323,7 +323,7 @@ p(1,2).marginbottom = 10;
 p(2,1,1).marginright = 15;
 p(2,2,1).marginright = 15;
 p(2,1).marginbottom = 35;
-p.margin = [20 15 5 10];
+p.margin = [30 15 5 10];
 p.fontsize = 12;
 p.fontname = 'Avenir';
 

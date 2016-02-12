@@ -1,4 +1,5 @@
-odorsRearranged = 1:15;
+%odorsRearranged = 1:15;
+odorsRearranged = [2 3 1 4 5 6 7 8 9 10 11 12 13 14 15];%concseries
 odors = length(odorsRearranged);
 c = 0;
 g = 0;
@@ -33,4 +34,4 @@ c
 g
 g/c
 
-save('pcx_AA_2_2.mat', 'esp', '-append')
+save('aPCx_concseries_AreaNew2.mat', 'esp', '-append')

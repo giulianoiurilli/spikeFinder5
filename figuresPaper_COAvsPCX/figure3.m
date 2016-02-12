@@ -1,11 +1,11 @@
 %% Load data
 % pcx1 = load('/Volumes/Tetrodes Backup1/january2/pcx/aa/pcx_AA_2_1.mat');
 % pcx2 = load('/Volumes/Tetrodes Backup1/january2/pcx/aa/pcx_AA_2_2.mat');
-% pcxR = load('/Volumes/Tetrodes Backup1/january2/pcx/aa/responses.mat');
+pcxR = load('/Volumes/Tetrodes Backup1/january2/pcx/aa/responses.mat');
 % 
 % coa1 = load('/Volumes/Tetrodes Backup1/january2/coa/aa/coa_AA_2_1.mat');
 % coa2 = load('/Volumes/Tetrodes Backup1/january2/coa/aa/coa_AA_2_2.mat');
-% coaR = load('/Volumes/Tetrodes Backup1/january2/coa/aa/responses.mat');
+coaR = load('/Volumes/Tetrodes Backup1/january2/coa/aa/responses.mat');
 
 odorsRearranged = 1:15;
 
@@ -185,7 +185,7 @@ p(2).ylabel('Noise correlation');
 %% show panels
 p.select('all');
 p.de.margin = 2;
-p(1).marginbottom = 20;
+p(1).marginbottom = 40;
 p(1,1).marginright = 30;
 p.margin = [20 15 5 10];
 p.fontsize = 12;

@@ -58,8 +58,8 @@ for idxRep = 1:nRep
     dataAll = dataAll';
     dataAll= zscore(dataAll);
     app = [];
-    app = evalclusters(dataAll, 'kmeans', 'gap', 'klist', nClusters);
-    %app = evalclusters(dataAll,'linkage','gap','KList',nClusters, 'Distance', 'correlation');
+    %app = evalclusters(dataAll, 'kmeans', 'gap', 'klist', nClusters);
+    app = evalclusters(dataAll,'linkage','gap','KList',nClusters, 'Distance', 'correlation');
     Emean(idxRep,:) = app.CriterionValues;
     Esem(idxRep,:) = app.SE;
 end

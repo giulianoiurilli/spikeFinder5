@@ -32,7 +32,7 @@ p.pack('v', {1/3 1/3 1/3});
 p(1).pack('h', {50 50});
 p(2).pack('h', {1/3 1/3 1/3});
 p(3).pack('h', {50 50});
-p(3,1).pack('h', {1/5 1/5 1/5 1/5 1/5});
+% p(3,1).pack('h', {1/5 1/5 1/5 1/5 1/5});
 p(3,2).pack('h', {50 50});
 
 %% A, B - Coding space
@@ -61,7 +61,7 @@ end
 xlabel('PC1');
 ylabel('PC2');
 zlabel('PC3');
-t1 = p(1,1).title('plCOA coding space');
+t1 = p(1,1).title('plCOA');
 set(t1, 'Color', 'r');
 
 
@@ -87,7 +87,7 @@ end
 xlabel('PC1');
 ylabel('PC2');
 zlabel('PC3');
-t2 = p(1,2).title('PCX coding space');
+t2 = p(1,2).title('PCX');
 set(t2, 'Color', 'k');
 %% C - Optimal number of clusters
 clustersN = [1:15, 20 30 40 50 60 70];
@@ -98,7 +98,7 @@ x = 1:21;
 %optClusters = [EmeanCoa; EmeanPcx];
 %imagesc(optClusters); axis xy; %colormap('hot');
 % yTicks  = 1:2; yLabels = {'plCOA', 'PCX'};
-xTicks  = [1 5 15 21] ; xLabels = {'1', '5', '15', '75'};
+xTicks  = [1 5 15 21] ; xLabels = {'1', '5', '15', '70'};
 plot(x, EmeanCoa, 'ro-', 'linewidth', 2, 'markerSize', 5, 'MarkerFaceColor', 'r', 'MarkerEdgeColor', 'r')
 hold on
 errbar(x, EmeanCoa, EstdCoa, 'r', 'linewidth', 2);
@@ -109,8 +109,9 @@ errbar(x, EmeanPcx, EstdPcx, 'k', 'linewidth', 2);
 set(gca,'box','off')
 set(gca, 'XTick' , xTicks);
 set(gca, 'XTickLabel', xLabels);
-xlabel('Optimal number of clusters')
+xlabel('Number of clusters')
 ylabel('Gap value')
+xlim([0 22])
 % minGap = min(optClusters(:));
 % maxGap = max(optClusters(:))
 % minLab = sprintf('%.2f (worst)', maxGap);
@@ -153,63 +154,79 @@ ylabel('Distances in PCX')
 % [accuracyResponsesPcx, accuracyBaselinePcx, accuracyShuffledPcx, accuracyDecorrTuningPcx, accuracyDecorrNoisePcx, conMatResponsesPcx] = l_svmClassify(pcx2.esp, odorsRearranged);
 
 X = [accuracyResponsesCoa(:) accuracyResponsesPcx(:)];
-p(3,1,1).select()
-boxplot(X, 'plotstyle', 'traditional', 'boxstyle', 'outline', 'colors', 'rk', 'notch', 'on', 'orientation', 'vertical', 'symbol', '', 'widths', 0.5);
-h = findobj(gca,'Tag','Box');
-colorToUse = {'k', 'r'};
-for j=1:length(h)
-    patch(get(h(j),'XData'),get(h(j),'YData'),colorToUse{j},'FaceAlpha',.7);
-end
+p(3,1).select()
+plot([2 6 10 14 18], [mean(accuracyBaselineCoa(:)) mean(accuracyResponsesCoa(:)) mean(accuracyDecorrNoiseCoa(:)) mean(accuracyDecorrTuningCoa(:)) mean(accuracyShuffledCoa(:))],...
+    'ro', 'markersize', 10, 'markeredgecolor', 'r', 'markerfacecolor', 'r')
+hold on
+plot([3 7 11 15 19], [mean(accuracyBaselinePcx(:)) mean(accuracyResponsesPcx(:)) mean(accuracyDecorrNoisePcx(:)) mean(accuracyDecorrTuningPcx(:)) mean(accuracyShuffledPcx(:))],...
+    'ko', 'markersize', 10, 'markeredgecolor', 'k', 'markerfacecolor', 'k')
+hold on
+errbar([2 6 10 14 18], [mean(accuracyBaselineCoa(:)) mean(accuracyResponsesCoa(:)) mean(accuracyDecorrNoiseCoa(:)) mean(accuracyDecorrTuningCoa(:)) mean(accuracyShuffledCoa(:))],...
+    [std(accuracyBaselineCoa(:)) std(accuracyResponsesCoa(:)) std(accuracyDecorrNoiseCoa(:)) std(accuracyDecorrTuningCoa(:)) std(accuracyShuffledCoa(:))],...
+    'r', 'linewidth', 2);
+hold on
+errbar([3 7 11 15 19], [mean(accuracyBaselinePcx(:)) mean(accuracyResponsesPcx(:)) mean(accuracyDecorrNoisePcx(:)) mean(accuracyDecorrTuningPcx(:)) mean(accuracyShuffledPcx(:))],...
+    [std(accuracyBaselinePcx(:)) std(accuracyResponsesPcx(:)) std(accuracyDecorrNoisePcx(:)) std(accuracyDecorrTuningPcx(:)) std(accuracyShuffledPcx(:))],...
+    'k', 'linewidth', 2);
+% boxplot(X, 'plotstyle', 'traditional', 'boxstyle', 'outline', 'colors', 'rk', 'notch', 'on', 'orientation', 'vertical', 'symbol', '', 'widths', 0.5);
+% h = findobj(gca,'Tag','Box');
+% colorToUse = {'k', 'r'};
+% for j=1:length(h)
+%     patch(get(h(j),'XData'),get(h(j),'YData'),colorToUse{j},'FaceAlpha',.7);
+% end
 set(gca, 'XColor', 'w', 'box','off')
 ylim([0 100]);
+line([0 21], [100/15 100/15], 'LineStyle', ':', 'linewidth', 1, 'Color', 'k')
 
-X = [accuracyDecorrNoiseCoa(:) accuracyDecorrNoisePcx(:)];
-p(3,1,2).select()
-boxplot(X, 'plotstyle', 'traditional', 'boxstyle', 'outline', 'colors', 'rk', 'notch', 'on', 'orientation', 'vertical', 'symbol', '', 'widths', 0.5);
-h = findobj(gca,'Tag','Box');
-colorToUse = {'k', 'r'};
-for j=1:length(h)
-    patch(get(h(j),'XData'),get(h(j),'YData'),colorToUse{j},'FaceAlpha',.7);
-end
-set(gca, 'XColor', 'w', 'box','off')
-set(gca, 'YColor', 'w')
-ylim([0 100]);
+% X = [accuracyDecorrNoiseCoa(:) accuracyDecorrNoisePcx(:)];
+% p(3,1,2).select()
+% boxplot(X, 'plotstyle', 'traditional', 'boxstyle', 'outline', 'colors', 'rk', 'notch', 'on', 'orientation', 'vertical', 'symbol', '', 'widths', 0.5);
+% h = findobj(gca,'Tag','Box');
+% colorToUse = {'k', 'r'};
+% for j=1:length(h)
+%     patch(get(h(j),'XData'),get(h(j),'YData'),colorToUse{j},'FaceAlpha',.7);
+% end
+% set(gca, 'XColor', 'w', 'box','off')
+% set(gca, 'YColor', 'w')
+% ylim([0 100]);
+% 
+% X = [accuracyDecorrTuningCoa(:) accuracyDecorrTuningPcx(:)];
+% p(3,1,3).select()
+% boxplot(X, 'plotstyle', 'traditional', 'boxstyle', 'outline', 'colors', 'rk', 'notch', 'on', 'orientation', 'vertical', 'symbol', '', 'widths', 0.5);
+% h = findobj(gca,'Tag','Box');
+% colorToUse = {'k', 'r'};
+% for j=1:length(h)
+%     patch(get(h(j),'XData'),get(h(j),'YData'),colorToUse{j},'FaceAlpha',.7);
+% end
+% set(gca, 'XColor', 'w', 'box','off')
+% set(gca, 'YColor', 'w')
+% ylim([0 100]);
+% 
+% X = [accuracyShuffledCoa(:) accuracyShuffledPcx(:)];
+% p(3,1,4).select()
+% boxplot(X, 'plotstyle', 'traditional', 'boxstyle', 'outline', 'colors', 'rk', 'notch', 'on', 'orientation', 'vertical', 'symbol', '', 'widths', 0.5);
+% h = findobj(gca,'Tag','Box');
+% colorToUse = {'k', 'r'};
+% for j=1:length(h)
+%     patch(get(h(j),'XData'),get(h(j),'YData'),colorToUse{j},'FaceAlpha',.7);
+% end
+% set(gca, 'XColor', 'w', 'box','off')
+% set(gca, 'YColor', 'w')
+% ylim([0 100]);
+% 
+% X = [accuracyBaselineCoa(:) accuracyBaselinePcx(:)];
+% p(3,1,5).select()
+% boxplot(X, 'plotstyle', 'traditional', 'boxstyle', 'outline', 'colors', 'rk', 'notch', 'on', 'orientation', 'vertical', 'symbol', '', 'widths', 0.5);
+% h = findobj(gca,'Tag','Box');
+% colorToUse = {'k', 'r'};
+% for j=1:length(h)
+%     patch(get(h(j),'XData'),get(h(j),'YData'),colorToUse{j},'FaceAlpha',.7);
+% end
+% set(gca, 'XColor', 'w', 'box','off')
+% set(gca, 'YColor', 'w')
+% ylim([0 100]);
 
-X = [accuracyDecorrTuningCoa(:) accuracyDecorrTuningPcx(:)];
-p(3,1,3).select()
-boxplot(X, 'plotstyle', 'traditional', 'boxstyle', 'outline', 'colors', 'rk', 'notch', 'on', 'orientation', 'vertical', 'symbol', '', 'widths', 0.5);
-h = findobj(gca,'Tag','Box');
-colorToUse = {'k', 'r'};
-for j=1:length(h)
-    patch(get(h(j),'XData'),get(h(j),'YData'),colorToUse{j},'FaceAlpha',.7);
-end
-set(gca, 'XColor', 'w', 'box','off')
-set(gca, 'YColor', 'w')
-ylim([0 100]);
 
-X = [accuracyShuffledCoa(:) accuracyShuffledPcx(:)];
-p(3,1,4).select()
-boxplot(X, 'plotstyle', 'traditional', 'boxstyle', 'outline', 'colors', 'rk', 'notch', 'on', 'orientation', 'vertical', 'symbol', '', 'widths', 0.5);
-h = findobj(gca,'Tag','Box');
-colorToUse = {'k', 'r'};
-for j=1:length(h)
-    patch(get(h(j),'XData'),get(h(j),'YData'),colorToUse{j},'FaceAlpha',.7);
-end
-set(gca, 'XColor', 'w', 'box','off')
-set(gca, 'YColor', 'w')
-ylim([0 100]);
-
-X = [accuracyBaselineCoa(:) accuracyBaselinePcx(:)];
-p(3,1,5).select()
-boxplot(X, 'plotstyle', 'traditional', 'boxstyle', 'outline', 'colors', 'rk', 'notch', 'on', 'orientation', 'vertical', 'symbol', '', 'widths', 0.5);
-h = findobj(gca,'Tag','Box');
-colorToUse = {'k', 'r'};
-for j=1:length(h)
-    patch(get(h(j),'XData'),get(h(j),'YData'),colorToUse{j},'FaceAlpha',.7);
-end
-set(gca, 'XColor', 'w', 'box','off')
-set(gca, 'YColor', 'w')
-ylim([0 100]);
 
 p(3, 1).ylabel('Correct classification (%)');
 
@@ -233,16 +250,16 @@ set(t4, 'Color', 'k');
 %%
 p.select('all');
 p.de.margin = 2;
-p(1).marginbottom = 20;
+p(1).marginbottom = 40;
 p(1,1).marginright = 20;
-p(2).marginbottom = 30;
+p(2).marginbottom = 40;
 p(2,1).marginright = 20;
 p(2,2).marginright = 30;
 p(3,1).marginright = 20;
-p(3,1,1).marginright = 5;
-p(3,1,2).marginright = 5;
-p(3,1,3).marginright = 5;
-p(3,1,4).marginright = 5;
+% p(3,1,1).marginright = 5;
+% p(3,1,2).marginright = 5;
+% p(3,1,3).marginright = 5;
+% p(3,1,4).marginright = 5;
 p.margin = [20 15 10 10];
 p.fontsize = 12;
 p.fontname = 'Avenir';

@@ -35,29 +35,49 @@ set(gcf,'color','white', 'PaperPositionMode', 'auto');
 
 
 p = panel();
-p.pack('h', {25 75});
-p(2).pack('v', {20 40 40});
+p.pack('h', {20 80});
+p(1).pack('v', {50 50});
+p(2).pack('v', {30 70});
 p(2,1).pack('v', {4 48 48});
 p(2,1,1).pack('h', {1/5 1/5 1/5 1/5 1/5});
 p(2,1,2).pack('h', {1/5 1/5 1/5 1/5 1/5});
 p(2,1,3).pack('h', {1/5 1/5 1/5 1/5 1/5});
-p(2,2).pack('h', {50 50});
-p(2,3).pack('h', {22 29 22 22});
+p(2,2).pack('v', {50 50});
+p(2,2,1).pack('h', {40 60});
+p(2,2,1,2).pack('h', {45 55});
+p(2,2,2).pack('h', {40 60});
+p(2,2,2,2).pack('h', {50 50});
 
-p.select('all');
-p.identify()
+% p.select('all');
+% p.identify()
 
 
 
 %% A - Leave room for electrode positions
 
-p(1).select();
+p(1,1).select();
+imshow(coaBrain)
 set(gca, 'XTick' , []);
 set(gca, 'XTickLabel', []);
 set(gca, 'YTickLabel', []);
 set(gca,'YTick',[])
 set(gca,'YColor','w')
 set(gca,'XColor','w')
+axis xy
+g = gca;
+g.XDir = 'reverse';
+
+p(1,2).select();
+imshow(pcxBrain)
+set(gca, 'XTick' , []);
+set(gca, 'XTickLabel', []);
+set(gca, 'YTickLabel', []);
+set(gca,'YTick',[])
+set(gca,'YColor','w')
+set(gca,'XColor','w')
+axis xy
+g = gca;
+g.XDir = 'reverse';
 %% B - Rasters
 odorsToUse = [1 4 9 11 13];
 pcxUnit = [2 4 1];
@@ -117,8 +137,8 @@ for idxOdor = 1:length(odorsToUse)
     set(gca,'XColor','w')
     p(2,1,2, idxPlot).title(odorLabels(idxOdor));
 end
-l2 = p(2,1,2).ylabel({'Cortical'; 'Amygdala'});
-set(l2, 'Color', 'r');
+% l2 = p(2,1,2).ylabel({'Cortical'; 'Amygdala'});
+% set(l2, 'Color', 'r');
 
 %plot pcx rasters
 idxPlot = 0;
@@ -139,8 +159,8 @@ for idxOdor = 1:length(odorsToUse)
     set(gca,'XColor','w')
     %p(1, 1, idxPlot).title(odorLabels(idxOdor));
 end
-l1 = p(2,1,3).ylabel({'Piriform'; 'Cortex'});
-set(l1, 'Color', 'k');
+% l1 = p(2,1,3).ylabel({'Piriform'; 'Cortex'});
+% set(l1, 'Color', 'k');
 
 
 
@@ -153,7 +173,8 @@ meanCOA = mean(coaR.respCellOdorPairPSTHExcMn);
 app = std(coaR.respCellOdorPairPSTHExcMn)./sqrt(size(coaR.respCellOdorPairPSTHExcMn,1));
 semCOA = [app; app];
 t = 1:length(meanPCX); 
-p(1,2,1).select();
+
+p(2,2,1,1).select();
 hl(1) = PlotMeanWithFilledSemBand(t, meanPCX, semPCX(2,:), semPCX(1,:), 'k', 2, 'k', 0.2);
 hold on; 
 hl(2) = PlotMeanWithFilledSemBand(t, meanCOA, semCOA(2,:), semCOA(1,:), 'r', 2, 'r', 0.2);
@@ -171,6 +192,8 @@ plotLabels = {'0', '5', '10', '15', '20'};
 set(gca, 'YTick' , plotTicks);
 set(gca, 'YTickLabel', plotLabels);
 ylabel('Firing rate (Hz)')
+
+
 %% D - excitatory response grand averages of coefficient of variation
 %plot cv
 meanCVPCX = nanmean(pcxR.respCellOdorPairPSTHExcCV);
@@ -180,7 +203,8 @@ meanCVCOA = nanmean(coaR.respCellOdorPairPSTHExcCV);
 app = nanstd(coaR.respCellOdorPairPSTHExcCV)./sqrt(size(coaR.respCellOdorPairPSTHExcCV,1));
 semCVCOA = [app; app];
 t = 1:length(meanCVPCX);
-p(1,2,2).select();
+
+p(2,2,2,1).select();
 hl(3) = PlotMeanWithFilledSemBand(t, meanCVPCX, semCVPCX(2,:), semCVPCX(1,:), 'k', 2, 'k', 0.2);
 hold on; 
 hl(4) = PlotMeanWithFilledSemBand(t, meanCVCOA, semCVCOA(2,:), semCVCOA(1,:), 'r', 2, 'r', 0.2);
@@ -195,6 +219,8 @@ VerticalLine(gca,60*4,'k--','LineWidth',1);
 %ylim([0.9 1.4]);
 set(gca,'XColor','w')
 ylabel('Coefficient of variation')
+
+
 %% E - baseline
 % [BslCOA, DeltaRspCOA, ffCOA, cvCOA, fanoFactorCOA]  = find_Baseline_DeltaRsp_FanoFactor(coa2.esp, odorsRearranged);
 % [BslPCX, DeltaRspPCX, ffPCX, cvPCX, fanoFactorPCX]  = find_Baseline_DeltaRsp_FanoFactor(pcx2.esp, odorsRearranged);
@@ -206,7 +232,7 @@ edges = logspace(-2,2,30);
 [N2,edges] = histcounts(BslCOA, edges,'normalization', 'probability');
 
 
-p(2, 2, 1, 1).select();
+p(2,2,1,2,1).select();
 edges = log10(edges(1:end-1));
 h1 = area(edges, N1);
 h1.FaceColor = 'k';
@@ -221,9 +247,9 @@ xlabel('baseline firing (log10, Hz)')
 set(gca,'YColor','w','box','off')
 
 %% F - delta response
-p(2, 2, 1, 2).select();
-distributionPlot(DeltaRspCOA(:),'histOri','right','color','k','widthDiv',[2 2],'showMM',6, 'globalNorm', 1, 'xyOri', 'flipped')
-distributionPlot(DeltaRspPCX(:),'histOri','left','color','r','widthDiv',[2 1],'showMM',6, 'globalNorm', 1, 'xyOri', 'flipped')
+p(2,2,1,2,2).select();
+distributionPlot(DeltaRspCOA(:),'histOri','right','color','r','widthDiv',[2 2],'showMM',6, 'globalNorm', 1, 'xyOri', 'flipped')
+distributionPlot(DeltaRspPCX(:),'histOri','left','color','k','widthDiv',[2 1],'showMM',6, 'globalNorm', 1, 'xyOri', 'flipped')
 alpha(0.5)
 hold on
 coaRsp = [coaR.deltaExcR1000ms(:); coaR.deltaInhR1000ms(:)];
@@ -245,14 +271,14 @@ xlabel('response (Hz)')
 set(gca,'YColor','w','box','off')
 
 %% G - Fano factor
-p(2, 2, 1, 3).select();
+p(2,2,2,2,1).select();
 ffCOA = abs(ffCOA(:));
 ffCOA = ffCOA(~isnan(ffCOA)); ffCOA = ffCOA(~isinf(ffCOA)); ffCOA = ffCOA(ffCOA<40);
 
 ffPCX = abs(ffPCX(:));
 ffPCX = ffPCX(~isnan(ffPCX)); ffPCX = ffPCX(~isinf(ffPCX)); ffPCX = ffPCX(ffPCX<40);
-distributionPlot(ffCOA,'histOri','right','color','k','widthDiv',[2 2],'showMM',6, 'globalNorm', 1, 'xyOri', 'flipped')
-distributionPlot(ffPCX,'histOri','left','color','r','widthDiv',[2 1],'showMM',6, 'globalNorm', 1, 'xyOri', 'flipped')
+distributionPlot(ffCOA,'histOri','right','color','r','widthDiv',[2 2],'showMM',6, 'globalNorm', 1, 'xyOri', 'flipped')
+distributionPlot(ffPCX,'histOri','left','color','k','widthDiv',[2 1],'showMM',6, 'globalNorm', 1, 'xyOri', 'flipped')
 alpha(0.5)
 hold on
 coaFF= [coaR.ffExcR1000ms(:); coaR.ffInhR1000ms(:)];
@@ -272,9 +298,9 @@ xlabel('Fano factor')
 set(gca,'YColor','w','box','off')
 
 %% H - auROC
-p(2, 2, 1, 4).select();
-distributionPlot(coaR.auROCTot1s(:),'histOri','right','color','k','widthDiv',[2 2],'showMM',6, 'globalNorm', 1, 'xyOri', 'flipped')
-distributionPlot(pcxR.auROCTot1s(:),'histOri','left','color','r','widthDiv',[2 1],'showMM',6, 'globalNorm', 1, 'xyOri', 'flipped')
+p(2,2,2,2,2).select();
+distributionPlot(coaR.auROCTot1s(:),'histOri','right','color','r','widthDiv',[2 2],'showMM',6, 'globalNorm', 1, 'xyOri', 'flipped')
+distributionPlot(pcxR.auROCTot1s(:),'histOri','left','color','k','widthDiv',[2 1],'showMM',6, 'globalNorm', 1, 'xyOri', 'flipped')
 alpha(0.5)
 hold on
 coaROC= [coaR.rocExcR1000ms(:); coaR.rocInhR1000ms(:)];  
@@ -292,112 +318,18 @@ ylim([0.5 1.5]);
 xlim([-0.05 1.05])
 xlabel('auROC')
 set(gca,'YColor','w','box','off')
-%%
-p(2, 2, 2).select();
-set(gca,'XColor','w', 'YColor','w')
-%% I - response grand averages of kinetics
-%plot kinetics
-firstSniffResponsesPCX = pcxR.respCellOdorPairPSTHExcMn(:,60*4:60*5);
-peaks = max(firstSniffResponsesPCX, [], 2);
-firstSniffResponsesPCX = firstSniffResponsesPCX ./ repmat(peaks, 1, size(firstSniffResponsesPCX,2));
-firstSniffResponsesPCXMean = nanmean(firstSniffResponsesPCX);
-app = nanstd(firstSniffResponsesPCX) ./ sqrt(size(firstSniffResponsesPCX,1));
-firstSniffResponsesPCXSem = [app; app];
-
-firstSniffResponsesCOA= coaR.respCellOdorPairPSTHExcMn(:,60*4:60*5);
-peaks = max(firstSniffResponsesCOA, [], 2);
-firstSniffResponsesCOA= firstSniffResponsesCOA./ repmat(peaks, 1, size(firstSniffResponsesCOA,2));
-firstSniffResponsesCOAMean = nanmean(firstSniffResponsesCOA);
-app = nanstd(firstSniffResponsesCOA) ./ sqrt(size(firstSniffResponsesCOA,1));
-firstSniffResponsesCOASem = [app; app];
-
-t = 1:length(firstSniffResponsesCOAMean); 
-p(2, 2, 3, 1).select();
-hl(5) = PlotMeanWithFilledSemBand(t, firstSniffResponsesPCXMean, firstSniffResponsesPCXSem(2,:), firstSniffResponsesPCXSem(1,:), 'k', 2, 'k', 0.2);
-hold on; 
-hl(2) = PlotMeanWithFilledSemBand(t, firstSniffResponsesCOAMean, firstSniffResponsesCOASem(2,:), firstSniffResponsesCOASem(1,:), 'r', 2, 'r', 0.2);
-xlim([0 60]);
-plotTicks = 0:20:60;
-plotLabels = {'0', '100', '200', '300'}; 
-set(gca, 'XTick' , plotTicks);
-set(gca, 'XTickLabel', plotLabels);
-%set(gca,'XColor','w')
-p(2, 2, 3, 1).xlabel('Time (ms)');
-p(2, 2, 3, 1).ylabel('Fraction of peak');
-%% H - kinetics features
-% [onsetExc1Coa, peakExc1Coa, hwidthExc1Coa] =  findKineticsFeatures(coa2.esp, odorsRearranged);
-% [onsetExc1Pcx, peakExc1Pcx, hwidthExc1Pcx] =  findKineticsFeatures(pcx2.esp, odorsRearranged);
-onsetMean1 = [mean(onsetExc1Coa) 0];
-onsetMean2 = [0 mean(onsetExc1Pcx)];
-onsetSem1 = [std(onsetExc1Coa)./sqrt(length(onsetExc1Coa)) 0];
-onsetSem2 = [0 std(onsetExc1Pcx)./sqrt(length(onsetExc1Pcx))];
-peakMean1 = [mean(peakExc1Coa) 0];
-peakMean2 = [0 mean(peakExc1Pcx)];
-peakSem1 = [std(peakExc1Coa)./sqrt(length(peakExc1Coa)) 0];
-peakSem2 = [0 std(peakExc1Pcx)./sqrt(length(peakExc1Pcx))];
-hwidthMean1 = [mean(hwidthExc1Coa) 0];
-hwidthMean2 = [0 mean(hwidthExc1Pcx)];
-hwidthSem1 = [std(hwidthExc1Coa)./sqrt(length(hwidthExc1Coa)) 0];
-hwidthSem2 = [0 std(hwidthExc1Pcx)./sqrt(length(hwidthExc1Pcx))];
-
-
-p(2, 2, 3, 2, 1).select();
-b1 = barwitherr(onsetSem1, onsetMean1, [], '.r');
-b1(1).FaceColor = 'r'; 
-b1(1).EdgeColor = 'r';
-hold on
-b2 = barwitherr(onsetSem2, onsetMean2, [], '.k');
-b2(1).FaceColor = 'k'; 
-b2(1).EdgeColor = 'k';
-xlim([0 3])
-set(gca,'XColor','w', 'box','off')
-hold on
-p(2, 2, 3, 2, 1).title('Onset');
-
-
-
-p(2, 2, 3, 2, 2).select();
-b1 = barwitherr(peakSem1, peakMean1, [], '.r');
-b1(1).FaceColor = 'r'; 
-b1(1).EdgeColor = 'r';
-hold on
-b2 = barwitherr(peakSem2, peakMean2, [], '.k');
-b2(1).FaceColor = 'k'; 
-b2(1).EdgeColor = 'k';
-xlim([0 3])
-set(gca,'XColor','w', 'box','off')
-hold on
-p(2, 2, 3, 2, 2).title('Peak latency');
-
-
-
-p(2, 2, 3, 2, 3).select();
-b1 = barwitherr(hwidthSem1, hwidthMean1, [], '.r');
-b1(1).FaceColor = 'r'; 
-b1(1).EdgeColor = 'r';
-hold on
-b2 = barwitherr(hwidthSem2, hwidthMean2, [], '.k');
-b2(1).FaceColor = 'k'; 
-b2(1).EdgeColor = 'k';
-xlim([0 3])
-set(gca,'XColor','w', 'box','off')
-hold on
-p(2, 2, 3, 2, 3).title('Half-width');
-
-p(2, 2, 3, 2).ylabel('Time (ms)');
-
 
 %% show panels
 p.select('all');
 p.de.margin = 10;
-p(1).marginright = 15;
-p(1,1).marginbottom = 20;
-p(1,1,1,1).marginbottom = 2;
-p(1,2,1).marginbottom = 10;
-p(2,1).marginbottom = 10;
-p(2,1,1).marginbottom = 1;
+p(1).marginright= 30;
+p(2,1).marginbottom = 20;
+p(2,1,2).marginbottom = 5;
 p(2,2,1).marginbottom = 20;
-p(2,2,3,1).marginright = 20;
+p(2,2,1,1).marginright= 15;
+p(2,2,2,1).marginright = 15;
+p(2,2,1,2,1).marginright = 25;
+p(2,2,2,2,1).marginright = 25;
 p.margin = [15 15 5 1];
 p.fontsize = 12;
 p.fontname = 'Avenir';
