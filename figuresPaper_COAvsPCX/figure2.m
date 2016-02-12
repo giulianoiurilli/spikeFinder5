@@ -37,8 +37,8 @@ p(2,2).pack('h', {1/2 1/2});
 % p.identify()
 
 %% A, B - Tuning curves (auROC)
-% tuningCurves15Coa = makeTuningCurves(coa2.esp, odorsRearranged);
-% tuningCurves15Pcx = makeTuningCurves(pcx2.esp, odorsRearranged);
+%tuningCurves15Coa = makeTuningCurves(coa2.esp, odorsRearranged);
+%tuningCurves15Pcx = makeTuningCurves(pcx2.esp, odorsRearranged);
 
 p(1,1).select();
 set(gca,'XColor','w', 'YColor','w')

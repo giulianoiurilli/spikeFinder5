@@ -128,12 +128,12 @@
 sigCorrW300ms = [];
 sigCorrB300ms = [];
 for idxesp = 1: length(esp) %- 1
-    %odorsRearranged = keepNewOrder(idxExp,:);
+    %odorsRearranged = keepNewOrder(idxesp,:);
     for idxShank = 1:4
         idxCell300ms = 0;
         tuningCell300ms(idxShank).shank = [];
         for idxUnit = 1:length(esp(idxesp).shankNowarp(idxShank).cell)
-            if esp(idxesp).shankNowarp(idxShank).cell(idxUnit).good == 1
+            if esp(idxesp).shankNowarp(idxShank).cell(idxUnit).good == 1 %&& esp(idxesp).shankNowarp(idxShank).cell(idxUnit).isReliable == 1
                 responsivenessExc300ms = zeros(1,odors);
                 aurocs300ms = 0.5*ones(1,odors);
                 idxO = 0;
@@ -190,12 +190,12 @@ end
 sigCorrW1000ms = [];
 sigCorrB1000ms = [];
 for idxesp = 1: length(esp) %- 1
-    %odorsRearranged = keepNewOrder(idxExp,:);
+    %odorsRearranged = keepNewOrder(idxesp,:);
     for idxShank = 1:4
         idxCell1000ms = 0;
         tuningCell1000ms(idxShank).shank = [];
         for idxUnit = 1:length(esp(idxesp).shankNowarp(idxShank).cell)
-            if esp(idxesp).shankNowarp(idxShank).cell(idxUnit).good == 1
+            if esp(idxesp).shankNowarp(idxShank).cell(idxUnit).good == 1 %&& esp(idxesp).shankNowarp(idxShank).cell(idxUnit).isReliable == 1
                 responsivenessExc1000ms = zeros(1,odors);
                 aurocs1s = 0.5*ones(1,odors);
                 idxO = 0;
@@ -378,12 +378,12 @@ end
 sigCorrWBSL1000ms = [];
 sigCorrBBSL1000ms = [];
 for idxesp = 1: length(esp) %- 1
-    %odorsRearranged = keepNewOrder(idxExp,:);
+    %odorsRearranged = keepNewOrder(idxesp,:);
     for idxShank = 1:4
         idxCell1000ms = 0;
         tuningCell1000ms(idxShank).shank = [];
         for idxUnit = 1:length(esp(idxesp).shankNowarp(idxShank).cell)
-            if esp(idxesp).shankNowarp(idxShank).cell(idxUnit).good == 1
+            if esp(idxesp).shankNowarp(idxShank).cell(idxUnit).good == 1 %&& esp(idxesp).shankNowarp(idxShank).cell(idxUnit).isReliable == 1
                 responsivenessExc1000ms = zeros(1,odors);
                 aurocs1s = 0.5*ones(1,odors);
                 idxO = 0;

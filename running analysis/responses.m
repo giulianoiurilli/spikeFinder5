@@ -37,7 +37,7 @@ cells = 0;
 for idxExp = 1: length(esp) %- 1
     for idxShank = 1:4
         for idxUnit = 1:length(esp(idxExp).shankNowarp(idxShank).cell)
-            if esp(idxExp).shankNowarp(idxShank).cell(idxUnit).good == 1
+            if esp(idxExp).shankNowarp(idxShank).cell(idxUnit).good == 1 %&& esp(idxExp).shankNowarp(idxShank).cell(idxUnit).isReliable == 1
                 cells = cells + 1;
                 responsivenessExc300ms = zeros(1,odors);
                 responsivenessInh300ms = zeros(1,odors);
@@ -147,7 +147,7 @@ for idxOdor = odorsRearranged
     for idxExp =  1:length(esp)
         for idxShank = 1:4
             for idxUnit = 1:length(esp(idxExp).shankNowarp(idxShank).cell)
-                if esp(idxExp).shankNowarp(idxShank).cell(idxUnit).good == 1
+                if esp(idxExp).shankNowarp(idxShank).cell(idxUnit).good == 1 %&& esp(idxExp).shankNowarp(idxShank).cell(idxUnit).isReliable == 1
                     idxC = idxC + 1;
                     R300ms(:, idxC) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms';
                     B300ms(:, idxC) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl300ms';
@@ -168,7 +168,7 @@ for idxOdor = odorsRearranged
     for idxExp =  1:length(esp)
         for idxShank = 1:4
             for idxUnit = 1:length(esp(idxExp).shankNowarp(idxShank).cell)
-                if esp(idxExp).shankNowarp(idxShank).cell(idxUnit).good == 1
+                if esp(idxExp).shankNowarp(idxShank).cell(idxUnit).good == 1 %&& esp(idxExp).shankNowarp(idxShank).cell(idxUnit).isReliable == 1
                     idxC = idxC + 1;
                     R1000ms(:, idxC) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms';
                     B1000ms(:, idxC) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms';
@@ -280,7 +280,7 @@ neurone = 0;
 for idxExp = 1: length(esp) %- 1
     for idxShank = 1:4
         for idxUnit = 1:length(esp(idxExp).shankNowarp(idxShank).cell)
-            if esp(idxExp).shankNowarp(idxShank).cell(idxUnit).good == 1
+            if esp(idxExp).shankNowarp(idxShank).cell(idxUnit).good == 1 %&& esp(idxExp).shankNowarp(idxShank).cell(idxUnit).isReliable == 1
                 neurone = neurone + 1;
                 responsivenessExc300ms = zeros(1,odors);
                 responsivenessInh300ms = zeros(1,odors);

@@ -90,7 +90,7 @@ infoExc1000 = infoExc1;
 
 
 %% Signal correlation
-signalCorelation
+signalCorelation2
 
 %% Signal correlation
 noiseCorelation
