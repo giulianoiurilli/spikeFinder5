@@ -120,12 +120,12 @@ set(gca,'YTickLabel',[])
 % set(l2, 'Color', 'k');
 
 %% C - Odors activated
-pcxHlist = [14 6 4 12 13 3 11];% pcxH
-coaHlist = [14 2 15 4 10 11 8];% coaH
-pcxLlist = [1 2 5 10 15 7 8];% pcxL
-coaLlist = [6 1 3 13 12 7 5];% coaL
-% [actOdorPcx, auROCsortPcx] = proportionActivatingOdors(pcx2.esp, odorsRearranged);
-% [actOdorCoa, auROCsortCoa] = proportionActivatingOdors(coa2.esp, odorsRearranged);
+% pcxHlist = [14 6 4 12 13 3 11];% pcxH
+% coaHlist = [14 2 15 4 10 11 8];% coaH
+% pcxLlist = [1 2 5 10 15 7 8];% pcxL
+% coaLlist = [6 1 3 13 12 7 5];% coaL
+[actOdorPcx, auROCsortPcx] = proportionActivatingOdors(pcx2.esp, odorsRearranged);
+[actOdorCoa, auROCsortCoa] = proportionActivatingOdors(coa2.esp, odorsRearranged);
 % [actOdorPcxH, auROCsortPcxH] = proportionActivatingOdors(pcx2HL.esp, pcxHlist);
 % [actOdorCoaH, auROCsortCoaH] = proportionActivatingOdors(coa2HL.esp, coaHlist);
 % [actOdorPcxL, auROCsortPcxL] = proportionActivatingOdors(pcx2HL.esp, pcxLlist);
@@ -213,8 +213,8 @@ p(2,1,2).select();
 hl(1) = PlotMeanWithFilledSemBand(t, pcxMean, pcxSem, pcxSem, 'k', 2, 'k', 0.2);
 hold on; 
 hl(2) = PlotMeanWithFilledSemBand(t, coaMean, coaSem, coaSem, 'r', 2, 'r', 0.2);
-xlim([0 16]);
-ylim([0.25 1]);
+% xlim([0 16]);
+% ylim([0 1]);
 plotTicks = [1 15];
 plotLabels = {'min', 'max'}; 
 set(gca, 'XTick' , plotTicks);

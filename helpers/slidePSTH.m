@@ -1,4 +1,4 @@
-function [slidingPSTHmn, slidingPSTHsd, slidingPSTHFF, slidingPSTHCV] = slidePSTH(spikesVect, binSize, moveBy)
+function [slidingPSTHmn, slidingPSTHsd, slidingPSTHFF, slidingPSTHCV, slidingPSTH] = slidePSTH(spikesVect, binSize, moveBy)
 
 if nargin < 3
     moveBy = 5;

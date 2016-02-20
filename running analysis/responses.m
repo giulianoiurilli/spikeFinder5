@@ -8,7 +8,9 @@ folder = pwd;
 %odorsRearranged = [6 1 3 13 12 7 5];% coaL
 %odorsRearranged = [14 2 15 4 10 11 8];% coaH
 %odorsRearranged = [14 2 15 4 10 11 8 9];% coaH8
-odorsRearranged = 1:15;
+%odorsRearranged = 1:15;
+%odorsRearranged = [8 11 12 5 2 14 4 10]; %coa AA
+odorsRearranged = [3 8 10 1 13 11 9 14]; %pcx AA
 
 %{"TMT", "MMB", "2MB", "2PT", "IAA", "PET", "BTN", "GER", "PB", "URI", "G&B", "B&P", "T&B", "TMM", "TMB"};
 %odorsRearranged = 1:10; %aveatt
@@ -612,7 +614,7 @@ fanoFactor1 = fanoFactor1;
 %     'fanoFactor300', 'fanoFactor1', 'ls300', 'ls1', 'baseline300','baseline1', 'variance300','variance1', 'auRoc300', 'auRoc1')
 % save('responsesCoaLow.mat', 'responses300MinusMeanCoa','responses300Coa', 'info300Coa', 'responses300AllTrialsCoa', 'responses1Coa', 'responses1MinusMeanCoa', 'responses1AllTrialsCoa', 'cellLog300Coa', 'cellLog1Coa','cellLog1Coa',...
 %   'fanoFactor300Coa', 'fanoFactor1Coa', 'ls300Coa', 'ls1Coa', 'baseline300Coa','baseline1Coa', 'variance300Coa','variance1Coa', 'auRoc300Coa', 'auRoc1Coa', 'fanoFactor300Coa', 'fanoFactor1Coa')
-save('responses.mat', 'responses300MinusMean','responses300', 'info300', 'responses300AllTrials', 'responses1', 'responses1MinusMean', 'responses1AllTrials', 'cellLog300','cellLogExc1', 'cellLog1',...
+save('responsesAA.mat', 'responses300MinusMean','responses300', 'info300', 'responses300AllTrials', 'responses1', 'responses1MinusMean', 'responses1AllTrials', 'cellLog300','cellLogExc1', 'cellLog1',...
    'fanoFactor300', 'fanoFactor1', 'ls300', 'ls1', 'baseline300','baseline1', 'variance300','variance1', 'auRoc300', 'auRoc1', 'fanoFactor300', 'fanoFactor1', 'auROCTot300ms', 'auROCTot1s', 'ls300msTot', 'ls1sTot', 'pop_sparseness300', 'pop_sparseness1000')
 %%
 cd(folder)
@@ -621,4 +623,5 @@ responses2
 % %%
 
 responses3
+collectAllSdfs
 cd(folder)

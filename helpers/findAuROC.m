@@ -4,7 +4,7 @@ function auR = findAuROC(bslVect, rspVect)
 %rspVect, bslVect: number of spikes in the bin for each trial
 
 
-rep = 200;
+rep = 100;
 auR = 0.5 * ones(1,rep);
 
 for idxRep = 1:rep
@@ -35,4 +35,4 @@ for idxRep = 1:rep
     end
 end
 
-auR = median(auR);
+auR = mean(auR);
