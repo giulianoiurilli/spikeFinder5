@@ -1,6 +1,6 @@
 %%
 tic
-fileToSave = 'pcx_AA_2_2.mat';
+fileToSave = 'pcx_15_2_2.mat';
 startingFolder = pwd;
 odorsRearranged = 1:15;
 odors = length(odorsRearranged);
@@ -10,7 +10,7 @@ for idxExp = 1 : length(List)
     cd(cartella)
     load('unitsNowarp.mat', 'shankNowarp');
     load('parameters.mat');
-    response_window = 1;
+    response_window = 1; 
     for idxShank = 1:4
         for idxUnit = 1:length(shankNowarp(idxShank).cell)
             idxO = 0;
@@ -116,7 +116,7 @@ end
 %%
 cd(startingFolder)
 clearvars -except List esp  fileToSave
-save(fileToSave, 'esp')
+save(fileToSave, 'esp', '-append')
 toc
                 
                 
