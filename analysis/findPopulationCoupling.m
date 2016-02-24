@@ -1,4 +1,6 @@
 %%
+tic
+fileToSave = 'coa_15_2_2.mat';
 odorsRearranged = 1:15; 
 odors = length(odorsRearranged);
 %%
@@ -56,4 +58,4 @@ end
 
 cd(startingFolder)
 clearvars -except espe
-save('coa_15_2_2.mat', 'esp', '-append')
+save(fileToSave, 'esp', '-append')
