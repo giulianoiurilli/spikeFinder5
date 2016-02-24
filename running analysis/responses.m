@@ -8,9 +8,9 @@ folder = pwd;
 %odorsRearranged = [6 1 3 13 12 7 5];% coaL
 %odorsRearranged = [14 2 15 4 10 11 8];% coaH
 %odorsRearranged = [14 2 15 4 10 11 8 9];% coaH8
-%odorsRearranged = 1:15;
+odorsRearranged = 1:15;
 %odorsRearranged = [8 11 12 5 2 14 4 10]; %coa AA
-odorsRearranged = [3 8 10 1 13 11 9 14]; %pcx AA
+%odorsRearranged = [3 8 10 1 13 11 9 14]; %pcx AA
 
 %{"TMT", "MMB", "2MB", "2PT", "IAA", "PET", "BTN", "GER", "PB", "URI", "G&B", "B&P", "T&B", "TMM", "TMB"};
 %odorsRearranged = 1:10; %aveatt

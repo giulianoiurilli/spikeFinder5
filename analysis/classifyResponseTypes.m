@@ -117,7 +117,7 @@ patchX = [0 0 2 2];
 patchX1 = [2000 2000 4000 4000];
 patchY1 = [-0.3 0.05 0.05 -0.3];
 
-I = 8;
+I = 6;
 n = 1;
 allCellOdorPairInCluster_Coa = cell(I,1);
 allCellOdorPairInCluster_Pcx = cell(I,1);

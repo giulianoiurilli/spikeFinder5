@@ -40,14 +40,14 @@ for idxExp = 1: length(esp) %- 1
                     
                     %vincolo reliability
                     
-                    responsivenessExc300ms(aurocs300ms<=0.75) = 0;
-                    responsivenessExc1s(aurocs1s<=0.75) = 0;
-                    responsivenessInh300ms(aurocs300ms>=0.35) = 0;
-                    responsivenessInh1s(aurocs1s>=0.35) = 0;
-                    responsivenessExcOffset(aurocsOffset<=0.75) = 0;
-                    responsivenessExc2s(aurocs2s<=0.75) = 0;
-                    responsivenessInhOffset(aurocsOffset>=0.35) = 0;
-                    responsivenessInh2s(aurocs2s>=0.35) = 0;
+%                     responsivenessExc300ms(aurocs300ms<=0.75) = 0;
+%                     responsivenessExc1s(aurocs1s<=0.75) = 0;
+%                     responsivenessInh300ms(aurocs300ms>=0.35) = 0;
+%                     responsivenessInh1s(aurocs1s>=0.35) = 0;
+%                     responsivenessExcOffset(aurocsOffset<=0.75) = 0;
+%                     responsivenessExc2s(aurocs2s<=0.75) = 0;
+%                     responsivenessInhOffset(aurocsOffset>=0.35) = 0;
+%                     responsivenessInh2s(aurocs2s>=0.35) = 0;
                     
                     if sum(responsivenessExc300ms + responsivenessExc1s + responsivenessExcOffset + responsivenessExc2s +...
                             responsivenessInh300ms + responsivenessInh1s + responsivenessInhOffset + responsivenessInh2s) > 0
@@ -113,14 +113,14 @@ for idxExp = 1: length(esp) %- 1
                             responsivenessInh300ms + responsivenessInh1s + responsivenessInhOffset + responsivenessInh2s) > 0
                         idxCellOdorPair = idxCellOdorPair + 1;
                         allSdf(idxCellOdorPair,:) = spikeDensity(mean(espe(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrix), 0.1);
-                        cellLogAllSdfs(idxCellOdorPair,:) = [idxExp, idxShank, idxUnit, idxOdor];
+                        cellLogAllSdfs(idxCellOdorPair,:) = [idxExp, idxShank, idxUnit, idxO];
                     end
                 end
             end
         end
     end
 end
-save('responses.mat', 'allSdf', 'cellLogAllSdfs', '-append')
+%save('responsesAA.mat', 'allSdf', 'cellLogAllSdfs', '-append')
 
 
 
