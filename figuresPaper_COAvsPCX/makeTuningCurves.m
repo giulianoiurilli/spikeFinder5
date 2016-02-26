@@ -5,8 +5,8 @@ odorsRearranged = odors;
 odors = length(odorsRearranged);
 idxCell1 = 0;
 
-esperimenti = [3:8, 12:13, 15];
-for idxesp = esperimenti%1:length(esp) %
+
+for idxesp = 1:length(esp) %
     for idxShank = 1:4
         for idxUnit = 1:length(esp(idxesp).shankNowarp(idxShank).cell)
             if esp(idxesp).shankNowarp(idxShank).cell(idxUnit).good == 1 %&& esp(idxesp).shankNowarp(idxShank).cell(idxUnit).isReliable == 1
@@ -22,7 +22,7 @@ end
 
 tuningCurves = 0.5 * ones(idxCell1, odors);
 cells = 0;
-for idxesp = esperimenti%1:length(esp) %- 1
+for idxesp = 1:length(esp) %- 1
     for idxShank = 1:4
         for idxUnit = 1:length(esp(idxesp).shankNowarp(idxShank).cell)
             if esp(idxesp).shankNowarp(idxShank).cell(idxUnit).good == 1 %&& esp(idxesp).shankNowarp(idxShank).cell(idxUnit).isReliable == 1

@@ -1,4 +1,4 @@
-function [auRocTC, tracce, cellLogExcitatoryResponse] = makeAuROCTimecourse(esp, espe, odors)
+function [auRocTC, cellLogExcitatoryResponse] = makeAuROCTimecourse(esp, espe, odors)
 %%
 
 
@@ -38,10 +38,8 @@ end
 
 %%
 auRocTC = 0.5*ones(size(cellLogExcitatoryResponse,1), 120);
-tracce = 0.5*ones(size(cellLogExcitatoryResponse,1), 120);
-ref = zeros(10, 60);
-bsl = zeros(10, 60);
-rsp = zeros(10, 60);
+trace = 0.5*ones(size(cellLogExcitatoryResponse,1), 120);
+
 bslAuROC = 0.5*ones(1, 60);
 rspAuROC = 0.5*ones(1, 60);
 smoothedPSTH = [];
@@ -51,7 +49,7 @@ for idxEntry = 1:size(cellLogExcitatoryResponse,1)
     idxUnit = cellLogExcitatoryResponse(idxEntry,3);
     idxOdor = cellLogExcitatoryResponse(idxEntry,4);
     spikeMatrixApp = single(espe(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrix(:,15*1000-600+51:15*1000+300+51));
-    [~,~,~,~,smoothedPSTH] = slidePSTH(spikeMatrixApp, 100, 5);
+    [~,~,~,~,smoothedPSTH] = slidePSTH(spikeMatrixApp, 50, 5);
     ref = smoothedPSTH(:,1:60);
     bsl = smoothedPSTH(:,61:120);
     rsp = smoothedPSTH(:,121:180);
@@ -59,8 +57,8 @@ for idxEntry = 1:size(cellLogExcitatoryResponse,1)
         bslAuROC(idxTimeBin) = findAuROC(ref(:,idxTimeBin), bsl(:,idxTimeBin), 0);
         rspAuROC(idxTimeBin) = findAuROC(ref(:,idxTimeBin), rsp(:,idxTimeBin), 0);
     end
-    auRocTC(idxEntry,:) = [bslAuROC, rspAuROC];
-    tracce(idxEntry,:) = [mean(bsl), mean(rsp)];
+    auRocTC(idxEntry,:) = [bslAuROC(idxEntry,:), rspAuROC(idxEntry,:)];
+    trace(idxEntry,:) = [mean(bsl), mean(rsp)];
 end
 
 

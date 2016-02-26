@@ -1,10 +1,7 @@
 %% Load data
 
-% pcx2HL = load('/Volumes/Tetrodes Backup1/january2/pcx/15/pcx_15_2_2.mat');
-% pcxRH8 = load('/Volumes/Tetrodes Backup1/january2/pcx/15/responsesH8.mat');
-% 
-% coa2HL = load('/Volumes/Tetrodes Backup1/january2/coa/15/coa_15_2_2.mat');
-% coaRH8 = load('/Volumes/Tetrodes Backup1/january2/coa/15/responsesH8.mat');
+coa = load('coa_AA_2_2.mat');
+pcx = load('pcx_AA_2_2.mat');
 
 
 %% Set figure size/position
@@ -30,17 +27,20 @@ p(4).pack('h', {1/2 1/2});
 
 
 %% A, B - Tuning curves
-odorsRearranged = [8 11 12 5 2 14 4 10];
-% tuningCurvesAACoa = makeTuningCurves(coa.esp, odorsRearranged);
-odorsRearranged = [2 12 13 1 8 3 15 5];
-% tuningCurvesAAPcx = makeTuningCurves(pcx.esp, odorsRearranged);
+odorsRearranged = [13 7 3 9 1 15];
+odorsRearranged = [15 3 1 13 7 6];
+odorsRearranged = [1 7 3 15];
+%tuningCurvesAACoa = makeTuningCurves(coa.esp, odorsRearranged);
+odorsRearranged = [6 14 10 9 7 11];
+odorsRearranged = [7 6 10 9];
+%tuningCurvesAAPcx = makeTuningCurves(pcx.esp, odorsRearranged);
 clims = [0 1];
 
 p(1,1,1).select()
-imagesc(tuningCurvesAACoa(:,1:4), clims); colormap(brewermap([],'*RdBu')); axis tight
+imagesc(tuningCurvesAACoa(:,1:2), clims); colormap(brewermap([],'*RdBu')); axis tight
 set(gca,'XColor','w')
 p(1,1,2).select()
-imagesc(tuningCurvesAACoa(:,5:8), clims); colormap(brewermap([],'*RdBu')); axis tight
+imagesc(tuningCurvesAACoa(:,3:4), clims); colormap(brewermap([],'*RdBu')); axis tight
 set(gca,'YColor','w')
 set(gca,'XColor','w')
 set(gca,'XTick',[])
@@ -51,10 +51,10 @@ t1 = p(1,1).title({'plCOA'});
 set(t1, 'Color', 'r');
 
 p(1,2,1).select()
-imagesc(tuningCurvesAAPcx(:,1:4), clims); colormap(brewermap([],'*RdBu')); axis tight
+imagesc(tuningCurvesAAPcx(:,1:2), clims); colormap(brewermap([],'*RdBu')); axis tight
 set(gca,'XColor','w')
 p(1,2,2).select()
-imagesc(tuningCurvesAAPcx(:,5:8), clims); colormap(brewermap([],'*RdBu')); axis tight
+imagesc(tuningCurvesAAPcx(:,3:4), clims); colormap(brewermap([],'*RdBu')); axis tight
 set(gca,'YColor','w')
 set(gca,'XColor','w')
 set(gca,'XTick',[])
@@ -68,21 +68,24 @@ set(t2, 'Color', 'k');
 
 
 %% C,D - Coding spaces
-odorsRearranged = [8 11 12 5 2 14 4 10];
+odorsRearranged = [13 7 3 9 1 15];
+odorsRearranged = [15 3 1 13 7 6];
+odorsRearranged = [1 7 3 15];
 [scoresCoaAA, scoresMeanCoaAA] = findCodingSpace(coa.esp, odorsRearranged);
-odorsRearranged = [2 12 13 1 8 3 15 5];
+odorsRearranged = [6 14 10 9 7 11];
+odorsRearranged = [7 6 10 9];
 [scoresPcxAA, scoresMeanPcxAA] = findCodingSpace(pcx.esp, odorsRearranged);
 
 p(2,1).select()
 colorClass = [118,42,131;...
     27,120,55]./255;
-symbolOdor = {'o', 's', 'p', 'd'};
+symbolOdor = {'o', 's'};
 k = 0;
 for idxCat = 1:2
     C = colorClass(idxCat,:);
-    for idxOdor = 1:4
+    for idxOdor = 1:2
         mT = symbolOdor{idxOdor};
-        scatter3(scoresCoaAA(1 + k*5:5 + k*5, 1), scoresCoaAA(1 + k*5:5 + k*5, 2), scoresCoaAA(1 + k*5:5 + k*5, 3), 100, C, mT, 'filled');
+        scatter3(scoresCoaAA(1 + k*3:3 + k*3, 1), scoresCoaAA(1 + k*3:3 + k*3, 2), scoresCoaAA(1 + k*3:3 + k*3, 3), 100, C, mT, 'filled');
         k = k + 1;
         hold on
     end
@@ -99,13 +102,13 @@ set(t3, 'Color', 'r');
 p(2,2).select()
 colorClass = [118,42,131;...
     27,120,55]./255;
-symbolOdor = {'o', 's', 'p', 'd'};
+symbolOdor = {'o', 's', 'p'};
 k = 0;
 for idxCat = 1:2
     C = colorClass(idxCat,:);
-    for idxOdor = 1:4
+    for idxOdor = 1:2
         mT = symbolOdor{idxOdor};
-        scatter3(scoresPcxAA(1 + k*5:5 + k*5, 1), scoresPcxAA(1 + k*5:5 + k*5, 2), scoresPcxAA(1 + k*5:5 + k*5, 3),100, C, mT, 'filled');
+        scatter3(scoresPcxAA(1 + k*3:3 + k*3, 1), scoresPcxAA(1 + k*3:3 + k*3, 2), scoresPcxAA(1 + k*3:3 + k*3, 3),100, C, mT, 'filled');
         k = k + 1;
         hold on
     end
@@ -129,9 +132,12 @@ set(gca,'YColor','w')
 set(gca,'XColor','w')
 %% E - Optimal number of clusters
 % clustersN = [1:8, 10 15 20 25 30 35];
-odorsRearranged = [8 11 12 5 2 14 4 10];
+odorsRearranged = [13 7 3 9 1 15];
+odorsRearranged = [15 3 1 13 7 6];
+odorsRearranged = [1 7 3 15];
 % [EmeanCoaAA, EstdCoaAA, EmeanShuffledCoaAA, EsemShuffledCoaAA, EmeanDecorrCoaAA, EsemDecorrCoaAA] = findBestNumberOfClusters(coa2HL.esp, odorsRearranged, clustersN);
-odorsRearranged = [2 12 13 1 8 3 15 5];
+odorsRearranged = [6 14 10 9 7 11];
+odorsRearranged = [7 6 10 9];
 % [EmeanPcxAA, EstdPcxAA, EmeanShuffledPcxAA, EsemShuffledPcxAA, EmeanDecorrPcxAA, EsemDecorrPcxAA] = findBestNumberOfClusters(pcx2HL.esp, odorsRearranged, clustersN);
 
 p(2,3).select()
@@ -155,23 +161,26 @@ ylabel('Gap value')
 ylim([-0.45 0])
 
 %% F - Linear classification
-odorsRearranged = [8 11 12 5 2 14 4 10];
+odorsRearranged = [13 7 3 9 1 15];
+odorsRearranged = [15 3 1 13 7 6];
+odorsRearranged = [1 7 3 15];
 [accuracyResponsesCoaAA, accuracyBaselineCoaAA, accuracyShuffledCoaAA, conMatResponsesCoaAA] = l_svmClassify(coa.esp, odorsRearranged);
-odorsRearranged = [2 12 13 1 8 3 15 5];
+odorsRearranged = [6 14 10 9 7 11];
+odorsRearranged = [7 6 10 9];
 [accuracyResponsesPcxAA, accuracyBaselinePcxAA, accuracyShuffledPcxAA, conMatResponsesPcxAA] = l_svmClassify(pcx.esp, odorsRearranged);
 
 
 p(3,1,1).select()
-plot([2 6], [mean(accuracyBaselineCoaAA(:)) mean(accuracyResponsesCoaAA(:))], 'ro', 'markersize', 10, 'markeredgecolor', 'r', 'markerfacecolor', 'r')
+plot([2 6], [mean(accuracyShuffledCoaAA(:)) mean(accuracyResponsesCoaAA(:))], 'ro', 'markersize', 10, 'markeredgecolor', 'r', 'markerfacecolor', 'r')
 hold on
-plot([3 7], [mean(accuracyBaselinePcxAA(:)) mean(accuracyResponsesPcxAA(:))], 'ko', 'markersize', 10, 'markeredgecolor', 'k', 'markerfacecolor', 'k')
+plot([3 7], [mean(accuracyShuffledPcxAA(:)) mean(accuracyResponsesPcxAA(:))], 'ko', 'markersize', 10, 'markeredgecolor', 'k', 'markerfacecolor', 'k')
 hold on
-errbar([2 6], [mean(accuracyBaselineCoaAA(:)) mean(accuracyResponsesCoaAA(:))], [std(accuracyBaselineCoaAA)./sqrt(length(accuracyResponsesCoaAA(:))) std(accuracyResponsesCoaAA(:))./sqrt(length(accuracyResponsesCoaAA(:)))], 'r', 'linewidth', 2); %
+errbar([2 6], [mean(accuracyShuffledCoaAA(:)) mean(accuracyResponsesCoaAA(:))], [std(accuracyShuffledCoaAA)./sqrt(length(accuracyResponsesCoaAA(:))) std(accuracyResponsesCoaAA(:))./sqrt(length(accuracyResponsesCoaAA(:)))], 'r', 'linewidth', 2); %
 hold on
-errbar([3 7], [mean(accuracyBaselinePcxAA(:)) mean(accuracyResponsesPcxAA(:))], [std(accuracyBaselinePcxAA)./sqrt(length(accuracyResponsesCoaAA(:))) std(accuracyResponsesPcxAA(:))./sqrt(length(accuracyResponsesPcxAA(:)))], 'k', 'linewidth', 2); %./sqrt(length(accuracyResponsesPcxAA(:)))
+errbar([3 7], [mean(accuracyShuffledPcxAA(:)) mean(accuracyResponsesPcxAA(:))], [std(accuracyShuffledPcxAA)./sqrt(length(accuracyResponsesCoaAA(:))) std(accuracyResponsesPcxAA(:))./sqrt(length(accuracyResponsesPcxAA(:)))], 'k', 'linewidth', 2); %./sqrt(length(accuracyResponsesPcxAA(:)))
 xlim([0 9])
 ylim([0 100]);
-line([0 9], [100/8 100/8], 'LineStyle', ':', 'linewidth', 1, 'Color', 'k')
+line([0 9], [100/4 100/4], 'LineStyle', ':', 'linewidth', 1, 'Color', 'k')
 set(gca, 'XColor', 'w', 'box','off')
 p(3,1,1).ylabel({'Correct classification (%)'})
 % X = [accuracyResponsesCoaAA(:) accuracyResponsesPcxAA(:)];
@@ -185,19 +194,22 @@ p(3,1,1).ylabel({'Correct classification (%)'})
 % set(gca, 'XColor', 'w', 'box','off')
 
 %% G - Linear classification: avv vs app
-odorsRearranged = [8 11 12 5 2 14 4 10];
-[accuracyResponsesCoaAAaa, accuracyBaselineCoaAAaa] = l_svmClassify(coa.esp, odorsRearranged);
-odorsRearranged = [2 12 13 1 8 3 15 5];
-[accuracyResponsesPcxAAaa, accuracyBaselinePcxAAaa] = l_svmClassify(pcx.esp, odorsRearranged);
+odorsRearranged = [13 7 3 9 1 15];
+odorsRearranged = [15 3 1 13 7 6];
+odorsRearranged = [1 7 3 15];
+[accuracyResponsesCoaAAaa, accuracyBaselineCoaAAaa, accuracyShuffledCoaAA] = l_svmClassify(coa.esp, odorsRearranged);
+odorsRearranged = [6 14 10 9 7 11];
+odorsRearranged = [7 6 10 9];
+[accuracyResponsesPcxAAaa, accuracyBaselinePcxAAaa, accuracyShuffledPcxAA] = l_svmClassify(pcx.esp, odorsRearranged);
 
 p(3,1,2).select()
-plot([2 6], [mean(accuracyBaselineCoaAAaa(:)) mean(accuracyResponsesCoaAAaa(:))], 'ro', 'markersize', 10, 'markeredgecolor', 'r', 'markerfacecolor', 'r')
+plot([2 6], [mean(accuracyShuffledCoaAA(:)) mean(accuracyResponsesCoaAAaa(:))], 'ro', 'markersize', 10, 'markeredgecolor', 'r', 'markerfacecolor', 'r')
 hold on
-plot([3 7], [mean(accuracyBaselinePcxAAaa(:)) mean(accuracyResponsesPcxAAaa(:))], 'ko', 'markersize', 10, 'markeredgecolor', 'k', 'markerfacecolor', 'k')
+plot([3 7], [mean(accuracyShuffledPcxAA(:)) mean(accuracyResponsesPcxAAaa(:))], 'ko', 'markersize', 10, 'markeredgecolor', 'k', 'markerfacecolor', 'k')
 hold on
-errbar([2 6], [mean(accuracyBaselineCoaAAaa(:)) mean(accuracyResponsesCoaAAaa(:))], [std(accuracyBaselineCoaAAaa(:))./sqrt(length(accuracyResponsesCoaAAaa(:))) std(accuracyResponsesCoaAAaa(:))./sqrt(length(accuracyResponsesCoaAAaa(:)))], 'r', 'linewidth', 2); 
+errbar([2 6], [mean(accuracyShuffledCoaAA(:)) mean(accuracyResponsesCoaAAaa(:))], [std(accuracyShuffledCoaAA(:))./sqrt(length(accuracyResponsesCoaAAaa(:))) std(accuracyResponsesCoaAAaa(:))./sqrt(length(accuracyResponsesCoaAAaa(:)))], 'r', 'linewidth', 2); 
 hold on
-errbar([3 7], [mean(accuracyBaselinePcxAAaa(:)) mean(accuracyResponsesPcxAAaa(:))], [std(accuracyBaselinePcxAAaa(:))./sqrt(length(accuracyResponsesPcxAAaa(:))) std(accuracyResponsesPcxAAaa(:))./sqrt(length(accuracyResponsesPcxAAaa(:)))], 'k', 'linewidth', 2); 
+errbar([3 7], [mean(accuracyShuffledPcxAA(:)) mean(accuracyResponsesPcxAAaa(:))], [std(accuracyShuffledPcxAA(:))./sqrt(length(accuracyResponsesPcxAAaa(:))) std(accuracyResponsesPcxAAaa(:))./sqrt(length(accuracyResponsesPcxAAaa(:)))], 'k', 'linewidth', 2); 
 xlim([0 9])
 ylim([30 100]);
 line([0 9], [50 50], 'LineStyle', ':', 'linewidth', 1, 'Color', 'k')
@@ -250,9 +262,12 @@ set(gca,'XColor','w')
 
 labels = {'PB', 'ger', 'btd', '2-PEth', 'IPA', '2-PT', 'MMB', 'TMT'};
 
-odorsRearranged = [8 11 12 5 2 14 4 10];
+odorsRearranged = [13 7 3 9 1 15];
+odorsRearranged = [15 3 1 13 7 6];
+odorsRearranged = [1 7 3 15];
 psCoa = findPopulationSparseness(coa.esp, odorsRearranged);
-odorsRearranged = [2 12 13 1 8 3 15 5];
+odorsRearranged = [6 14 10 9 7 11];
+odorsRearranged = [7 6 10 9];
 psPcx = findPopulationSparseness(pcx.esp, odorsRearranged);
 
 
@@ -267,7 +282,7 @@ hold on
 h2 = area(4:7, psCoa(5:8));
 h2.EdgeColor = colorClass(2,:);
 h2.FaceColor = colorClass(2,:);
-ylim([0.5 1])
+ylim([0.5 0.7])
 set(gca, 'XColor', 'w', 'box','off')
 
 p(4,2).select()
@@ -278,7 +293,7 @@ hold on
 h2 = area(4:7, psPcx(5:8));
 h2.EdgeColor = colorClass(2,:);
 h2.FaceColor = colorClass(2,:);
-ylim([0.5 1])
+ylim([0.5 0.7])
 set(gca, 'XColor', 'w', 'box','off')
 set(gca, 'YColor', 'w', 'box','off')
 set(gca,'YTick',[])

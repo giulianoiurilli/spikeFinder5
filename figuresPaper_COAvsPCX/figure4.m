@@ -36,8 +36,8 @@ p(3).pack('h', {50 50});
 p(3,2).pack('h', {50 50});
 
 %% A, B - Coding space
-% [scoresCoa, scoresMeanCoa] = findCodingSpace(coa2.esp, odorsRearranged);
-% [scoresPcx, scoresMeanPcx] = findCodingSpace(pcx2.esp, odorsRearranged);
+[scoresCoa, scoresMeanCoa] = findCodingSpace(coa2.esp, odorsRearranged);
+[scoresPcx, scoresMeanPcx] = findCodingSpace(pcx2.esp, odorsRearranged);
 
 p(1,1).select()
 colorClass = [228,26,28;...
@@ -120,8 +120,8 @@ xlim([0 22])
 % c.Label.String = {'Optimal number of clusters', 'Gap value'}; 
 % axis tight
 %% D - Odor distances
-% [distOdorsCoa, distOdorsDecorrCoa] = findOdorDistances(coa2.esp, odorsRearranged);
-% [distOdorsPcx, distOdorsDecorrPcx] = findOdorDistances(pcx2.esp, odorsRearranged);
+[distOdorsCoa, distOdorsDecorrCoa] = findOdorDistances(coa2.esp, odorsRearranged);
+[distOdorsPcx, distOdorsDecorrPcx] = findOdorDistances(pcx2.esp, odorsRearranged);
 p(2,2).select();
 distributionPlot(distOdorsCoa(:),'histOri','right','color','r','widthDiv',[2 2],'showMM',6, 'globalNorm', 1, 'xyOri', 'flipped')
 distributionPlot(distOdorsPcx(:),'histOri','left','color','k','widthDiv',[2 1],'showMM',6, 'globalNorm', 1, 'xyOri', 'flipped')
@@ -150,8 +150,8 @@ ylabel('Distances in PCX')
 
 
 %% F - Linear classification
-% [accuracyResponsesCoa, accuracyBaselineCoa, accuracyShuffledCoa, accuracyDecorrTuningCoa, accuracyDecorrNoiseCoa, conMatResponsesCoa] = l_svmClassify(coa2.esp, odorsRearranged);
-% [accuracyResponsesPcx, accuracyBaselinePcx, accuracyShuffledPcx, accuracyDecorrTuningPcx, accuracyDecorrNoisePcx, conMatResponsesPcx] = l_svmClassify(pcx2.esp, odorsRearranged);
+[accuracyResponsesCoa, accuracyBaselineCoa, accuracyShuffledCoa, accuracyDecorrTuningCoa, accuracyDecorrNoiseCoa, conMatResponsesCoa] = l_svmClassify(coa2.esp, odorsRearranged);
+[accuracyResponsesPcx, accuracyBaselinePcx, accuracyShuffledPcx, accuracyDecorrTuningPcx, accuracyDecorrNoisePcx, conMatResponsesPcx] = l_svmClassify(pcx2.esp, odorsRearranged);
 
 X = [accuracyResponsesCoa(:) accuracyResponsesPcx(:)];
 p(3,1).select()
