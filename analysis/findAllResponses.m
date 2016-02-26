@@ -1,6 +1,6 @@
 %%
 tic
-fileToSave = 'coa_15_2_2.mat';
+fileToSave = 'pcx_15_2_2.mat';
 startingFolder = pwd;
 odorsRearranged = 1:15;
 odors = length(odorsRearranged);

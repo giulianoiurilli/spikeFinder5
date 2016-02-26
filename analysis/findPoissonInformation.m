@@ -23,6 +23,6 @@ for idxExp =  1:length(esp)
     end
 end
 cd(startingFolder)
-clearvars -except List esp
+clearvars -except List esp fileToSave
 save(fileToSave, 'esp', '-append')
 

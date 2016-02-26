@@ -57,6 +57,6 @@ for idxExp = 1 : length(List)
 end
 
 cd(startingFolder)
-clearvars -except esp fileToSave
+clearvars -except esp fileToSave List
 save(fileToSave, 'esp', '-append')
 toc
