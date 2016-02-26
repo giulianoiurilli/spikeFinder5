@@ -1,4 +1,5 @@
 %%
+fileToSave = 'coa_15_2_2.mat';
 odorsRearranged = 1:15; 
 odors = length(odorsRearranged);
 %%
@@ -22,6 +23,6 @@ for idxExp =  1:length(esp)
     end
 end
 cd(startingFolder)
-clearvars -except List esp
-save('coa_15_2_2.mat', 'esp', '-append')
+clearvars -except List esp fileToSave
+save(fileToSave, 'esp', '-append')
 
