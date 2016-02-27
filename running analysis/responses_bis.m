@@ -2,6 +2,8 @@ load('parameters.mat')
 folder = pwd;
 %%
 odorsRearranged = 1:15;
+% odorsRearranged = 1:8;
+% odorsRearranged = 1:4;
 odors = length(odorsRearranged);
 %%
 responsiveUnit300ms = 0;
@@ -11,7 +13,7 @@ responsiveUnitInh300ms = 0;
 responsiveUnitExc1s = 0;
 responsiveUnitInh1s = 0;
 cells = 0;
-for idxExp = 1: length(esp) %- 1
+for idxExp = 1: length(esp) 
     for idxShank = 1:4
         for idxUnit = 1:length(esp(idxExp).shankNowarp(idxShank).cell)
             if esp(idxExp).shankNowarp(idxShank).cell(idxUnit).good == 1 
@@ -241,7 +243,7 @@ idxCellInh300 = 0;
 idxCellInh1 = 0;
 neuroneOdore = 0;
 neurone = 0;
-for idxExp = 1: length(esp) %- 1
+for idxExp = 1: length(esp) 
     for idxShank = 1:4
         for idxUnit = 1:length(esp(idxExp).shankNowarp(idxShank).cell)
             if esp(idxExp).shankNowarp(idxShank).cell(idxUnit).good == 1 
@@ -291,17 +293,17 @@ for idxExp = 1: length(esp) %- 1
                     onset300(idxCell300, (responsivenessExc300ms + responsivenessInh300ms)<1) = NaN;
                     peak300(idxCell300, (responsivenessExc300ms + responsivenessInh300ms)<1) = NaN;
                     width300(idxCell300, (responsivenessExc300ms + responsivenessInh300ms)<1) = NaN;
-%                     In = [];
-%                     In = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).I300ms;
-%                     In = mean(In,2);
-%                     In = max(In);
-%                     if ~isempty(In)
-%                         info300(idxCell300) = In;
-%                         ls300(idxCell300) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls300ms;
-%                     else
-%                         info300(idxCell300) = NaN;
-%                         ls300(idxCell300) = NaN;
-%                     end
+                    In = [];
+                    In = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).I300ms;
+                    In = mean(In,2);
+                    In = max(In);
+                    if ~isempty(In)
+                        info300(idxCell300) = In;
+                        ls300(idxCell300) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls300ms;
+                    else
+                        info300(idxCell300) = NaN;
+                        ls300(idxCell300) = NaN;
+                    end
                     boxWidth = 300;
                     weightingEpsilon = 1 * boxWidth/1000;
                     regWeights = n_trials ./ (responses300(idxCell300, :) + weightingEpsilon) .^ 2;
@@ -332,17 +334,17 @@ for idxExp = 1: length(esp) %- 1
                     onset1(idxCell1, (responsivenessExc1s + responsivenessInh1s)<1) = NaN;
                     peak1(idxCell1, (responsivenessExc1s + responsivenessInh1s)<1) = NaN;
                     width1(idxCell1, (responsivenessExc1s + responsivenessInh1s)<1) = NaN;
-%                     In = [];
-%                     In = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).I1s;
-%                     In = mean(In,2);
-%                     In = max(In);
-%                     if ~isempty(In)
-%                         info1(idxCell1) = In;
-%                         ls1(idxCell1) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls1s;
-%                     else
-%                         info1(idxCell1) = NaN;
-%                         ls1(idxCell1) = NaN;
-%                     end    
+                    In = [];
+                    In = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).I1s;
+                    In = mean(In,2);
+                    In = max(In);
+                    if ~isempty(In)
+                        info1(idxCell1) = In;
+                        ls1(idxCell1) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls1s;
+                    else
+                        info1(idxCell1) = NaN;
+                        ls1(idxCell1) = NaN;
+                    end    
                     boxWidth = 1000;
                     weightingEpsilon = 1 * boxWidth/1000;
                     regWeights = n_trials ./ (responses1(idxCell1, :) + weightingEpsilon) .^ 2;
@@ -375,17 +377,17 @@ for idxExp = 1: length(esp) %- 1
                     onsetExc300(idxCellExc300, responsivenessExc300ms<1) = NaN;
                     peakExc300(idxCellExc300, responsivenessExc300ms<1) = NaN;
                     widthExc300(idxCellExc300, responsivenessExc300ms<1) = NaN;
-%                     In = [];
-%                     In = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).I300ms;
-%                     In = mean(In,2);
-%                     In = max(In);
-%                     if ~isempty(In)
-%                         infoExc300(idxCellExc300) = In;
-%                         lsExc300(idxCellExc300) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls300ms;
-%                     else
-%                         infoExc300(idxCellExc300) = NaN;
-%                         lsExc300(idxCellExc300) = NaN;
-%                     end
+                    In = [];
+                    In = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).I300ms;
+                    In = mean(In,2);
+                    In = max(In);
+                    if ~isempty(In)
+                        infoExc300(idxCellExc300) = In;
+                        lsExc300(idxCellExc300) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls300ms;
+                    else
+                        infoExc300(idxCellExc300) = NaN;
+                        lsExc300(idxCellExc300) = NaN;
+                    end
                     weightingEpsilon = 1 * boxWidth/1000;
                     regWeights = n_trials ./ (responsesExc300(idxCellExc300, :) + weightingEpsilon) .^ 2;
                     [B, stdB] = lscov(responsesExc300(idxCellExc300, :)', varianceExc300(idxCellExc300, :)', regWeights);
@@ -417,17 +419,17 @@ for idxExp = 1: length(esp) %- 1
                     onsetExc1(idxCellExc1, responsivenessExc1s<1) = NaN;
                     peakExc1(idxCellExc1, responsivenessExc1s<1) = NaN;
                     widthExc1(idxCellExc1, responsivenessExc1s<1) = NaN;
-%                     In = [];
-%                     In = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).I1s;
-%                     In = mean(In,2);
-%                     In = max(In);
-%                     if ~isempty(In)
-%                         infoExc1(idxCellExc1) = In;
-%                         lsExc1(idxCellExc1) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls1s;
-%                     else
-%                         infoExc1(idxCellExc1) = NaN;
-%                         lsExc1(idxCellExc1) = NaN;
-%                     end
+                    In = [];
+                    In = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).I1s;
+                    In = mean(In,2);
+                    In = max(In);
+                    if ~isempty(In)
+                        infoExc1(idxCellExc1) = In;
+                        lsExc1(idxCellExc1) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls1s;
+                    else
+                        infoExc1(idxCellExc1) = NaN;
+                        lsExc1(idxCellExc1) = NaN;
+                    end
                     boxWidth = 1000;
                     weightingEpsilon = 1 * boxWidth/1000;
                     regWeights = n_trials ./ (responsesExc1(idxCellExc1, :) + weightingEpsilon) .^ 2;
@@ -448,17 +450,17 @@ for idxExp = 1: length(esp) %- 1
                         auRocInh300(idxCellInh300, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC300ms;
                     end
                     respInh300(idxCellInh300,:) = responsivenessInh300ms;
-%                     In = [];
-%                     In = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).I300ms;
-%                     In = mean(In,2);
-%                     In = max(In);
-%                     if ~isempty(In)
-%                         infoInh300(idxCellInh300) = In;
-%                         lsInh300(idxCellInh300) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls300ms;
-%                     else
-%                         infoInh300(idxCellInh300) = NaN;
-%                         lsInh300(idxCellInh300) = NaN;
-%                     end
+                    In = [];
+                    In = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).I300ms;
+                    In = mean(In,2);
+                    In = max(In);
+                    if ~isempty(In)
+                        infoInh300(idxCellInh300) = In;
+                        lsInh300(idxCellInh300) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls300ms;
+                    else
+                        infoInh300(idxCellInh300) = NaN;
+                        lsInh300(idxCellInh300) = NaN;
+                    end
                     boxWidth = 300;
                     weightingEpsilon = 1 * boxWidth/1000;
                     regWeights = n_trials ./ (responsesInh300(idxCellInh300, :) + weightingEpsilon) .^ 2;
@@ -480,17 +482,17 @@ for idxExp = 1: length(esp) %- 1
                         auRocInh1(idxCellInh1, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC1000ms;
                     end
                     respInh1(idxCellInh1,:) = (responsivenessInh1s + responsivenessInh300ms)>0;
-%                     In = [];
-%                     In = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).I1s;
-%                     In = mean(In,2);
-%                     In = max(In);
-%                     if ~isempty(In)
-%                         infoInh1(idxCellInh1) = In;
-%                         lsInh1(idxCellInh1) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls1s;
-%                     else
-%                         infoInh1(idxCellInh1) = NaN;
-%                         lsInh1(idxCellInh1) = NaN;
-%                     end
+                    In = [];
+                    In = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).I1s;
+                    In = mean(In,2);
+                    In = max(In);
+                    if ~isempty(In)
+                        infoInh1(idxCellInh1) = In;
+                        lsInh1(idxCellInh1) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls1s;
+                    else
+                        infoInh1(idxCellInh1) = NaN;
+                        lsInh1(idxCellInh1) = NaN;
+                    end
                     boxWidth = 1000;
                     weightingEpsilon = 1 * boxWidth/1000;
                     regWeights = n_trials ./ (responsesInh1(idxCellInh1, :) + weightingEpsilon) .^ 2;
@@ -527,14 +529,12 @@ auRoc1 = auRoc1;
 fanoFactor300 = fanoFactor300;
 fanoFactor1 = fanoFactor1;
 %%
-% save('responses.mat', 'responses300MinusMean','responses300', 'info300', 'responses300AllTrials', 'responses1', 'responses1MinusMean', 'responses1AllTrials', 'cellLog300','cellLogExc1', 'cellLog1',...
-%    'fanoFactor300', 'fanoFactor1', 'ls300', 'ls1', 'baseline300','baseline1', 'variance300','variance1', 'auRoc300', 'auRoc1', 'fanoFactor300', 'fanoFactor1', 'auROCTot300ms', 'auROCTot1s', 'ls300msTot', 'ls1sTot', 'pop_sparseness300', 'pop_sparseness1000')
+save('responses.mat', 'responses300MinusMean','responses300', 'info300', 'responses300AllTrials', 'responses1', 'responses1MinusMean', 'responses1AllTrials', 'cellLog300','cellLogExc1', 'cellLog1',...
+    'fanoFactor300', 'fanoFactor1', 'ls300', 'ls1', 'baseline300','baseline1', 'variance300','variance1', 'auRoc300', 'auRoc1', 'fanoFactor300', 'fanoFactor1', 'auROCTot300ms', 'auROCTot1s', 'ls300msTot',...
+    'ls1sTot', 'pop_sparseness300', 'pop_sparseness1000')
 %%
 cd(folder)
-
 responses_bis2
-% %%
-
-% responses3
-% collectAllSdfs
+responses3
+collectAllSdfs
 cd(folder)

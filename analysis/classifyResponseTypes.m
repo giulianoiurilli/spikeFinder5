@@ -101,6 +101,9 @@ plot(clust_axis, [0 diff(aic)]);
 plot(clust_axis, [0 diff(nll)]);
 hold off
 legend('BIC', 'AIC', 'neg log-likelihood')
+eva = evalclusters(scores, 'gmdistribution', 'gap', 'Klist', 1:n_clusters);
+figure;
+plot(eva)
 
 
 

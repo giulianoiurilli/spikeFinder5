@@ -1,8 +1,12 @@
 %%
-tic
-fileToSave = 'coa_15_2_2.mat';
+fileToSave = 'coa_mix_2_2.mat';
+load('parameters.mat');
 startingFolder = pwd;
-odorsRearranged = 1:15; 
+% odorsRearranged = 1:15; 
+  odorsRearranged = [1 7 3 15]; %coa
+% odorsRearranged = [7 6 10 9]; %pcx
+% odorsRearranged = [8 11 12 5 2 14 4 10]; %coa
+% odorsRearranged = [2 12 13 1 8 3 15 5]; %pcx
 odors = length(odorsRearranged);
 
 %%
@@ -11,7 +15,6 @@ for idxExp = 1 : length(List)
     cartella = List{idxExp};
     cd(cartella)
     load('unitsNowarp.mat', 'shankNowarp');
-    load('parameters.mat');
     idxCell = 0;
     for idxShank = 1:4
         for idxUnit = 1:length(esp(idxExp).shankNowarp(idxShank).cell)
@@ -57,6 +60,5 @@ for idxExp = 1 : length(List)
 end
 
 cd(startingFolder)
-clearvars -except esp fileToSave
+clearvars -except esp fileToSave List
 save(fileToSave, 'esp', '-append')
-toc

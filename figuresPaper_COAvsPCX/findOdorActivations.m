@@ -1,4 +1,6 @@
 odorsRearranged = 1:15;
+% odorsRearranged = 1:8;
+% odorsRearranged = 1:4;
 odors = length(odorsRearranged);
 
 %%
