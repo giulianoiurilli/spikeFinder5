@@ -46,10 +46,9 @@ for idxRep = 1:n_comb
     accuracyResponses1PcxAAaa = l_svmClassify(pcx.esp, odorsRearranged1Pcx(idxRep,:));
     aa1Pcx(idxRep) = mean(accuracyResponses1PcxAAaa);
 end
-[accuracyResponses1CoaAAaaTrue] = l_svmClassify(coa.esp, odorsRearrangedCoa);
-[accuracyResponses1PcxAAaaTrue] = l_svmClassify(pcx.esp, odorsRearrangedPcx);
-accuracyNBCoa = naiveBayesClassify(coa.esp, odorsRearrangedCoa);
-accuracyNBPcx = naiveBayesClassify(pcx.esp, odorsRearrangedPcx);
+[accuracyResponses1CoaAAaaTrue, NBaccuracyCoa] = l_svmClassify(coa.esp, odorsRearrangedCoa);
+[accuracyResponses1PcxAAaaTrue, NBaccuracyPcx] = l_svmClassify(pcx.esp, odorsRearrangedPcx);
+
 figure;
 dataToPlot = {accuracyResponses1CoaAAaaTrue, accuracyResponses1PcxAAaaTrue, aa1Coa, aa1Pcx};
 catIdx = [zeros(1000,1); ones(1000,1); 2*ones(n_comb,1); 3*ones(n_comb, 1)];

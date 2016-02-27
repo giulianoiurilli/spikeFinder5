@@ -58,20 +58,20 @@ dataAll = double(dataAll);
 labels      = ones(1,size(dataAll,2));
 app_labels  = labels;
 
-                                                                                    for odor = 1:size(dataAll,3) - 1
-                                                                                        if odor < 4
-                                                                                        labels  = [labels, app_labels];
-                                                                                        else
-                                                                                            labels  = [labels, app_labels + ones(1,size(dataAll,2))];
-                                                                                        end
-                                                                                    end
 %                                                                                     for odor = 1:size(dataAll,3) - 1
-%                                                                                         if odor < 2
+%                                                                                         if odor < 4
 %                                                                                         labels  = [labels, app_labels];
 %                                                                                         else
 %                                                                                             labels  = [labels, app_labels + ones(1,size(dataAll,2))];
 %                                                                                         end
 %                                                                                     end
+                                                                                    for odor = 1:size(dataAll,3) - 1
+                                                                                        if odor < 2
+                                                                                        labels  = [labels, app_labels];
+                                                                                        else
+                                                                                            labels  = [labels, app_labels + ones(1,size(dataAll,2))];
+                                                                                        end
+                                                                                    end
 
 % for odor = 1:size(dataAll,3) - 1
 %     labels  = [labels, app_labels + odor .* ones(1,size(dataAll,2))];
