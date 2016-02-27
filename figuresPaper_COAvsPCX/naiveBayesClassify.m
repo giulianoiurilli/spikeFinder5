@@ -1,4 +1,4 @@
-function accuracyNBMean = naiveBayesClassify(esp, odors)
+function accuracyNBMean = naiveBayesClassify(esp, odors, option)
 odorsRearranged = odors;
 odors = length(odorsRearranged);
 
@@ -52,25 +52,28 @@ dataAll = reshape(dataAll, neurons, trials, stimuli);
 dataAll = double(dataAll);
 labels      = ones(1,size(dataAll,2));
 app_labels  = labels;
-
-%                                                                                     for odor = 1:size(dataAll,3) - 1
-%                                                                                         if odor < 4
-%                                                                                         labels  = [labels, app_labels];
-%                                                                                         else
-%                                                                                             labels  = [labels, app_labels + ones(1,size(dataAll,2))];
-%                                                                                         end
-%                                                                                     end
-                                                                                    for odor = 1:size(dataAll,3) - 1
-                                                                                        if odor < 2
-                                                                                        labels  = [labels, app_labels];
-                                                                                        else
-                                                                                            labels  = [labels, app_labels + ones(1,size(dataAll,2))];
-                                                                                        end
-                                                                                    end
-
-% for odor = 1:size(dataAll,3) - 1
-%     labels  = [labels, app_labels + odor .* ones(1,size(dataAll,2))];
-% end
+switch option
+    case 1
+        for odor = 1:size(dataAll,3) - 1
+            labels  = [labels, app_labels + odor .* ones(1,size(dataAll,2))];
+        end
+    case 2
+        for odor = 1:size(dataAll,3) - 1
+            if odor < 4
+                labels  = [labels, app_labels];
+            else
+                labels  = [labels, app_labels + ones(1,size(dataAll,2))];
+            end
+        end
+    case 3
+        for odor = 1:size(dataAll,3) - 1
+            if odor < 2
+                labels  = [labels, app_labels];
+            else
+                labels  = [labels, app_labels + ones(1,size(dataAll,2))];
+            end
+        end
+end
 labels      = labels';
 trainingN = floor(0.9*(trials * stimuli));
 repN = 1000;

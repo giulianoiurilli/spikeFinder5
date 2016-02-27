@@ -1,7 +1,7 @@
 %function [accuracyResponses, accuracyBaseline, accuracyShuffled, accuracyDecorrTuning, accuracyDecorrNoise, conMatResponses] = l_svmClassify(esp, odors)
 %function [accuracyResponses, accuracyBaseline, accuracyShuffled, conMatResponses] = l_svmClassify(esp, odors)
 %function [accuracyResponses, accuracyBaseline, accuracyShuffled] = l_svmClassify(esp, odors)
-function [accuracyResponses] = l_svmClassify(esp, odors)
+function [accuracyResponses] = l_svmClassify(esp, odors, option)
 
 odorsRearranged = odors;
 odors = length(odorsRearranged);
@@ -58,24 +58,29 @@ dataAll = double(dataAll);
 labels      = ones(1,size(dataAll,2));
 app_labels  = labels;
 
-%                                                                                     for odor = 1:size(dataAll,3) - 1
-%                                                                                         if odor < 4
-%                                                                                         labels  = [labels, app_labels];
-%                                                                                         else
-%                                                                                             labels  = [labels, app_labels + ones(1,size(dataAll,2))];
-%                                                                                         end
-%                                                                                     end
-                                                                                    for odor = 1:size(dataAll,3) - 1
-                                                                                        if odor < 2
-                                                                                        labels  = [labels, app_labels];
-                                                                                        else
-                                                                                            labels  = [labels, app_labels + ones(1,size(dataAll,2))];
-                                                                                        end
-                                                                                    end
+switch option
+    case 1
+        for odor = 1:size(dataAll,3) - 1
+            labels  = [labels, app_labels + odor .* ones(1,size(dataAll,2))];
+        end
+    case 2
+        for odor = 1:size(dataAll,3) - 1
+            if odor < 4
+                labels  = [labels, app_labels];
+            else
+                labels  = [labels, app_labels + ones(1,size(dataAll,2))];
+            end
+        end
+    case 3
+        for odor = 1:size(dataAll,3) - 1
+            if odor < 2
+                labels  = [labels, app_labels];
+            else
+                labels  = [labels, app_labels + ones(1,size(dataAll,2))];
+            end
+        end
+end
 
-% for odor = 1:size(dataAll,3) - 1
-%     labels  = [labels, app_labels + odor .* ones(1,size(dataAll,2))];
-% end
 labels      = labels';
 trainingN = floor(0.9*(trials * stimuli));
 repetitions = 1000;

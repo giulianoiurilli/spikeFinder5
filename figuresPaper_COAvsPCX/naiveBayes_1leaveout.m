@@ -6,7 +6,7 @@ neurons = size(data,1);
 n_trials = size(data,2);
 odors = size(data,3);
 classes = numel(unique(labels)); 
-jumpTrials = 0:n_trials*odors/classes-1:classes*n_trials-1;
+jumpTrials = 0:n_trials*odors/classes:n_trials*odors-1;
 data        = reshape(data, neurons, n_trials .* odors);
 data        = data';
 numInst     = size(data,1);
@@ -23,7 +23,7 @@ performances  = nan * ones(1, repN);
 for rep = 1:repN
     % Split training/testing
     app = size(data,1)/classes;
-    idx = randi([1 app-1], [classes 1]) + jumpTrials';
+    idx = randi([1 app], [classes 1]) + jumpTrials';
     app_testData = data(idx,:);
     trainData = data;
     trainData(idx,:) = [];
