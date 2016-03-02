@@ -79,6 +79,26 @@ switch option
                 labels  = [labels, app_labels + ones(1,size(dataAll,2))];
             end
         end
+    case 4
+        for odor = 1:size(dataAll,3) - 1
+            if odor < 3
+                labels  = [labels, app_labels];
+            else
+                labels  = [labels, app_labels + ones(1,size(dataAll,2))];
+            end
+        end
+    case 5
+        for odor = 1:size(dataAll,3) - 1
+            if odor < 5
+                labels  = [labels, app_labels];
+            else
+                if odor < 10
+                    labels  = [labels, app_labels + ones(1,size(dataAll,2))];
+                else
+                    labels  = [labels, app_labels + 2*ones(1,size(dataAll,2))];
+                end
+            end   
+        end
 end
 
 labels      = labels';
