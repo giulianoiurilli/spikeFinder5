@@ -1,4 +1,4 @@
-function [sigCorrW300ms, sigCorrB300ms, sigCorrW1000ms, sigCorrB1000ms, sigCorrWBSL1000ms, sigCorrBBSL1000ms] = trialCorrelation(esp, odors)
+function [sigCorrW300ms, sigCorrB300ms, sigCorrW1000ms, sigCorrB1000ms, sigCorrWBSL1000ms, sigCorrBBSL1000ms] = 
 
 
 

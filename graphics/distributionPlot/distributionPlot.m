@@ -680,7 +680,7 @@ for iData = goodData'
     end
     
     % add offset (in case we have multiple widthDiv)
-    xArray = xArray + xOffset;
+    xArray = xArray + xOffset + 0.5;
     
     
     % yData is simply the bin locations

@@ -1,9 +1,9 @@
 %%
-fileToSave = 'coa_AAmix_2_2.mat';
-fileToSave2 = 'coa_AAmix_2_1.mat';
+fileToSave = 'coa_15_2_2.mat';
+fileToSave2 = 'coa_15_2_1.mat';
 load('parameters.mat');
 startingFolder = pwd;
-%odorsRearranged = 1:15;
+odorsRearranged = 1:15;
 % odorsRearranged = [1 7 3 15]; %coa
 % odorsRearranged = [7 6 10 9]; %pcx
 % odorsRearranged = [8 11 12 5 2 14 4 10]; %coa AA
@@ -12,7 +12,7 @@ startingFolder = pwd;
 %odorsRearranged = [4 6 7 9 10 11]; %pcx Mix
 %odorsRearranged = [4 5 13 15 1 14 8 3 7 12 11 10 6 9 2]; %coa CS
 %odorsRearranged = [14 13 12 15 1 5 3 4 2 6 8 7 9 10 11]; %pcx CS
-odorsRearranged = [6 8 5 11 12 3 2 10 14 4 7 13 15 9 1]; %coa AAmix
+%odorsRearranged = [6 8 5 11 12 3 2 10 14 4 7 13 15 9 1]; %coa AAmix
 %odorsRearranged = [4 2 13 12 1 11 3 5 8 15 6 7 9 10 14]; %pcx AAmix
 
 
@@ -33,7 +33,7 @@ for idxExp = 1 : length(List)
             for idxOdor = odorsRearranged
                 idxO = idxO + 1;
                 spike_matrix_app = single(shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrixNoWarp);
-                espe(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO).spikeMatrix = spike_matrix_app;
+                espe(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO).spikeMatrix = logical(spike_matrix_app);
                 espe(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO).sdf = shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).sdf_trialNoWarp;
                 
                 % Response kinetics

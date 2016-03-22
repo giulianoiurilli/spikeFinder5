@@ -1,12 +1,14 @@
-function [Bsl, DeltaRsp, ff, cv, fanoFactor] = find_Baseline_DeltaRsp_FanoFactor(esp, odors)
+function [Bsl, DeltaRspMean, rspMean, rspVar, ff, cv, fanoFactor, auRoc, significance] = find_Baseline_DeltaRsp_FanoFactor(esp, odors)
 
 n_trials = 10;
 
 %%
 c = 0;
+t = 0;
 for idxExp =  1:length(esp)
     for idxShank = 1:4
         for idxUnit = 1:length(esp(idxExp).shankNowarp(idxShank).cell)
+            t = t + 1;
             if esp(idxExp).shankNowarp(idxShank).cell(idxUnit).good == 1
                 c = c + 1;
             end
@@ -34,13 +36,16 @@ for idxExp =  1:length(esp)
                     idxO = idxO + 1;
                     R1000ms(:, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms';
                     B1000ms(:, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms';
+                    auRoc(c, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC1000ms;
+                    significance(c, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse1000ms;
                 end
-                RspMean = mean(R1000ms - B1000ms);
+                RspMean = mean(R1000ms);
                 RspMeanAbs = mean(R1000ms);
                 RspVar = var(R1000ms);
                 RspStd = std(R1000ms);
-                %DeltaRsp(c) = mean(RspMean);
-                DeltaRsp(c,:) = RspMean;
+                DeltaRspMean(c,:) = mean(R1000ms-B1000ms);
+                rspMean(c,:) = mean(R1000ms);
+                rspVar(c,:) = var(R1000ms);
                 Bsl(c) = mean(mean(B1000ms));
                 boxWidth = 1000;
                 weightingEpsilon = 1 * boxWidth/1000;
@@ -49,6 +54,24 @@ for idxExp =  1:length(esp)
                 fanoFactor(c) = B;
                 ff(c,:) = RspVar ./ RspMean;
                 cv(c,:) = RspStd ./ RspMean;
+            end
+        end
+    end
+end
+
+Bsl = zeros(1,t); 
+c = 0;
+for idxExp =  1:length(esp)
+    for idxShank = 1:4
+        for idxUnit = 1:length(esp(idxExp).shankNowarp(idxShank).cell)            
+                c = c + 1;
+                B1000ms = zeros(n_trials, length(odors));
+                idxO = 0;
+                for idxOdor = odors
+                    idxO = idxO + 1;
+                    B1000ms(:, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms';
+                end
+                Bsl(c) = mean(mean(B1000ms));
             end
         end
     end

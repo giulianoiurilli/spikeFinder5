@@ -8,8 +8,9 @@ s1 = size(coaR.cellLogAllSdfs,1);
 s2 = size(coaRAA.cellLogAllSdfs,1);
 s3 = size(pcxR.cellLogAllSdfs,1);
 s4 = size(pcxRAA.cellLogAllSdfs,1);
-id = [ones(s1,1); 2*ones(s2,1); 3*ones(s3,1); 4*ones(s4,1)];
-X2 = [X2 id];
+idArea = [zeros(s1,1); zeros(s2,1); ones(s3,1); ones(s4,1)];
+idExpType = [zeros(s1,1); ones(s2,1); zeros(s3,1); ones(s4,1)];
+X2 = [X2 idArea];
 
 %%
 X = [];
@@ -48,7 +49,7 @@ figure; plot(scores(:,1), scores(:,2), 'ok')
 
 %%
 d = 500;
-n_clusters = 30;
+n_clusters = 10;
 x1 = linspace(min(X(:,1)) - 2,max(X(:,1)) + 2,d);
 x2 = linspace(min(X(:,2)) - 2,max(X(:,2)) + 2,d);
 [x1grid,x2grid] = meshgrid(x1,x2);

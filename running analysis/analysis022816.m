@@ -78,23 +78,30 @@
 % mean(accuracyResponsesPcxMixaa)
 
 %% auROC
-% odorsRearrangedCoa = [7 6 13 15 3 9];
+odorsRearrangedCoa = [7 6 13 15 3 9];
 % odorsRearrangedPcx = [7 1 9 3 13 15];
-odorsRearrangedCoa = 1:6;
-odorsRearrangedPcx = 1:6;
-app = auROCcategorization(coaMix.esp, odorsRearrangedCoa([1 4]), 1);
+ odorsRearrangedPcx = [4 6 7 9 10 11]; %pcx Mix
+% odorsRearrangedCoa = 1:6;
+% odorsRearrangedPcx = 1:6;
+[app app1] = auROCcategorization(coaMix.esp, odorsRearrangedCoa([1 4]), 1);
+app1(:,app1==0) = [];
 app = abs(app - 0.5) *2;
 aurocSingleCoa = app;
-app = auROCcategorization(pcxMix.esp, odorsRearrangedPcx([1 4]), 1);
+[app app1] = auROCcategorization(pcxMix.esp, odorsRearrangedPcx([1 4]), 1);
+app1(:,app1==0) = [];
 aurocSinglePcx = app;
-app = auROCcategorization(coaMix.esp, odorsRearrangedCoa, 3);
+[app app1] = auROCcategorization(coaMix.esp, odorsRearrangedCoa, 3);
+app1(:,app1==0) = [];
+app = abs(app - 0.5) *2;
 aurocMixCoa = app;
-app = auROCcategorization(pcxMix.esp, odorsRearrangedPcx, 3);
+[app app1] = auROCcategorization(pcxMix.esp, odorsRearrangedPcx, 3);
+app1(:,app1==0) = [];
+app = abs(app - 0.5) *2;
 aurocMixPcx = app;
 
 figure;
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
-dataToPlot = {aurocSingleCoa, aurocSinglePcx, aurocMixCoa, aurocMixPcx};
+dataToPlot = {aurocSingleCoa(:,1), aurocSinglePcx(:,1), aurocMixCoa(:,1), aurocMixPcx(:,1)};
 catIdx = [zeros(size(aurocSingleCoa,1),1); ones(size(aurocSinglePcx,1),1); 2*ones(size(aurocMixCoa,1),1); 3*ones(size(aurocMixPcx,1), 1)];
 plotSpread(dataToPlot,'categoryIdx',catIdx,'showMM', 5)
 title('auROC Discrimination Between Mix')

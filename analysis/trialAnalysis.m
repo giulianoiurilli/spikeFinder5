@@ -1,4 +1,4 @@
-function trialAnalysis(elet, neu, od, pre, post, rWindow)
+function trialAnalysis(espe, idxExp, idxShank, idxUnit, idxOdor, onset, responseWindow)
 % Variables that MUST be changed by user:
 %   K           Number of trials 
 %   T           Lenght of observational interval (in sec)
@@ -50,17 +50,24 @@ disp('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % -------------------------------------------------------------------------
 % Parameters of the model and specification of datafile
-load('units.mat');
+
+
+    
+
+
+
+
+
 K=10;                   % Number of trials
-T=pre+post;                    % Total time in one trial (in seconds)
+%T=pre+post;                    % Total time in one trial (in seconds)
 direc=pwd; % Directory where the data are and where the results of EM estimation are stored
-new_dir1 = sprintf('shank_%d', elet);
+new_dir1 = sprintf('shank_%d', idxShank);
 mkdir(new_dir1)
-new_dir2 = sprintf('unit_%d', neu);
+new_dir2 = sprintf('unit_%d', idxUnit);
 direc = fullfile(direc, new_dir1, new_dir2);
 mkdir(direc)
 
-new_dir3 = sprintf('odor_%d', od);
+new_dir3 = sprintf('odor_%d', idxOdor);
 direc = fullfile(direc, new_dir3);
 mkdir(direc)
 direc = [direc, '\'];
@@ -81,8 +88,9 @@ lags=[1 5
         % the spiking intensity at time t.
 
 alphaa=5;   % Level of significance for conf intervals of paramters, in percent
-time_start=0.1; % (in sec); MUST be >= total spike history (i.e. >=lags(J,2))
-time_end=T; % (in sec) the firing intensity will be estimated for period: time_start to time_end. 
+time_start=12; % (in sec); MUST be >= total spike history (i.e. >=lags(J,2))
+time_end=19; % (in sec) the firing intensity will be estimated for period: time_start to time_end. 
+T=time_end-time_start; 
   
 % -------------------------------------------------------------------------
 % Convergence criteria
@@ -99,12 +107,10 @@ Mc2=300;
 
 % -------------------------------------------------------------------------
 % The periods for which user wants to estimate the firing rates
-period_start=pre; % in sec; must be bigger than the total spike history
-period_end=pre+rWindow; % in sec; must be <= T
-period1_start=pre; % in sec; must be bigger than the total spike history
-period1_end=pre+rWindow;   % in sec; must be <= T
-period2_start=0.2; % in sec; must be bigger than the total spike history
-period2_end=pre-0.2;   % in sec; must be <= T
+period1_start=onset; % in sec; must be bigger than the total spike history
+period1_end=onset+responseWindow;   % in sec; must be <= T
+period2_start=onset - 0.05; % in sec; must be bigger than the total spike history
+period2_end=onset - 0.05 - responseWindow;   % in sec; must be <= T
 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % %%%%%%%% Now other subroutines will be called to do estimation %%%%%%%%%%
@@ -115,7 +121,7 @@ period2_end=pre-0.2;   % in sec; must be <= T
 pom=size(lags);
 J=pom(1,1); % number of history bins
 
-leggi(direc,shank,elet, neu, od,K,lags,T,time_start,time_end);
+leggi(direc,espe,idxExp, idxShank, idxUnit, idxOdor,K,lags,T,time_start,time_end);
 
 % ----------------------------------------------------------------------------------- 
 % Obtain the initial guesses for the parameters of the SS GLM model. When

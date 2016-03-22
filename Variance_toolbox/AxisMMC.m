@@ -29,6 +29,7 @@
 
 function outParams = AxisMMC(start, fin, varargin)
 
+
 % ********* PARSE INPUTS *******************
 Pfields = {}; ipf = 1; %these will collect the fieldnames
 % Locations of tick marks
@@ -215,16 +216,16 @@ end
 % (looks better in illustrator that way)
 axisX = [start, fin];
 axisY = axisOffset * [1, 1];
-if ismember(start, tickLocations)
-    tempLen = tickLength + tickLength*extraLength*ismember(start, longTicks);
-    axisX = [start, axisX]; 
-    axisY = [axisY(1)-tempLen,axisY]; 
-end
-if ismember(fin, tickLocations)
-    tempLen = tickLength + tickLength*extraLength*ismember(fin, longTicks);
-    axisX = [axisX, fin];
-    axisY = [axisY, axisY(end)-tempLen];
-end 
+% if ismember(start, tickLocations)
+%     tempLen = tickLength + tickLength*extraLength*ismember(start, longTicks);
+%     axisX = [start, axisX]; 
+%     axisY = [axisY(1)-tempLen,axisY]; 
+% end
+% if ismember(fin, tickLocations)
+%     tempLen = tickLength + tickLength*extraLength*ismember(fin, longTicks);
+%     axisX = [axisX, fin];
+%     axisY = [axisY, axisY(end)-tempLen];
+% end 
 if axisOrientation == 'h', h = plot(axisX, axisY); else h = plot(axisY, axisX); end
 set(h,'color', color, 'lineWidth', lineThickness);
 

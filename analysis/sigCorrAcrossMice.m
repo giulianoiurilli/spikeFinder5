@@ -17,7 +17,6 @@ for idxShank = 1:4
     xxx = 0;
     yyy = 0;
     for idxesp = 1: length(esp) %- 1
-        odorsRearranged = keepNewOrder(idxesp,:);
         yyy = normrnd(0,1,1,length(odorsRearranged));
         for idxUnit = 1:length(esp(idxesp).shankNowarp(idxShank).cell)
             if esp(idxesp).shankNowarp(idxShank).cell(idxUnit).good == 1
@@ -72,5 +71,5 @@ for idxShank = 1:4
 end
 
 cd(folder)
-save('responses.mat', 'simTun1000', 'simTun300','-append')
+%save('responses.mat', 'simTun1000', 'simTun300','-append')
         

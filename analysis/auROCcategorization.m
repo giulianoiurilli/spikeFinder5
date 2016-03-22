@@ -32,3 +32,4 @@ for idxCell = 1:size(responseClass1,1)
     aurocCat(idxCell) = findAuROC(responseClass1(idxCell,:), responseClass2(idxCell,:), 0);
 end
 
+

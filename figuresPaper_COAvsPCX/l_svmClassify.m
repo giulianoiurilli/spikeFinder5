@@ -1,7 +1,9 @@
 %function [accuracyResponses, accuracyBaseline, accuracyShuffled, accuracyDecorrTuning, accuracyDecorrNoise, conMatResponses] = l_svmClassify(esp, odors)
 %function [accuracyResponses, accuracyBaseline, accuracyShuffled, conMatResponses] = l_svmClassify(esp, odors)
 %function [accuracyResponses, accuracyBaseline, accuracyShuffled] = l_svmClassify(esp, odors)
-function [accuracyResponses] = l_svmClassify(esp, odors, option)
+%function [accuracyResponses] = l_svmClassify(esp, odors, option)
+function [accuracyDecorrNoise] = l_svmClassify(esp, odors, option)
+
 
 odorsRearranged = odors;
 odors = length(odorsRearranged);
@@ -65,7 +67,7 @@ switch option
         end
     case 2
         for odor = 1:size(dataAll,3) - 1
-            if odor < 4
+            if odor < 5
                 labels  = [labels, app_labels];
             else
                 labels  = [labels, app_labels + ones(1,size(dataAll,2))];
@@ -97,7 +99,15 @@ switch option
                 else
                     labels  = [labels, app_labels + 2*ones(1,size(dataAll,2))];
                 end
-            end   
+            end
+        end
+    case 6
+        for odor = 1:size(dataAll,3) - 1
+            if odor < 4
+                labels  = [labels, app_labels];
+            else
+                labels  = [labels, app_labels + ones(1,size(dataAll,2))];
+            end
         end
 end
 
@@ -108,7 +118,7 @@ repetitions = 1000;
 accuracyResponses = acc_svm;
 conMatResponses = conMat;
 
-% %%
+ %%
 % %On baselines
 % dataAll = baselineCell1All;
 % neurons = size(dataAll,1);
@@ -259,52 +269,83 @@ conMatResponses = conMat;
 % 
 %%
 %Remove noise correlation
-% accuracyDecorrNoise = [];
-% for idxShuffle = 1:50
-%     dataAll = responseCell1All;
-%     neurons = size(dataAll,1);
-%     trials = size(dataAll,2);
-%     stimuli = size(dataAll,3);
-%     
-%     for idxNeuron = 1:neurons
-%         idx = randperm(trials);
-%         dataAll(idxNeuron,:, :) = dataAll(idxNeuron,idx, :);
-%     end
-%     
-%     dataAll = reshape(dataAll, neurons, trials .* stimuli);
-%     dataAll = dataAll';
-%     dataAll = zscore(dataAll);
-%     dataAll = dataAll';
-%     dataAll(isinf(dataAll)) = 0;
-%     dataAll(isnan(dataAll)) = 0;
-%     dataAll = reshape(dataAll, neurons, trials, stimuli);
-%     dataAll = double(dataAll);
-%     labels      = ones(1,size(dataAll,2));
-%     app_labels  = labels;
-%     
-%     %                                                                                     for odor = 1:size(dataAll,3) - 1
-%     %                                                                                         if odor < 5
-%     %                                                                                         labels  = [labels, app_labels];
-%     %                                                                                         else
-%     %                                                                                             labels  = [labels, app_labels + ones(1,size(dataAll,2))];
-%     %                                                                                         end
-%     %                                                                                     end
-%                                                                                     for odor = 1:size(dataAll,3) - 1
-%                                                                                         if odor < 2
-%                                                                                         labels  = [labels, app_labels];
-%                                                                                         else
-%                                                                                             labels  = [labels, app_labels + ones(1,size(dataAll,2))];
-%                                                                                         end
-%                                                                                     end
-%     
-% %     for odor = 1:size(dataAll,3) - 1
-% %         labels  = [labels, app_labels + odor .* ones(1,size(dataAll,2))];
-% %     end
-%     labels      = labels';
-%     
-%     trainingN = floor(0.9*(trials * stimuli));
-%     repetitions = 1000;
-%     [mean_acc_svm, std_acc_svm, acc_svm, prctile25, prctile75, conMat] = odor_c_svm_1leaveout(dataAll, trainingN, labels, repetitions);
-%     accuracyDecorrNoise =  [acc_svm accuracyDecorrNoise];
-% end
-% accuracyDecorrNoise = mean(accuracyDecorrNoise,2);
+accuracyDecorrNoise = [];
+for idxShuffle = 1:50
+    dataAll = responseCell1All;
+    neurons = size(dataAll,1);
+    trials = size(dataAll,2);
+    stimuli = size(dataAll,3);
+    
+    for idxNeuron = 1:neurons
+        idx = randperm(trials);
+        dataAll(idxNeuron,:, :) = dataAll(idxNeuron,idx, :);
+    end
+    
+    dataAll = reshape(dataAll, neurons, trials .* stimuli);
+    dataAll = dataAll';
+    dataAll = zscore(dataAll);
+    dataAll = dataAll';
+    dataAll(isinf(dataAll)) = 0;
+    dataAll(isnan(dataAll)) = 0;
+    dataAll = reshape(dataAll, neurons, trials, stimuli);
+    dataAll = double(dataAll);
+    labels      = ones(1,size(dataAll,2));
+    app_labels  = labels;
+switch option
+    case 1
+        for odor = 1:size(dataAll,3) - 1
+            labels  = [labels, app_labels + odor .* ones(1,size(dataAll,2))];
+        end
+    case 2
+        for odor = 1:size(dataAll,3) - 1
+            if odor < 5
+                labels  = [labels, app_labels];
+            else
+                labels  = [labels, app_labels + ones(1,size(dataAll,2))];
+            end
+        end
+    case 3
+        for odor = 1:size(dataAll,3) - 1
+            if odor < 2
+                labels  = [labels, app_labels];
+            else
+                labels  = [labels, app_labels + ones(1,size(dataAll,2))];
+            end
+        end
+    case 4
+        for odor = 1:size(dataAll,3) - 1
+            if odor < 3
+                labels  = [labels, app_labels];
+            else
+                labels  = [labels, app_labels + ones(1,size(dataAll,2))];
+            end
+        end
+    case 5
+        for odor = 1:size(dataAll,3) - 1
+            if odor < 5
+                labels  = [labels, app_labels];
+            else
+                if odor < 10
+                    labels  = [labels, app_labels + ones(1,size(dataAll,2))];
+                else
+                    labels  = [labels, app_labels + 2*ones(1,size(dataAll,2))];
+                end
+            end   
+        end
+    case 6
+        for odor = 1:size(dataAll,3) - 1
+            if odor < 4
+                labels  = [labels, app_labels];
+            else
+                labels  = [labels, app_labels + ones(1,size(dataAll,2))];
+            end
+        end
+end
+    labels      = labels';
+    
+    trainingN = floor(0.9*(trials * stimuli));
+    repetitions = 1000;
+    [mean_acc_svm, std_acc_svm, acc_svm, prctile25, prctile75, conMat] = odor_c_svm_1leaveout(dataAll, trainingN, labels, repetitions);
+    accuracyDecorrNoise =  [acc_svm accuracyDecorrNoise];
+end
+accuracyDecorrNoise = mean(accuracyDecorrNoise,2);

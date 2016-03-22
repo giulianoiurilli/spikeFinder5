@@ -51,7 +51,8 @@ for a = linspace(0,1,steps)
         end
         
         if sum(Atest(:)) > 1
-            I(idxa,idxRep) = px ./ sum(Atest(:));
+            %I(idxa,idxRep) = px ./ sum(Atest(:));
+            I(idxa,idxRep) = px;
         else
             I(idxa,idxRep) = 0;
         end
