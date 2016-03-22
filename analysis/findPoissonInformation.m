@@ -1,5 +1,5 @@
 %%
-fileToSave = 'pcx_15_2_2.mat';
+fileToSave = 'coa_15_2_2.mat';
 load('parameters.mat')
 odorsRearranged = 1:15; 
 % odorsRearranged = [1 7 3 15]; %coa

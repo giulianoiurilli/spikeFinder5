@@ -1,6 +1,6 @@
 %%
-fileToSave = 'pcx_15_2_2.mat';
-fileToSave2 = 'pcx_15_2_1.mat';
+fileToSave = 'coa_15_2_2.mat';
+fileToSave2 = 'coa_15_2_1.mat';
 load('parameters.mat');
 startingFolder = pwd;
 odorsRearranged = 1:15;
