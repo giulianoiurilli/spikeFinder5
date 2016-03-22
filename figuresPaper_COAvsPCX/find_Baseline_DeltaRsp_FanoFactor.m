@@ -1,4 +1,4 @@
-function [Bsl, DeltaRspMean, rspMean, rspVar, ff, cv, fanoFactor, auRoc, significance] = find_Baseline_DeltaRsp_FanoFactor(esp, odors)
+function [Bsl, DeltaRspMean, rspMean, rspVar, ff, cv, auRoc, significance] = find_Baseline_DeltaRsp_FanoFactor(esp, odors, window)
 
 n_trials = 10;
 
@@ -36,22 +36,29 @@ for idxExp =  1:length(esp)
                 %odorsRearranged = keepNewOrder(idxExp,:);
                 for idxOdor = odors
                     idxO = idxO + 1;
-                    R1000ms(:, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms';
-                    B1000ms(:, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms';
-                    auRoc(c, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC1000ms;
-                    significance(c, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse1000ms;
+                    if window  == 300
+                        R1000ms(:, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms';
+                        B1000ms(:, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl300ms';
+                        auRoc(c, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC300ms;
+                        significance(c, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse300ms;
+                    else
+                        R1000ms(:, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms';
+                        B1000ms(:, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms';
+                        auRoc(c, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC1000ms;
+                        significance(c, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse1000ms;
+                    end
                 end
                 DeltaRspMean(c,:) = mean(R1000ms-B1000ms);
                 rspMean(c,:) = mean(R1000ms);
                 rspVar(c,:) = var(R1000ms);
                 RspStd = std(R1000ms);
-                boxWidth = 1000;
-                weightingEpsilon = 1 * boxWidth/1000;
-                regWeights = n_trials ./ (RspMeanAbs + weightingEpsilon) .^ 2;
-                [B, stdB] = lscov(RspMeanAbs', RspVar', regWeights);
-                fanoFactor(c) = B;
-                ff(c,:) = RspVar ./ RspMean;
-                cv(c,:) = RspStd ./ RspMean;
+%                 boxWidth = 1000;
+%                 weightingEpsilon = 1 * boxWidth/1000;
+%                 regWeights = n_trials ./ (RspMeanAbs + weightingEpsilon) .^ 2;
+%                 [B, stdB] = lscov(RspMeanAbs', RspVar', regWeights);
+%                 fanoFactor(c) = B;
+                ff(c,:) = rspVar(c,:) ./ rspMean(c,:);
+                cv(c,:) = RspStd ./ rspMean(c,:);
             end
         end
     end

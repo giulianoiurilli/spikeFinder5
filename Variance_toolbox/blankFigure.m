@@ -6,6 +6,6 @@ function hf = blankFigure(axLim)
 % axLim = axLen * [-1 2 -0.7 2.3];
 
 hf = figure; hold on; 
-%set(gca,'visible', 'off');
+set(gca,'visible', 'off');
 set(hf, 'color', [1 1 1]);
 axis(axLim); axis square;
