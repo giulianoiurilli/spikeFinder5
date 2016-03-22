@@ -1,3 +1,4 @@
+load('parameters.mat')
 odorsRearranged = 1:15;
 %odorsRearranged = [8 11 12 5 2 14 4 10]; %COA
 % odorsRearranged = [3 8 10 1 13 11 9 14]; %PCX
