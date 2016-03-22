@@ -48,7 +48,7 @@ end
 c
 rc
 rc/c
-save('pcx_AA_2_2.mat', 'esp', '-append')
+save('pcx_15_2_2.mat', 'esp', '-append')
                 
                     
                     
