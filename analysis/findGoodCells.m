@@ -35,4 +35,4 @@ c
 g
 g/c
 
-save('coa_15_2_2.mat', 'esp', '-append')
+save('coa_AAmix_2_2.mat', 'esp', '-append')
