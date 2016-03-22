@@ -16,7 +16,7 @@ for idxExp =  1:length(esp)
     end
 end
 
-%%
+
 fanoFactor = zeros(1,c);
 DeltaRspMean = zeros(c, length(odors)); 
 rspMean = zeros(c, length(odors)); 
