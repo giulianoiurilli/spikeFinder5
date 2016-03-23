@@ -1,4 +1,4 @@
-fileToSave = 'coa_CS_2_2.mat';
+fileToSave = 'pcx_CS_2_2.mat';
 load('parameters.mat')
 
 %%

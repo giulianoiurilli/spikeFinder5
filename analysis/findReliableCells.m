@@ -49,7 +49,7 @@ end
 c
 rc
 rc/c
-save('coa_AAmix_2_2.mat', 'esp', '-append')
+save('pcx_CS_2_2.mat', 'esp', '-append')
                 
                     
                     
