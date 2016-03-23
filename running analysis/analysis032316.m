@@ -1,4 +1,4 @@
-close all
+
 clear spikeTimes
 clear nst
 clear c
