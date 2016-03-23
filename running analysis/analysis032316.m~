@@ -1,3 +1,4 @@
+close all
 clear spikeTimes
 clear nst
 clear c
@@ -10,10 +11,10 @@ clear cfgColl
 n_trials = 10;
 sampleRate = 1000;
 delta = 1/sampleRate;
-time = 0:0.001:30; time(end) = [];
+time = 0:0.001:4; time(end) = [];
 binsize = 0.1;
 stimData = zeros(1,length(time));
-stimData(15000:17000) = 1;
+stimData(1000:3000) = 1;
 % idxExp = 1;
 % idxOdor = 14;
 % idxUnit = 3;
@@ -24,7 +25,7 @@ baseline = Covariate(time, ones(length(time),1), 'Baseline', 'time', 's', '', {'
 for idxTrial = 1:n_trials
     %spikeTimes{idxTrial} = Data.Spiketimes.Experiment(idxExp).Shank(idxShank).spiketimes{idxTrial, idxOdor, idxUnit};
     app = [];
-    app = coaAA1.espe(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrix(idxTrial,:);
+    app = coaAA1.espe(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrix(idxTrial,14000:18000);
     app1=[];
     app1 = find(app==1)./1000;
     spikeTimes{idxTrial} = app1;
@@ -32,8 +33,8 @@ for idxTrial = 1:n_trials
     nst{idxTrial}.setName(num2str(cellID));
 end
 
-minTime = 14;
-maxTime = 16;
+minTime = 0;
+maxTime = 3;
 spikeColl = nstColl(nst);
 covariatesColl = CovColl({baseline,stim});
 h = figure;
@@ -44,48 +45,75 @@ spikeColl.plot;
 subplot(2,1,2)
 stim.getSigInTimeWindow(minTime,maxTime).plot([],{{' ''r'' '}}); legend off;
 set(gca, 'ytick', [-0.5 1.5])
-
-
-numBasis = 10;
-dN = spikeColl.dataToMatrix';
-dN(dN>1) = 1;
-basisWidth = (spikeColl.maxTime - spikeColl.minTime)/numBasis;
-windowTimes = [0:0.001:0.003];
-fitType = 'poisson';
-Algorithm = 'GLM'; 
-
-[psthSig, ~, psthResult] = spikeColl.psthGLM(basisWidth, windowTimes, fitType);
-gamma0 = psthResult.getHistCoeffs';
-gamma0(isnan(gamma0)) = -5;
-x0 = psthResult.getCoeffs;
-numVarEstIter = 10;
-Q0 = spikeColl.estimateVarianceAcrossTrials(numBasis, windowTimes, numVarEstIter, fitType);
-A = eye(numBasis, numBasis);
-delta = 1/spikeColl.sampleRate;
-figure
-psthSig.plot([],{{' ''k'',''Linewidth'',4'}});
-if ~isempty(numBasis)
-    unitPulseBasis = nstColl.generateUnitImpulseBasis(basisWidth, minTime, maxTime, sampleRate);
-    basisMat = unitPulseBasis.data;
-end
-
-
-CompilingHelpFile = 0;
-if(~CompilingHelpFile)
-    Q0d=diag(Q0);
-    neuronName = psthResult.neuronNumber;
-    [xK,WK, WkuFinal,Qhat,gammahat,fitResults,stimulus,stimCIs,logll,...
-        QhatAll,gammahatAll,nIter]=DecodingAlgorithms.PPSS_EMFB(A,Q0d,x0,...
-        dN,fitType,delta,gamma0,windowTimes, numBasis,neuronName);
-    
-    fR = fitResults.toStructure;
-    psthR = psthResult.toStructure;
-end
-
 %%
-t0 = minTime;
-tf = maxTime;
+simTypeSelect='poisson'; 
+numBasis = 6;
+windowTimes=[0:.001:.003];
+dN=spikeColl.dataToMatrix';  % Convert the spikeTrains into a matrix
+                             % of 1's and 0's corresponding to the presence
+                             % or absense of a spike in each time window.
+dN(dN>1)=1;                  % One should sample finely enough so there is
+                             % one spike per bin. Here we make sure that
+                             % this is the case regardless of the
+                             % sampleRate
+
+% The width of each rectangular basis pulse is determined by Tmax and by the
+% number of basis pulses to use.
+basisWidth=(spikeColl.maxTime-spikeColl.minTime)/numBasis;
+
+if(simTypeSelect==0)
+    fitType='binomial';
+else
+    fitType='poisson';
+end
+if(strcmp(fitType,'binomial'))
+    Algorithm = 'BNLRCG';   % BNLRCG - faster Truncated, L-2 Regularized,
+                            % Binomial Logistic Regression with Conjugate
+                            % Gradient Solver by Demba Ba (demba@mit.edu).
+else
+    Algorithm = 'GLM';      % Standard Matlab GLM (Can be used for binomial or
+                            % or Poisson CIFs
+end
+
+% Use the values obtained from a PSTH to initialize the SSGLM filter
+[psthSig, ~, psthResult] =spikeColl.psthGLM(basisWidth,windowTimes,fitType);
+gamma0=psthResult.getHistCoeffs';%+.1*randn(size(histCoeffs));
+gamma0(isnan(gamma0))=-5; % Depending on the amount of data the
+                          % the psth may not identify all parameters
+                          % Just make sure that the estimates are real
+                          % numbers
+
+x0=psthResult.getCoeffs;  %The initial estimate for the SSGLM model
+
+% Estimate the variance within each time bin across trials
+numVarEstIter=10;
+Q0 = spikeColl.estimateVarianceAcrossTrials(numBasis,windowTimes,...
+    numVarEstIter,fitType);
+A=eye(numBasis,numBasis);
+delta = 1/spikeColl.sampleRate;
+%% Run the SSGLM Filter
+
+CompilingHelpFile=0;
+    % Commented out to speed up help file creation ...
+    if(~CompilingHelpFile)
+        Q0d=diag(Q0);
+        neuronName = psthResult.neuronNumber;
+        [xK,WK, WkuFinal,Qhat,gammahat,fitResults,stimulus,stimCIs,logll,...
+            QhatAll,gammahatAll,nIter]=DecodingAlgorithms.PPSS_EMFB(A,Q0d,x0,...
+            dN,fitType,delta,gamma0,windowTimes, numBasis,neuronName);
+
+        fR = fitResults.toStructure;
+        psthR = psthResult.toStructure;
+    end
+%%
+t0 = 1;
+tf = 2;
 [spikeRateBinom, ProbMat,sigMat]=DecodingAlgorithms.computeSpikeRateCIs(xK,...
+    WkuFinal,dN,t0,tf,fitType,delta,gammahat,windowTimes);
+
+t0 = [0 11;
+tf = 2;
+[spikeRateBinom1, ProbMat1,sigMat1]=DecodingAlgorithms.computeSpikeRateCIs(xK,...
     WkuFinal,dN,t0,tf,fitType,delta,gammahat,windowTimes);
 %%
 lt=find(sigMat(1,:)==1,1,'first');
@@ -154,5 +182,3 @@ title({'Learning Trial Vs. Baseline Trial';'with 95% CIs'},'FontWeight','bold',.
 h_legend=legend([h1(1) h2(1)],'\lambda_{1}(t)',['\lambda_{' num2str(lt) '}(t)']);
 pos = get(h_legend,'position');
 set(h_legend, 'position',[pos(1)+.03 pos(2)+.01 pos(3:4)]);
-
-
