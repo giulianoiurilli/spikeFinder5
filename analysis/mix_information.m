@@ -1,6 +1,6 @@
 fileToSave = 'pcx_AAmix_2_2.mat';
 load('parameters.mat')
-
+startingFolder = pwd;
 
 
 
@@ -94,5 +94,5 @@ for idxExp = 1:length(esp)
 end
 
 cd(startingFolder)
-clearvars -except List esp fileToSave
+clearvars -except List esp fileToSave startingFolder
 save(fileToSave, 'esp', '-append')
