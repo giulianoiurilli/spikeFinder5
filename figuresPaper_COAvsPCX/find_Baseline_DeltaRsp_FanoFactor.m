@@ -1,4 +1,4 @@
-function [Bsl, DeltaRspMean, rspMean, rspVar, ff, cv, auRoc, significance] = find_Baseline_DeltaRsp_FanoFactor(esp, odors, window)
+function [Bsl, DeltaRspMean, rspMean, rspVar, ff, cv, auRoc, varG, significance] = find_Baseline_DeltaRsp_FanoFactor(esp, odors, window)
 
 n_trials = 10;
 
@@ -41,11 +41,13 @@ for idxExp =  1:length(esp)
                         B1000ms(:, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl300ms';
                         auRoc(c, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC300ms;
                         significance(c, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse300ms;
+                        varG(c,idxO) = partNeuralVariance(R1000ms(:, idxO));
                     else
                         R1000ms(:, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms';
                         B1000ms(:, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms';
                         auRoc(c, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC1000ms;
                         significance(c, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse1000ms;
+                        varG(c,idxO) = partNeuralVariance(R1000ms(:, idxO));
                     end
                 end
                 DeltaRspMean(c,:) = mean(R1000ms-B1000ms);

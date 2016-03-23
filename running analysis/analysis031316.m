@@ -114,11 +114,20 @@ time(end-1:end) = [];
 x = ones(1,29999);
 r = length(x(15000:17099));
 lambdaRest = 5;
-lambdaResp = linspace(20,5,r);
+lambdaResp = linspace(30,5,r);
 offset = 4;
 baseline1 = x(1:15000) * lambdaRest;
 baseline2 = x(17100:29999) * lambdaRest;
 response = x(15000:17099) .* lambdaResp;
+
+Fs = 1000;
+%Period
+t = 0:1/Fs:30;
+t(end-1:end) = [];
+%Frequency
+f = 3;
+%Generate
+resp = sin(2*pi*f*t);
 
 
 
@@ -139,6 +148,7 @@ for idxTrial = 1:10
     rsp = response * G_resp;
     trace = [bsl1 rsp bsl2];
     trace(end) = [];
+%     trace = trace.* resp;
     mu(idxTrial,:) = trace;
     lambda = Covariate(time,trace, '\lambda(t)','time','s',...
         'spikes/sec',{'\lambda_{1}'},{{' ''b'', ''LineWidth'' ,2'}});
@@ -167,8 +177,10 @@ hold on
 for idxTrial = 1:10
     plot(time, mu(idxTrial,:), 'color', [115,115,115]./255);
 end
-plot(time, mean(mu), 'color', [215,48,31]./255); 
+plot(time, mean(mu), 'color', [215,48,31]./255, 'linewidth', 2); 
 xlim([13 19]);
+ylim([0 max(mu(:))]);
+ylabel('spikes/s')
 set(gca, 'XTick' , []);
 set(gca, 'XTickLabel', []);
 set(gca,'XColor','w')
@@ -177,6 +189,8 @@ hold off
 subplot(2,1,2)
 LineFormat.Color =  'k';
 plotSpikeRaster(a,'PlotType','vertline', 'VertSpikeHeight', 1,'XLimForCell',[13 19], 'LineFormat', LineFormat);
+set(gca,'XColor','w')
+set(gca,'YColor','w')
 
 figure
 subplot(2,1,1)
@@ -184,8 +198,10 @@ hold on
 for idxTrial = 1:10
     plot(time, muP(idxTrial,:), 'color', [115,115,115]./255);
 end
-plot(time, mean(muP), 'color', [215,48,31]./255); 
+plot(time, mean(muP), 'color', [215,48,31]./255, 'linewidth', 2); 
 xlim([13 19]);
+ylim([0 max(mu(:))]);
+ylabel('spikes/s')
 set(gca, 'XTick' , []);
 set(gca, 'XTickLabel', []);
 set(gca,'XColor','w')
@@ -194,7 +210,8 @@ hold off
 subplot(2,1,2)
 LineFormat.Color =  'k';
 plotSpikeRaster(b,'PlotType','vertline', 'VertSpikeHeight', 1,'XLimForCell',[13 19], 'LineFormat', LineFormat);
-
+set(gca,'XColor','w')
+set(gca,'YColor','w')
 
 
 

@@ -87,10 +87,10 @@ plot(pcx300C)
 
 %% response types
 
-[allSdfCoa15, allGvarCoa15, cellLogAllSdfsCoa15] = collectAllSdfs(coa15.esp, coa151.espe, odors);
-[allSdfPcx15, allGvarPcx15, cellLogAllSdfsPcx15] = collectAllSdfs(pcx15.esp, pcx151.espe, odors);
-[allSdfCoaAA, allGvarCoaAA, cellLogAllSdfsCoaAA] = collectAllSdfs(coaAA.esp, coaAA1.espe, odors);
-[allSdfPcxAA, allGvarPcxAA, cellLogAllSdfsPcxAA] = collectAllSdfs(pcxAA.esp, pcxAA1.espe, odors);
+[allSdfCoa15, cellLogAllSdfsCoa15] = collectAllSdfs(coa15.esp, coa151.espe, odors);
+[allSdfPcx15, cellLogAllSdfsPcx15] = collectAllSdfs(pcx15.esp, pcx151.espe, odors);
+[allSdfCoaAA, cellLogAllSdfsCoaAA] = collectAllSdfs(coaAA.esp, coaAA1.espe, odors);
+[allSdfPcxAA, cellLogAllSdfsPcxAA] = collectAllSdfs(pcxAA.esp, pcxAA1.espe, odors);
 
 X1 = [allSdfCoa15(:,14800:19000-1); allSdfCoaAA(:,14800:19000-1); allSdfPcx15(:,14800:19000-1); allSdfPcxAA(:,14800:19000-1)];
 X2 = [cellLogAllSdfsCoa15; cellLogAllSdfsCoaAA; cellLogAllSdfsPcx15; cellLogAllSdfsPcxAA];
@@ -170,7 +170,7 @@ plot(clust_axis, [0 diff(aic)]);
 plot(clust_axis, [0 diff(nll)]);
 hold off
 legend('BIC', 'AIC', 'neg log-likelihood')
-eva = evalclusters(scores, 'gmdistribution', 'gap', 'Klist', 1:n_clusters);
+%eva = evalclusters(scores, 'gmdistribution', 'gap', 'Klist', 1:n_clusters);
 figure;
 plot(eva)
 

@@ -120,6 +120,16 @@ baseline1 = x(1:15000) * lambdaRest;
 baseline2 = x(17100:29999) * lambdaRest;
 response = x(15000:17099) .* lambdaResp;
 
+Fs = 1000;
+%Period
+t = 0:1/Fs:2;
+
+%Frequency
+f = 60;
+
+%Generate
+Y = sin(2*pi*f*t);
+
 
 
 varianzaG_rest = 0.8;
@@ -156,9 +166,9 @@ for idxTrial = 1:10
     muP(idxTrial,:) = trace;
     lambdaP = Covariate(time,trace, '\lambda(t)','time','s',...
         'spikes/sec',{'\lambda_{1}'},{{' ''b'', ''LineWidth'' ,2'}});
-    spikeCollSimP{idxTrial} = CIF.simulateCIFByThinningFromLambda(lambda,numRealizations);
-    b{idxTrial} = spikeCollSim{idxTrial}.nstrain{1,1}.spikeTimes;
-    spikeCount(idxTrial) = numel(a{idxTrial}(find(a{idxTrial}>15 & a{idxTrial}<17)));
+    spikeCollSimP{idxTrial} = CIF.simulateCIFByThinningFromLambda(lambdaP,numRealizations);
+    b{idxTrial} = spikeCollSimP{idxTrial}.nstrain{1,1}.spikeTimes;
+    spikeCountP(idxTrial) = numel(b{idxTrial}(find(b{idxTrial}>15 & b{idxTrial}<17)));
 end
 
 figure
@@ -177,6 +187,27 @@ hold off
 subplot(2,1,2)
 LineFormat.Color =  'k';
 plotSpikeRaster(a,'PlotType','vertline', 'VertSpikeHeight', 1,'XLimForCell',[13 19], 'LineFormat', LineFormat);
+
+figure
+subplot(2,1,1)
+hold on
+for idxTrial = 1:10
+    plot(time, muP(idxTrial,:), 'color', [115,115,115]./255);
+end
+plot(time, mean(muP), 'color', [215,48,31]./255); 
+xlim([13 19]);
+set(gca, 'XTick' , []);
+set(gca, 'XTickLabel', []);
+set(gca,'XColor','w')
+set(gca,'TickDir','out')
+hold off
+subplot(2,1,2)
+LineFormat.Color =  'k';
+plotSpikeRaster(b,'PlotType','vertline', 'VertSpikeHeight', 1,'XLimForCell',[13 19], 'LineFormat', LineFormat);
+
+
+
+
 
 mean(spikeCount)
 var(spikeCount)

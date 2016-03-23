@@ -9,7 +9,6 @@ clear trialColl
 clear cfgColl
 n_trials = 10;
 sampleRate = 1000;
-delta = 1/sampleRate;
 time = 0:0.001:30; time(end) = [];
 binsize = 0.1;
 stimData = zeros(1,length(time));
@@ -38,7 +37,6 @@ spikeColl = nstColl(nst);
 covariatesColl = CovColl({baseline,stim});
 h = figure;
 subplot(2,1,1)
-spikeColl.resample(1/delta);
 spikeColl.setMinTime(minTime); spikeColl.setMaxTime(maxTime);
 spikeColl.plot;
 subplot(2,1,2)
