@@ -106,15 +106,23 @@ CompilingHelpFile=0;
         psthR = psthResult.toStructure;
     end
 %%
+
+ if(~isempty(numBasis))
+    basisWidth = (maxTime-minTime)/numBasis;
+    sampleRate=1/delta;
+    unitPulseBasis=nstColl.generateUnitImpulseBasis(basisWidth,...
+        minTime,maxTime,sampleRate);
+    basisMat = unitPulseBasis.data;
+ end
 t0 = 1;
 tf = 2;
 [spikeRateBinom, ProbMat,sigMat]=DecodingAlgorithms.computeSpikeRateCIs(xK,...
     WkuFinal,dN,t0,tf,fitType,delta,gammahat,windowTimes);
 
-t0 = [0 1];
-tf = [1 2];
+t01 = [0 1];
+tf1 = [1 2];
 [spikeRateBinom1, ProbMat1,sigMat1]=DecodingAlgorithms.computeSpikeRateDiffCIs(xK,...
-    WkuFinal,dN,t0,tf,fitType,delta,gammahat,windowTimes);
+    WkuFinal,dN,t01,tf1,fitType,delta,gammahat,windowTimes);
 %%
 lt=find(sigMat(1,:)==1,1,'first');
 display(['The learning trial (compared to the first trial) is trial #' ...
@@ -154,6 +162,8 @@ hy=ylabel('Trial Number','Interpreter','none');
 set([hx, hy],'FontName', 'Arial','FontSize',12,'FontWeight','bold');
 
 subplot(2,3,4)
+time = minTime:delta:maxTime;
+ basisMat = unitPulseBasis.data;
 stim1 = Covariate(time, basisMat*stimulus(:,1),'Trial1','time','s',...
     'spikes/sec');
 temp = ConfidenceInterval(time, basisMat*squeeze(stimCIs(:,1,:)));
