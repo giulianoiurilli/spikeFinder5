@@ -10,7 +10,7 @@ odors = size(rspIntensity,2);
 A = rspIntensity;
 
 for idxRep = 1:rep
-    idxTest = randi(size(A,1),ceil(size(A,1)*0.8),1);
+    idxTest = randsample(size(A,1),ceil(size(A,1)*0.8),1);
     Atest = A(idxTest,:);
     Atest = mean(Atest);
 

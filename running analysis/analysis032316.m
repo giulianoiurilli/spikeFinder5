@@ -1,4 +1,7 @@
-
+idxExp = 6;
+idxShank = 4;
+idxUnit = 11;
+idxOdor = 2;
 clear spikeTimes
 clear nst
 clear c

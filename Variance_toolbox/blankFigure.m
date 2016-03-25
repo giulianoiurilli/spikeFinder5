@@ -8,4 +8,4 @@ function hf = blankFigure(axLim)
 hf = figure; hold on; 
 set(gca,'visible', 'off');
 set(hf, 'color', [1 1 1]);
-axis(axLim); axis square;
+axis(axLim); %axis square;

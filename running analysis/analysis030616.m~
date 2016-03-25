@@ -26,15 +26,13 @@ y = [coa300SC; pcx300SC];
 g1 = [zeros(sum(coaN),1); ones(sum(pcxN),1)];
 g2 = [zeros(coaN(1),1); ones(coaN(2),1); 2*ones(coaN(3),1); 3*ones(coaN(4),1); zeros(pcxN(1),1); ones(pcxN(2),1); 2*ones(pcxN(3),1); 3*ones(pcxN(4),1)];
 [p, tbl, stats, terms] = anovan( y, {g1, g2})
-multcompare(stats, 'Dimension', [1 2])
-[h, p] = ttest2(coa300SC, pcx300SC)
+multcompare(stats, 'Dimensio', [1 2])
 
 y = [coa1000SC; pcx1000SC]; 
 g1 = [zeros(sum(coaN),1); ones(sum(pcxN),1)];
 g2 = [zeros(coaN(1),1); ones(coaN(2),1); 2*ones(coaN(3),1); 3*ones(coaN(4),1); zeros(pcxN(1),1); ones(pcxN(2),1); 2*ones(pcxN(3),1); 3*ones(pcxN(4),1)];
 [p, tbl, stats, terms] = anovan( y, {g1, g2})
-multcompare(stats, 'Dimension', [1 2])
-[h, p] = ttest2(coa1000SC, pcx1000SC)
+multcompare(stats)
 
 figure; 
 plot(coa1000C)

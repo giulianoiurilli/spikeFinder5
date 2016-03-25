@@ -51,22 +51,24 @@ else
 end
 
 % Locations of the numerical labels
-Pfields{ipf} = 'tickLabelLocations'; ipf=ipf+1;
-if ~isempty(varargin) && isfield(varargin{1}, 'tickLabelLocations')
-    tickLabelLocations = varargin{1}.tickLabelLocations;
-else
-    for i = 1:length(tickLabels)
-        tickLabelLocations(i) = eval(tickLabels{i}); %defaults to the values specified by the labels themselves
-    end
-end
-if length(tickLabelLocations) ~= length(tickLabels)
-    disp('ERROR, tickLabelLocations not the same length as tickLabels');
-    disp('USER overridden, defaults used');
-    clear tickLabelLocations;
-    for i = 1:length(tickLabels)
-        tickLabelLocations(i) = eval(tickLabels{i}); %defaults to the values specified by the labels themselves
-    end
-end
+% Pfields{ipf} = 'tickLabelLocations'; ipf=ipf+1;
+% if ~isempty(varargin) && isfield(varargin{1}, 'tickLabelLocations')
+%     tickLabelLocations = varargin{1}.tickLabelLocations;
+% else
+%     for i = 1:length(tickLabels)
+%         tickLabelLocations(i) = eval(tickLabels{i}); %defaults to the values specified by the labels themselves
+%     end
+% end
+% if length(tickLabelLocations) ~= length(tickLabels)
+%     disp('ERROR, tickLabelLocations not the same length as tickLabels');
+%     disp('USER overridden, defaults used');
+%     clear tickLabelLocations;
+%     for i = 1:length(tickLabels)
+%         tickLabelLocations(i) = eval(tickLabels{i}); %defaults to the values specified by the labels themselves
+%     end
+% end
+tickLabelLocations = tickLocations;
+
 
 % Any long ticks
 Pfields{ipf} = 'longTicks'; ipf=ipf+1;
@@ -214,6 +216,7 @@ end
 % PLOT AXIS LINE
 % plot main line with any ending ticks as part of the same line
 % (looks better in illustrator that way)
+hold on
 axisX = [start, fin];
 axisY = axisOffset * [1, 1];
 % if ismember(start, tickLocations)
@@ -230,6 +233,7 @@ if axisOrientation == 'h', h = plot(axisX, axisY); else h = plot(axisY, axisX); 
 set(h,'color', color, 'lineWidth', lineThickness);
 
 % PLOT TICKS
+
 for i = 1:length(tickLocations)
     if ~ismember(tickLocations(i),[start, fin]) % these have already been plotted
         tempLen = tickLength + tickLength*extraLength*ismember(tickLocations(i), longTicks);
@@ -239,6 +243,7 @@ for i = 1:length(tickLocations)
         set(h,'color', color, 'lineWidth', lineThickness);
     end
 end
+
 
 % PLOT NUMERICAL LABELS (presumably on the ticks)
 tickLim = tickLength + tickLength*extraLength*~isempty(longTicks); % longest tick length
@@ -256,7 +261,7 @@ if axisOrientation == 'h', h = text(x, y, axisLabel); else h = text(y, x, axisLa
 set(h,'HorizontalA', LalignH, 'VerticalA', LalignV, 'fontsize', fontSize, 'color', color);
 if axisOrientation == 'v', set(h,'rotation',90); end
 % DONE PLOTTING
-
+hold off
 
 % make outParams structure (tells user what default choices were made)
 for i = 1:length(Pfields)
