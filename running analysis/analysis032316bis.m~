@@ -442,11 +442,6 @@ info1000PcxG = [selectivityPcx15.info1000Gradient;selectivityPcxAA.info1000Gradi
 ls1000CoaG = [selectivityCoa15.ls1000Gradient;selectivityCoaAA.ls1000Gradient];
 ls1000PcxG = [selectivityPcx15.ls1000Gradient;selectivityPcxAA.ls1000Gradient];
 
-ls1000CoaG(R1000Coa == 0) = [];
-info1000CoaG(R1000Coa == 0) = [];
-ls1000PcxG(R1000Pcx == 0) = [];
-info1000PcxG(R1000Pcx == 0) = [];
-
 figure
 hold on
 plot(nanmean(ls1000CoaG))

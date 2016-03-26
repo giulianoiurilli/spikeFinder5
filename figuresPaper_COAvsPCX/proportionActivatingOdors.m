@@ -1,4 +1,4 @@
-function [actOdor, aurocs1000msSorted] = proportionActivatingOdors(esp, odors)
+function [actOdor, aurocs1000msSorted, aurocs300msSorted, cellLog, info1000, ls1000] = proportionActivatingOdors(esp, odors)
 
 odorsRearranged = odors;
 odors = length(odorsRearranged);
@@ -16,7 +16,9 @@ end
 responsesDig = zeros(c, odors);
 responsesExcDig = zeros(c, odors);
 c = 0;
+u = 0;
 aurocs1000msSorted = [];
+aurocs300msSorted = [];
 for idxExp =  1:length(esp)
     for idxShank = 1:4
         for idxUnit = 1:length(esp(idxExp).shankNowarp(idxShank).cell)
@@ -31,16 +33,12 @@ for idxExp =  1:length(esp)
                 aurocs1000ms = zeros(1,odors);
                 for idxOdor = odorsRearranged
                     idxO = idxO + 1;
-                    responsivenessExc300ms(idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).pValue300ms < 0.05;
-                    responsivenessInh300ms(idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).pValue300ms < 0.05;
-                    responsivenessExc1000ms(idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).pValue1000ms < 0.05;
-                    responsivenessInh1000ms(idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).pValue1000ms < 0.05;
+                    responsivenessExc300ms(idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse300ms == 1;
+                    responsivenessInh300ms(idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse300ms == -1;
+                    responsivenessExc1000ms(idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1;
+                    responsivenessInh1000ms(idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == -1;
                     aurocs300ms(idxO) =  esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC300ms;
                     aurocs1000ms(idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC1000ms;
-                    responsivenessExc300ms(aurocs300ms<=0.75) = 0;
-                    responsivenessExc1000ms(aurocs1000ms<=0.75) = 0;
-                    responsivenessInh300ms(aurocs300ms>=0.35) = 0;
-                    responsivenessInh1000ms(aurocs1000ms>=0.35) = 0;
                 end
                 responsiveness = responsivenessExc1000ms + responsivenessExc300ms + responsivenessInh300ms + responsivenessInh1000ms;
                 responsivenessExc = responsivenessExc1000ms + responsivenessExc300ms;
@@ -53,7 +51,12 @@ for idxExp =  1:length(esp)
                 responsesDig(c,:) = responsiveness;
                 responsesExcDig(c,:) = responsivenessExc;
                 if sum(responsesDig(c,:)) > 0
+                    u = u +1;
                     aurocs1000msSorted = [aurocs1000msSorted ; sort(aurocs1000ms)];
+                    aurocs300msSorted = [aurocs300msSorted ; sort(aurocs300ms)];
+                    cellLog(u,:) = [idxExp, idxShank, idxUnit];
+                    info1000(u) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).I1s;
+                    ls1000(u) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls1s;
                 end
             end
         end

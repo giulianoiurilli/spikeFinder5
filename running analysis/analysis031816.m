@@ -1,6 +1,9 @@
-idxExp = 1
-idxShank = 3
-idxUnit = 3
+function plotResponses(espe, idxExp, idxShank, idxUnit)
+
+
+% idxExp = 1
+% idxShank = 3
+% idxUnit = 3
 
 figure
 set(gcf,'Position',[118 454 1767 519]);

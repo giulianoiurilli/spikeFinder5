@@ -1,5 +1,5 @@
 %%
-fileToSave = 'pcx_AAmix_2_2.mat';
+fileToSave = 'pcx_15_2_2.mat';
 load('parameters.mat')
 odorsRearranged = 1:15; 
 % odorsRearranged = [1 7 3 15]; %coa
@@ -24,13 +24,17 @@ for idxExp =  1:length(esp)
             idxO = 0;
             for idxOdor = 1:odors
                 idxO = idxO + 1;
-                A300ms(:, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO).AnalogicResponse300ms';
-                A1s(:, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO).AnalogicResponse1000ms';
+                A300ms(:, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO).AnalogicResponse300ms' - esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO).AnalogicBsl300ms';
+                A1s(:, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO).AnalogicResponse1000ms' - esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO).AnalogicBsl1000ms';
+                Auroc300ms(:, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO).auROC300ms;
+                Auroc1s(:, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO).auROC1000ms;
             end
 %             esp(idxExp).shankNowarp(idxShank).cell(idxUnit).I300ms = poissonInformation(A300ms);
 %             esp(idxExp).shankNowarp(idxShank).cell(idxUnit).I1s = poissonInformation(A1s);
             esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls300ms = lifetime_sparseness(A300ms);
             esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls1s = lifetime_sparseness(A1s);
+            esp(idxExp).shankNowarp(idxShank).cell(idxUnit).lsAuroc300ms = lifetime_sparsenessAUROC(Auroc300ms);
+            esp(idxExp).shankNowarp(idxShank).cell(idxUnit).lsAuroc1s = lifetime_sparsenessAUROC(Auroc1s);
 %             esp(idxExp).shankNowarp(idxShank).cell(idxUnit).nbs300ms = naiveBayesSelectivity(A300ms);
 %             esp(idxExp).shankNowarp(idxShank).cell(idxUnit).nbs1s = naiveBayesSelectivity(A1s);
         end
