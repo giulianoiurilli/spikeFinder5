@@ -33,8 +33,8 @@ sniffKeep = nan(10,297,7);
 popActivityKeep = nan(10,298,7);
 sdfKeep = nan(10,298,7);
 
-idxShank = 1;
-idxUnit = 5;
+idxShank = 4;
+idxUnit = 3;
 cellID = [idxShank idxUnit];
 idxCell = find(ismember(cellLog,cellID,'rows'));
 thisSUA = squeeze(mua(idxCell,:,:,:));
