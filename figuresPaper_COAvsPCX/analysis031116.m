@@ -1,3 +1,8 @@
+idxExp = 6;
+idxShank = 4;
+idxUnit = 11;
+idxOdor = 2;
+
 clear spikeTimes
 clear nst
 clear c
@@ -32,7 +37,7 @@ for idxTrial = 1:n_trials
     nst{idxTrial}.setName(num2str(cellID));
 end
 
-minTime = 14;
+minTime = 14.8;
 maxTime = 16;
 spikeColl = nstColl(nst);
 covariatesColl = CovColl({baseline,stim});
@@ -46,7 +51,7 @@ stim.getSigInTimeWindow(minTime,maxTime).plot([],{{' ''r'' '}}); legend off;
 set(gca, 'ytick', [-0.5 1.5])
 
 
-numBasis = 10;
+numBasis = 5;
 dN = spikeColl.dataToMatrix';
 dN(dN>1) = 1;
 basisWidth = (spikeColl.maxTime - spikeColl.minTime)/numBasis;
@@ -83,8 +88,8 @@ if(~CompilingHelpFile)
 end
 
 %%
-t0 = minTime;
-tf = maxTime;
+t0 = 14;%minTime;
+tf = 16;%maxTime;
 [spikeRateBinom, ProbMat,sigMat]=DecodingAlgorithms.computeSpikeRateCIs(xK,...
     WkuFinal,dN,t0,tf,fitType,delta,gammahat,windowTimes);
 %%

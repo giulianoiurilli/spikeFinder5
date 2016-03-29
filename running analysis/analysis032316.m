@@ -50,7 +50,7 @@ stim.getSigInTimeWindow(minTime,maxTime).plot([],{{' ''r'' '}}); legend off;
 set(gca, 'ytick', [-0.5 1.5])
 %%
 simTypeSelect='poisson'; 
-numBasis = 6;
+numBasis = 9;
 windowTimes=[0:.001:.003];
 dN=spikeColl.dataToMatrix';  % Convert the spikeTrains into a matrix
                              % of 1's and 0's corresponding to the presence

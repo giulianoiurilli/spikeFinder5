@@ -216,7 +216,54 @@ axY.axisOffset = leftX-xMargin;
 axY.fontSize = 14; 
 axY.color = labelC; 
 AxisMMC(start, fin, axY);
+%%
+N = histcounts([selectivityPcx15.numberExcNeurons300; selectivityPcxAA.numberExcNeurons300],0:16); 
+PPcx = N./ sum(N);
+SEMPPcx = sqrt((PPcx .* (1 - PPcx)) ./ sum(N));
+N = histcounts([selectivityCoa15.numberExcNeurons300; selectivityCoaAA.numberExcNeurons300],0:16); 
+PCoa = N./ sum(N);
+SEMPCoa = sqrt((PCoa .* (1 - PCoa)) ./ sum(N));
 
+
+xMargin = 0.05*range(0:15);
+yMargin = 0.05*range(PPcx);
+bottomMargin = 0.05*range(PPcx);
+topMargin = 0.05*range(PPcx);
+leftX = 0;
+rightX = 15;
+bottomY = 0;
+topY = 0.6;
+blankFigure([leftX-50*yMargin rightX+10*xMargin bottomY-10*bottomMargin topY+10*topMargin]);
+errorbar(0:15, PCoa, SEMPCoa, 'o', 'LineWidth', 1, 'MarkerEdgeColor', coaC, 'MarkerFaceColor', coaC, 'MarkerSize', 8, 'color', coaC)
+hold on
+errorbar(0.3:15.3, PPcx, SEMPPcx, 'o', 'LineWidth', 1, 'MarkerEdgeColor', pcxC, 'MarkerFaceColor', pcxC, 'MarkerSize', 8, 'color', pcxC)
+% xlim([-1 16.3]);
+% ylim([-0.03 0.8])
+% set(gca,'box','off')
+clear axX
+start = leftX-xMargin;
+fin = rightX+xMargin;
+axX.lineThickness = 2;
+axX.axisLabel = 'Number Of Excitatory Odors - first sniff';
+axX.axisOrientation = 'h';
+axX.tickLocations = [floor(leftX) ceil(rightX)];
+axX.tickLabels = {num2str(floor(leftX)) num2str(ceil(rightX))};
+axX.axisOffset = bottomY-bottomMargin;
+axX.fontSize = 14; 
+axX.color = labelC; 
+AxisMMC(start, fin, axX);
+clear axY
+start = bottomY-0.01;
+fin = topY+0.01;
+axY.lineThickness = 2;
+axY.axisLabel = 'Proportion Of Neurons';
+axY.axisOrientation = 'v';
+axY.tickLocations = [bottomY topY];
+axY.tickLabels = {num2str(bottomY) num2str(topY)};
+axY.axisOffset = leftX-1;
+axY.fontSize = 14; 
+axY.color = labelC; 
+AxisMMC(start, fin, axY);
 %%
 N = histcounts([selectivityPcx15.numberExcNeurons1000; selectivityPcxAA.numberExcNeurons1000],0:16); 
 PPcx = N./ sum(N);

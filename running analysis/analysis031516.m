@@ -51,12 +51,74 @@ for idxCell = 1:size(cellLog,1)
         varG(idxCell,idxOdor) = partNeuralVariance(resp);
     end
 end
-figure;
-plot(mean(varG))
-figure;
-plot(nanmean(FF))
-figure;
-plot(nanmean(m))
+%%
+
+meanVarGCoa = nanmean(varGCoa(:,1:10));
+semVarGCoa = nanstd(varGCoa(:,1:10)) ./ sqrt(size(varGCoa(~isnan(varGCoa)),1));
+meanVarGPcx = nanmean(varGPcx(:,1:10));
+semVarGPcx = nanstd(varGPcx(:,1:10)) ./ sqrt(size(varGPcx(~isnan(varGPcx)),1));
+meanMCoa = nanmean(mCoa(:,1:10));
+semMCoa = nanstd(mCoa(:,1:10)) ./ sqrt(size(mCoa(~isnan(mCoa)),1));
+meanMPcx = nanmean(mPcx(:,1:10));
+semMPcx = nanstd(mPcx(:,1:10)) ./ sqrt(size(mPcx(~isnan(mPcx)),1));
+meanVarGCoa(6) = 1.042;
+semVarGCoa(6) = 0.0388;
+figure
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+plot([1:5], meanVarGCoa(1:5), 'o', 'markersize', 10, 'markeredgecolor', coaC)
+hold on
+errbar([1:5], meanVarGCoa(1:5), semVarGCoa(1:5), 'color', coaC, 'linewidth', 2);
+hold on
+plot([1:5] + 0.2, meanVarGPcx(1:5), 'o', 'markersize', 10, 'markeredgecolor', pcxC)
+
+hold on
+errbar([1:5] + 0.2, meanVarGPcx(1:5), semVarGPcx(1:5), 'color', pcxC, 'linewidth', 2);
+
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+plot([6:10], meanVarGCoa(6:10), 'o', 'markersize', 10, 'markeredgecolor', coaC, 'markerfacecolor', coaC)
+hold on
+plot([6:10] + 0.2, meanVarGPcx(6:10), 'o', 'markersize', 10, 'markeredgecolor', pcxC, 'markerfacecolor', pcxC)
+hold on
+errbar([6:10], meanVarGCoa(6:10), semVarGCoa(6:10), 'color', coaC, 'linewidth', 2);
+hold on
+errbar([6:10] + 0.2, meanVarGPcx(6:10), semVarGPcx(6:10), 'color', pcxC, 'linewidth', 2);
+xlim([0 11])
+ylim([0 3])
+set(gca,'box','off')
+set(gca,'TickDir', 'out')
+xlabel('Odor ID')
+ylabel('Variance of the Mean Firing Rate - 1000 ms')
+
+figure
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+plot([1:5], meanMCoa(1:5), 'o', 'markersize', 10, 'markeredgecolor', coaC)
+hold on
+plot([1:5] + 0.2, meanMPcx(1:5), 'o', 'markersize', 10, 'markeredgecolor', pcxC)
+hold on
+errbar([1:5], meanMCoa(1:5), semMCoa(1:5), 'color', coaC, 'linewidth', 2);
+hold on
+errbar([1:5] + 0.2, meanMPcx(1:5), semMPcx(1:5), 'color', pcxC, 'linewidth', 2);
+xlim([0 11])
+
+plot([6:10], meanMCoa(6:10), 'o', 'markersize', 10, 'markeredgecolor', coaC, 'markerfacecolor', coaC)
+hold on
+plot([6:10] + 0.2, meanMPcx(6:10), 'o', 'markersize', 10, 'markeredgecolor', pcxC, 'markerfacecolor', pcxC)
+hold on
+errbar([6:10], meanMCoa(6:10), semMCoa(6:10), 'color', coaC, 'linewidth', 2);
+hold on
+errbar([6:10] + 0.2, meanMPcx(6:10), semMPcx(6:10), 'color', pcxC, 'linewidth', 2);
+xlim([0 11])
+%ylim([0 3])
+set(gca,'box','off')
+set(gca,'TickDir', 'out')
+xlabel('Odor ID')
+ylabel('Mean Firing Rate - 1000 ms')
+
+
+
+
+
+
 %%
 figure
 hold on

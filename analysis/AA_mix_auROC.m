@@ -22,7 +22,9 @@ for idxExp = 1:length(esp)
                     end
                     odor1S(:,idxClass) = A1s(:);
                 end
-                esp(idxExp).shankNowarp(idxShank).cell(idxUnit).auROC1sBetweenValenceClassIdentity = findAuROC(odor1S(:,1)', odor1S(:,2)', 0);
+                [x, y] = findAuROC(odor1S(:,1)', odor1S(:,2)', 1);
+                esp(idxExp).shankNowarp(idxShank).cell(idxUnit).auROC1sBetweenValenceClassIdentity = x;
+                esp(idxExp).shankNowarp(idxShank).cell(idxUnit).auROC1sBetweenValenceClassIdentitySig = y;
             end
         end
     end
@@ -48,7 +50,9 @@ for idxExp = 1:length(esp)
                     end
                     odor1S(:,idxClass) = A1s(:);
                 end
-                esp(idxExp).shankNowarp(idxShank).cell(idxUnit).auROC1sBetweenMixIdentity = findAuROC(odor1S(:,1)', odor1S(:,2)', 0);
+                 [x, y] = findAuROC(odor1S(:,1)', odor1S(:,2)', 1);
+                 esp(idxExp).shankNowarp(idxShank).cell(idxUnit).auROC1sBetweenMixIdentity = x;
+                 esp(idxExp).shankNowarp(idxShank).cell(idxUnit).auROC1sBetweenMixIdentitySig = y;
             end
         end
     end

@@ -1,105 +1,119 @@
-% %% Generate a gamma process by approximating a log-normal distribution of the neuronal response (LN model)
-% 
-% % The stimulus is close or distant to the preferred stimulus for the neuron
-% % (correlation close to 1 or -1), however there is some gaussian noise in the
-% % stimulus
-% % Tha variance of the gaussian process shrinks as the stimulus becomes less noisy 
-% 
-% stimulusDrive1 = random('normal', 1.5,1, 1,1000);
-% neuronLambda1 = exp(stimulusDrive1);
-% mean(neuronLambda1)
-% spikeCount1 = poissrnd(neuronLambda1);
-% mean(spikeCount1)
-% stimulusDrive2 = random('normal', 0,1, 1,1000);
-% neuronLambda2 = exp(stimulusDrive2);
-% spikeCount2 = poissrnd(neuronLambda2);
-% stimulusDrive3 = random('normal', 2,0.05, 1,1000);
-% neuronLambda3 = exp(stimulusDrive3);
-% mean(neuronLambda1)
-% spikeCount3 = poissrnd(neuronLambda3);
-% mean(spikeCount3)
-% figure
-% set(gca,'YColor','w','box','off')
-% set(gcf,'Position',[138 281 1352 739]);
-% 
-% subplot(3,3,1)
-% h1 = histogram(stimulusDrive1, 'Normalization', 'pdf');
-% h1.FaceColor = [255,127,0]/255;
-% h1.EdgeColor = [255,127,0]/255;
-% xlim([-5 5]);
-% subplot(3,3,4)
-% h2 = histogram(neuronLambda1, 'Normalization', 'pdf');
-% h2.FaceColor = [51,160,44]/255;
-% h2.EdgeColor = [51,160,44]/255;
-% hold on
-% pd = fitdist(neuronLambda1(:), 'gamma');
-% x = 0:0.1:50; hold on; y = pdf(pd, x); plot(x, y, '-r')
-% hold off
-% xlim([0 50]);
-% subplot(3,3,7)
-% h2 = histogram(spikeCount1, 'Normalization', 'pdf');
-% h2.FaceColor = [31,120,180]/255;
-% h2.EdgeColor = [31,120,180]/255;
-% hold on
-% pd = fitdist(spikeCount1(:), 'poisson');
-% x = 0:50; y = pdf(pd, x); plot(x, y, '-k')
-% pd = fitdist(spikeCount1(:), 'NegativeBinomial');
-% x = 0:50;  y = pdf(pd, x); plot(x, y, '-')
-% hold off
-% xlim([0 50]);
-% 
-% subplot(3,3,2)
-% h1 = histogram(stimulusDrive2, 'Normalization', 'pdf');
-% h1.FaceColor = [255,127,0]/255;
-% h1.EdgeColor = [255,127,0]/255;
-% xlim([-5 5]);
-% subplot(3,3,5)
-% h2 = histogram(neuronLambda2, 'Normalization', 'pdf');
-% h2.FaceColor = [51,160,44]/255;
-% h2.EdgeColor = [51,160,44]/255;
-% hold on
-% pd = fitdist(neuronLambda2(:), 'gamma');
-% x = 0:0.1:50; hold on; y = pdf(pd, x); plot(x, y, '-r')
-% hold off
-% xlim([0 50]);
-% subplot(3,3,8)
-% h2 = histogram(spikeCount2, 'Normalization', 'pdf');
-% h2.FaceColor = [31,120,180]/255;
-% h2.EdgeColor = [31,120,180]/255;
-% hold on
-% pd = fitdist(spikeCount2(:), 'poisson');
-% x = 0:50; y = pdf(pd, x); plot(x, y, '-k')
-% pd = fitdist(spikeCount2(:), 'NegativeBinomial');
-% x = 0:50; y = pdf(pd, x); plot(x, y, '-')
-% hold off
-% xlim([0 50]);
-% 
-% subplot(3,3,3)
-% h1 = histogram(stimulusDrive3, 'Normalization', 'pdf');
-% h1.FaceColor = [255,127,0]/255;
-% h1.EdgeColor = [255,127,0]/255;
-% xlim([-5 5]);
-% subplot(3,3,6)
-% h2 = histogram(neuronLambda3, 'Normalization', 'pdf');
-% h2.FaceColor = [51,160,44]/255;
-% h2.EdgeColor = [51,160,44]/255;
-% hold on
-% pd = fitdist(neuronLambda3(:), 'gamma');
-% x = 0:0.1:50; hold on; y = pdf(pd, x); plot(x, y, '-r')
-% hold off
-% xlim([0 50]);
-% subplot(3,3,9)
-% h3 = histogram(spikeCount3, 'Normalization', 'pdf');
-% h3.FaceColor = [31,120,180]/255;
-% h3.EdgeColor = [31,120,180]/255;
-% hold on
-% pd = fitdist(spikeCount3(:), 'poisson');
-% x = 0:50; y = pdf(pd, x); plot(x, y, '-k')
-% pd = fitdist(spikeCount3(:), 'NegativeBinomial');
-% x = 0:50; y = pdf(pd, x); plot(x, y, '-')
-% hold off
-% xlim([0 50]);
-% 
+%% Generate a gamma process by approximating a log-normal distribution of the neuronal response (LN model)
+
+% The stimulus is close or distant to the preferred stimulus for the neuron
+% (correlation close to 1 or -1), however there is some gaussian noise in the
+% stimulus
+% Tha variance of the gaussian process shrinks as the stimulus becomes less noisy 
+
+stimulusDrive1 = random('normal', 1.5,1, 1,1000);
+neuronLambda1 = exp(stimulusDrive1);
+mean(neuronLambda1)
+spikeCount1 = poissrnd(neuronLambda1);
+mean(spikeCount1)
+stimulusDrive2 = random('normal', 0,1, 1,1000);
+neuronLambda2 = exp(stimulusDrive2);
+spikeCount2 = poissrnd(neuronLambda2);
+stimulusDrive3 = random('normal', 2,0.05, 1,1000);
+neuronLambda3 = exp(stimulusDrive3);
+mean(neuronLambda1)
+spikeCount3 = poissrnd(neuronLambda3);
+mean(spikeCount3)
+figure
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+set(gcf,'Position',[138 281 1352 739]);
+
+subplot(3,3,1)
+h1 = histogram(stimulusDrive1, 'Normalization', 'pdf');
+h1.FaceColor = [255,127,0]/255;
+h1.EdgeColor = [255,127,0]/255;
+xlim([-5 5]);
+title('The stimulus is close to the best one for this cell, but it is noisy')
+box off
+subplot(3,3,4)
+h2 = histogram(neuronLambda1, 'Normalization', 'pdf');
+h2.FaceColor = [51,160,44]/255;
+h2.EdgeColor = [51,160,44]/255;
+hold on
+pd = fitdist(neuronLambda1(:), 'gamma');
+x = 0:0.1:50; hold on; y = pdf(pd, x); plot(x, y, '-r')
+hold off
+xlim([0 50]);
+ylabel('Stimulus-Driven Firing Rate Distribution')
+box off
+subplot(3,3,7)
+h2 = histogram(spikeCount1, 'Normalization', 'pdf');
+h2.FaceColor = [31,120,180]/255;
+h2.EdgeColor = [31,120,180]/255;
+hold on
+pd = fitdist(spikeCount1(:), 'poisson');
+x = 0:50; y = pdf(pd, x); plot(x, y, '-k')
+pd = fitdist(spikeCount1(:), 'NegativeBinomial');
+x = 0:50;  y = pdf(pd, x); plot(x, y, '-')
+hold off
+xlim([0 50]);
+ylabel('Observed Firing Rate Distribution')
+box off
+
+subplot(3,3,2)
+h1 = histogram(stimulusDrive2, 'Normalization', 'pdf');
+h1.FaceColor = [255,127,0]/255;
+h1.EdgeColor = [255,127,0]/255;
+xlim([-5 5]);
+title('The stimulus is far from the best one for this cell, but it is noisy')
+box off
+subplot(3,3,5)
+h2 = histogram(neuronLambda2, 'Normalization', 'pdf');
+h2.FaceColor = [51,160,44]/255;
+h2.EdgeColor = [51,160,44]/255;
+hold on
+pd = fitdist(neuronLambda2(:), 'gamma');
+x = 0:0.1:50; hold on; y = pdf(pd, x); plot(x, y, '-r')
+hold off
+xlim([0 50]);
+box off
+subplot(3,3,8)
+h2 = histogram(spikeCount2, 'Normalization', 'pdf');
+h2.FaceColor = [31,120,180]/255;
+h2.EdgeColor = [31,120,180]/255;
+hold on
+pd = fitdist(spikeCount2(:), 'poisson');
+x = 0:50; y = pdf(pd, x); plot(x, y, '-k')
+pd = fitdist(spikeCount2(:), 'NegativeBinomial');
+x = 0:50; y = pdf(pd, x); plot(x, y, '-')
+hold off
+xlim([0 50]);
+box off
+
+subplot(3,3,3)
+h1 = histogram(stimulusDrive3, 'Normalization', 'pdf');
+h1.FaceColor = [255,127,0]/255;
+h1.EdgeColor = [255,127,0]/255;
+xlim([-5 5]);
+title('The stimulus is close to the best one for this cell, but it is not noisy')
+box off
+subplot(3,3,6)
+h2 = histogram(neuronLambda3, 'Normalization', 'pdf');
+h2.FaceColor = [51,160,44]/255;
+h2.EdgeColor = [51,160,44]/255;
+hold on
+pd = fitdist(neuronLambda3(:), 'gamma');
+x = 0:0.1:50; hold on; y = pdf(pd, x); plot(x, y, '-r')
+hold off
+xlim([0 50]);
+box off
+subplot(3,3,9)
+h3 = histogram(spikeCount3, 'Normalization', 'pdf');
+h3.FaceColor = [31,120,180]/255;
+h3.EdgeColor = [31,120,180]/255;
+hold on
+pd = fitdist(spikeCount3(:), 'poisson');
+x = 0:50; y = pdf(pd, x); plot(x, y, '-k')
+pd = fitdist(spikeCount3(:), 'NegativeBinomial');
+x = 0:50; y = pdf(pd, x); plot(x, y, '-')
+hold off
+xlim([0 50]);
+box off
+%%
 % %% Generate a gamma process as a sum of N inputs with same mean Mu and exponential distribution
 % % In this case the variance of the gamma process increase with the number
 % % of inputs.

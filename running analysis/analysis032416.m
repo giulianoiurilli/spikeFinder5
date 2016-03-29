@@ -127,6 +127,31 @@ ylim([0 0.085])
 set(gca, 'XColor', 'w', 'box','off')
 ylabel('Correlation - Bsl ms')
 
+
+%%
+% corrCoa300_1 = [corrCoa300_15{1} corrCoa300_AA{1}];
+% corrCoa300_2 = [corrCoa300_15{2} corrCoa300_AA{2}];
+% corrCoa300_3 = [corrCoa300_15{3} corrCoa300_AA{3}];
+% corrCoa300_4 = [corrCoa300_15{4} corrCoa300_AA{4}];
+
+corrCoa300 = [corrCoa300_1 corrCoa300_2 corrCoa300_3 corrCoa300_4];
+shankPos = ones(size(corrCoa300));
+shankPos(size(corrCoa300_1,2)+1:size(corrCoa300_1,2)+size(corrCoa300_2,2)) = 2;
+shankPos(size(corrCoa300_1,2)+size(corrCoa300_2,2)+1:size(corrCoa300_1,2)+size(corrCoa300_2,2)+size(corrCoa300_3,3)) = 3;
+shankPos(size(corrCoa300_1,2)+size(corrCoa300_2,2)+size(corrCoa300_3,3)+1:end) = 4;
+
+% corrCoa1000_1 = [corrCoa1000_15{1} corrCoa1000_AA{1}];
+% corrCoa1000_2 = [corrCoa1000_15{2} corrCoa1000_AA{2}];
+% corrCoa1000_3 = [corrCoa1000_15{3} corrCoa1000_AA{3}];
+% corrCoa1000_4 = [corrCoa1000_15{4} corrCoa1000_AA{4}];
+
+corrCoa1000 = [corrCoa1000_1 corrCoa1000_2 corrCoa1000_3 corrCoa1000_4];
+shankPos = ones(size(corrCoa1000));
+shankPos(size(corrCoa1000_1,2)+1:size(corrCoa1000_1,2)+size(corrCoa1000_2,2)) = 2;
+shankPos(size(corrCoa1000_1,2)+size(corrCoa1000_2,2)+1:size(corrCoa1000_1,2)+size(corrCoa1000_2,2)+size(corrCoa1000_3,3)) = 3;
+shankPos(size(corrCoa1000_1,2)+size(corrCoa1000_2,2)+size(corrCoa1000_3,3)+1:end) = 4;
+
+
 %%
 
 corr300 = [corrCoa300_1'; corrCoa300_2'; corrCoa300_3'; corrCoa300_4';corrPcx300_1'; corrPcx300_2'; corrPcx300_3'; corrPcx300_4']; 
