@@ -18,7 +18,7 @@ for idxShank = 1:4
             if coaAA.esp(idxExp).shankNowarp(idxShank).cell(idxUnit).good == 1
                 c = c+1;
                 shankCoaTMT(c) =  coaAA.esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(1).auROC1000ms;
-                shankCoaRose(c) =  coaAA.esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(7).auROC1000ms;
+                shankCoaRose(c) =  coaAA.esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(8).auROC1000ms;
             end
         end
     end
@@ -30,7 +30,7 @@ for idxShank = 1:4
     xlim([0 1])
     ylim([0 1])
     xlabel('TMT auROC')
-    ylabel('Phenylethanol auROC')
+    ylabel('2-phenylethanol auROC')
     axis square
 end
 
@@ -55,7 +55,7 @@ for idxShank = 1:4
     xlim([0 1])
     ylim([0 1])
     xlabel('TMT auROC')
-    ylabel('Phenylethanol auROC')
+    ylabel('2-phenylethanol auROC')
     axis square
 end
 
