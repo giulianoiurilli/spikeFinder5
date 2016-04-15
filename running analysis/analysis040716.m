@@ -1,3 +1,5 @@
+close all
+clear; clc
 spikeWaveforms1 = importSpikeFile('buzsaki32L_000.txt');
 spikeWaveforms2 = importSpikeFile('buzsaki32L_001.txt');
 spikeWaveforms3 = importSpikeFile('buzsaki32L_002.txt');
@@ -110,18 +112,91 @@ for u = 1:numel(unique(spikeWaveforms7.Unit))
     grid on
     xlabel('PC1'); ylabel('PC2'); zlabel('time (s)');
 end
+ColOrd = get(gca,'ColorOrder');
 
 
 %%
 figure
+set(gcf,'Position',[744 630 274 420]);
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+n_units = numel(unique(spikeWaveforms7.Unit))
+p = panel();
+p.pack('h', { 40 15 15 15 15});
+p(1).pack('v', {1/7 1/7 1/7 1/7 1/7 1/7 1/7});
+p(2).pack('v', {1/7 1/7 1/7 1/7 1/7 1/7 1/7});
+p(3).pack('v', {1/7 1/7 1/7 1/7 1/7 1/7 1/7});
+p(4).pack('v', {1/7 1/7 1/7 1/7 1/7 1/7 1/7});
+p(5).pack('v', {1/7 1/7 1/7 1/7 1/7 1/7 1/7});
+% p.select('all');
+% p.identify()
+
+k = 0;
+
+for u = 1:n_units
+    k = k + 1;
+    ts1  = table2array(spikeWaveforms7(spikeWaveforms7.Unit==u,3));
+    p(1,u).select()
+    my_plot_xcorr( ts1, ts1, 2, 0.05, 1, ColOrd(u,:))
+    set(gca, 'XTick' , []);
+    set(gca, 'XTickLabel', []);
+    set(gca, 'YTickLabel', []);
+    set(gca,'YTick',[])
+    set(gca,'YColor','w')
+    set(gca,'XColor','w')
+    axis tight
+end
 time = 0:1/20:1.6;
 time(end) = [];
-for u = 1:numel(unique(spikeWaveforms7.Unit))
-    [~,minimo] = min(mean(table2array(spikeWaveforms7(spikeWaveforms7.Unit==u,7:end))));
-    hold on
-    plot(mean(table2array(spikeWaveforms7(spikeWaveforms7.Unit==u,7 :end))));
+j = 1;
+for u = 1:n_units
+    for c = 1:4
+        p(c+1,u).select()
+        PlotMeanWithFilledSemBand(time, mean(table2array(spikeWaveforms7(spikeWaveforms7.Unit==u,7 + (c-1)*32:7 + c*32 - 1))), std(table2array(spikeWaveforms7(spikeWaveforms7.Unit==u,7 + (c-1)*32:7 + c*32 - 1))),...
+            std(table2array(spikeWaveforms7(spikeWaveforms7.Unit==u,7 + (c-1)*32:7 + c*32 - 1))),ColOrd(u,:), 2, ColOrd(u,:), 0.2);
+        j = j + 1;
+        set(gca, 'XTick' , []);
+        set(gca, 'XTickLabel', []);
+        set(gca, 'YTickLabel', []);
+        set(gca,'YTick',[])
+        set(gca,'YColor','w')
+        set(gca,'XColor','w')
+        axis tight
+        ylim([-0.5 0.5])
+    end
 end
-xlabel('ms'); ylabel('µV');
+
+  
+
+p.select('all');
+p.de.margin = 2;
+p(1).marginright = 20;
+%%
+figure;
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+set(gcf,'Position',[-1351 219 1327 839]);
+labelC = [37,37,37] ./ 255;
+k = 0;
+window = [-0.1 0.1];
+for u = 1:n_units
+    for n = 1:n_units
+        k = k + 1;
+        ts1  = table2array(spikeWaveforms7(spikeWaveforms7.Unit==u,3));
+        ts2  = table2array(spikeWaveforms7(spikeWaveforms7.Unit==n,3));
+
+%         y = crosscorrelogram(ts1, ts2, window);
+        subplot(n_units, n_units, k)
+%         bar(y, 200, 'FaceColor', labelC, 'EdgeColor', labelC)
+        my_plot_xcorr( ts1, ts2, 2, 0.05, 1, labelC)
+        set(gca, 'XTick' , []);
+        set(gca, 'XTickLabel', []);
+        set(gca, 'YTickLabel', []);
+        set(gca,'YTick',[])
+        set(gca,'YColor','w')
+        set(gca,'XColor','w')
+        axis tight
+    end
+end
+
 
 %%
 %clear all
@@ -173,6 +248,8 @@ for idx = [1 2 3 4 5 6 7 8 10 11]
     allUnits(k) = length(tp);
 end
 %%
+
+        
 [coeff, score] = pca(allWaveforms);
 %%
 figure;

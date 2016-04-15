@@ -242,8 +242,8 @@ displacement = zeros(size(g2,1),1);
 displacement(g1 == 1) = 0.1;
 [h, atab, ctab, stats] = aoctool(g2, corr1000, g1);
 %multcompare(stats, 0.05, 'on', '', 's')
-colorCoa = repmat([254,153,41]./255, size(g1Coa,1), 1);
-colorPcx = repmat([82,82,82]./255, size(g1Pcx,1), 1);
+colorCoa = repmat(coaC, size(g1Coa,1), 1);
+colorPcx = repmat(pcxC, size(g1Pcx,1), 1);
 color = [colorCoa; colorPcx];
 x = -0.2:0.1:3.2;
 xMargin = 0.05 * range(x);
@@ -256,8 +256,8 @@ blankFigure([leftX-xMargin rightX+xMargin bottomY-yMargin topY+yMargin]);
 scatter(g2 + displacement, corr1000, 12, color, 'filled')
 y1 = 0.056785 - 0.0086365*x;
 y2 = 0.039303 - 0.0098201*x;
-plot(x,y1, '-', 'linewidth', 2, 'color', [254,153,41]./255);
-plot(x,y2, '-', 'linewidth', 2, 'color', [82,82,82]./255);
+plot(x,y1, '-', 'linewidth', 2, 'color', coaC);
+plot(x,y2, '-', 'linewidth', 2, 'color', pcxC);
 clear axY
 start = round(bottomY-yMargin, 1);
 fin = round(topY+yMargin, 1);
