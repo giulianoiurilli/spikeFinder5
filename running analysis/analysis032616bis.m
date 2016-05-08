@@ -10,7 +10,7 @@ figure
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
 dataToPlot = {appCoa,appPcx};
 catIdx = [ones(length(appCoa),1); zeros(length(appPcx),1)];
-colori = {[204,204,204]./255,[255,255,212]./255};
+colori = {[189,189,189]./255,[252,141,89]./255};
 plotSpread(dataToPlot,'categoryIdx',catIdx,'categoryColors', colori, 'showMM', 0, 'xyOri', 'flipped')
 set(gca, 'YColor', 'w', 'box', 'off')
 xlim([0 1])
@@ -30,6 +30,15 @@ xlim([0 1])
 xlabel('Mix includes odor X vs odor Y  -  |auROC - 0.5| x 2')
 set(gca, 'TickDir', 'out')
 
+%%
+x = numel(appCoa);
+X = numel(aurocBetweenMixCoa);
+y = numel(appPcx);
+Y = numel(aurocBetweenMixPcx);
+x/X
+y/Y
+
+[p, t, po] = propTest2(x,y,X,Y)
 %%
 figure
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
@@ -81,15 +90,15 @@ appPcx2 =  respMixPcx(:,12) ./ (respMixPcx(:,1) + respMixPcx(:,3));
 appPcx3 =  respMixPcx(:,13) ./(respMixPcx(:,6) + respMixPcx(:,7));
 appPcx4 =  respMixPcx(:,14) ./ (respMixPcx(:,6) + respMixPcx(:,8));
 
-appCoa11 = respMixCoa(:,11) ./ max([respMixCoa(:,1); respMixCoa(:,2)]); %./ (respMixCoa(:,11) + max([respMixCoa(:,1); respMixCoa(:,2)]));
-appCoa21 = respMixCoa(:,12) ./ max([respMixCoa(:,1); respMixCoa(:,3)]); %./ (respMixCoa(:,12) + max([respMixCoa(:,1); respMixCoa(:,3)]));
-appCoa31 = respMixCoa(:,13) ./ max([respMixCoa(:,6); respMixCoa(:,7)]); %./ (respMixCoa(:,13) + max([respMixCoa(:,6); respMixCoa(:,7)]));
-appCoa41 = respMixCoa(:,14) ./ max([respMixCoa(:,6); respMixCoa(:,8)]); %./ (respMixCoa(:,14) + max([respMixCoa(:,6); respMixCoa(:,8)]));
+appCoa11 = respMixCoa(:,11) ./ max([respMixCoa(:,1) respMixCoa(:,2)], [], 2); %./ (respMixCoa(:,11) + max([respMixCoa(:,1); respMixCoa(:,2)]));
+appCoa21 = respMixCoa(:,12) ./ max([respMixCoa(:,1) respMixCoa(:,3)], [], 2); %./ (respMixCoa(:,12) + max([respMixCoa(:,1); respMixCoa(:,3)]));
+appCoa31 = respMixCoa(:,13) ./ max([respMixCoa(:,6) respMixCoa(:,7)], [], 2); %./ (respMixCoa(:,13) + max([respMixCoa(:,6); respMixCoa(:,7)]));
+appCoa41 = respMixCoa(:,14) ./ max([respMixCoa(:,6) respMixCoa(:,8)], [], 2); %./ (respMixCoa(:,14) + max([respMixCoa(:,6); respMixCoa(:,8)]));
 
-appPcx11 = respMixPcx(:,11) ./ max([respMixPcx(:,1); respMixPcx(:,2)]); %./ (respMixPcx(:,11) + max([respMixPcx(:,1); respMixPcx(:,2)]));
-appPcx21 = respMixPcx(:,12) ./ max([respMixPcx(:,1); respMixPcx(:,3)]); %./ (respMixPcx(:,12) + max([respMixPcx(:,1); respMixPcx(:,3)]));
-appPcx31 = respMixPcx(:,13) ./ max([respMixPcx(:,6); respMixPcx(:,7)]); %./ (respMixPcx(:,13) + max([respMixPcx(:,6); respMixPcx(:,7)]));
-appPcx41 = respMixPcx(:,14) ./ max([respMixPcx(:,6); respMixPcx(:,8)]); %./ (respMixPcx(:,14) + max([respMixPcx(:,6); respMixPcx(:,8)]));
+appPcx11 = respMixPcx(:,11) ./ max([respMixPcx(:,1) respMixPcx(:,2)], [], 2); %./ (respMixPcx(:,11) + max([respMixPcx(:,1); respMixPcx(:,2)]));
+appPcx21 = respMixPcx(:,12) ./ max([respMixPcx(:,1) respMixPcx(:,3)], [], 2); %./ (respMixPcx(:,12) + max([respMixPcx(:,1); respMixPcx(:,3)]));
+appPcx31 = respMixPcx(:,13) ./ max([respMixPcx(:,6) respMixPcx(:,7)], [], 2); %./ (respMixPcx(:,13) + max([respMixPcx(:,6); respMixPcx(:,7)]));
+appPcx41 = respMixPcx(:,14) ./ max([respMixPcx(:,6) respMixPcx(:,8)], [], 2); %./ (respMixPcx(:,14) + max([respMixPcx(:,6); respMixPcx(:,8)]));
 
 
 
@@ -111,11 +120,13 @@ plotSpread(dataToPlot,'categoryIdx',catIdx,'categoryColors', colori, 'showMM', 0
 set(gca, 'XColor', 'w', 'box', 'off', 'TickDir', 'out')
 title('butanedione & geraniol')
 ylabel({'response(X+Y)'; '/'; '[response(X) + response(Y)]'})
+ylim([0 6]);
 p(2,1).select()
 dataToPlot = {appCoa11,appPcx11};
 catIdx = [ones(length(appCoa11),1); zeros(length(appPcx11),1)];
 colori = {pcxC,coaC};
 plotSpread(dataToPlot,'categoryIdx',catIdx,'categoryColors', colori, 'showMM', 0)
+ylim([0 7]);
 set(gca, 'XColor', 'w', 'box', 'off', 'TickDir', 'out')
 ylabel({'response(X+Y)'; '/'; 'max(response(X), response(Y))'});
 
@@ -127,11 +138,13 @@ colori = {pcxC,coaC};
 plotSpread(dataToPlot,'categoryIdx',catIdx,'categoryColors', colori, 'showMM', 0)
 set(gca, 'XColor', 'w', 'box', 'off', 'TickDir', 'out')
 title('butanedione & phenylethanol')
+ylim([0 6]);
 p(2,2).select()
 dataToPlot = {appCoa21,appPcx21};
 catIdx = [ones(length(appCoa21),1); zeros(length(appPcx21),1)];
 colori = {pcxC,coaC};
 plotSpread(dataToPlot,'categoryIdx',catIdx,'categoryColors', colori, 'showMM', 0)
+ylim([0 7]);
 set(gca, 'XColor', 'w', 'box', 'off', 'TickDir', 'out')
 
 
@@ -143,11 +156,13 @@ colori = {pcxC,coaC};
 plotSpread(dataToPlot,'categoryIdx',catIdx,'categoryColors', colori, 'showMM', 0)
 set(gca, 'XColor', 'w', 'box', 'off', 'TickDir', 'out')
 title('TMT & 2-MB')
+ylim([0 6]);
 p(2,3).select()
 dataToPlot = {appCoa31,appPcx31};
 catIdx = [ones(length(appCoa31),1); zeros(length(appPcx31),1)];
 colori = {pcxC,coaC};
 plotSpread(dataToPlot,'categoryIdx',catIdx,'categoryColors', colori, 'showMM', 0)
+ylim([0 7]);
 set(gca, 'XColor', 'w', 'box', 'off', 'TickDir', 'out')
 
 
@@ -158,11 +173,13 @@ colori = {pcxC,coaC};
 plotSpread(dataToPlot,'categoryIdx',catIdx,'categoryColors', colori, 'showMM', 0)
 set(gca, 'XColor', 'w', 'box', 'off', 'TickDir', 'out')
 title('TMT & 2-PT')
+ylim([0 6]);
 p(2,4).select()
 dataToPlot = {appCoa41,appPcx41};
 catIdx = [ones(length(appCoa41),1); zeros(length(appPcx41),1)];
 colori = {pcxC,coaC};
 plotSpread(dataToPlot,'categoryIdx',catIdx,'categoryColors', colori, 'showMM', 0)
+ylim([0 7]);
 set(gca, 'XColor', 'w', 'box', 'off', 'TickDir', 'out')
 
 
@@ -181,6 +198,46 @@ p.fontsize = 12;
 p.fontname = 'Avenir';
 
 
+%%
+[aurocBetweenValenceCoa, aurocBetweenValenceSigCoa, auRocValenceCoa, cellLogValenceCoa] = valenceAnalysis(coaAA.esp);
+[aurocBetweenValencePcx, aurocBetweenValenceSigPcx, auRocValencePcx, cellLogValencePcx] = valenceAnalysis(pcxAA.esp);
 
+%%
+appCoa = aurocBetweenValenceCoa;
+appPcx = aurocBetweenValencePcx;
+appCoa = abs(appCoa - 0.5) * 2;
+appPcx = abs(appPcx - 0.5) * 2;
+figure
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+dataToPlot = {appCoa,appPcx};
+catIdx = [ones(length(appCoa),1); zeros(length(appPcx),1)];
+colori = {[189,189,189]./255,[252,141,89]./255};
+plotSpread(dataToPlot,'categoryIdx',catIdx,'categoryColors', colori, 'showMM', 0, 'xyOri', 'flipped')
+set(gca, 'YColor', 'w', 'box', 'off')
+xlim([0 1])
+set(gca, 'TickDir', 'out')
+
+
+hold on
+
+appCoa = appCoa(abs(aurocBetweenValenceSigCoa)==1);
+appPcx = appPcx(abs(aurocBetweenValenceSigPcx)==1);
+dataToPlot = {appCoa,appPcx};
+catIdx = [ones(length(appCoa),1); zeros(length(appPcx),1)];
+colori = {pcxC,coaC};
+plotSpread(dataToPlot,'categoryIdx',catIdx,'categoryColors', colori, 'showMM', 0, 'xyOri', 'flipped')
+set(gca, 'YColor', 'w', 'box', 'off')
+xlim([0 1])
+set(gca, 'TickDir', 'out')
+
+%%
+x = numel(appCoa)
+X = numel(aurocBetweenValenceCoa);
+x/X
+y = numel(appPcx);
+Y = numel(aurocBetweenValencePcx);
+y/Y
+
+[p, t, po] = propTest2(x,y,X,Y)
 
 

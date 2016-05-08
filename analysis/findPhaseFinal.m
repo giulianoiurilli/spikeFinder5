@@ -27,7 +27,7 @@ for idxExp = 1 : length(List)%-1
                 esperimento(idxExp).shankWarp(idxShank).cell(idxUnit).odor(idxO).sdf_trialHz(:,end) = [];
                 esperimento(idxExp).shankWarp(idxShank).cell(idxUnit).odor(idxO).sniffBinnedPsth = [];
                 esperimento(idxExp).shankWarp(idxShank).cell(idxUnit).odor(idxO).sniffBinnedBsl = [];
-                for idxTrial = 1:size(esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms, 2)
+                for idxTrial = 1:size(shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrixNoWarp, 1)
                     respiro = breath(idxTrial,:,idxOdor);
                     startOdor = sec_on_rsp(idxTrial, idxOdor);
                     [alpha, spikesBinnedByInhExh, piLength] = transformSpikeTimesToSpikePhases(respiro, pre, post, fs, sua, startOdor, preInhalations, postInhalations);
@@ -77,6 +77,6 @@ end
 cd(startingFolder)
 clearvars -except List esp esperimento 
 
-save('coa_15_2_3.mat', 'esperimento', '-v7.3')            
+save('pcx_15_2_3.mat', 'esperimento', '-v7.3')            
             
             

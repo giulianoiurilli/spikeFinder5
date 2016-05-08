@@ -61,8 +61,8 @@ meanMCoa = nanmean(mCoa(:,1:10));
 semMCoa = nanstd(mCoa(:,1:10)) ./ sqrt(size(mCoa(~isnan(mCoa)),1));
 meanMPcx = nanmean(mPcx(:,1:10));
 semMPcx = nanstd(mPcx(:,1:10)) ./ sqrt(size(mPcx(~isnan(mPcx)),1));
-meanVarGCoa(6) = 1.042;
-semVarGCoa(6) = 0.0388;
+% meanVarGCoa(6) = 1.042;
+% semVarGCoa(6) = 0.0388;
 figure
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
 plot([1:5], meanVarGCoa(1:5), 'o', 'markersize', 10, 'markeredgecolor', coaC)
@@ -70,11 +70,8 @@ hold on
 errbar([1:5], meanVarGCoa(1:5), semVarGCoa(1:5), 'color', coaC, 'linewidth', 2);
 hold on
 plot([1:5] + 0.2, meanVarGPcx(1:5), 'o', 'markersize', 10, 'markeredgecolor', pcxC)
-
 hold on
 errbar([1:5] + 0.2, meanVarGPcx(1:5), semVarGPcx(1:5), 'color', pcxC, 'linewidth', 2);
-
-set(gcf,'color','white', 'PaperPositionMode', 'auto');
 plot([6:10], meanVarGCoa(6:10), 'o', 'markersize', 10, 'markeredgecolor', coaC, 'markerfacecolor', coaC)
 hold on
 plot([6:10] + 0.2, meanVarGPcx(6:10), 'o', 'markersize', 10, 'markeredgecolor', pcxC, 'markerfacecolor', pcxC)

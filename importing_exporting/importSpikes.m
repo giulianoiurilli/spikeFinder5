@@ -1,4 +1,4 @@
-function spikeWaveforms = importfile(filename, startRow, endRow)
+function spikeWaveforms = importSpikes(filename, startRow, endRow)
 %IMPORTFILE Import numeric data from a text file as a matrix.
 %   BUZSAKI32L000 = IMPORTFILE(FILENAME) Reads data from text file FILENAME
 %   for the default selection.

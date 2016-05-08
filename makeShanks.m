@@ -37,7 +37,7 @@ for d_file = 1:4
     
     x = inputdlg('Enter second-set units to delete (space-separated numbers):',...
         'Units', [1 50]);
-    deleted_units = str2num(x{:});
+    deleted_units = str2double(x{:});
     
     
     part2(:,1) = part2(:,1) + repmat(part1_max, size(part2,1), 1);
@@ -69,4 +69,4 @@ for d_file = 1:4
 end
 
 close all
-save('units.mat', 'shank')
+%save('units.mat', 'shank')

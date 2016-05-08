@@ -444,6 +444,7 @@ end
 xlabel('Lifetime Sparseness - first sniff')
 
 subplot(2,2,2)
+figure
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
 b1 = boxplot(ls1000, groupingVls1000, 'plotstyle', 'traditional', 'boxstyle', 'outline', 'colors', [coaC; pcxC], 'notch', 'on', 'orientation', 'horizontal', 'symbol', '', 'widths', 0.6);
 xlim([0 1]);
