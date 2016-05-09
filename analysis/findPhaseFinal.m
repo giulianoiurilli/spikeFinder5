@@ -9,6 +9,7 @@ startingFolder = pwd;
 for idxExp = 1 : length(List)%-1
     cartella = List{idxExp};
     cd(cartella)
+    load('unitsNowarp.mat');
     load('units.mat');
     load('breathing.mat', 'breath', 'sec_on_rsp');
     load('parameters.mat');
@@ -77,6 +78,6 @@ end
 cd(startingFolder)
 clearvars -except List esp esperimento 
 
-save('pcx_15_2_3.mat', 'esperimento', '-v7.3')            
+save('pcx_AAmix_2_3.mat', 'esperimento', '-v7.3')            
             
             
