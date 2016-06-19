@@ -1,4 +1,4 @@
-fileToSave = 'coa_15_2_2.mat';
+fileToSave = 'pcx_CS_2_2.mat';
 load('parameters.mat');
 startingFolder = pwd;
 odorsRearranged = 1:15;
@@ -32,8 +32,12 @@ for idxEsp = 1 : length(esp)
                     binnedBsl = slidePSTH(spike_matrix_Bsl(idxTrial,:), 50, 5);
                     binnedRsp = slidePSTH(spike_matrix_Rsp(idxTrial,:), 50, 5);
 %                     if esp(idxEsp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse1000ms > 0
-                        esp(idxEsp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).trialExc1000ms(idxTrial) = mean(binnedRsp) > mean(binnedBsl);% + 4 * std(binnedBsl);
-                        esp(idxEsp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).trialInh1000ms(idxTrial) = mean(binnedRsp) < mean(binnedBsl);
+                        esp(idxEsp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).trialExcPeak1000ms(idxTrial) = max(binnedRsp) > mean(binnedBsl) + 4 * std(binnedBsl);
+                        esp(idxEsp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).trialInhPeak1000ms(idxTrial) = min(binnedRsp) < mean(binnedBsl) - std(binnedBsl);
+                        esp(idxEsp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).trialExcWind1000ms(idxTrial) = mean(binnedRsp) > mean(binnedBsl) + 3 * std(binnedBsl);
+                        esp(idxEsp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).trialInhWind1000ms(idxTrial) = mean(binnedRsp) < mean(binnedBsl) - std(binnedBsl);
+                        esp(idxEsp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).trialExcPeakDelta1000ms(idxTrial) = (max(binnedRsp) - mean(binnedBsl)) * 20;
+                        esp(idxEsp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).trialInhPeakDelta1000ms(idxTrial) = (min(binnedRsp) - mean(binnedBsl)) * 20;
 %                     else if esp(idxEsp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse1000ms < 0
 %                             h(idxTrial) = max(binnedRsp) < 2.5 * std(binnedBsl) + mean(binnedBsl);
 %                         end
@@ -62,8 +66,10 @@ for idxEsp = 1 : length(esp)
                        esp(idxEsp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponseDeltaPeak = 0;
                    end
                 end
-                esp(idxEsp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).responseFractionExc = sum(esp(idxEsp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).trialExc1000ms) / 10;
-                esp(idxEsp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).responseFractionInh = sum(esp(idxEsp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).trialInh1000ms) / 10;
+                esp(idxEsp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).responsePeakFractionExc = sum(esp(idxEsp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).trialExcPeak1000ms) / 10;
+                esp(idxEsp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).responsePeakFractionInh = sum(esp(idxEsp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).trialInhPeak1000ms) / 10;
+                esp(idxEsp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).responseWindFractionExc = sum(esp(idxEsp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).trialExcWind1000ms) / 10;
+                esp(idxEsp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).responseWindFractionInh = sum(esp(idxEsp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).trialInhWind1000ms) / 10;
 %                 if  esp(idxEsp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).responseFraction == 0 && esp(idxEsp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1
 %                     idxU = idxU + 1
 %                     app = [idxShank, idxUnit, idxOdor];

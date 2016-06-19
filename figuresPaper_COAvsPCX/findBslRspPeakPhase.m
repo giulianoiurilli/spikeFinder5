@@ -1,4 +1,4 @@
-function [phasePeakBsl, phasePeakRsp, significance] = findBslRspPeakPhase(esp, esperimento)
+function [sdf, phasePeakBsl, phasePeakRsp, ampPeakBsl, ampPeakRsp, significance300, significance1000] = findBslRspPeakPhase(esp, esperimento)
 
 
 
@@ -18,9 +18,13 @@ for idxExp =  1:length(esp)
     end
 end
 
-phasePeakBsl = nan(1, c);
+sdf = nan(c,7200,15);
+phasePeakBsl = nan(c, 15);
 phasePeakRsp = nan(c, 15);
-significance = nan(c, 15);
+ampPeakBsl = nan(c, 15);
+ampPeakRsp = nan(c, 15);
+significance300 = nan(c, 15);
+significance1000 = nan(c, 15);
 c = 0;
 for idxExp =  1:length(esp)
     for idxShank = 1:4
@@ -29,17 +33,21 @@ for idxExp =  1:length(esp)
                 c = c + 1;
                 bslCycles = [];
                 rspCycles = [];
-                appBsl = [];
+                appPhaseBsl = [];
                 for idxOdor = 1:15
-                    bslCycles = esperimento(idxExp).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).sdf_trialHz(:, 360*7+1:360*8);
-                    rspCycles = esperimento(idxExp).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).sdf_trialHz(:, 360*10+1:360*11);
-                    [~,maxBsl] = max(bslCycles, [], 2);
-                    [~,maxRsp] = max(rspCycles, [], 2);
-                    phasePeakRsp(c,idxOdor) = mean(maxRsp);
-                    appBsl = [appBsl; maxBsl];
-                    significance(c, idxOdor) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse300ms;
+                    sdf(c,:,idxOdor) = mean(esperimento(idxExp).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).sdf_trialRad);
+                    bslCycles = mean(esperimento(idxExp).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).sdf_trialRad(:, 360*9+1+10:360*10+10));
+                    rspCycles = mean(esperimento(idxExp).shankWarp(idxShank).cell(idxUnit).odor(idxOdor).sdf_trialRad(:, 360*10+1+10:360*11+10));
+                    [maxBsl,maxBslPhase] = max(bslCycles);
+                    [maxRsp,maxRspPhase] = max(rspCycles);
+                    phasePeakRsp(c,idxOdor) = maxRspPhase;
+                    ampPeakRsp(c,idxOdor) = maxRsp;
+                    appPhaseBsl = [appPhaseBsl; maxBslPhase];
+                    significance300(c, idxOdor) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse300ms;
+                    significance1000(c, idxOdor) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse1000ms;
+                    phasePeakBsl(c,idxOdor) = maxBslPhase;
+                    ampPeakBsl(c,idxOdor) = maxBsl;
                 end
-                phasePeakBsl(c) = mean(appBsl);
             end
         end
     end

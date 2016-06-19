@@ -13,16 +13,16 @@ listOdors = {'TMT^-4', 'TMT^-2', 'DMT^-4', 'DMT^-2', 'MT^-4', 'MT^-2',...
 % 
 % <</Users/Giuliano/Documents/MATLAB/spikeFinder5/running analysis/html/08-17-15_d3800_apcx.png>>
 % 
-idxShank = 1;
+idxShank = 4;
 idxShank = shank_lfp(idxShank);
 shankToLoad = sprintf('CSC%d.mat', idxShank);
 load(shankToLoad, 'RawSamples', 'lfp_fs');
-load('mua.mat');
+% load('mua.mat');
 load('unitsNowarp.mat');
 load('units.mat');
 load('breathing.mat', 'breath', 'sec_on_rsp', 'delay_on');
-load('movement.mat');
-move = mat2gray(move, [min(move(:)) max(move(:))]);     %normalize between 0 and 1 for easier comparisons between plots
+% load('movement.mat');
+% move = mat2gray(move, [min(move(:)) max(move(:))]);     %normalize between 0 and 1 for easier comparisons between plots
 
 
 %% Extract LFPs in the theta, beta and gamma bands.
@@ -43,7 +43,7 @@ for idxOdor = 1:odors
 end
 
 bands = [1 7; ...
-    4 10; ...
+    5 30; ...
     10 30; ...
     30 80];
 
@@ -145,6 +145,9 @@ end
 % sniffs have already happened). Higher concentrations generally elicit
 % larger population excitatory responses.
 
+
+lfpTrials = lfpBands(3).band;
+
 shank_unitPairs = [1,5;...
                    3,2;...
                    3,3;...
@@ -152,7 +155,7 @@ shank_unitPairs = [1,5;...
                    4,3];
                
 from = 12;
-to = 18;
+to = 20;
 xtime = -3:1/1000:3;
 
 
@@ -376,26 +379,27 @@ p.select('all');
 % trials 1, 3 and 4.
 
 wname  = 'cmor1-1'; %I'm using a wavelet here
-scales = 1:1000;
+scales = 1:500;
 ntw = 2;
-scalesLabels = [469 417 365 313 261 209 157 106 53 1];
-frequencies = scal2frq(scalesLabels, 'cmor1-1', 1/1000);
+scalesLabels = [451 401 351 301 251 201 151 101 51 1];
+frequencies = scal2frq(scalesLabels, 'cmor1-1', 1/500);
 for idxScale = 1:length(scalesLabels)
     transfomation = sprintf('scale: %d - frequency: %1f', scalesLabels(idxScale), round(frequencies(idxScale),1));
     disp(transfomation);
 end
 
-for idxOdor = 14
-    for idxTrial = [1 3 4]
+for idxOdor = 3
+    for idxTrial = [1]% 3 4]
         A(1,:) = zscore(-downsample(squeeze(breath(idxTrial,from*20000:to*20000,idxOdor)),20));
         A(2,:) = -zscore((squeeze(lfpTrials(idxTrial,from*1000:to*1000,idxOdor))));
-        A(3,:) = zscore(shankMua(idxShank).odor(idxOdor).sdf_trialMua(idxTrial,from*1000 :to*1000));
+%         A(3,:) = zscore(shankMua(idxShank).odor(idxOdor).sdf_trialMua(idxTrial,from*1000 :to*1000));
         x = A(1,:);
         y = A(2,:);
-        z = A(3,:);
+%         z = A(3,:);
         wcoher(x,y,scales,wname,'ntw',ntw,'plot','all');    %resp vs LFP
-        wcoher(x,z,scales,wname,'ntw',ntw,'plot','all');    %resp vs MUA
-        wcoher(y,z,scales,wname,'ntw',ntw,'plot','all');    %LFP vs MUA  
+        wcoherence(x,y,1000);
+%         wcoher(x,z,scales,wname,'ntw',ntw,'plot','all');    %resp vs MUA
+%         wcoher(y,z,scales,wname,'ntw',ntw,'plot','all');    %LFP vs MUA  
     end
 end
 
@@ -443,10 +447,11 @@ smPSTH = smPSTH';
 
 
 wname  = 'cmor1-1'; %I'm using a wavelet here
+%wname  = 'bump'; %I'm using a wavelet here
 scales = 1:1000;
 ntw = 2;
 scalesLabels = [469 417 365 313 261 209 157 106 53 1];
-frequencies = scal2frq(scalesLabels, 'cmor1-1', 1/1000);
+frequencies = scal2frq(scalesLabels, wname, 1/1000);
 for idxScale = 1:length(scalesLabels)
     transfomation = sprintf('scale: %d - frequency: %1f', scalesLabels(idxScale), round(frequencies(idxScale),1));
     disp(transfomation);

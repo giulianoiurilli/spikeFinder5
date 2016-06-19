@@ -1,6 +1,6 @@
 exp = 3;
 
-close all
+% close all
 load('CSC0.mat', 'lfp_data', 'lfp_fs')
 load('dig1.mat');
 toFolder = uigetdir('', 'Save in');
@@ -13,7 +13,7 @@ pre = 3;
 post = 5;
 pre2 = 20;
 response_window = 3;
-odors = 7;
+odors = 14;
 bin_size = 0.2;
 fs = 20000;
 thres = .5;
@@ -46,7 +46,7 @@ params.tapers=[5 9];
 params.trialave = 1;
 params.err = 0;
 
-
+%%
 h = figure;
 for k = 1:odors
     j = 1;
@@ -64,8 +64,8 @@ for k = 1:odors
 end
 
 set(h,'color','white', 'PaperPositionMode', 'auto');
-stringa_fig=sprintf('odor_spectrograms%d.eps', exp);
-saveas(h,fullfile(toFolder,stringa_fig),'epsc')
+% stringa_fig=sprintf('odor_spectrograms%d.eps', exp);
+% saveas(h,fullfile(toFolder,stringa_fig),'epsc')
 
 h = figure;
 for k = 1:odors
@@ -75,7 +75,7 @@ for k = 1:odors
 end
 
 h = figure;
-for z = 1:odors:length(app_sec)
+for z = 6%1:odors:length(app_sec)
     lfp_data2(j,:) = rmlinesc(lfp_data((app_sec(z) - pre2) * params.Fs + 1 : (app_sec(z) - pre) * params.Fs), params);
     [S,f]=mtspectrumc(lfp_data2(j,:), params); %compute power spectrum
     hold on
@@ -83,8 +83,8 @@ for z = 1:odors:length(app_sec)
 end
 title('Power spectrum')
 set(h,'color','white', 'PaperPositionMode', 'auto');
-stringa_fig=sprintf('LFPpowers%d.eps', exp);
-saveas(h,fullfile(toFolder,stringa_fig),'epsc')
-
-clear all
+% stringa_fig=sprintf('LFPpowers%d.eps', exp);
+% saveas(h,fullfile(toFolder,stringa_fig),'epsc')
+% 
+% clear all
 

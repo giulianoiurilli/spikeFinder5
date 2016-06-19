@@ -103,19 +103,19 @@ switch option
         end
     case 6
         for odor = 1:size(dataAll,3) - 1
-            if odor >0 & odor < 3
+            while odor >0 | odor < 4
                 labels  = [labels, app_labels];
             end
-            if odor > 2 & odor< 6
+            while odor > 3 | < 7
                 labels  = [labels, app_labels + ones(1,size(dataAll,2))];
             end
-            if odor > 5 & odor< 9
+            while odor > 6 | < 10
                 labels  = [labels, app_labels + 2*ones(1,size(dataAll,2))];
             end
-            if odor > 8 & odor< 12
+            while odor > 9 | < 13
                 labels  = [labels, app_labels + 3*ones(1,size(dataAll,2))];
             end
-            if odor > 11
+            if odor > 12
                 labels  = [labels, app_labels + 4*ones(1,size(dataAll,2))];
             end
         end

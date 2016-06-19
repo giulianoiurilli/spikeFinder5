@@ -39,12 +39,15 @@ end
 %%
 fs = 20000;
 for idxUnit = 1:size(wf,1)
-    [pr(idxUnit),ppd(idxUnit), deltaT(idxUnit)] = spike_features(wf(idxUnit,:),fs);
+    [pr(idxUnit),ppd(idxUnit), deltaT(idxUnit), had(idxUnit)] = spike_features(wf(idxUnit,:),fs);
 end
 
 figure;
 plot(pr, deltaT, '.')
 axis square
+
+figure;
+histogram(had, 100)
 
 
 
