@@ -41,9 +41,11 @@ Y = [];
 Z = [];
 Y = pdist(tuningCurves);
 Z = linkage(Y);
-[H, T, outperm] = dendrogram(Z);
+figure;
+[H, T, outperm] = dendrogram(Z, size(tuningCurves,1));
 
-
+T = [];
+T = cluster(Z, 'maxclust', 2);
 app = [];
 app = [tuningCurves T];
 app = sortrows(app, size(app,2));

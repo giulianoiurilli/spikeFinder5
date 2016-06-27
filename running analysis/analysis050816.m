@@ -254,7 +254,8 @@ figure
 boxplot(y, gY)
 
 
-
+semBslEICoa = [std(bslCOAsigE)/sqrt(numel(bslCOAsigE)-1) std(bslCOAsigI)/sqrt(numel(bslCOAsigI)-1)]
+semBslEIPcx = [std(bslPCXsigE)/sqrt(numel(bslPCXsigE)-1) std(bslPCXsigI)/sqrt(numel(bslPCXsigI)-1)]
 
 
 

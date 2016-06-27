@@ -282,3 +282,154 @@ figure
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
 boxplot(excRsp, factors, 'Notch', 'on', 'outline', 'ColorGroup', colors, 'FactorSeparator', 'auto', 'FactorGap', 'auto')
 
+%%
+sdfAveCoa = [];
+sdfAttCoa = [];
+sdfAvePcx = [];
+sdfAttPcx = [];
+sdfNeutCoa = [];
+sdfNeutPcx = [];
+c = 0;
+for idxExp = 1 : length(coaAA.esp)
+    for idxShank = 1:4
+        for idxUnit = 1:length(coaAA.esp(idxExp).shankNowarp(idxShank).cell)
+            if coaAA.esp(idxExp).shankNowarp(idxShank).cell(idxUnit).good == 1
+                c = c + 1;
+                Ave = [];
+                Att = [];
+                for idxO = 1:5
+                    if coaAA.esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO).DigitalResponse300ms == 1 || coaAA.esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO).DigitalResponse1000ms == 1
+                        Ave = double(coaAA1.espe(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO).spikeMatrix(:,14000:20000));
+                        sdfAveCoa = [sdfAveCoa; slidePSTH(Ave, 100, 5)];
+                    end
+                end
+                for idxO = 1:5
+                    if coaAA.esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO+5).DigitalResponse300ms == 1 || coaAA.esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO+5).DigitalResponse1000ms == 1
+                        Att = double(coaAA1.espe(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO+5).spikeMatrix(:,14000:20000));
+                        sdfAttCoa = [sdfAttCoa; slidePSTH(Att, 100, 5)];
+                    end
+                end
+            end
+        end
+    end
+end
+
+c = 0;
+for idxExp = 1 : length(coa15.esp)
+    for idxShank = 1:4
+        for idxUnit = 1:length(coa15.esp(idxExp).shankNowarp(idxShank).cell)
+            if coa15.esp(idxExp).shankNowarp(idxShank).cell(idxUnit).good == 1
+                c = c + 1;
+                Neu = [];
+                for idxO = [4 9];
+                    if coa15.esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO).DigitalResponse300ms == 1 || coa15.esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO).DigitalResponse1000ms == 1
+                        Neu = double(coa151.espe(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO).spikeMatrix(:,14000:20000));
+                        sdfNeutCoa = [sdfNeutCoa; slidePSTH(Neu, 100, 5)];
+                    end
+                end
+            end
+        end
+    end
+end
+c = 0;
+for idxExp = 1 : length(coaCS.esp)
+    for idxShank = 1:4
+        for idxUnit = 1:length(coaCS.esp(idxExp).shankNowarp(idxShank).cell)
+            if coaCS.esp(idxExp).shankNowarp(idxShank).cell(idxUnit).good == 1
+                c = c + 1;
+                Neu = [];
+                for idxO = [4 10 15];
+                    if coaCS.esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO).DigitalResponse300ms == 1 || coaCS.esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO).DigitalResponse1000ms == 1
+                        Neu = double(coaCS1.espe(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO).spikeMatrix(:,14000:20000));
+                        sdfNeutCoa = [sdfNeutCoa; slidePSTH(Neu, 100, 5)];
+                    end
+                end
+            end
+        end
+    end
+end
+
+%%
+c = 0;
+for idxExp = 1 : length(pcxAA.esp)
+    for idxShank = 1:4
+        for idxUnit = 1:length(pcxAA.esp(idxExp).shankNowarp(idxShank).cell)
+            if pcxAA.esp(idxExp).shankNowarp(idxShank).cell(idxUnit).good == 1
+                c = c + 1;
+                Ave = [];
+                Att = [];
+                for idxO = 1:5
+                    if pcxAA.esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO).DigitalResponse300ms == 1 || pcxAA.esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO).DigitalResponse1000ms == 1
+                        Ave = double(pcxAA1.espe(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO).spikeMatrix(:,14000:20000));
+                        sdfAvePcx = [sdfAvePcx; slidePSTH(Ave, 100, 5)];
+                    end
+                end
+                for idxO = 1:5
+                    if pcxAA.esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO+5).DigitalResponse300ms == 1 || pcxAA.esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO+5).DigitalResponse1000ms == 1
+                        Att = double(pcxAA1.espe(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO+5).spikeMatrix(:,14000:20000));
+                        sdfAttPcx = [sdfAttPcx; slidePSTH(Att, 100, 5)];
+                    end
+                end
+            end
+        end
+    end
+end
+
+c = 0;
+for idxExp = 1 : length(pcx15.esp)
+    for idxShank = 1:4
+        for idxUnit = 1:length(pcx15.esp(idxExp).shankNowarp(idxShank).cell)
+            if pcx15.esp(idxExp).shankNowarp(idxShank).cell(idxUnit).good == 1
+                c = c + 1;
+                Neu = [];
+                for idxO = [4 9];
+                    if pcx15.esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO).DigitalResponse300ms == 1 || pcx15.esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO).DigitalResponse1000ms == 1
+                        Neu = double(pcx151.espe(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO).spikeMatrix(:,14000:20000));
+                        sdfNeutPcx = [sdfNeutPcx; slidePSTH(Neu, 100, 5)];
+                    end
+                end
+            end
+        end
+    end
+end
+c = 0;
+for idxExp = 1 : length(pcxCS.esp)
+    for idxShank = 1:4
+        for idxUnit = 1:length(pcxCS.esp(idxExp).shankNowarp(idxShank).cell)
+            if pcxCS.esp(idxExp).shankNowarp(idxShank).cell(idxUnit).good == 1
+                c = c + 1;
+                Neu = [];
+                for idxO = [4 10 15];
+                    if pcxCS.esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO).DigitalResponse300ms == 1 || pcxCS.esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO).DigitalResponse1000ms == 1
+                        Neu = double(pcxCS1.espe(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxO).spikeMatrix(:,14000:20000));
+                        sdfNeutPcx = [sdfNeutPcx; slidePSTH(Neu, 100, 5)];
+                    end
+                end
+            end
+        end
+    end
+end
+
+%%
+
+tmtC = [228,26,28]./255;
+roseC = [77,175,74]./255;
+iaaC = [55,126,184]./255;
+
+figure
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+plot(mean(sdfAveCoa), 'linewidth', 2, 'color', tmtC)
+hold on
+plot(mean(sdfAttCoa), 'linewidth', 2,  'color', roseC)
+set(gca,'box', 'off')
+plot(mean(sdfNeutCoa)-0.08, 'linewidth', 2,  'color', iaaC)
+set(gca,'box', 'off')
+
+figure
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+plot(mean(sdfAvePcx), 'linewidth', 2, 'color', tmtC)
+hold on
+plot(mean(sdfAttPcx), 'linewidth', 2,  'color', roseC)
+set(gca,'box', 'off')
+plot(mean(sdfNeutPcx)-0.2, 'linewidth', 2,  'color', iaaC)
+set(gca,'box', 'off')

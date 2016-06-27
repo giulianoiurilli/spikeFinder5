@@ -61,6 +61,30 @@ for j = 2:15
     accuracyResponses_increasingOdors_mean_COA(j) = mean(appCOA);
     accuracyResponses_increasingOdors_sem_COA(j) = std(appCOA)./sqrt(length(appCOA));
 end
+%%
+lista = [];
+odors = 1:15;
+for k = 1:150
+    app = odors;
+    list = [];
+    for j = 1:4
+        idx = randperm(size(app,2));
+        app = app(idx);
+        list = [list app(1:3)];
+        app = app(4:end);
+    end
+    list = [list app];
+    lista(k,:) = list;
+end
+for idxRep = 1:150
+    accuracyResponses2Coa15_sim = l_svmClassify(coa15.esp, lista(idxRep,:),6);
+    CoaNoDecorr15_sim(idxRep) = mean(accuracyResponses2Coa15_sim);
+    accuracyResponses2Pcx15_sim = l_svmClassify(pcx15.esp, lista(idxRep,:),6);
+    PcxNoDecorr15_sim(idxRep) = mean(accuracyResponses2Pcx15_sim);
+end
+
+accuracyResponses2Coa15 = l_svmClassify(coa15.esp, 1:15,6);
+accuracyResponses2Pcx15 = l_svmClassify(pcx15.esp, 1:15,6);
 
 %% category class l-svm 
 
@@ -93,3 +117,80 @@ set(gca, 'XColor', 'w', 'box','off')
 %%
 accuracyResponsesPC_increasing_neurons_binarized = l_svmClassify4(pcx15.esp, 1:15, 1);
 accuracyResponsesCOA_increasing_neurons_binarized = l_svmClassify4(coa15.esp, 1:15, 1);
+%%
+figure
+shadedErrorBar(2:size(accuracyResponsesPC_increasing_neurons_binarized,2)+1, mean(accuracyResponsesPC_increasing_neurons_binarized,1), std(accuracyResponsesPC_increasing_neurons_binarized,1)/sqrt(size(accuracyResponsesPC_increasing_neurons_binarized,2)-1), 'k');
+hold on
+shadedErrorBar(2:size(accuracyResponsesCOA_increasing_neurons_binarized,2)+1, mean(accuracyResponsesCOA_increasing_neurons_binarized,1), std(accuracyResponsesCOA_increasing_neurons_binarized,1)...
+    /sqrt(size(accuracyResponsesCOA_increasing_neurons_binarized,2)-1), 'r');
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'avenir', 'fontsize', 14)
+
+%%
+%%
+figure
+shadedErrorBar(2:size(accuracyResponses2CoaAAaaTrueNoDecorr,2)+1, mean(accuracyResponses2CoaAAaaTrueNoDecorr,1), std(accuracyResponses2CoaAAaaTrueNoDecorr,1)/sqrt(size(accuracyResponses2CoaAAaaTrueNoDecorr,2)-1), 'r');
+hold on
+shadedErrorBar(2:size(accuracyResponses2PcxAAaaTrueNoDecorr,2)+1, mean(accuracyResponses2PcxAAaaTrueNoDecorr,1), std(accuracyResponses2PcxAAaaTrueNoDecorr,1)/sqrt(size(accuracyResponses2PcxAAaaTrueNoDecorr,2)-1), 'k');
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'avenir', 'fontsize', 14)
+ylim([0 100]);
+title('Valence')
+ylabel('accuracy %')
+xlabel('number of neurons')
+set(gcf,'Position',[744 630 347 420]);
+%%
+figure
+shadedErrorBar(2:size(accuracyResponses2Coa15,2)+1, mean(accuracyResponses2Coa15,1), std(accuracyResponses2Coa15,1)/sqrt(size(accuracyResponses2Coa15,2)-1), 'r');
+hold on
+shadedErrorBar(2:size(accuracyResponses2Pcx15,2)+1, mean(accuracyResponses2Pcx15,1), std(accuracyResponses2Pcx15,1)/sqrt(size(accuracyResponses2Pcx15,2)-1), 'k');
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'avenir', 'fontsize', 14)
+ylim([0 100]);
+title('Chemical class')
+ylabel('accuracy %')
+xlabel('number of neurons')
+set(gcf,'Position',[744 630 347 420]);
+%%
+figure
+shadedErrorBar(2:size(accuracyResponses2CoaAAMixValence,2)+1, mean(accuracyResponses2CoaAAMixValence,1), std(accuracyResponses2CoaAAMixValence,1)/sqrt(size(accuracyResponses2CoaAAMixValence,2)-1), 'r');
+hold on
+shadedErrorBar(2:size(accuracyResponses2PcxAAMixValence,2)+1, mean(accuracyResponses2PcxAAMixValence,1), std(accuracyResponses2PcxAAMixValence,1)/sqrt(size(accuracyResponses2PcxAAMixValence,2)-1), 'k');
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'avenir', 'fontsize', 14)
+ylim([0 100]);
+title('Valence mix')
+set(gcf,'Position',[744 630 347 420]);
+ylabel('accuracy %')
+xlabel('number of neurons')
+
+%% valence l-svm - 10 odors
+n_comb = nchoosek(10,5)/2;
+odorsRearranged2Coa = nan*ones(n_comb,10);
+odorsRearranged2Pcx = nan*ones(n_comb,10);
+aa2CoaNoDecorr = nan*ones(n_comb,15);
+aa2PcxNoDecorr = nan*ones(n_comb,15);
+combinations = combnk(1:10, 5);
+combinations1 = combinations(1:size(combinations,1)/2, :);
+combinations2 = combinations(size(combinations,1)/2+1 : end, :);
+combinations2 = flipud(combinations2);
+combinations = [combinations1 combinations2];
+odorsRearrangedCoa = 1:10;
+odorsRearrangedPcx = 1:10;
+for idxRep = 1:n_comb
+    odorsRearranged2Coa(idxRep,:) = odorsRearrangedCoa(combinations(idxRep,:));
+    accuracyResponses2CoaAAaa = l_svmClassify(coaAA.esp, odorsRearranged2Coa(idxRep,:),2);
+    aa2CoaNoDecorr(idxRep,:) = mean(accuracyResponses2CoaAAaa);
+    odorsRearranged2Pcx(idxRep,:) = odorsRearrangedPcx(combinations(idxRep,:));
+    accuracyResponses2PcxAAaa = l_svmClassify(pcxAA.esp, odorsRearranged2Pcx(idxRep,:),2);
+    aa2PcxNoDecorr(idxRep,:) = mean(accuracyResponses2PcxAAaa);
+end
+accuracyResponses2CoaAAaaTrueNoDecorr = l_svmClassify(coaAA.esp, odorsRearrangedCoa,2);
+accuracyResponses2PcxAAaaTrueNoDecorr = l_svmClassify(pcxAA.esp, odorsRearrangedPcx,2);
+percentiles_CoaAA = prctile(aa2CoaNoDecorr, [2.5, 97.5], 2);
+percentiles_PcxAA = prctile(aa2PcxNoDecorr, [2.5, 97.5], 2);
+%%
+figure
+errbar(2, mean(accuracyResponses2CoaAAaaTrueNoDecorr(:)), std(accuracyResponses2Coa15(:))./sqrt(length(accuracyResponses2Coa15(:))), 'r', 'linewidth', 2); %
+hold on
+errbar(4, mean(accuracyResponses2Pcx15(:)), std(accuracyResponses2Pcx15(:))./sqrt(length(accuracyResponses2Pcx15(:))), 'k', 'linewidth', 2); 

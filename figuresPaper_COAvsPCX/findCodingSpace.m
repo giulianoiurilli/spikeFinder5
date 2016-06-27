@@ -1,4 +1,7 @@
-function [scores, scoresMean] = findCodingSpace(esp, odors)
+function [scores, scoresMean, explainedMean, explainedStd] = findCodingSpace(esp, odors)
+% esp = coa15.esp;
+% odors = 1:15;
+
 
 odorsRearranged = odors;
 odors = length(odorsRearranged);
@@ -45,6 +48,7 @@ dataAll = [];
 trials = size(responseCell1All,2);
 stimuli = size(responseCell1All,3);
 scores = zeros(trials .* stimuli, 3, nRep);
+explained = [];
 for idxRep = 1:nRep
     idxCell = randsample(size(responseCell1All,1), 100);
     dataAll = responseCell1All(idxCell,:);
@@ -54,10 +58,13 @@ for idxRep = 1:nRep
     dataAll= zscore(dataAll);
     [coeff, score, latent, tsuared, explained, mu] = pca(dataAll);
     scores(:,:,idxRep) = score(:,1:3);
+    explainedAll(:,idxRep) = explained;
 end
 
 scores = squeeze(mean(scores,3));
 scoresMean = zeros(stimuli,3);
+explainedMean = mean(explainedAll,2);
+explainedStd = std(explainedAll,[],2);
 for idxScore = 1:3
 app = [];
 app = reshape(scores(:, idxScore), trials, stimuli);

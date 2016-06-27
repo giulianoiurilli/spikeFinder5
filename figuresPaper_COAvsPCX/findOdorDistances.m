@@ -16,7 +16,7 @@ for idxesp = 1:length(esp)
                 for idxOdor = odorsRearranged
                     idxO = idxO + 1;
                     app = [];
-                    app = esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms; %- ...
+                    app = esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms;%-...
                     %esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms;
                     app1 = [];
                     app1 = [app(1:5); app(6:10)];
@@ -47,14 +47,14 @@ nRep = 1000;
 D = zeros(nRep, odors*(odors-1)/2);
 DS = D;
 for idxRep = 1:nRep
-    idxCell = randsample(size(responseCell1Mean,2), 100);
+    idxCell = randsample(size(responseCell1Mean,2), 150);
     X = responseCell1Mean(:,idxCell);
-    D(idxRep, :) = pdist(X, 'correlation');
-    for idxUnit = 1:100
+    D(idxRep, :) = -(1-pdist(X, 'correlation'));
+    for idxUnit = 1:150
         idxOdor = randperm(15);
         X(:,idxUnit) = X(idxOdor, idxUnit);
     end
-    DS(idxRep, :) = pdist(X, 'correlation');
+    DS(idxRep, :) = -(1-pdist(X, 'correlation'));
 end
 distOdors = mean(D);
 distOdorsDecorr = mean(DS);

@@ -39,19 +39,19 @@ hwPcx(sigPcx<1) = nan;
 
 
 meanOnsetCoa = nanmean(onsetCoa);
-semOnsetCoa = nanstd(onsetCoa) ./ numel(onsetCoa);
+semOnsetCoa = nanstd(onsetCoa) ./ sqrt(numel(onsetCoa)-1);
 meanOnsetPcx = nanmean(onsetPcx);
-semOnsetPcx = nanstd(onsetPcx) ./ numel(onsetPcx);
+semOnsetPcx = nanstd(onsetPcx) ./ sqrt(numel(onsetPcx)-1);
 
 meanPeakCoa = nanmean(peakCoa);
-semPeakCoa = nanstd(peakCoa) ./ numel(peakCoa);
+semPeakCoa = nanstd(peakCoa) ./ sqrt(numel(peakCoa)-1);
 meanPeakPcx = nanmean(peakPcx);
-semPeakPcx = nanstd(peakPcx) ./ numel(peakPcx);
+semPeakPcx = nanstd(peakPcx) ./ sqrt(numel(peakPcx)-1);
 
 meanHwCoa = nanmean(hwCoa);
-semHwCoa = nanstd(hwCoa) ./ numel(hwCoa);
+semHwCoa = nanstd(hwCoa) ./ sqrt(numel(hwCoa)-1);
 meanHwPcx = nanmean(hwPcx);
-semHwPcx = nanstd(hwPcx) ./ numel(hwPcx);
+semHwPcx = nanstd(hwPcx) ./ sqrt(numel(hwPcx)-1);
 
 
 %%
