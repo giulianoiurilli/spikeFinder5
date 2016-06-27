@@ -1,52 +1,134 @@
-FRspCOA = [rspFractioncoa15;rspFractioncoaAA];
-FRspPCX = [rspFractionpcx15;rspFractionpcxAA];
-logSignificantCoa = [significancecoa15; significancecoaAA];
+FRspCOA = [Mcoa15.rspPeakFractionExc;McoaAA.rspPeakFractionExc];
+FRspPCX = [Mpcx15.rspPeakFractionExc;MpcxAA.rspPeakFractionExc];
+logSignificantCoa = [Mcoa15.significance; McoaAA.significance];
 logSignificantCoa = logSignificantCoa(:);
-logSignificantPcx = [significancepcx15; significancepcxAA];
+logSignificantPcx = [Mpcx15.significance; MpcxAA.significance];
 logSignificantPcx = logSignificantPcx(:);
 FRspCOAsig = FRspCOA(:);
 FRspPCXsig = FRspPCX(:);
 FRspCOAsig(logSignificantCoa<1) = [];
 FRspPCXsig(logSignificantPcx<1) = [];
-
-
-%%
-distributionPlot(FRspCOA(:),'histOpt', 0,'histOri','right','color',coaC,'widthDiv',[2 2],'showMM',0, 'globalNorm', 2, 'xyOri', 'flipped')
-distributionPlot(FRspPCX(:),'histOpt', 0,'histOri','left','color',pcxC,'widthDiv',[2 1],'showMM',0, 'globalNorm', 2, 'xyOri', 'flipped')
-hold on
-dataToPlot = {FRspPCXsig,FRspCOAsig};
-catIdx = [ones(length(FRspPCXsig),1); zeros(length(FRspCOAsig),1)];
-colori = {coaC, pcxC};
-plotSpread(dataToPlot,'categoryIdx',catIdx,'categoryColors', colori, 'showMM', 0, 'xyOri', 'flipped')
-alpha(0.5)
-%%
-a = 2;
-figure
-distributionPlot(ffCoaSig(:), 'histOpt', 0, 'histOri','right','color',coaC,'widthDiv',[2 2],'showMM',0, 'globalNorm', a, 'xyOri', 'flipped')
-distributionPlot(ffPcxSig(:),'histOpt', 0, 'histOri','left','color',pcxC,'widthDiv',[2 1],'showMM',0, 'globalNorm', a, 'xyOri', 'flipped')
-hold on
-distributionPlot(ffCOA(:), 'histOpt', 0, 'histOri','right','color',coaC,'widthDiv',[2 2],'showMM',0, 'globalNorm', a, 'xyOri', 'flipped')
-distributionPlot(ffPCX(:),'histOpt', 0, 'histOri','left','color',pcxC,'widthDiv',[2 1],'showMM',0, 'globalNorm', a, 'xyOri', 'flipped')
 %%
 edges = -0.05:0.1:1.05;
 figure
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+set(gcf,'Position',[109 69 1800 988]);
+subplot(2,2,1)
 h = histcounts(FRspCOA(:),edges);
 s1 = bar(0:0.1:1, h./size(FRspCOA(:),1), 'EdgeColor', coaC, 'FaceColor', coaC);
 alpha(s1, .5)
 hold on
 h1 = histcounts(FRspCOAsig(:),edges);
 s2 = bar(0:0.1:1, h1./size(FRspCOA(:),1), 'EdgeColor', coaC, 'FaceColor', coaC);
+xlabel('Number of Trials with a Significant Excitatory Peak') 
+set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'avenir', 'fontsize', 14)
 
-
-figure
+subplot(2,2,2)
 h = histcounts(FRspPCX(:),edges);
 s3 = bar(0:0.1:1, h./size(FRspPCX(:),1), 'EdgeColor', pcxC, 'FaceColor', pcxC);
 alpha(s3, .5)
 hold on
 h1 = histcounts(FRspPCXsig(:),edges);
 s4 = bar(0:0.1:1, h1./size(FRspPCX(:),1), 'EdgeColor', pcxC, 'FaceColor', pcxC);
-
-
+xlabel('Number of Trials with a Significant Excitatory Peak') 
+set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'avenir', 'fontsize', 14)
 %%
+FRspCOA = [Mcoa15.rspWindFractionExc;McoaAA.rspWindFractionExc];
+FRspPCX = [Mpcx15.rspWindFractionExc;MpcxAA.rspWindFractionExc];
+logSignificantCoa = [Mcoa15.significance; McoaAA.significance];
+logSignificantCoa = logSignificantCoa(:);
+logSignificantPcx = [Mpcx15.significance; MpcxAA.significance];
+logSignificantPcx = logSignificantPcx(:);
+FRspCOAsig = FRspCOA(:);
+FRspPCXsig = FRspPCX(:);
+FRspCOAsig(logSignificantCoa<1) = [];
+FRspPCXsig(logSignificantPcx<1) = [];
+%%
+edges = -0.05:0.1:1.05;
+subplot(2,2,3)
+h = histcounts(FRspCOA(:),edges);
+s1 = bar(0:0.1:1, h./size(FRspCOA(:),1), 'EdgeColor', coaC, 'FaceColor', coaC);
+alpha(s1, .5)
+hold on
+h1 = histcounts(FRspCOAsig(:),edges);
+s2 = bar(0:0.1:1, h1./size(FRspCOA(:),1), 'EdgeColor', coaC, 'FaceColor', coaC);
+xlabel('Number of Trials with a Significant Excitatory Spike Count (1 s)') 
+set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'avenir', 'fontsize', 14)
+
+subplot(2,2,4)
+h = histcounts(FRspPCX(:),edges);
+s3 = bar(0:0.1:1, h./size(FRspPCX(:),1), 'EdgeColor', pcxC, 'FaceColor', pcxC);
+alpha(s3, .5)
+hold on
+h1 = histcounts(FRspPCXsig(:),edges);
+s4 = bar(0:0.1:1, h1./size(FRspPCX(:),1), 'EdgeColor', pcxC, 'FaceColor', pcxC);
+xlabel('Number of Trials with a Significant Excitatory Spike Count (1 s)') 
+set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'avenir', 'fontsize', 14)
+%%
+FRspCOA = [Mcoa15.rspPeakFractionInh;McoaAA.rspPeakFractionInh];
+FRspPCX = [Mpcx15.rspPeakFractionInh;MpcxAA.rspPeakFractionInh];
+logSignificantCoa = [Mcoa15.significance; McoaAA.significance];
+logSignificantCoa = logSignificantCoa(:);
+logSignificantPcx = [Mpcx15.significance; MpcxAA.significance];
+logSignificantPcx = logSignificantPcx(:);
+FRspCOAsig = FRspCOA(:);
+FRspPCXsig = FRspPCX(:);
+FRspCOAsig(logSignificantCoa>-1) = [];
+FRspPCXsig(logSignificantPcx>-1) = [];
+%%
+edges = -0.05:0.1:1.05;
 figure
-bar(0:0.1:1, [(h./size(ffCOA(:),1))', (h1./size(ffCOA(:),1))'])
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+set(gcf,'Position',[109 69 1800 988]);
+subplot(2,2,1)
+h = histcounts(FRspCOA(:),edges);
+s1 = bar(0:0.1:1, h./size(FRspCOA(:),1), 'EdgeColor', coaC, 'FaceColor', coaC);
+alpha(s1, .5)
+hold on
+h1 = histcounts(FRspCOAsig(:),edges);
+s2 = bar(0:0.1:1, h1./size(FRspCOA(:),1), 'EdgeColor', coaC, 'FaceColor', coaC);
+xlabel('Number of Trials with a Significant Inhibitory Trough') 
+set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'avenir', 'fontsize', 14)
+
+subplot(2,2,2)
+h = histcounts(FRspPCX(:),edges);
+s3 = bar(0:0.1:1, h./size(FRspPCX(:),1), 'EdgeColor', pcxC, 'FaceColor', pcxC);
+alpha(s3, .5)
+hold on
+h1 = histcounts(FRspPCXsig(:),edges);
+s4 = bar(0:0.1:1, h1./size(FRspPCX(:),1), 'EdgeColor', pcxC, 'FaceColor', pcxC);
+xlabel('Number of Trials with a Significant Inhibitory Trough') 
+set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'avenir', 'fontsize', 14)
+%%
+FRspCOA = [Mcoa15.rspWindFractionInh;McoaAA.rspWindFractionInh];
+FRspPCX = [Mpcx15.rspWindFractionInh;MpcxAA.rspWindFractionInh];
+logSignificantCoa = [Mcoa15.significance; McoaAA.significance];
+logSignificantCoa = logSignificantCoa(:);
+logSignificantPcx = [Mpcx15.significance; MpcxAA.significance];
+logSignificantPcx = logSignificantPcx(:);
+FRspCOAsig = FRspCOA(:);
+FRspPCXsig = FRspPCX(:);
+FRspCOAsig(logSignificantCoa>-1) = [];
+FRspPCXsig(logSignificantPcx>-1) = [];
+%%
+edges = -0.05:0.1:1.05;
+subplot(2,2,3)
+h = histcounts(FRspCOA(:),edges);
+s1 = bar(0:0.1:1, h./size(FRspCOA(:),1), 'EdgeColor', coaC, 'FaceColor', coaC);
+alpha(s1, .5)
+hold on
+h1 = histcounts(FRspCOAsig(:),edges);
+s2 = bar(0:0.1:1, h1./size(FRspCOA(:),1), 'EdgeColor', coaC, 'FaceColor', coaC);
+xlabel('Number of Trials with a Significant Inhibitory Spike Count (1 s)') 
+set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'avenir', 'fontsize', 14)
+
+subplot(2,2,4)
+h = histcounts(FRspPCX(:),edges);
+s3 = bar(0:0.1:1, h./size(FRspPCX(:),1), 'EdgeColor', pcxC, 'FaceColor', pcxC);
+alpha(s3, .5)
+hold on
+h1 = histcounts(FRspPCXsig(:),edges);
+s4 = bar(0:0.1:1, h1./size(FRspPCX(:),1), 'EdgeColor', pcxC, 'FaceColor', pcxC);
+xlabel('Number of Trials with a Significant Inhibitory Spike Count (1 s)') 
+set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'avenir', 'fontsize', 14)
+

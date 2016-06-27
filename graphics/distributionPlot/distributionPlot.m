@@ -1,4 +1,4 @@
-function handles = distributionPlot(varargin)
+function [xHist, yHist, handles] = distributionPlot(varargin)
 %DISTRIBUTIONPLOT creates violin plots for convenient visualization of multiple distributions
 %
 % SYNOPSIS: handles = distributionPlot(data,propertyName,propertyValue,...)
@@ -680,7 +680,7 @@ for iData = goodData'
     end
     
     % add offset (in case we have multiple widthDiv)
-    xArray = xArray + xOffset + 0.5;
+    xArray = xArray + xOffset;% + 0.5;
     
     
     % yData is simply the bin locations

@@ -27,6 +27,7 @@ app=gradient(spike);
 %slop=app(round(t_max + 0.5e-3 * nfs));
 deltaT = (t_max - t_min)/nfs;
 
+<<<<<<< HEAD
 % Look for hwa
 hw1=spike(t_min)/2; %Half width
 hw2=spike(t_max)/2; %Half width
@@ -36,3 +37,11 @@ pre_=t_min-pre;
 post_ = post;
 had = (post_ + pre_ + t_max-t_min)/nfs;
 %had=(post_+pre_)/nfs; %/fs*1000;
+=======
+
+hw=spike(t_min)/2; %Half width amplitude
+[app pre]=min(abs(spike(1:t_min)-hw));
+pre=t_min-pre;
+[app post]=min(abs(spike(t_max+1:end)-hw));
+had=(post+pre)/fs*1000;
+>>>>>>> origin/master

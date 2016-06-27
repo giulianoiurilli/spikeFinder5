@@ -2,7 +2,7 @@
 %function [accuracyResponses, accuracyBaseline, accuracyShuffled, conMatResponses] = l_svmClassify(esp, odors)
 %function [accuracyResponses, accuracyBaseline, accuracyShuffled] = l_svmClassify(esp, odors)
 %function [accuracyResponses] = l_svmClassify(esp, odors, option)
-function [accuracyResponses] = l_svmClassify(esp, odors, option)
+function [accuracyResponses] = l_svmClassify4(esp, odors, option)
 
 
 odorsRearranged = odors;
@@ -21,21 +21,8 @@ for idxesp = 1:length(esp)
                 for idxOdor = odorsRearranged
                     idxO = idxO + 1;
                     app = [];
-                    app = double(esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms -...
-                    esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms);
-                    app1 = [];
-                    app1 = [app(1:5); app(6:10)];
-                    app2 = [];
-                    app2 = mean(app1);
-                    responseCell1Mean(idxCell1, idxO) = mean(app);
-                    responseCell1All(idxCell1,:,idxO) = app2;
-                    app = [];
-                    app = double(esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms);
-                    app1 = [];
-                    app1 = [app(1:5); app(6:10)];
-                    app2 = [];
-                    app2 = mean(app1);
-                    baselineCell1All(idxCell1,:,idxO) = app2;
+                    app = double(esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).trialExcPeak1000ms);
+                    responseCell1All(idxCell1,:,idxO) = app;
                 end
             end
         end
@@ -124,9 +111,9 @@ end
 labels      = labels';
 trainingN = floor(0.9*(trials * stimuli));
 repetitions = 1000;
-[mean_acc_svm, std_acc_svm, acc_svm, prctile25, prctile75, conMat] = odor_c_svm_1leaveout(dataAll, trainingN, labels, repetitions);
+[mean_acc_svm, std_acc_svm, acc_svm, prctile25, prctile75] = odor_c_svm_2leaveout(dataAll, trainingN, labels, repetitions);
 accuracyResponses = acc_svm;
-conMatResponses = conMat;
+
 
  %%
 % %On baselines
