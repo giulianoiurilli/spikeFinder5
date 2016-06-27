@@ -38,14 +38,24 @@ end
 
 %%
 fs = 20000;
+idxU = 0;
 for idxUnit = 1:size(wf,1)
-    [pr(idxUnit),ppd(idxUnit), deltaT(idxUnit)] = spike_features(wf(idxUnit,:),fs);
+    if min(wf)<-0.4
+        idxU = idxU+1;
+    [pr(idxU),ppd(idxU), deltaT(idxU), had(idxU)] = spike_features(wf(idxUnit,6:25),fs);
+    end
 end
 
 figure;
-plot(pr, deltaT, '.')
+plot(pr, deltaT, 'k.')
 axis square
 
+figure;
+histogram(had, 20)
+
+deltaT1 = sort(deltaT);
+figure;
+histogram((deltaT(1:1239)+0.0001)*1000, 20)
 
 
 
