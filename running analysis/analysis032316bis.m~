@@ -189,9 +189,9 @@ bottomY = min(info1000Coa);
 topY = max(info1000Coa);
 blankFigure([leftX-10*yMargin rightX+10*xMargin bottomY-10*bottomMargin topY+10*topMargin]);
 hold on
-plot(ls1000Coa, info1000Coa, 'ok', 'markerfacecolor',coaC,'markersize', 4,  'markeredgecolor', coaC)
+plot(ls1000Coa, info1000Coa, 'ok', 'markerfacecolor','markersize', 4,  'markeredgecolor', coaC)
 hold on
-plot(ls1000Pcx, info1000Pcx, 'ok', 'markerfacecolor', pcxC,'markersize', 4,  'markeredgecolor', pcxC)
+plot(ls1000Pcx, info1000Pcx, 'ok', 'markersize', 4,  'markeredgecolor', pcxC)
 % plot(ls1000Coa(129), info1000Coa(129), 'ok', 'markersize', 10, 'markerfacecolor', [215,48,39]./255, 'markeredgecolor', [215,48,39]./255)
 % plot(ls1000Coa(116), info1000Coa(116), 'ok', 'markersize', 10, 'markerfacecolor', [26,152,80]./255, 'markeredgecolor', [26,152,80]./255)
 clear axX

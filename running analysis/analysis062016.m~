@@ -113,15 +113,7 @@ set(gcf,'color','white', 'PaperPositionMode', 'auto');
 set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'avenir', 'fontsize', 14)
 
 figure;
-b = bar([mean(B(:)) mean(A(:)); 0 0]);
-b(1).EdgeColor = coaC;
-b(1).FaceColor = coaC;
-b(2).EdgeColor = pcxC;
-b(2).FaceColor = pcxC;
-set(gca, 'XColor', 'w', 'box','off')
-set(gcf,'color','white', 'PaperPositionMode', 'auto');
-set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'avenir', 'fontsize', 14)
-
+bar([mean(B(:)) 
 %%
 odorsRearranged = 1:10;
 [scoresCoaAA, scoresMeanCoaAA, explainedMeanCoaAA, explaineStdCoaAA] = findCodingSpace(coaAA.esp, odorsRearranged);
