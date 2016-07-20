@@ -73,9 +73,9 @@ for idxExp = 1: length(esp)
                             A(idxTrial,:) = slidePSTH(double(espe(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrix(idxTrial,:)), binSize, slideBy);
                         end
                         allSdf(idxCellOdorPair,:) = mean(A);
-                        for idxBin = 1:size(A,2)
-                            allGvar(idxCellOdorPair,idxBin) = partNeuralVariance(A(:,idxBin));
-                        end
+%                         for idxBin = 1:size(A,2)
+%                             allGvar(idxCellOdorPair,idxBin) = partNeuralVariance(A(:,idxBin));
+%                         end
                         cellLogAllSdfs(idxCellOdorPair,:) = [idxExp, idxShank, idxUnit, idxO];
                     end
                 end
@@ -83,6 +83,7 @@ for idxExp = 1: length(esp)
         end
     end
 end
+
 %save('sdf15.mat', 'allSdf', 'cellLogAllSdfs', '-append')
 
 

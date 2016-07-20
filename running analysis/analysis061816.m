@@ -194,3 +194,88 @@ figure
 errbar(2, mean(accuracyResponses2CoaAAaaTrueNoDecorr(:)), std(accuracyResponses2Coa15(:))./sqrt(length(accuracyResponses2Coa15(:))), 'r', 'linewidth', 2); %
 hold on
 errbar(4, mean(accuracyResponses2Pcx15(:)), std(accuracyResponses2Pcx15(:))./sqrt(length(accuracyResponses2Pcx15(:))), 'k', 'linewidth', 2); 
+%%
+%%
+odors = 1:15;
+accuracyResponsesPCcs1_increasing_neurons = l_svmClassify(pcxCS.esp, odors, 1);
+accuracyResponsesCOAcs1_increasing_neurons = l_svmClassify(coaCS.esp, odors,1);
+accuracyResponsesPCcs5_increasing_neurons = l_svmClassify(pcxCS.esp, odors, 5);
+accuracyResponsesCOAcs5_increasing_neurons = l_svmClassify(coaCS.esp, odors,5);
+
+accuracyResponsesPCcs11_increasing_neurons = l_svmClassify(pcxCS.esp, 1:5, 1);
+accuracyResponsesCOAcs11_increasing_neurons = l_svmClassify(coaCS.esp, 1:5,1);
+accuracyResponsesPCcs12_increasing_neurons = l_svmClassify(pcxCS.esp, 6:10, 1);
+accuracyResponsesCOAcs12_increasing_neurons = l_svmClassify(coaCS.esp, 6:10,1);
+accuracyResponsesPCcs13_increasing_neurons = l_svmClassify(pcxCS.esp, 11:15, 1);
+accuracyResponsesCOAcs13_increasing_neurons = l_svmClassify(coaCS.esp, 11:15,1);
+
+%%
+figure
+plot(10:10:150, mean(accuracyResponsesCOAcs1_increasing_neurons), 'o', 'color', coaC, 'MarkerSize', 5, 'MarkerFaceColor', coaC);
+hold on
+plot(10:10:150, mean(accuracyResponsesPCcs1_increasing_neurons), 'o', 'color', pcxC, 'MarkerSize', 5, 'MarkerFaceColor', pcxC);
+hold on
+errbar(10:10:150, mean(accuracyResponsesCOAcs1_increasing_neurons),...
+    std(accuracyResponsesCOAcs1_increasing_neurons)./sqrt(length(accuracyResponsesCOAcs1_increasing_neurons)), 'r', 'linewidth', 2); %
+hold on
+errbar(10:10:150, mean(accuracyResponsesPCcs1_increasing_neurons),...
+    std(accuracyResponsesPCcs1_increasing_neurons)./sqrt(length(accuracyResponsesPCcs1_increasing_neurons)), 'k', 'linewidth', 2);
+title('one vs all')
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'avenir', 'fontsize', 14)
+ylim([0 100]);
+xlabel('number of neurons')
+ylabel('accuracy %')
+
+figure
+plot(10:10:150, mean(accuracyResponsesCOAcs5_increasing_neurons), 'o', 'color', coaC, 'MarkerSize', 5, 'MarkerFaceColor', coaC);
+hold on
+plot(10:10:150, mean(accuracyResponsesPCcs5_increasing_neurons), 'o', 'color', pcxC, 'MarkerSize', 5, 'MarkerFaceColor', pcxC);
+hold on
+errbar(10:10:150, mean(accuracyResponsesCOAcs5_increasing_neurons),...
+    std(accuracyResponsesCOAcs5_increasing_neurons)./sqrt(length(accuracyResponsesCOAcs5_increasing_neurons)), 'r', 'linewidth', 2); %
+hold on
+errbar(10:10:150, mean(accuracyResponsesPCcs5_increasing_neurons),...
+    std(accuracyResponsesPCcs5_increasing_neurons)./sqrt(length(accuracyResponsesPCcs5_increasing_neurons)), 'k', 'linewidth', 2);
+title('odor identity')
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'avenir', 'fontsize', 14)
+ylim([0 100]);
+xlabel('number of neurons')
+ylabel('accuracy %')
+
+aCoa = [accuracyResponsesCOAcs11_increasing_neurons; accuracyResponsesCOAcs12_increasing_neurons; accuracyResponsesCOAcs12_increasing_neurons];
+aPcx = [accuracyResponsesPCcs11_increasing_neurons; accuracyResponsesPCcs12_increasing_neurons; accuracyResponsesPCcs13_increasing_neurons];
+figure
+plot(10:10:150, mean(aCoa), 'o', 'color', coaC, 'MarkerSize', 5, 'MarkerFaceColor', coaC);
+hold on
+plot(10:10:150, mean(aPcx), 'o', 'color', pcxC, 'MarkerSize', 5, 'MarkerFaceColor', pcxC);
+hold on
+errbar(10:10:150, mean(aCoa),...
+    std(aCoa)./sqrt(length(aCoa)), 'r', 'linewidth', 2); %
+hold on
+errbar(10:10:150, mean(aPcx),...
+    std(aPcx)./sqrt(length(aPcx)), 'k', 'linewidth', 2);
+title('odor concentration')
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'avenir', 'fontsize', 14)
+ylim([0 100]);
+xlabel('number of neurons')
+ylabel('accuracy %')
+
+%%
+[accuracyResponses2Coa15,accuracyResponses2Coa15Shuffled]= l_svmClassify(coa15.esp, 1:15,1);
+[accuracyResponses2Pcx15,accuracyResponses2Pcx15Shuffled] = l_svmClassify(pcx15.esp, 1:15,1);
+%%
+figure
+shadedErrorBar(2:size(accuracyResponses2Coa15,2)+1, mean(accuracyResponses2Coa15,1), std(accuracyResponses2Coa15,1)/sqrt(size(accuracyResponses2Coa15,2)-1), 'r');
+hold on
+shadedErrorBar(2:size(accuracyResponses2Pcx15,2)+1, mean(accuracyResponses2Pcx15,1), std(accuracyResponses2Pcx15,1)/sqrt(size(accuracyResponses2Pcx15,2)-1), 'k');
+hold on
+plot(2:size(accuracyResponses2Pcx15Shuffled1,2)+1, mean(accuracyResponses2Pcx15Shuffled1,1),':k', 'color', pcxC)
+hold on
+plot(2:size(accuracyResponses2Coa15Shuffled1,2)+1, mean(accuracyResponses2Coa15Shuffled1,1),':r', 'color', coaC)
+xlabel('number of neurons')
+ylabel('accuracy %')
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'avenir', 'fontsize', 14)

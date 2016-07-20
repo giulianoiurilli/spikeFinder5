@@ -84,32 +84,33 @@ p(2,3,2).pack('v', {25 25 25 25});
 
 clims = [0 1];
 p(1,1,1).select()
-imagesc(aurocs300msCoa(:,1:5), clims); colormap(brewermap([],'*RdBu')); axis tight
+imagesc(aurocs1000msCoa(:,1:5), clims); colormap(brewermap([],'*RdBu')); axis tight
+colorbar
 set(gca,'XColor','w')
 ylabel('Neuron ID')
 title('Pentanal')
 p(1,2,1).select()
-imagesc(aurocs300msCoa(:,6:10), clims); colormap(brewermap([],'*RdBu')); axis tight
+imagesc(aurocs1000msCoa(:,6:10), clims); colormap(brewermap([],'*RdBu')); axis tight
 set(gca,'XColor','w')
 set(gca,'YColor','w')
 title('Ethyl tiglate')
 p(1,3,1).select()
-imagesc(aurocs300msCoa(:,11:15), clims); colormap(brewermap([],'*RdBu')); axis tight
+imagesc(aurocs1000msCoa(:,11:15), clims); colormap(brewermap([],'*RdBu')); axis tight
 set(gca,'XColor','w')
 set(gca,'YColor','w')
 title('Isoamylacetate')
 p(2,1,1).select()
-imagesc(aurocs300msPcx(:,1:5), clims); colormap(brewermap([],'*RdBu')); axis tight
+imagesc(aurocs1000msPcx(:,1:5), clims); colormap(brewermap([],'*RdBu')); axis tight
 set(gca,'XColor','w')
 ylabel('Neuron ID')
 title('Pentanal')
 p(2,2,1).select()
-imagesc(aurocs300msPcx(:,6:10), clims); colormap(brewermap([],'*RdBu')); axis tight
+imagesc(aurocs1000msPcx(:,6:10), clims); colormap(brewermap([],'*RdBu')); axis tight
 set(gca,'XColor','w')
 set(gca,'YColor','w')
 title('Ethyl tiglate')
 p(2,3,1).select()
-imagesc(aurocs300msPcx(:,11:15), clims); colormap(brewermap([],'*RdBu')); axis tight
+imagesc(aurocs1000msPcx(:,11:15), clims); colormap(brewermap([],'*RdBu')); axis tight
 set(gca,'XColor','w')
 set(gca,'YColor','w')
 title('Isoamylacetate')
@@ -134,7 +135,7 @@ errbar([1 2 3 4 5], pMeanCoaInh1000(1:5), pSemCoaInh1000(1:5), 'linewidth', 2, '
 set(gca, 'XColor', 'w', 'box','off')
 ylabel('Inhibited neurons (fraction)')
 xlim([0.5 5.5])
-ylim([0 0.15])
+ylim([0 0.1])
 p(1,1,2,3).select()
 hold on
 plot([1 2 3 4 5], meanAurocCoa300(1:5), 'o', 'markersize', 10, 'markeredgecolor', coaC)
@@ -174,7 +175,7 @@ plot([1 2 3 4 5], pMeanCoaInh1000(6:10), 'o', 'markersize', 10, 'markeredgecolor
 errbar([1 2 3 4 5], pMeanCoaInh1000(6:10), pSemCoaInh1000(6:10), 'linewidth', 2, 'color', coaC)
 set(gca, 'XColor', 'w', 'box','off')
 xlim([0.5 5.5])
-ylim([0 0.15])
+ylim([0 0.1])
 p(1,2,2,3).select()
 hold on
 plot([1 2 3 4 5], meanAurocCoa300(6:10), 'o', 'markersize', 10, 'markeredgecolor', coaC)
@@ -212,7 +213,7 @@ plot([1 2 3 4 5], pMeanCoaInh1000(11:15), 'o', 'markersize', 10, 'markeredgecolo
 errbar([1 2 3 4 5], pMeanCoaInh1000(11:15), pSemCoaInh1000(11:15), 'linewidth', 2, 'color', coaC)
 set(gca, 'XColor', 'w', 'box','off')
 xlim([0.5 5.5])
-ylim([0 0.15])
+ylim([0 0.1])
 p(1,3,2,3).select()
 hold on
 plot([1 2 3 4 5], meanAurocCoa300(11:15), 'o', 'markersize', 10, 'markeredgecolor', coaC)
@@ -252,7 +253,7 @@ plot([1 2 3 4 5], pMeanPcxInh1000(1:5), 'o', 'markersize', 10, 'markeredgecolor'
 errbar([1 2 3 4 5], pMeanPcxInh1000(1:5), pSemPcxInh1000(1:5), 'linewidth', 2, 'color', pcxC)
 set(gca, 'XColor', 'w', 'box','off')
 xlim([0.5 5.5])
-ylim([0 0.15])
+ylim([0 0.1])
 p(2,1,2,3).select()
 hold on
 plot([1 2 3 4 5], meanAurocPcx300(1:5), 'o', 'markersize', 10, 'markeredgecolor', pcxC)
@@ -291,7 +292,7 @@ plot([1 2 3 4 5], pMeanPcxInh1000(6:10), 'o', 'markersize', 10, 'markeredgecolor
 errbar([1 2 3 4 5], pMeanPcxInh1000(6:10), pSemPcxInh1000(6:10), 'linewidth', 2, 'color', pcxC)
 set(gca, 'XColor', 'w', 'box','off')
 xlim([0.5 5.5])
-ylim([0 0.15])
+ylim([0 0.1])
 p(2,2,2,3).select()
 hold on
 plot([1 2 3 4 5], meanAurocPcx300(6:10), 'o', 'markersize', 10, 'markeredgecolor', pcxC)
@@ -329,7 +330,7 @@ plot([1 2 3 4 5], pMeanPcxInh1000(11:15), 'o', 'markersize', 10, 'markeredgecolo
 errbar([1 2 3 4 5], pMeanPcxInh1000(11:15), pSemPcxInh1000(11:15), 'linewidth', 2, 'color', pcxC)
 set(gca, 'XColor', 'w', 'box','off')
 xlim([0.5 5.5])
-ylim([0 0.15])
+ylim([0 0.1])
 p(2,3,2,3).select()
 hold on
 plot([1 2 3 4 5], meanAurocPcx300(11:15), 'o', 'markersize', 10, 'markeredgecolor', pcxC)

@@ -31,14 +31,14 @@ pcxCs2 = load('pcx_CS_2_2.mat');
 % 
 % 
 %% Find response types
-[allSdfCoa15, cellLogAllSdfsCoa15] = collectAllSdfs(coa152.esp,coa151.espe, odors);
-[allSdfCoaCs, cellLogAllSdfsCoaCs] = collectAllSdfs(coaCs2.esp,coaCs1.espe, odors);
-[allSdfCoaAA, cellLogAllSdfsCoaAA] = collectAllSdfs(coaAAMix2.esp,coaAAMix1.espe, odorsAA);
-[allSdfCoaMix, cellLogAllSdfsCoaMix] = collectAllSdfs(coaAAMix2.esp,coaAAMix1.espe, odorsMix);
-[allSdfPcx15, cellLogAllSdfsPcx15] = collectAllSdfs(pcx152.esp,pcx151.espe, odors);
-[allSdfPcxCs, cellLogAllSdfsPcxCs] = collectAllSdfs(pcxCs2.esp,pcxCs1.espe, odors);
-[allSdfPcxAA, cellLogAllSdfsPcxAA] = collectAllSdfs(pcxAAMix2.esp,pcxAAMix1.espe, odorsAA);
-[allSdfPcxMix, cellLogAllSdfsPcxMix] = collectAllSdfs(pcxAAMix2.esp,pcxAAMix1.espe, odorsMix);
+[allSdfCoa15, cellLogAllSdfsCoa15] = collectAllSdfs(coa15.esp,coa151.espe, 1:15);
+[allSdfCoaCs, cellLogAllSdfsCoaCs] = collectAllSdfs(coaCS.esp,coaCS1.espe, 1:15);
+[allSdfCoaAA, cellLogAllSdfsCoaAA] = collectAllSdfs(coaAA.esp,coaAA1.espe, 1:10);
+[allSdfCoaMix, cellLogAllSdfsCoaMix] = collectAllSdfs(coaAA.esp,coaAA1.espe, 11:14);
+[allSdfPcx15, cellLogAllSdfsPcx15] = collectAllSdfs(pcx15.esp,pcx151.espe, 1:15);
+[allSdfPcxCs, cellLogAllSdfsPcxCs] = collectAllSdfs(pcxCS.esp,pcxCS1.espe, 1:15);
+[allSdfPcxAA, cellLogAllSdfsPcxAA] = collectAllSdfs(pcxAA.esp,pcxAA1.espe, 1:10);
+[allSdfPcxMix, cellLogAllSdfsPcxMix] = collectAllSdfs(pcxAA.esp,pcxAA1.espe, 11:14);
 
 idxArea = [zeros(size(cellLogAllSdfsCoa15,1) + size(cellLogAllSdfsCoaCs,1) + size(cellLogAllSdfsCoaAA,1) + size(cellLogAllSdfsCoaMix,1),1);...
             ones(size(cellLogAllSdfsPcx15,1) + size(cellLogAllSdfsPcxCs,1) + size(cellLogAllSdfsPcxAA,1) + size(cellLogAllSdfsPcxMix,1),1)];

@@ -1,4 +1,4 @@
-function  [noiseCorrW1000ms noiseCorrB1000ms] = findNoiseCorrelation(esp, odorsRearranged)
+function  [noiseCorrW1000ms, noiseCorrB1000ms, noiseCorrW1000msSig, noiseCorrB1000msSig] = findNoiseCorrelation(esp, odorsRearranged)
 
 n_trials = 10;
 odors = numel(odorsRearranged);
@@ -26,7 +26,7 @@ for idxesp = 1: length(esp) %- 1
                 for idxOdor = odorsRearranged
                     idxO = idxO + 1;
                     tuningCell300ms(idxShank).shank(idxCell300ms,:,idxO) = (esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms -...
-                        median(esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms));% ./ std((esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms));
+                        mean(esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms));% ./ std((esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse300ms));
                 end
                 %             end
             end
@@ -68,22 +68,11 @@ end
 noiseCorrW1000ms = [];
 noiseCorrB1000ms = [];
 for idxesp = 1: length(esp) %- 1
-    %odorsRearranged = keepNewOrder(idxesp,:);
     for idxShank = 1:4
         idxCell1000ms = 0;
         tuningCell1000ms(idxShank).shank = [];
         for idxUnit = 1:length(esp(idxesp).shankNowarp(idxShank).cell)
-            if esp(idxesp).shankNowarp(idxShank).cell(idxUnit).good == 1 %&& esp(idxesp).shankNowarp(idxShank).cell(idxUnit).isReliable == 1
-                %             responsivenessExc1000ms = zeros(1,odors);
-                %             aurocs1000ms = 0.5*ones(1,odors);
-                %             idxO = 0;
-                %             for idxOdor = odorsRearranged
-                %                 idxO = idxO + 1;
-                %                 responsivenessExc1000ms(idxO) = esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).pValue1000ms < 0.05;
-                %                 aurocs1000ms(idxO) =  esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC1000ms;
-                %             end
-                %             responsivenessExc1000ms(aurocs1000ms<=0.75) = 0;
-                %             if sum(responsivenessExc1000ms) > 0
+            if esp(idxesp).shankNowarp(idxShank).cell(idxUnit).good == 1 
                 idxCell1000ms = idxCell1000ms + 1;
                 idxO = 0;
                 for idxOdor = odorsRearranged
@@ -91,7 +80,6 @@ for idxesp = 1: length(esp) %- 1
                     tuningCell1000ms(idxShank).shank(idxCell1000ms,:,idxO) = (esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms -...
                         mean(esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms));% ./ std(esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms);
                 end
-                %             end
             end
         end
         if size(tuningCell1000ms(idxShank).shank,1) > 1;
@@ -125,6 +113,61 @@ for idxesp = 1: length(esp) %- 1
     end
 end
 
+%%
+noiseCorrW1000msSig = [];
+noiseCorrB1000msSig = [];
+for idxesp = 1: length(esp) %- 1
+    for idxShank = 1:4
+        idxCell1000ms = 0;
+        idxCell = 0;
+        tuningCell1000ms(idxShank).shank = [];
+        tuningCell1000msSig(idxShank).shank = [];
+        for idxUnit = 1:length(esp(idxesp).shankNowarp(idxShank).cell)
+            if esp(idxesp).shankNowarp(idxShank).cell(idxUnit).good == 1 
+                idxCell1000ms = idxCell1000ms + 1;
+                idxO = 0;
+                for idxOdor = odorsRearranged
+                    idxO = idxO + 1;
+                    tuningCell1000ms(idxShank).shank(idxCell1000ms,:,idxO) = (esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms -...
+                        mean(esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms));% ./ std(esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms);
+                    app(idxO) = ~(esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse1000ms==0); 
+                end
+                if sum(app)>0
+                    idxCell = idxCell + 1;
+                    tuningCell1000msSig(idxShank).shank(idxCell,:,:) = tuningCell1000ms(idxShank).shank(idxCell1000ms,:,:);
+                end
+            end
+        end
+        if size(tuningCell1000msSig(idxShank).shank,1) > 1;
+            tuningCell1000msSig(idxShank).shank = reshape(tuningCell1000msSig(idxShank).shank, size(tuningCell1000msSig(idxShank).shank,1), n_trials * odors);
+            tuningCell1000msSig(idxShank).shank = tuningCell1000msSig(idxShank).shank';
+            tuningCell1000msSig(idxShank).shank = zscore(tuningCell1000msSig(idxShank).shank);
+            tuningCell1000msSig(idxShank).shank = tuningCell1000msSig(idxShank).shank';
+            rho = [];
+            rho = pdist(tuningCell1000msSig(idxShank).shank, 'correlation');
+            rho = 1 - rho;
+            noiseCorrW1000msSig = [noiseCorrW1000msSig rho];
+        end 
+    end
+    for probe = 1:3
+        for next = probe+1 : 4
+            if (size(tuningCell1000msSig(probe).shank,1) > 1) && (size(tuningCell1000msSig(next).shank,1) > 1)
+                app = corr(tuningCell1000msSig(probe).shank', tuningCell1000msSig(next).shank');
+                index = find(triu(ones(size(app))));
+                appp = app(index);
+                apppp = appp(~isnan(appp));
+                noiseCorrB1000msSig = [noiseCorrB1000msSig apppp(:)'];
+                clear app
+                clear appp
+                clear apppp
+                clear index
+            else
+                apppp = [];
+                noiseCorrB1000msSig = [noiseCorrB1000msSig apppp(:)'];
+            end
+        end
+    end
+end
 %% Baseline
 noiseCorrWBSL1000ms = [];
 noiseCorrBBSL1000ms = [];

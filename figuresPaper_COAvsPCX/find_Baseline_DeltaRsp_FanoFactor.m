@@ -63,13 +63,13 @@ for idxExp =  1:length(esp)
                         B1000ms(:, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl300ms';
                         M.auRoc(c, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC300ms;
                         M.significance(c, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse300ms;
-                        M.varG(c,idxO) = partNeuralVariance(R1000ms(:, idxO));
+                        %M.varG(c,idxO) = partNeuralVariance(R1000ms(:, idxO));
                     else
                         R1000ms(:, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms';
                         B1000ms(:, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms';
                         M.auRoc(c, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC1000ms;
                         M.significance(c, idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse1000ms;
-                        M.varG(c,idxO) = partNeuralVariance(R1000ms(:, idxO));
+                        %M.varG(c,idxO) = partNeuralVariance(R1000ms(:, idxO));
                         M.rspPeakFractionExc(c,idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).responsePeakFractionExc;
                         M.rspPeakFractionInh(c,idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).responsePeakFractionInh;
                         M.rspWindFractionExc(c,idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).responseWindFractionExc;
@@ -85,14 +85,23 @@ for idxExp =  1:length(esp)
                 end
                 M.DeltaRspMean(c,:) = mean(R1000ms-B1000ms);
                 M.rspMean(c,:) = mean(R1000ms);
+                M.bslMean(c,:) = mean(B1000ms);
                 M.rspVar(c,:) = var(R1000ms);
                 M.RspStd = std(R1000ms);
-%                 boxWidth = 1000;
-%                 weightingEpsilon = 1 * boxWidth/1000;
-%                 regWeights = n_trials ./ (RspMeanAbs + weightingEpsilon) .^ 2;
-%                 [B, stdB] = lscov(RspMeanAbs', RspVar', regWeights);
-%                 fanoFactor(c) = B;
-                M.ff(c,:) = M.rspVar(c,:) ./ M.rspMean(c,:);
+                M.bslVar(c,:) = var(B1000ms);
+                %                 boxWidth = 1000;
+                %                 weightingEpsilon = 1 * boxWidth/1000;
+                %                 regWeights = n_trials ./ (RspMeanAbs + weightingEpsilon) .^ 2;
+                %                 [B, stdB] = lscov(RspMeanAbs', RspVar', regWeights);
+                %                 fanoFactor(c) = B;
+                if M.rspMean(c,:) == 0
+                    M.ff(c,:) = 0;
+                else M.ff(c,:) = M.rspVar(c,:) ./ M.rspMean(c,:);
+                end
+                if M.bslMean(c,:) == 0
+                    M.bsl_ff(c,:) = 0;
+                else M.bsl_ff(c,:) = M.bslVar(c,:) ./ M.bslMean(c,:);
+                end
                 M.cv(c,:) = M.RspStd ./ M.rspMean(c,:);
                 M.DeltaRsp(c,:,:) = R1000ms - B1000ms;
                 M.SpikeCount(c,:,:) = R1000ms;

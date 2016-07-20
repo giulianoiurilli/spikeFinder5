@@ -235,7 +235,9 @@ if matchReps > 0
                 regWeights = ones(size(mnsThisRep));
             end
             [B, stdB] = lscov(mnsThisRep,varsThisRep, regWeights);
-            Bint = [B-2*stdB, B+2*stdB]; 
+            %Bint = [B-2*stdB, B+2*stdB]; 
+            %Bint = stdB/sqrt(numel(mnsThisRep)-1); 
+            Bint = [3*stdB, 3*stdB];
             
             sumSlopes(t,1) = sumSlopes(t,1) + B;
             sumCIs(t,:) = sumCIs(t,:) + Bint;

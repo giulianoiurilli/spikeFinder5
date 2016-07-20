@@ -1,10 +1,11 @@
 odors = 1:15;
 labelC = [82,82,82] ./ 255;
-[corrCoa300_15, corrCoa1000_15, corrCoaBsl_15] = trialCorrelationsShank(coa15.esp, odors);
-[corrCoa300_AA, corrCoa1000_AA, corrCoaBsl_AA] = trialCorrelationsShank(coaAA.esp, odors);
 
-[corrPcx300_15, corrPcx1000_15, corrPcxBsl_15] = trialCorrelationsShank(pcx15.esp, odors);
-[corrPcx300_AA, corrPcx1000_AA, corrPcxBsl_AA] = trialCorrelationsShank(pcxAA.esp, odors);
+[corrCoa300_15, corrCoa1000_15, corrCoa300_15N, corrCoa1000_15N, corrCoaBsl_15] = trialCorrelationsShank(coa15.esp, odors);
+[corrCoa300_AA, corrCoa1000_AA, corrCoa300_AAN, corrCoa1000_AAN,corrCoaBsl_AA] = trialCorrelationsShank(coaAA.esp, odors);
+
+[corrPcx300_15, corrPcx1000_15, corrPcx300_15N, corrPcx1000_15N, corrPcxBsl_15] = trialCorrelationsShank(pcx15.esp, odors);
+[corrPcx300_AA, corrPcx1000_AA, corrPcx300_AAN, corrPcx1000_AAN, corrPcxBsl_AA] = trialCorrelationsShank(pcxAA.esp, odors);
 
 %%
 corrCoa300_1 = [corrCoa300_15{1} corrCoa300_AA{1}];
@@ -32,6 +33,12 @@ corrCoa1000_3_Mean = nanmean(corrCoa1000_3);
 corrCoa1000_3_Sem = nanstd(corrCoa1000_3) ./ sqrt(length(corrCoa1000_3));
 corrCoa1000_4_Mean = nanmean(corrCoa1000_4);
 corrCoa1000_4_Sem = nanstd(corrCoa1000_4) ./ sqrt(length(corrCoa1000_4));
+
+corrCoa1000_1n = [corrCoa1000_15N{1} corrCoa1000_AAN{1}];
+corrCoa1000_2n = [corrCoa1000_15N{2} corrCoa1000_AAN{2}];
+corrCoa1000_3n = [corrCoa1000_15N{3} corrCoa1000_AAN{3}];
+corrCoa1000_4n = [corrCoa1000_15N{4} corrCoa1000_AAN{4}];
+
 
 corrCoaBsl_1 = [corrCoaBsl_15{1} corrCoaBsl_AA{1}];
 corrCoaBsl_2 = [corrCoaBsl_15{2} corrCoaBsl_AA{2}];
@@ -73,6 +80,10 @@ corrPcx1000_3_Mean = nanmean(corrPcx1000_3);
 corrPcx1000_3_Sem = nanstd(corrPcx1000_3) ./ sqrt(length(corrPcx1000_3));
 corrPcx1000_4_Mean = nanmean(corrPcx1000_4);
 corrPcx1000_4_Sem = nanstd(corrPcx1000_4) ./ sqrt(length(corrPcx1000_4));
+corrPcx1000_1n = [corrPcx1000_15N{1} corrPcx1000_AAN{1}];
+corrPcx1000_2n = [corrPcx1000_15N{2} corrPcx1000_AAN{2}];
+corrPcx1000_3n = [corrPcx1000_15N{3} corrPcx1000_AAN{3}];
+corrPcx1000_4n = [corrPcx1000_15N{4} corrPcx1000_AAN{4}];
 
 corrPcxBsl_1 = [corrPcxBsl_15{1} corrPcxBsl_AA{1}];
 corrPcxBsl_2 = [corrPcxBsl_15{2} corrPcxBsl_AA{2}];
@@ -150,6 +161,12 @@ shankPos = ones(size(corrCoa1000));
 shankPos(size(corrCoa1000_1,2)+1:size(corrCoa1000_1,2)+size(corrCoa1000_2,2)) = 2;
 shankPos(size(corrCoa1000_1,2)+size(corrCoa1000_2,2)+1:size(corrCoa1000_1,2)+size(corrCoa1000_2,2)+size(corrCoa1000_3,3)) = 3;
 shankPos(size(corrCoa1000_1,2)+size(corrCoa1000_2,2)+size(corrCoa1000_3,3)+1:end) = 4;
+
+corrCoa1000n = [corrCoa1000_1n corrCoa1000_2n corrCoa1000_3n corrCoa1000_4n];
+shankPos = ones(size(corrCoa1000n));
+shankPos(size(corrCoa1000_1n,2)+1:size(corrCoa1000_1n,2)+size(corrCoa1000_2n,2)) = 2;
+shankPos(size(corrCoa1000_1n,2)+size(corrCoa1000_2n,2)+1:size(corrCoa1000_1n,2)+size(corrCoa1000_2n,2)+size(corrCoa1000_3n,3)) = 3;
+shankPos(size(corrCoa1000_1n,2)+size(corrCoa1000_2n,2)+size(corrCoa1000_3n,3)+1:end) = 4;
 
 
 %%
@@ -256,6 +273,73 @@ blankFigure([leftX-xMargin rightX+xMargin bottomY-yMargin topY+yMargin]);
 scatter(g2 + displacement, corr1000, 12, color, 'filled')
 y1 = 0.056785 - 0.0086365*x;
 y2 = 0.039303 - 0.0098201*x;
+plot(x,y1, '-', 'linewidth', 2, 'color', coaC);
+plot(x,y2, '-', 'linewidth', 2, 'color', pcxC);
+clear axY
+start = round(bottomY-yMargin, 1);
+fin = round(topY+yMargin, 1);
+axY.lineThickness = 2;
+axY.axisLabel = 'Trial-to-trial pairwise stimulus correlation';
+axY.axisOrientation = 'v';
+axY.tickLocations = [round(bottomY,2) 0 round(topY,2)];
+axY.tickLabels = {num2str(round(bottomY,2)) '0' num2str(round(topY,2))};
+axY.axisOffset = leftX - xMargin;
+axY.fontSize = 12; 
+axY.extraLength = 0;
+axY.invert = 0;
+axY.color = labelC; 
+AxisMMC(start, fin, axY);
+clear axX
+start = round(leftX-xMargin, 1);
+fin = round(rightX+xMargin, 1);
+axX.lineThickness = 2;
+axX.axisLabel = 'inter-neuron distance';
+axX.axisOrientation = 'h';
+axX.tickLocations = [0 1 2 3];
+axX.tickLabels = {'0', '200 µm', '400 µm', '600 µm'};
+axX.axisOffset = bottomY - yMargin;
+axX.fontSize = 12; 
+axX.extraLength = 0;
+%axY.tickLength = 0.05;
+axX.invert = 0;
+axX.color = labelC; 
+AxisMMC(start, fin, axX);
+title('first second')
+hold off
+
+%%
+corr1000n = [corrCoa1000_1n'; corrCoa1000_2n'; corrCoa1000_3n'; corrCoa1000_4n';corrPcx1000_1n'; corrPcx1000_2n'; corrPcx1000_3n'; corrPcx1000_4n']; 
+%corr1000 = fisherZTransform(corr1000);
+g1Coan = ones(size(corrCoa1000_1n,2) + size(corrCoa1000_2n,2) + size(corrCoa1000_3n,2) + size(corrCoa1000_4n,2), 1);
+g1Pcxn = 2 * ones(size(corrPcx1000_1n,2) + size(corrPcx1000_2n,2) + size(corrPcx1000_3n,2) + size(corrPcx1000_4n,2), 1);
+g1n = [g1Coan; g1Pcxn];
+g2Coa1n = zeros(size(corrCoa1000_1n,2), 1);
+g2Coa2n = ones(size(corrCoa1000_2n,2), 1);
+g2Coa3n = 2 * ones(size(corrCoa1000_3n,2), 1);
+g2Coa4n = 3 * ones(size(corrCoa1000_4n,2), 1);
+g2Pcx1n = zeros(size(corrPcx1000_1n,2), 1);
+g2Pcx2n = ones * ones(size(corrPcx1000_2n,2), 1);
+g2Pcx3n = 2 * ones(size(corrPcx1000_3n,2), 1);
+g2Pcx4n = 3 * ones(size(corrPcx1000_4n,2), 1);
+g2n = [g2Coa1n; g2Coa2n; g2Coa3n; g2Coa4n; g2Pcx1n; g2Pcx2n; g2Pcx3n; g2Pcx4n];
+displacement = zeros(size(g2n,1),1);
+displacement(g1n == 1) = 0.1;
+[h, atab, ctab, stats] = aoctool(g2n, corr1000n, g1n);
+%multcompare(stats, 0.05, 'on', '', 's')
+colorCoa = repmat(coaC, size(g1Coan,1), 1);
+colorPcx = repmat(pcxC, size(g1Pcxn,1), 1);
+color = [colorCoa; colorPcx];
+x = -0.2:0.1:3.2;
+xMargin = 0.05 * range(x);
+yMargin = 0.05 * range(corr1000n);
+leftX = min(g2n + displacement) - 0.1;
+rightX = max(g2n + displacement);
+bottomY = min(corr1000n);
+topY = max(corr1000n);
+blankFigure([leftX-xMargin rightX+xMargin bottomY-yMargin topY+yMargin]);
+scatter(g2n + displacement, corr1000n, 12, color, 'filled')
+y1 = 0.047 - 0.0089*x;
+y2 = 0.0578 - 0.0041*x;
 plot(x,y1, '-', 'linewidth', 2, 'color', coaC);
 plot(x,y2, '-', 'linewidth', 2, 'color', pcxC);
 clear axY

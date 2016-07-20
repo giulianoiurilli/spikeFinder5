@@ -131,12 +131,12 @@ ylabel('%')
 set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'avenir', 'fontsize', 14)
 set(gca,'XColor','w')    
 %%
-bslCOA = [Mcoa15.Bsl';McoaAA.Bsl'];
-bslPCX = [Mpcx15.Bsl';MpcxAA.Bsl'];
+bslCOA = [Mcoa15.Bsl';McoaAA.Bsl'; McoaCS.Bsl'];
+bslPCX = [Mpcx15.Bsl';MpcxAA.Bsl';MpcxCS.Bsl'];
 bslCOAAll = [Mcoa15.BslAll';McoaAA.BslAll'];
 bslPCXAll = [Mpcx15.BslAll';MpcxAA.BslAll'];
-logSignificantCoa = [Mcoa15.significance; McoaAA.significance];
-logSignificantPcx = [Mpcx15.significance; MpcxAA.significance];
+logSignificantCoa = [Mcoa15.significance; McoaAA.significance; McoaCS.significance];
+logSignificantPcx = [Mpcx15.significance; MpcxAA.significance; MpcxCS.significance];
 
 bslCOAsigE = [];
 bslCOAsigI = [];
@@ -165,8 +165,8 @@ for cPcx = 1:size(logSignificantPcx,1)
 end
 
 allBsl = [Mcoa15.BslAll McoaAA.BslAll Mpcx15.BslAll MpcxAA.BslAll];
-maxBsl = max(allBsl);
-minBsl = min(allBsl);
+maxBsl = max(bslCOA);
+minBsl = min(bslPCX);
 edges = logspace(-2,2,30);
 [N1,edges] = histcounts(bslPCXAll, edges);
 [N2,edges] = histcounts(bslCOAAll, edges);

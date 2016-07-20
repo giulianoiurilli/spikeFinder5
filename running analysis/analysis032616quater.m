@@ -17,8 +17,8 @@ for idxShank = 1:4
         for idxUnit = 1:length(coaAA.esp(idxExp).shankNowarp(idxShank).cell)
             if coaAA.esp(idxExp).shankNowarp(idxShank).cell(idxUnit).good == 1
                 c = c+1;
-                shankCoaTMT(c) =  coaAA.esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(1).auROC1000ms;
-                shankCoaRose(c) =  coaAA.esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(7).auROC1000ms;
+                shankCoaTMT(c) =  coaAA.esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(3).auROC1000ms;
+                shankCoaRose(c) =  coaAA.esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(9).auROC1000ms;
             end
         end
     end
@@ -44,8 +44,8 @@ for idxShank = 1:4
         for idxUnit = 1:length(pcxAA.esp(idxExp).shankNowarp(idxShank).cell)
             if pcxAA.esp(idxExp).shankNowarp(idxShank).cell(idxUnit).good == 1
                 c = c+1;
-                shankPcxTMT(c) =  pcxAA.esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(1).auROC1000ms;
-                shankPcxRose(c) =  pcxAA.esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(7).auROC1000ms;
+                shankPcxTMT(c) =  pcxAA.esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(3).auROC1000ms;
+                shankPcxRose(c) =  pcxAA.esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(9).auROC1000ms;
             end
         end
     end

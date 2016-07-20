@@ -1,11 +1,18 @@
-function [distOdors, distOdorsDecorr] = findOdorDistances(esp, odors)
+function [distOdors, distOdorsDecorr, distOdorsBaseline, distOdorsSig, distOdorsBaselineSig] = findOdorDistances(esp, odors)
+
+% esp = pcx15.esp;
+% odors = 1:15;
 
 odorsRearranged = odors;
 odors = length(odorsRearranged);
 
 responseCell1Mean = [];
+baselineCell1Mean = [];
 responseCell1All = [];
+responseCell1MeanSignificant = [];
+baselineCell1MeanSignificant = [];
 idxCell1 = 0;
+idxCell2 = 0;
 appIdxCell = 0;
 for idxesp = 1:length(esp) 
     for idxShank = 1:4
@@ -16,8 +23,8 @@ for idxesp = 1:length(esp)
                 for idxOdor = odorsRearranged
                     idxO = idxO + 1;
                     app = [];
-                    app = esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms;%-...
-                    %esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms;
+                    app = esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms -...
+                    esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms;
                     app1 = [];
                     app1 = [app(1:5); app(6:10)];
                     app2 = [];
@@ -30,7 +37,13 @@ for idxesp = 1:length(esp)
                     app1 = [app(1:5); app(6:10)];
                     app2 = [];
                     app2 = mean(app1);
-                    baselineCell1All(idxCell1,:,idxO) = app2;
+                    baselineCell1Mean(idxCell1,idxO) = mean(esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms);
+                    app3(idxO) = ~(esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse1000ms==0); 
+                end
+                if sum(app3) > 0
+                    idxCell2 = idxCell2 + 1;
+                    responseCell1MeanSignificant(idxCell2,:) = responseCell1Mean(idxCell1,:);
+                    baselineCell1MeanSignificant(idxCell2,:) = baselineCell1Mean(idxCell1,:);
                 end
             end
         end
@@ -40,24 +53,47 @@ end
 
 %% Odor distances - Means - MDS - hierarchical clustering
 X = [];
+
 responseCell1Mean = responseCell1Mean';
 responseCell1Mean = zscore(responseCell1Mean);
+baselineCell1Mean = baselineCell1Mean';
+baselineCell1Mean = zscore(baselineCell1Mean);
+
+responseCell1MeanSignificant = responseCell1MeanSignificant';
+responseCell1MeanSignificant = zscore(responseCell1MeanSignificant);
+baselineCell1MeanSignificant = baselineCell1MeanSignificant';
+baselineCell1MeanSignificant = zscore(baselineCell1MeanSignificant);
 
 nRep = 1000;
 D = zeros(nRep, odors*(odors-1)/2);
 DS = D;
+Db = D;
 for idxRep = 1:nRep
+    X = [];
+    Xb = [];
     idxCell = randsample(size(responseCell1Mean,2), 150);
-    X = responseCell1Mean(:,idxCell);
-    D(idxRep, :) = -(1-pdist(X, 'correlation'));
+    X = responseCell1Mean(:,idxCell');
+    D(idxRep, :) = 1-pdist(X, 'correlation');
+    idxCell1 = randsample(size(responseCell1MeanSignificant,2), 100);
+    Xsig = responseCell1MeanSignificant(:,idxCell1');
+    Dsig(idxRep, :) = 1-pdist(Xsig, 'correlation');
+    X1 = zeros(size(X,1), size(X,2));
     for idxUnit = 1:150
         idxOdor = randperm(15);
-        X(:,idxUnit) = X(idxOdor, idxUnit);
+        X1(:,idxUnit) = X(idxOdor, idxUnit);
+        %X1(:,idxUnit) = rand(15,1);
     end
-    DS(idxRep, :) = -(1-pdist(X, 'correlation'));
+    DS(idxRep, :) = 1-pdist(X1, 'correlation');
+    Xb = baselineCell1Mean(:,idxCell');
+    Db(idxRep,:) = 1-pdist(Xb, 'correlation');
+        Xbsig = baselineCell1MeanSignificant(:,idxCell1');
+    Dbsig(idxRep,:) = 1-pdist(Xbsig, 'correlation');
 end
 distOdors = mean(D);
 distOdorsDecorr = mean(DS);
+distOdorsBaseline = mean(Db);
+distOdorsSig = mean(Dsig);
+distOdorsBaselineSig = mean(Dbsig);
 % figure;
 % maxD = max(distOdors);
 % minD = min(distOdors);

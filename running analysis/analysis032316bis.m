@@ -140,20 +140,20 @@ axY.fontSize = 14;
 axY.color = labelC; 
 AxisMMC(start, fin, axY);
 
-
+%%
 xMargin = 0.05*range(R1000Coa);
 yMargin = 0.05*range(R1000Coa);
 bottomMargin = 0.05*range(info1000Coa);
 topMargin = 0.05*range(info1000Coa);
 leftX = min(R1000Coa);
-rightX = max(R1000Coa);
+rightX = max(R1000Coa)+1;
 bottomY = min(info1000Coa);
 topY = max(info1000Coa);
 blankFigure([leftX-10*yMargin rightX+10*xMargin bottomY-10*bottomMargin topY+10*topMargin]);
 hold on
-plot(R1000Coa, info1000Coa, 'ok', 'markersize', 8, 'markerfacecolor', [115,115,115]./255, 'markeredgecolor', [115,115,115]./255)
-plot(R1000Coa(129), info1000Coa(129), 'ok', 'markersize', 10, 'markerfacecolor', [215,48,39]./255, 'markeredgecolor', [215,48,39]./255)
-plot(R1000Coa(116), info1000Coa(116), 'ok', 'markersize', 10, 'markerfacecolor', [26,152,80]./255, 'markeredgecolor', [26,152,80]./255)
+plot(R1000Coa, info1000Coa, 'ok', 'markersize', 2, 'markerfacecolor', [115,115,115]./255, 'markeredgecolor', [115,115,115]./255)
+plot(R1000Coa(129), info1000Coa(129), 'ok', 'markersize', 4, 'markerfacecolor', [215,48,39]./255, 'markeredgecolor', [215,48,39]./255)
+plot(R1000Coa(116), info1000Coa(116), 'ok', 'markersize', 4, 'markerfacecolor', [26,152,80]./255, 'markeredgecolor', [26,152,80]./255)
 clear axX
 start = leftX-xMargin;
 fin = rightX+xMargin;
@@ -178,6 +178,23 @@ axY.axisOffset = leftX-xMargin;
 axY.fontSize = 14; 
 axY.color = labelC; 
 AxisMMC(start, fin, axY);
+%%
+figure
+x1 = [R1000Coa];
+y1 = [info1000Coa];
+x2 = [R1000Pcx];
+y2 = [info1000Pcx];
+plot(x1, y1, 'ok', 'markersize', 4, 'markerfacecolor', coaC, 'markeredgecolor', coaC)
+axis square
+hold on
+plot(x2, y2, 'ok', 'markersize', 4, 'markerfacecolor', pcxC, 'markeredgecolor', pcxC)
+hold on
+plot(R1000Coa(129), info1000Coa(129), 'ok', 'markersize', 8, 'markerfacecolor', [215,48,39]./255, 'markeredgecolor', [215,48,39]./255)
+hold on
+plot(R1000Coa(116), info1000Coa(116), 'ok', 'markersize', 8, 'markerfacecolor', [26,152,80]./255, 'markeredgecolor', [26,152,80]./255)
+axis square
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'avenir', 'fontsize', 14)
 %%
 xMargin = 0.05*range(ls1000Coa);
 yMargin = 0.05*range(ls1000Coa);
@@ -267,12 +284,12 @@ axY.fontSize = 14;
 axY.color = labelC; 
 AxisMMC(start, fin, axY);
 %%
-N = histcounts([selectivityPcx15.numberExcNeurons1000; selectivityPcxAA.numberExcNeurons1000],0:16); 
-PPcx = N./ sum(N);
-SEMPPcx = sqrt((PPcx .* (1 - PPcx)) ./ sum(N));
-N = histcounts([selectivityCoa15.numberExcNeurons1000; selectivityCoaAA.numberExcNeurons1000],0:16); 
-PCoa = N./ sum(N);
-SEMPCoa = sqrt((PCoa .* (1 - PCoa)) ./ sum(N));
+Npcx = histcounts([selectivityPcx15.numberExcNeurons1000; selectivityPcxAA.numberExcNeurons1000],0:16); 
+PPcx = Npcx./ sum(Npcx);
+SEMPPcx = sqrt((PPcx .* (1 - PPcx)) ./ sum(Npcx));
+Ncoa = histcounts([selectivityCoa15.numberExcNeurons1000; selectivityCoaAA.numberExcNeurons1000],0:16); 
+PCoa = Ncoa./ sum(Ncoa);
+SEMPCoa = sqrt((PCoa .* (1 - PCoa)) ./ sum(Ncoa));
 
 
 xMargin = 0.05*range(0:15);
@@ -314,14 +331,14 @@ axY.axisOffset = leftX-1;
 axY.fontSize = 14; 
 axY.color = labelC; 
 AxisMMC(start, fin, axY);
-
+[h, pExc] = kstest2(Ncoa(2:end), Npcx(2:end)) 
 %%
-N = histcounts([selectivityPcx15.numberExcNeurons300; selectivityPcxAA.numberExcNeurons300],0:16); 
-PPcx = N./ sum(N);
-SEMPPcx = sqrt((PPcx .* (1 - PPcx)) ./ sum(N));
-N = histcounts([selectivityCoa15.numberExcNeurons300; selectivityCoaAA.numberExcNeurons300],0:16); 
-PCoa = N./ sum(N);
-SEMPCoa = sqrt((PCoa .* (1 - PCoa)) ./ sum(N));
+Npcx = histcounts([selectivityPcx15.numberExcNeurons300; selectivityPcxAA.numberExcNeurons300],0:16); 
+PPcx = Npcx./ sum(Npcx);
+SEMPPcx = sqrt((PPcx .* (1 - PPcx)) ./ sum(Npcx));
+Ncoa = histcounts([selectivityCoa15.numberExcNeurons300; selectivityCoaAA.numberExcNeurons300],0:16); 
+PCoa = Ncoa./ sum(Ncoa);
+SEMPCoa = sqrt((PCoa .* (1 - PCoa)) ./ sum(Ncoa));
 
 
 xMargin = 0.05*range(0:15);
@@ -363,15 +380,15 @@ axY.axisOffset = leftX-1;
 axY.fontSize = 14; 
 axY.color = labelC; 
 AxisMMC(start, fin, axY);
-
+[h, pExc] = kstest2(Ncoa(2:end), Npcx(2:end)) 
 
 %%
-N = histcounts([selectivityPcx15.numberInhNeurons1000; selectivityPcxAA.numberInhNeurons1000],0:16); 
-PPcx = N./ sum(N);
-SEMPPcx = sqrt((PPcx .* (1 - PPcx)) ./ sum(N));
-N = histcounts([selectivityCoa15.numberInhNeurons1000; selectivityCoaAA.numberInhNeurons1000],0:16); 
-PCoa = N./ sum(N);
-SEMPCoa = sqrt((PCoa .* (1 - PCoa)) ./ sum(N));
+Npcx = histcounts([selectivityPcx15.numberInhNeurons1000; selectivityPcxAA.numberInhNeurons1000],0:16); 
+PPcx = Npcx./ sum(Npcx);
+SEMPPcx = sqrt((PPcx .* (1 - PPcx)) ./ sum(Npcx));
+Ncoa = histcounts([selectivityCoa15.numberInhNeurons1000; selectivityCoaAA.numberInhNeurons1000],0:16); 
+PCoa = Ncoa./ sum(Ncoa);
+SEMPCoa = sqrt((PCoa .* (1 - PCoa)) ./ sum(Ncoa));
 
 
 xMargin = 0.05*range(0:15);
@@ -414,6 +431,7 @@ axY.fontSize = 14;
 axY.color = labelC; 
 AxisMMC(start, fin, axY);
 
+[h, pInh] = kstest2(Ncoa(2:end), Npcx(2:end)) 
 
 %%
 ls300 = [ls300Coa' ls300Pcx'];
