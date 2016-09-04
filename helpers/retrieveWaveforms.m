@@ -23,7 +23,7 @@ for j = 1:8
     unitList = eval(tabellaUnit);
     tetrode{j}.n_units = unique(unitList);
     for k = 1:numel(tetrode{j}.n_units)
-        tetrode{j}.n_spikes{k} = numel(unitList(unitList==k));
+        tetrode{j}.n_spikes{k} = numel(unitList(unitList==k));  % quanti spikes per unita' per tetrodo ci sono
         tetrode{j}.averageWaveform{k} = mean(table2array(nameTetrode(nameTetrode.Unit == k, 7:end)));
     end
 end
