@@ -1,5 +1,5 @@
 %%
-lambda = 1;
+lambda = 100;
 repN = 100;
 %%
 
@@ -143,7 +143,7 @@ end
 %         acc_RlscCoa{j}.units(:,rep) = Results(:,2);
 %     end
 % end
-
+% 
 % xAccCoa = [];
 % for i = 1:numel(lambdas)
 %     xAccCoa(i) = mean(acc_RlscCoa{i}.units(:));
