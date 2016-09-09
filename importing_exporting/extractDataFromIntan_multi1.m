@@ -156,7 +156,7 @@ for file_n=1:num_files
     
 end
 
-sr = frequency_parameters.amplifier_sample_rate;
+SamplingRate = frequency_parameters.amplifier_sample_rate;
 
 n_traces = size(amplifier_data,1);
 n_samples = length(Samples);
@@ -172,13 +172,13 @@ disp('Loading done!')
 % numTetrodes = str2num(x{:});
 % disp('How many tetrodes?')
 numTetrodes = 4;
- tetrodes = 1:numTetrodes;
+tetrodes = 1:numTetrodes;
 %tetrodes=1:32;
 
 
 fileToSave='matlabData.mat';     %stores parameters and other useful information
 Timestamps = t2*1e6;    %store timestamps in microseconds
-save(fileToSave, 'Timestamps', 'n_traces', 'n_samples', 'tetrodes','sr','-v7.3');
+save(fileToSave, 'Timestamps', 'n_traces', 'n_samples', 'tetrodes','SamplingRate','-v7.3');
 save('tetrodes.mat', 'tetrodes');
 
 
