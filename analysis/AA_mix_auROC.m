@@ -1,4 +1,4 @@
-fileToSave = 'pcx_AAmix_2_2.mat';
+fileToSave = 'coa_AAmix_2_2.mat';
 load('parameters.mat')
 
 
@@ -16,9 +16,10 @@ for idxExp = 1:length(esp)
                     idxSeries = cSeries(idxClass,:);
                     A1s = nan*ones(n_trials, 5);
                     j = 0;
-                    for idxMix = idxSeries(1):idxSeries(5)
+                    for idxOdor = idxSeries(1):idxSeries(5)
                         j = j+1;
-                        A1s(:, j) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxMix).AnalogicResponse1000ms';
+                        A1s(:, j) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms'-...
+                            esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms';
                     end
                     odor1S(:,idxClass) = A1s(:);
                 end
@@ -46,7 +47,8 @@ for idxExp = 1:length(esp)
                     for idx = 1:3
                         idxMix = idxSeries(idx);
                         j = j+1;
-                        A1s(:, j) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxMix).AnalogicResponse1000ms';
+                        A1s(:, j) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxMix).AnalogicResponse1000ms'-...
+                            esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxMix).AnalogicBsl1000ms';
                     end
                     odor1S(:,idxClass) = A1s(:);
                 end

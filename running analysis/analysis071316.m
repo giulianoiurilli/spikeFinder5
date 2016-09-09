@@ -1,8 +1,8 @@
 [accuracyResponses2Coa15,accuracyResponses2Coa15Decorrelated, ConMatCoa15]= l_svmClassify(coa15.esp, 1:15,1);
 [accuracyResponses2Pcx15,accuracyResponses2Pcx15Decorrelated, ConMatPcx15] = l_svmClassify(pcx15.esp, 1:15,1);
 
-[accuracyResponses2CoaAA,accuracyResponses2CoaAADecorrelated, ConMatCoaAA]= l_svmClassify(coa15.esp, 1:10,1);
-[accuracyResponses2PcxAA,accuracyResponses2PcxAADecorrelated, ConMatPcxAA] = l_svmClassify(pcx15.esp, 1:10,1);
+[accuracyResponses2CoaAA,accuracyResponses2CoaAADecorrelated, ConMatCoaAA]= l_svmClassify(coaAA.esp, 1:10,1);
+[accuracyResponses2PcxAA,accuracyResponses2PcxAADecorrelated, ConMatPcxAA] = l_svmClassify(pcxAA.esp, 1:10,1);
 
 
 %%
