@@ -541,3 +541,96 @@ for idxOdor = 1:10
     end
 end
 
+%% binary responsiveness across trials
+
+
+
+odorsRearranged = 1:15;
+odors = length(odorsRearranged);
+
+appCoa = [];
+for idxesp = 1:length(coa15.esp)
+    for idxShank = 1:4
+        for idxUnit = 1:length(coa15.esp(idxesp).shankNowarp(idxShank).cell)
+            if coa15.esp(idxesp).shankNowarp(idxShank).cell(idxUnit).good == 1
+                idxO = 0;
+                for idxOdor = odorsRearranged
+                    idxO = idxO + 1;
+                    if coa15.esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1
+                        appCoa = [appCoa; double(coa15.esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).trialExcPeak1000ms)];
+                    end
+                end
+            end
+        end
+    end
+end
+
+
+odorsRearranged = 1:10;
+odors = length(odorsRearranged);
+
+for idxesp = 1:length(coaAA.esp)
+    for idxShank = 1:4
+        for idxUnit = 1:length(coaAA.esp(idxesp).shankNowarp(idxShank).cell)
+            if coaAA.esp(idxesp).shankNowarp(idxShank).cell(idxUnit).good == 1
+                idxO = 0;
+                for idxOdor = odorsRearranged
+                    idxO = idxO + 1;
+                    if coaAA.esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1
+                        appCoa = [appCoa; double(coaAA.esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).trialExcPeak1000ms)];
+                    end
+                end
+            end
+        end
+    end
+end
+
+
+
+
+
+odorsRearranged = 1:15;
+odors = length(odorsRearranged);
+
+appPcx = [];
+for idxesp = 1:length(pcx15.esp)
+    for idxShank = 1:4
+        for idxUnit = 1:length(pcx15.esp(idxesp).shankNowarp(idxShank).cell)
+            if pcx15.esp(idxesp).shankNowarp(idxShank).cell(idxUnit).good == 1
+                idxO = 0;
+                for idxOdor = odorsRearranged
+                    idxO = idxO + 1;
+                    if pcx15.esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1
+                        appPcx = [appPcx; double(pcx15.esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).trialExcPeak1000ms)];
+                    end
+                end
+            end
+        end
+    end
+end
+
+
+odorsRearranged = 1:10;
+odors = length(odorsRearranged);
+
+for idxesp = 1:length(pcxAA.esp)
+    for idxShank = 1:4
+        for idxUnit = 1:length(pcxAA.esp(idxesp).shankNowarp(idxShank).cell)
+            if pcxAA.esp(idxesp).shankNowarp(idxShank).cell(idxUnit).good == 1
+                idxO = 0;
+                for idxOdor = odorsRearranged
+                    idxO = idxO + 1;
+                    if pcxAA.esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1
+                        appPcx = [appPcx; double(pcxAA.esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).trialExcPeak1000ms)];
+                    end
+                end
+            end
+        end
+    end
+end
+
+
+figure
+plot(sum(appCoa)./size(appCoa,1), 'o-r')
+hold on
+plot(sum(appPcx)./size(appPcx,1), 'o-k')
