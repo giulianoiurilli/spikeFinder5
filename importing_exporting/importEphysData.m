@@ -1,4 +1,4 @@
-extractDataFromIntan_multi1;
+extractDataFromIntan_multi2;
 %%
 folder = pwd;
 options.probeType = 2;
