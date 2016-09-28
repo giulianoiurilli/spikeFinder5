@@ -7,3 +7,5 @@ options.formatOutputFile = 2;
 options.commonReference = 2;
 options.filterOn = 0;
 samplingRate = 20000;
+
+makeFileForSpikeSorting(folder, options, samplingRate);

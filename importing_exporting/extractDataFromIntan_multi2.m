@@ -8,6 +8,8 @@ Dig_inputsAll = [];
 Acc_SamplesAll = [];
 ADCAll = [];
 acelleration_data = 0;
+t2 = [];
+at2 = [];
 
 for file_n=1:num_files
     new_file = files{file_n};
@@ -30,7 +32,7 @@ for i = 1:size(SamplesAll,1)
     ch_num = str2num(ch_name(3:end));
     fname = sprintf('CSC%d.mat', ch_num);
     Samples = SamplesAll(i,:);
-    Timestamps = t2;
+    TimeStamps = t2;
     save(fname, 'Samples', 'TimeStamps', '-v7.3');
 end
 
