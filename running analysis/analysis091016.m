@@ -113,7 +113,7 @@ end
 
 responsesEarlyLateCoa = nan(u,2);
 responsesEarlyLatePCoa = zeros(u,2);
-responsesCoa15 = nan(u,:);
+
 c = 0;
 u = 0;
 for idxExp = 1 : length(coa15.esp)

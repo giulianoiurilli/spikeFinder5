@@ -9,14 +9,20 @@ to_remove = [];
 %find inhalation onsets
 %ADC = -ADC;
 [inhal_on, exhal_on, respiration] = respirationFilter(ADC); 
+
+% transform in seconds
 inhal_on = inhal_on/fs;
 exhal_on = exhal_on/fs;
+
+% check if the timestamos series starts with an inhalation (in_prec = 1) or
+% an exhalation
 if inhal_on(1) > exhal_on(1)
     in_prec = 0;
 else
     in_prec = 1;
 end
-
+%remove false inhalations. When two consecutive inhalations are separated
+%by less than 50 ms, tacke only the biggest inhalation
 app_inhal_on = inhal_on;
 isi = diff(inhal_on);
 refr = find(isi<0.05);
@@ -31,6 +37,7 @@ inhal_on(to_remove) = [];
 
 
 interInhalationDelay = diff(inhal_on);
+figure; histogram(interInhalationDelay, 20)
 
 app_on_rsp =  [];
 app_off_rsp1 = [];
@@ -43,11 +50,11 @@ app_off_bsl3 = [];
 %find the first inhalation onset after the valve onset + a delay
 %[~,idx] = histc(dig_supra_thresh + delay, inhal_on);
 [~,idx] = histc(dig_supra_thresh, inhal_on);
-app_on_rsp = inhal_on(idx)';
+app_on_rsp = inhal_on(idx+1)';
 for i = 1:length(idx)
-    dd = dig_supra_thresh(i) - app_on_rsp(i);
-    if dd > 0.120
-        app_on_rsp(i) = inhal_on(idx(i) + 1);        
+    dd = app_on_rsp(i) - dig_supra_thresh(i);
+    if dd > 0.100 %delay of the valve onset from the first inhalation; if the the delay of the valve 
+        app_on_rsp(i) = inhal_on(idx(i)+1);        
         app_off_rsp1(i) = inhal_on(idx(i) + 2);
         app_off_rsp2(i) = inhal_on(idx(i) + 3);
         app_off_rsp3(i) = inhal_on(idx(i) + 4);
@@ -56,14 +63,14 @@ for i = 1:length(idx)
         app_off_bsl2(i) = inhal_on(idx(i) - 1);
         app_off_bsl3(i) = inhal_on(idx(i));
     else
-        app_on_rsp(i) = inhal_on(idx(i));        
-        app_off_rsp1(i) = inhal_on(idx(i) + 1);
-        app_off_rsp2(i) = inhal_on(idx(i) + 2);
-        app_off_rsp3(i) = inhal_on(idx(i) + 3);
-        app_on_bsl(i) = inhal_on(idx(i) - 4);
-        app_off_bsl1(i) = inhal_on(idx(i) - 3);
-        app_off_bsl2(i) = inhal_on(idx(i) - 2);
-        app_off_bsl3(i) = inhal_on(idx(i) - 1);
+        app_on_rsp(i) = inhal_on(idx(i) + 2);        
+        app_off_rsp1(i) = inhal_on(idx(i) + 3);
+        app_off_rsp2(i) = inhal_on(idx(i) + 4);
+        app_off_rsp3(i) = inhal_on(idx(i) + 5);
+        app_on_bsl(i) = inhal_on(idx(i) - 2);
+        app_off_bsl1(i) = inhal_on(idx(i) - 1);
+        app_off_bsl2(i) = inhal_on(idx(i));
+        app_off_bsl3(i) = inhal_on(idx(i) + 1);
     end
 end
         
@@ -72,13 +79,10 @@ end
 delay_on = app_on_rsp - dig_supra_thresh;
 bin_delay = 0:0.01:2;
 figure; histogram(delay_on, bin_delay)
-%if delay_on > max_delay
-% delay_on(delay_on > max_delay) = nan;
-% n_nan = length(delay_on(isnan(delay_on)));
-% delay_on(isnan(delay_on)) = exprnd(nanmean(delay_on), [1, n_nan]); % I assign a random delay chosen from an exponential distribution when the inhalation onset is > of some delay
-% figure; histogram(delay_on, bin_delay)
-%end
-sec_on_rsp = dig_supra_thresh + delay_on;
+max_delay = mean(interInhalationDelay) + 1.5*std(interInhalationDelay);
+idxMaxExceeded = find((delay_on > max_delay));
+app_on_rsp(idxMaxExceeded) = dig_supra_thresh(idxMaxExceeded) + 0.1;
+sec_on_rsp = app_on_rsp;
 clear idx;
 
 
@@ -97,9 +101,7 @@ app_on_rsp = [sec_on_rsp' double(trial_odor)];
 app_on_rsp = sortrows(app_on_rsp, 2);
 sec_on_rsp = app_on_rsp(:,1)';
 
-app_del = [delay_on' double(trial_odor)];
-app_del = sortrows(app_del, 2);
-delay_on = app_del(:,1)';
+
 
 
 app_off_rsp1 = [app_off_rsp1' double(trial_odor)];
@@ -134,7 +136,7 @@ sec_off_bsl3 = app_off_bsl3(:,1)';
 
 n_trials_app = floor(length(sec_on_rsp)/odors);
 sec_on_rsp = reshape(sec_on_rsp,n_trials_app,odors);
-delay_on = reshape(delay_on,n_trials_app,odors);
+
 sec_off_rsp{1} = reshape(sec_off_rsp1,n_trials_app,odors);
 sec_off_rsp{2} = reshape(sec_off_rsp2,n_trials_app,odors);
 sec_off_rsp{3} = reshape(sec_off_rsp3,n_trials_app,odors);
