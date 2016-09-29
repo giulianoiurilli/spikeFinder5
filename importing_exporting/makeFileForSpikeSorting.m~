@@ -1,4 +1,4 @@
-function makeFileForSpikeSorting(folder, options, samplingRate)
+   function makeFileForSpikeSorting(folder, options, samplingRate)
 
 % "probeType":
 % (1) - A4x2-tet; (2) - Buzsaki 32L
@@ -13,7 +13,6 @@ function makeFileForSpikeSorting(folder, options, samplingRate)
 
 
 %%
-tic
 cd(folder)
 
 
@@ -24,7 +23,7 @@ load('CSC0.mat');
 rawTraces = nan(32, size(Samples,2));
 if options.probeType == 1
     listChannels = 
-    listChannels = listChannels';
+listChannels = listChannels';
     for idxCSC = 1:32
         fileToLoad = sprintf('CSC%d.mat', listChannels(idxCSC));
         load(fileToLoad)
@@ -35,7 +34,7 @@ else if options.probeType == 2
             28 23 19 24 29 18 31 16;...
             0 15 2 13 8 9 7 1;...
             6 14 10 11 5 12 4 3];
-        listChannels = listChannels';
+listChannels = listChannels';
         for idxCSC = 1:32
             fileToLoad = sprintf('CSC%d.mat', listChannels(idxCSC));
             load(fileToLoad)
@@ -48,7 +47,7 @@ end
 HPFilteredTraces = highPassFilterTraces(rawTraces);
 HPFiltered_ReReferencedTraces = reReferenceTraces(HPFilteredTraces);
 
-disp('Saving...')
+
 if options.formatOutputFile == 2
     if options.singleOutputFile == 0
         rawTraces1 = HPFiltered_ReReferencedTraces(1:8,:);
@@ -74,12 +73,10 @@ if options.formatOutputFile == 2
         fclose(fileID);
     end
 else
-    fileID = fopen('ephysData.bin', 'w');
-    fwrite(fileID, HPFiltered_ReReferencedTraces(:), 'int16');
+    fileID = fopen('rawData.bin', 'w');
+    fwrite(fileID, HPTraces(:), 'int16');
     fclose(fileID);
-    maxVoltage = max(HPFiltered_ReReferencedTraces(:));
-    minVoltage = min(HPFiltered_ReReferencedTraces(:));
+    maxVoltage = max(HPTraces(:));
+    minVoltage = min(HPTraces(:));
     save min_max.txt minVoltage maxVoltage -ascii
 end
-disp('Done!')
-toc
