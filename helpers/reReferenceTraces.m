@@ -3,7 +3,8 @@ function HPFiltered_ReReferencedTraces = reReferenceTraces(HPFilteredTraces)
 tic
 HPFiltered_ReReferencedTraces = nan(size(HPFilteredTraces));
 for idxShank = 1:4
-    disp('Re-referencing channels in shank %d...', idxShank);
+    stringa = sprintf('Re-referencing shank %d', idxShank);
+    disp(stringa);
     app = HPFilteredTraces;
     appToReReference = app(1 + (idxShank-1)*8 : 8 + (idxShank-1)*8, :);
     app(1 + (idxShank-1)*8 : 8 + (idxShank-1)*8, :) = [];

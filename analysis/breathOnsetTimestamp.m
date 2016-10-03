@@ -22,7 +22,7 @@ else
     in_prec = 1;
 end
 %remove false inhalations. When two consecutive inhalations are separated
-%by less than 50 ms, tacke only the biggest inhalation
+%by less than 50 ms, take only the biggest inhalation
 app_inhal_on = inhal_on;
 isi = diff(inhal_on);
 refr = find(isi<0.05);
@@ -53,7 +53,7 @@ app_off_bsl3 = [];
 app_on_rsp = inhal_on(idx+1)';
 for i = 1:length(idx)
     dd = app_on_rsp(i) - dig_supra_thresh(i);
-    if dd > 0.100 %delay of the valve onset from the first inhalation; if the the delay of the valve 
+    if dd > 0.100 %delay of the valve onset from the first inhalation; if the inhalation follows the valve by less than 100 ms, take the next inhalation as onset 
         app_on_rsp(i) = inhal_on(idx(i)+1);        
         app_off_rsp1(i) = inhal_on(idx(i) + 2);
         app_off_rsp2(i) = inhal_on(idx(i) + 3);
@@ -79,6 +79,7 @@ end
 delay_on = app_on_rsp - dig_supra_thresh;
 bin_delay = 0:0.01:2;
 figure; histogram(delay_on, bin_delay)
+%if the inhalation follows the valve by more than the average respiration cycle + 1.5 std than fix the onset as the valve onset + 100 ms 
 max_delay = mean(interInhalationDelay) + 1.5*std(interInhalationDelay);
 idxMaxExceeded = find((delay_on > max_delay));
 app_on_rsp(idxMaxExceeded) = dig_supra_thresh(idxMaxExceeded) + 0.1;

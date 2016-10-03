@@ -16,7 +16,7 @@ for idxChannel = 1:32
     HPFilteredTraces(idxChannel,:) = filtfilt(B, A, rawTraces(idxChannel,:));
 end
 
-disp = ('Filtering done');
+disp('Filtering done');
 toc
 
 end

@@ -16,14 +16,20 @@ function makeFileForSpikeSorting(folder, options, samplingRate)
 tic
 cd(folder)
 
-
-
 %% re-sort channels according to the channel map of the specific probe and
-% make continous data files CSCx.mat
+
 load('CSC0.mat');
 rawTraces = nan(32, size(Samples,2));
 if options.probeType == 1
-    listChannels = 
+    listChannels = [29 18 25 26;...
+        28 27 20 19;...
+        21 22 31 16;...
+        24 23 30 17;...
+        0 15 10 9;...
+        1 14 7 8;...
+        6 5 2 13;...
+        11 12 3 4];
+    
     listChannels = listChannels';
     for idxCSC = 1:32
         fileToLoad = sprintf('CSC%d.mat', listChannels(idxCSC));
@@ -45,9 +51,12 @@ else if options.probeType == 2
 end
 
 %% Filtering
-HPFilteredTraces = highPassFilterTraces(rawTraces);
+HPFilteredTraces = highPassFilterTraces(rawTraces, 20000);
+
+%% Re-referencing
 HPFiltered_ReReferencedTraces = reReferenceTraces(HPFilteredTraces);
 
+%% Saving
 disp('Saving...')
 if options.formatOutputFile == 2
     if options.singleOutputFile == 0
