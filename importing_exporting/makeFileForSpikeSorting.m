@@ -65,18 +65,37 @@ if options.formatOutputFile == 2
         rawTraces3 = HPFiltered_ReReferencedTraces(17:24,:);
         rawTraces4 = HPFiltered_ReReferencedTraces(25:32,:);
         
+        mkdir('shank1')
+        cd('shank1');
+        copyfile('/Users/Giuliano/Documents/MATLAB/spikeFinder5/importing_exporting/shank1.prm', pwd);
         fileID = fopen('shank1.dat', 'w');
         fwrite(fileID, rawTraces1(:), 'int16');
         fclose(fileID);
+        cd ..
+        
+        mkdir('shank2')
+        cd('shank2');
+        copyfile('/Users/Giuliano/Documents/MATLAB/spikeFinder5/importing_exporting/shank2.prm', pwd);
         fileID = fopen('shank2.dat', 'w');
         fwrite(fileID, rawTraces2(:), 'int16');
         fclose(fileID);
+        cd ..
+        
+        mkdir('shank3')
+        cd('shank3');
+        copyfile('/Users/Giuliano/Documents/MATLAB/spikeFinder5/importing_exporting/shank3.prm', pwd);
         fileID = fopen('shank3.dat', 'w');
         fwrite(fileID, rawTraces3(:), 'int16');
         fclose(fileID);
+        cd ..
+        
+        mkdir('shank4')
+        cd('shank4');
+        copyfile('/Users/Giuliano/Documents/MATLAB/spikeFinder5/importing_exporting/shank4.prm', pwd);
         fileID = fopen('shank4.dat', 'w');
         fwrite(fileID, rawTraces4(:), 'int16');
         fclose(fileID);
+        cd ..
     else
         fileID = fopen('ephysData.dat', 'w');
         fwrite(fileID, rawTraces(:), 'int16');
