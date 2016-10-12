@@ -1,10 +1,10 @@
-function [inhal_on, exhal_on, respiration] = respirationFilter(ADC);
+function [inhal_on, exhal_on, respiration] = respirationFilter(ADC, samplingFrequency)
 
 
-fs = 20000;
+
 respiration = ADC;
 
-[B, A] = butter(2, [1 20]/(fs/2), 'bandpass');
+[B, A] = butter(2, [1 20]/(samplingFrequency/2), 'bandpass');
 respiration = filtfilt(B, A, respiration);
 %respiration = detrend(respiration);
 %respiration = smooth(respiration, fs*0.2);

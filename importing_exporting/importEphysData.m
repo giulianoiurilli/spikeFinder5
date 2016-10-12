@@ -1,3 +1,5 @@
+clear
+clc
 tic
 extractDataFromIntan_multi2;
 disp('Importing done')

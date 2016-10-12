@@ -8,7 +8,7 @@ to_remove = [];
 
 %find inhalation onsets
 %ADC = -ADC;
-[inhal_on, exhal_on, respiration] = respirationFilter(ADC); 
+[inhal_on, exhal_on, respiration] = respirationFilter(ADC, fs); 
 
 % transform in seconds
 inhal_on = inhal_on/fs;

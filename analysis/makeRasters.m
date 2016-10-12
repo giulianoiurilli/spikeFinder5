@@ -2,7 +2,7 @@ clear all
 close all
 load('breathing.mat');
 load('units.mat');
-load('parameters.mat');
+load('paramsExperiment.mat');
 
 
 % n_trials = size(sec_on_rsp,1);
