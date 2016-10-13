@@ -1,4 +1,4 @@
-function findSpeedSweeps
+function findSpeedSweeps(n_odors, n_trials)
 
 
 s = dir('*.mat'); 
@@ -38,8 +38,6 @@ newSamplingFrequency = 20;
 %% re-sort the odor onsets according to odors and trials
 s = dir('*.asc'); 
 filename = char({s.name});
-%filename = uigetfile('*.asc');
-%exp_log = sprintf('%s', filename)
 fileID = fopen(filename);
 trial_log = textscan(fileID, '%d,%d,%d,%f,%f,%d,%f,%f,%s');
 fclose(fileID);
@@ -49,8 +47,7 @@ app_dig_supra_thresh = [dig_supra_thresh' double(trial_odor)];
 app_dig_supra_thresh = sortrows(app_dig_supra_thresh, 2);
 dig_supra_thresh = app_dig_supra_thresh(:,1)';
 
-n_odors = 15;
-n_trials = round(length(dig_supra_thresh)/n_odors);
+
 preOnset = 5;
 postOnset = 10;
 dig_supra_thresh = reshape(dig_supra_thresh,n_trials,n_odors);
@@ -71,7 +68,7 @@ if figureOn
     
     close all
     
-    for idxOdor = 1:15
+    for idxOdor = 1:n_odors
         figure
         set(gcf,'Position',[125 70 560 735]);
         for idxTrial = 1:n_trials
@@ -84,4 +81,5 @@ if figureOn
 end
 
 %
+
 save('speed.mat', 'speedSweeps')

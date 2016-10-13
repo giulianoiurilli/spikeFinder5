@@ -10,5 +10,5 @@ for ifolder = 1 : length(folderlist)
     folderKlust = folderlist(ifolder).name;
     disp(folderKlust)
     cd(folderKlust)
-    findSpeedSweeps(15, 10)
+    findPupilSweeps(15, 10)
 end

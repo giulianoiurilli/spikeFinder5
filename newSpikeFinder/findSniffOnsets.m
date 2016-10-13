@@ -101,6 +101,8 @@ trial_log = textscan(fileID, '%d,%d,%d,%f,%f,%d,%f,%f,%s');
 fclose(fileID);
 trial_odor = trial_log{3} - 1;
 
+
+
 app_on_rsp = [sec_on_rsp' double(trial_odor)];
 app_on_rsp = sortrows(app_on_rsp, 2);
 sec_on_rsp = app_on_rsp(:,1)';
@@ -151,17 +153,27 @@ sec_off_bsl{3} = reshape(sec_off_bsl3,n_trials_app,odors);
 
 
 
+preOnset = 2;
+postOnset = 2;
 row_breath = zeros(1, (preOnset+postOnset)*samplingFrequency);
 breath = zeros(n_trials_app, (preOnset+postOnset)*samplingFrequency, odors);
+
 
 for idxOdor = 1:odors   %cycles through odors
     for idxTrial = 1:n_trials_app     %cycles through trials
         row_breath = respiration(floor((sec_on_rsp(idxTrial,idxOdor) - preOnset)*samplingFrequency) : floor((sec_on_rsp(idxTrial,idxOdor) + postOnset)*samplingFrequency));
         row_breath1 = row_breath(1:(preOnset+postOnset)*samplingFrequency);
         breath(idxTrial,:,idxOdor) = row_breath1; %- floor(app_sec(i,k)*samplingFrequency)
-        sniffs(idxOdor).trial(idxTrial).sniffPower = findSniffs(row_breath1, preOnset, samplingFrequency);
+        sniffs(idxOdor).trial(idxTrial).sniffOnsets = findSniffs(row_breath1, preOnset, samplingFrequency);
+        onsets = sniffs(idxOdor).trial(idxTrial).sniffOnsets(:,1);
+        onsetsBsl = onsets;
+        onsetsBsl(onsetsBsl>-1) = [];
+        onsets(onsets<0) = [];
+        onsets(onsets > 1) = [];
+        sniffs(idxOdor).trial(idxTrial).baselineFrequency = numel(onsetsBsl);
+        sniffs(idxOdor).trial(idxTrial).responseFrequency = numel(onsets);
+        
     end
 end
 
-
-save('breathing.mat', 'respiration','sec_on_rsp', 'sec_on_bsl', 'sec_off_rsp', 'sec_off_bsl', 'breath', 'interInhalationDelay', 'inhal_on', 'sniffs', 'delay_on'); 
+save('breathing.mat', 'respiration','sec_on_rsp', 'sec_on_bsl', 'sec_off_rsp', 'sec_off_bsl', 'breath', 'interInhalationDelay', 'inhal_on', 'sniffs', 'delay_on');
