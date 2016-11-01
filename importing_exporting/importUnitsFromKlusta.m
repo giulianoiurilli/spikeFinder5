@@ -15,11 +15,14 @@ for idxFolder = 1:length(folderList)
         folderPath = fullfile(nameExperiment, 'ephys', folderShank);
         cd(folderPath)
         filename = [folderShank '.kwik'];
+        filenameFeat = [folderShank '.kwx'];
         % collect spikes and their time samples (these are samples not ms);
         % units(:,1) = time samples;
         % unitsInTime(:2) = cluster id
         units(:,1) = hdf5read(filename, '/channel_groups/0/spikes/time_samples');
         units(:,2) = hdf5read(filename, '/channel_groups/0/spikes/clusters/main');
+        featuresApp = hdf5read(filenameFeat, '/channel_groups/0/features_masks');
+        features = squeeze(featuresApp(1,:,:))';
         
         % tell for each cluster if it is noise (0), MUA (1), SUA (2) or unsorted
         % (3)
@@ -48,6 +51,19 @@ for idxFolder = 1:length(folderList)
                     meanWF = meanWF';
                     shank(idxShank).SUA.meanWaveform{idxCluster} = meanWF(:);
                     shank(idxShank).SUA.spikeSNR{idxCluster} = findSpikeSNR(allWF, meanWF', 8);
+                    %                     FetThisCluster = features(idxSpikesInGoodCluster,:);
+                    %                     meanFetThisCluster = mean(FetThisCluster);
+                    %                     app = flipud(unique(sort(abs(meanFetThisCluster))));
+                    %                     result = app(end-2:end);
+                    %                     ind = find(abs(meanFetThisCluster)>=result(1));
+                    %                     resultat = flipud(sortrows([meanFetThisCluster(ind) ind],1));
+                    %                     resultatBestThree = resultat(end-2:end);
+                    %                     Fet = features(:,resultatBestThree); %best three PC
+                    %Fet = features(:,1:3:24); %first PCs of all channels
+                    Fet = features;
+                    [CluSep, m] = Cluster_Quality(Fet, idxSpikesInGoodCluster);
+                    shank(idxShank).SUA.isolationDistance{idxCluster} = CluSep.IsolationDist;
+                    shank(idxShank).SUA.L_Ratio{idxCluster} = CluSep.Lratio;
                     shank(idxShank).SUA.clusterID{idxCluster} = SUAClusters(idxCluster);
                     shank(idxShank).SUA.sourceFolder{idxCluster} = fullfile(folderPath, 'units.mat');
                 end

@@ -2,8 +2,9 @@ exp = 3;
 
 % close all
 load('CSC0.mat', 'lfp_data', 'lfp_fs')
-load('dig1.mat');
-toFolder = uigetdir('', 'Save in');
+% load('dig1.mat');
+load('breathing.mat', 'sec_on_rsp')
+%toFolder = uigetdir('', 'Save in');
 
 
 signal = Dig_inputs;
@@ -19,15 +20,15 @@ fs = 20000;
 thres = .5;
 
 
-app=find(signal>thres);
-app1=SplitVec(app,'consecutive'); %crea delle celle di segmenti soprasoglia consecutivi
-app=[];
-for j=1:length(app1) %per ogni segmento
-    [maxvalue, maxind]=max(signal(app1{j})); %trova il picco (indice relativo all'inizio del segmento)
-    app(j)=app1{j}(maxind); %e ne memorizza l'indice (relativo all'inizio della sweep) in un vettore dei timestamps degli AP nella sweep i
-end
-
-app_sec=app./fs;
+% app=find(signal>thres);
+% app1=SplitVec(app,'consecutive'); %crea delle celle di segmenti soprasoglia consecutivi
+% app=[];
+% for j=1:length(app1) %per ogni segmento
+%     [maxvalue, maxind]=max(signal(app1{j})); %trova il picco (indice relativo all'inizio del segmento)
+%     app(j)=app1{j}(maxind); %e ne memorizza l'indice (relativo all'inizio della sweep) in un vettore dei timestamps degli AP nella sweep i
+% end
+% 
+% app_sec=app./fs;
 
 
 

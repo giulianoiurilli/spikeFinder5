@@ -1,4 +1,4 @@
-function extractLFP(filename)
+function lfp_data =  extractLFP(filename)
 %File for filtering in the lfp range and subsample
 %--------------------------------------------------------------------------
  
@@ -59,10 +59,10 @@ lfp_data = resampling(csc_data_LPButter,fs,new_fs,4,1000,0);
 %Filter data with Kaise filter
 
 lfp_data = filtfilt(B_kai,A_kai,lfp_data);
-lfp_data_delta = filtfilt(B_kai_delta,A_kai_delta,lfp_data);
+% lfp_data_delta = filtfilt(B_kai_delta,A_kai_delta,lfp_data);
 
 
 lfp_fs=new_fs;
 
 %Save data
-save(filename ,'lfp_data','lfp_fs', 'lfp_data_delta', '-append');
+%save(filename ,'lfp_data','lfp_fs', 'lfp_data_delta', '-append');

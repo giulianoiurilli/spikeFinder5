@@ -9,4 +9,4 @@ postOnset = responseWindow + postTrigger;
 
 sigmaSDF = 0.1;
 
-save('paramsExperiment.mat')
+save('paramsExperiment.mat', 'samplingFrequency', 'responseWindow', 'triggerToOnsetDelay', 'thresTTL', 'preTrigger', 'postTrigger', 'preOnset', 'postOnset', 'sigmaSDF')

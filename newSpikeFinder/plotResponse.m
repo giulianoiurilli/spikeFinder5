@@ -49,7 +49,7 @@ if strcmp(options.plotType, 'raster')
             A(idxOdor).spikes{idxTrial} = app1;
         end
     end
-    
+    odors = options.odors;
     idxPlot = 1;
     for idxOdor = odors
         if idxPlot == length(odors)
