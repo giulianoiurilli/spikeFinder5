@@ -16,17 +16,11 @@ for idxExp = 1:length(esp)
                 if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).good == 1 && esp(idxExp).shank(idxShank).SUA.cell(idxUnit).L_Ratio < 1
                     idxCell = idxCell + 1;
                     for odor = 1:3
-                        for iOdor = 1:5
-                            idxOdor = iOdor + 5*(odor-1);
-                            allData(idxCell, iOdor, odor) =  mean(esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms) -...
-                                mean(esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms);
-                        end
                         appOdor = zeros(1,5);
                         for iOdor = 1:5
                             idxOdor = iOdor + 5*(odor-1);
                             appOdor(iOdor) = esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1;
-                        end
-                        
+                        end                       
                         if sum(appOdor) == 5
                             cellsV(odor) = cellsV(odor) + 1;
                             y = nan(10,5);
