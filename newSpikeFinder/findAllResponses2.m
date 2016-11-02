@@ -1,5 +1,5 @@
-fileToSave = 'aPCx_CS2_2.mat';
-fileToSave2 = 'aPCx_CS2_1.mat';
+fileToSave = 'aPCx_natMix_2.mat';
+fileToSave2 = 'aPCx_natMix_1.mat';
 startingFolder = pwd;
 %%
 preOnset = 4;
@@ -56,8 +56,8 @@ for idxExp = 1 : length(folderlist)
                     [auroc, significant] = findAuROC(appBsl, appRsp, 1);
                     esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).auROC300ms = auroc;
                     esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).DigitalResponse300ms = significant;
-                    if AnalogicBsl300ms > 0
-                        esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).ResponseModulation300ms = ((AnalogicResponse300ms - AnalogicBsl300ms)/AnalogicBsl300ms)*100;
+                    if appBsl > 0
+                        esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).ResponseModulation300ms = ((appRsp - appBsl)/appBsl)*100;
                     else
                         esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).ResponseModulation300ms = 100;
                     end
@@ -73,8 +73,8 @@ for idxExp = 1 : length(folderlist)
                     [auroc, significant] = findAuROC(appBsl, appRsp, 1);
                     esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).auROC1000ms = auroc;
                     esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).DigitalResponse1000ms = significant;
-                    if AnalogicBsl1000ms > 0
-                        esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).ResponseModulation1000ms = ((AnalogicResponse1000ms - AnalogicBsl1000ms)/AnalogicBsl1000ms)*100;
+                    if appBsl > 0
+                        esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).ResponseModulation1000ms = ((appRsp - appBsl)/appBsl)*100;
                     else
                         esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).ResponseModulation1000ms = 100;
                     end
@@ -157,7 +157,7 @@ end
 cd(startingFolder)
 clearvars -except folderlist esp espe fileToSave fileToSave2
 save(fileToSave, 'esp')
-save(fileToSave2, 'espe','-v7.3')
+% save(fileToSave2, 'espe','-v7.3')
 save('List.mat', 'folderlist')
 
 
