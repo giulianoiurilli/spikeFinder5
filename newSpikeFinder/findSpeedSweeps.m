@@ -48,8 +48,8 @@ app_dig_supra_thresh = sortrows(app_dig_supra_thresh, 2);
 dig_supra_thresh = app_dig_supra_thresh(:,1)';
 
 
-preOnset = 5;
-postOnset = 10;
+preOnset = 4;
+postOnset = 6;
 dig_supra_thresh = reshape(dig_supra_thresh,n_trials,n_odors);
 
 row_speed = zeros(1, (preOnset+postOnset)*newSamplingFrequency);

@@ -1,32 +1,34 @@
-%function [A, a, b, c, d, e, f1, f2, f3, g1, g2, g3, h1, h2, h3, i1, i2, i3, l1, l2, l3] = findCorrelationsConc(esp, odors)
+function [A, a, b, c, d, e, f1, f2, f3, g1, g2, g3, h1, h2, h3, i1, i2, i3, l1, l2, l3] = findCorrelationsConc_new(esp, odors)
 
-esp = pcxCS.esp;
-odors = 1:15;
+% esp = pcxCS.esp;
+% odors = 1:15;
 
 odorsRearranged = odors;
 odors = length(odorsRearranged);
 
 responseCell1Mean = [];
 responseCell1All = [];
-idxCell1 = 0;
+idxCell = 0;
 appIdxCell = 0;
-for idxesp = 1:length(esp)
+for idxExp = 1:length(esp)
     for idxShank = 1:4
-        for idxUnit = 1:length(esp(idxesp).shankNowarp(idxShank).cell)
-            if esp(idxesp).shankNowarp(idxShank).cell(idxUnit).good == 1
-                resp = zeros(1,15);
-                for idxOdor = 1:15
-                    resp(idxOdor) = esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1;
-                end
-                if sum(resp) > 0
-                    idxCell1 = idxCell1 + 1;
-                    idxO = 0;
-                    for idxOdor = odorsRearranged
-                        idxO = idxO + 1;
-                        app = [];
-                        app = double(esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms -...
-                            esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms);
-                        responseCell1Mean(idxCell1, idxO) = mean(app);
+        if ~isempty(esp(idxExp).shank(idxShank).SUA)
+            for idxUnit = 1:length(esp(idxExp).shank(idxShank).SUA.cell)
+                if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).good == 1 && esp(idxExp).shank(idxShank).SUA.cell(idxUnit).L_Ratio < 1
+                    resp = zeros(1,15);
+                    for idxOdor = 1:15
+                        resp(idxOdor) = esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1;
+                    end
+                    if sum(resp) > 0
+                        idxCell = idxCell + 1;
+                        idxO = 0;
+                        for idxOdor = odorsRearranged
+                            idxO = idxO + 1;
+                            app = [];
+                            app = esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms -...
+                                esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms;
+                            responseCell1Mean(idxCell, idxO) = mean(app);
+                        end
                     end
                 end
             end

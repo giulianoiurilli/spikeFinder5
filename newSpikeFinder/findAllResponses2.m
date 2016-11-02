@@ -144,7 +144,7 @@ for idxExp = 1 : length(folderlist)
                 RP = 0.001;
                 N = numel(x + 1);
                 T = shank(idxShank).SUA.spiketimesUnit{idxUnit}(end);
-                esp(idxExp).shank(idxShank).SUA.cell(idxUnit).RPviolation = rpv_contamination(N, T, RP, RPV );
+                esp(idxExp).shank(idxShank).SUA.cell(idxUnit).spike_contamination = rpv_contamination(N, T, RP, RPV );
             end
         else
             esp(idxExp).shank(idxShank).SUA = [];

@@ -6,7 +6,7 @@ odorsRearranged = odors;
 odors = length(odorsRearranged);
 
 c = 0;
-for idxExp =  2:length(esp)
+for idxExp =  1:length(esp)
     a = 0;
     for idxShank = 1:4
         if ~isempty(esp(idxExp).shank(idxShank).SUA)
@@ -107,7 +107,7 @@ responseCell1Mean = [];
 responseCell1All = [];
 idxCell1 = 0;
 appIdxCell = 0;
-for idxExp = 1:length(esp)
+for idxExp = 2:length(esp)
     for idxShank = 1:4
         if ~isempty(esp(idxExp).shank(idxShank).SUA)
             for idxUnit = 1:length(esp(idxExp).shank(idxShank).SUA.cell)

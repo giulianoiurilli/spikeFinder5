@@ -1,6 +1,6 @@
 %function [cellsV, cellsM, invariant, variant, nonmonotonic, monotonicD, monotonicI, xx, allData] = findConcInvarianceAndMonotonicity(esp)
 
-esp = coaCS.esp;
+% esp = coaCS.esp;
 
 invariant = zeros(1,3);
 variant = zeros(1,3);
@@ -35,7 +35,7 @@ for idxesp = 1:length(esp)
                             idxOdor = iOdor + 5*(odor-1);
                             y(:,iOdor) = (esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms - esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms)';
                         end
-                        [p, ~] = kruskalwallis(y,[],'off');
+                        [p, ~] = anova1(y,[],'off');
                         xx = [xx p];
                         if p >= 0.05
                             invariant(odor) = invariant(odor) + 1;
@@ -53,9 +53,16 @@ for idxesp = 1:length(esp)
                             idxOdor = iOdor + 5*(odor-1);
                             y(:,iOdor) = (esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms - esp(idxesp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms)';
                         end
-                        yMean = mean(y);
-                        slopeY = diff(yMean);
-                        signSlopeY = sign(slopeY);
+                        [p, table, stats] = anova1(y,[],'off');
+                        comparisons = multcompare(stats, 'display', 'off');
+                        comp = [comparisons(1,6) comparisons(5,6) comparisons(8,6) comparisons(10,6)];
+                        est = [comparisons(1,4) comparisons(5,4) comparisons(8,4) comparisons(10,4)];
+                        ind = find(comp<0.05);
+                        slope = est(ind);
+                        signSlopeY = sign(slope);
+%                         yMean = mean(y);
+%                         slopeY = diff(yMean);
+%                         signSlopeY = sign(slopeY);
                         app1 = find(signSlopeY>=0);
                         app2 = find(signSlopeY<0);
                         if ~isempty(app1) && ~isempty(app2)

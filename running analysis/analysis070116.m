@@ -1,5 +1,9 @@
-[sigAnovaCoa] = concSeriesAnalysis2(coaCS.esp, 1:15);
-[sigAnovaPcx] = concSeriesAnalysis2(pcxCS.esp, 1:15);
+[sigAnovaCoa] = concSeriesAnalysis2_new(coaCS.esp, 1:15);
+[sigAnovaPcx] = concSeriesAnalysis2_new(pcxCS.esp, 1:15);
+
+[VariantCoa, InvariantCoa, nonmonotonic, nonmonotonicSem, monotonicD, monotonicDSem, monotonicI, monotonicISem] = findConcInvarianceAndMonotonicity_new(coaCS.esp);
+[VariantPcx, InvariantPcx, nonmonotonic, nonmonotonicSem, monotonicD, monotonicDSem, monotonicI, monotonicISem] = findConcInvarianceAndMonotonicity_new(pcxCS.esp);
+
 
 nonResponsiveCoa = numel(find(sigAnovaCoa==0)) ./ numel(sigAnovaCoa);
 odorIDCoa = numel(find(sigAnovaCoa==1)) ./ numel(sigAnovaCoa);

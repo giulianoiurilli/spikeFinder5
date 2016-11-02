@@ -66,6 +66,12 @@ for idxFolder = 1:length(folderList)
                     shank(idxShank).SUA.L_Ratio{idxCluster} = CluSep.Lratio;
                     shank(idxShank).SUA.clusterID{idxCluster} = SUAClusters(idxCluster);
                     shank(idxShank).SUA.sourceFolder{idxCluster} = fullfile(folderPath, 'units.mat');
+                    x = diff(shank(idxShank).SUA.spiketimesUnit{idxCluster});
+                    RPV = numel(find(x<2));
+                    RP = 0.001;
+                    N = numel(x + 1);
+                    T = shank(idxShank).SUA.spiketimesUnit{idxCluster}(end);
+                    shank(idxShank).SUA.spike_contamination{idxCluster} = rpv_contamination(N, T, RP, RPV );
                 end
             else
                 shank(idxShank).SUA.spiketimesUnit_Samples{1} = NaN;

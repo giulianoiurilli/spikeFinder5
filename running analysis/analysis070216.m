@@ -1,7 +1,7 @@
 [ACoa, aCoa, bCoa, cCoa, dCoa, eCoa, f1Coa, f2Coa, f3Coa, g1Coa, g2Coa, g3Coa, h1Coa, h2Coa, h3Coa, i1Coa, i2Coa, i3Coa, l1Coa, l2Coa, l3Coa] =...
-    findCorrelationsConc(coaCS.esp, 1:15);
+    findCorrelationsConc_new(coaCS.esp, 1:15);
 [APcx, aPcx, bPcx, cPcx, dPcx, ePcx, f1Pcx, f2Pcx, f3Pcx, g1Pcx, g2Pcx, g3Pcx, h1Pcx, h2Pcx, h3Pcx, i1Pcx, i2Pcx, i3Pcx, l1Pcx, l2Pcx, l3Pcx] =...
-    findCorrelationsConc(pcxCS.esp, 1:15);
+    findCorrelationsConc_new(pcxCS.esp, 1:15);
 
 AcoaMean = mean(aCoa);
 AcoaSEM = std(aCoa)/sqrt(2);
