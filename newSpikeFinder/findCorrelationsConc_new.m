@@ -36,11 +36,16 @@ for idxExp = 1:length(esp)
     end
 end
 
-figure
-clims = [0 1];
-A = corr(responseCell1Mean);
-imagesc(A, clims)
-axis square
+responseCell1Mean = responseCell1Mean';
+responseCell1Mean = zscore(responseCell1Mean);
+responseCell1Mean = responseCell1Mean';
+
+
+% figure
+% clims = [0 1];
+% A = corr(responseCell1Mean);
+% imagesc(A, clims)
+% axis square
 
 
 a = nan(3,4);

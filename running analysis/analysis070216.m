@@ -22,7 +22,7 @@ errbar(1.1:4.1, ApcxMean, ApcxSEM, 'k', 'linewidth', 2);
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
 set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'avenir', 'fontsize', 14)
 xlim([0.8 4.6]);
-ylim([0 1]);
+ylim([-0.5 0.5]);
 ylabel('pairwise correlation')
 
 %%
@@ -75,7 +75,7 @@ errbar(1.1:5.1, meanIPcx, semIPcx, 'k', 'linewidth', 2);
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
 set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'avenir', 'fontsize', 14)
 xlim([0.8 5.6]);
-ylim([0 1]);
+ylim([-0.5 0.5]);
 
 
 

@@ -81,11 +81,11 @@ end
     invariant = invariant./cellsM;
     variant = variant./cellsM;
     nonmonotonic = nonmonotonic./cellsM;
-    nonmonotonicSem = sqrt(((nonmonotonic./cellsM).*(ones(1,3)-(nonmonotonic./cellsM)))./cellsM);
+    nonmonotonicSem = sqrt(((nonmonotonic./cellsM).*(on-(nonmonotonic./cellsM)))./cellsM)
     monotonicD = monotonicD./cellsM;
-    monotonicDSem = sqrt(((monotonicD./cellsM).*(ones(1,3)-(monotonicD./cellsM)))./cellsM);
+    monotonicDSem = sqrt(((sum(monotonicD)./sum(cellsM)).*(1-(sum(monotonicD)./sum(cellsM))))./sum(cellsM))
     monotonicI = monotonicI./cellsM;
-    monotonicISem = sqrt(((monotonicI./cellsM).*(ones(1,3)-(monotonicI./cellsM)))./cellsM);
+    monotonicISem = sqrt(((sum(monotonicI)./sum(cellsM)).*(1-(sum(monotonicI)./sum(cellsM))))./sum(cellsM))
     
     
     

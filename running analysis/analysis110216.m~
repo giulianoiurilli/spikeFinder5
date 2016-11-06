@@ -156,6 +156,13 @@ end
   end
  
 %%
+[sigAnovaCoa] = concSeriesAnalysis2_new(coaCS.esp, 1:15);
+[sigAnovaPcx] = concSeriesAnalysis2_new(pcxCS.esp, 1:15);
+
+
+
+
+%%
 [VariantCoa, InvariantCoa, nonmonotonicCoa, nonmonotonicSemCoa, monotonicDCoa, monotonicDSemCoa, monotonicICoa, monotonicISemCoa] = findConcInvarianceAndMonotonicity_new(coaCS.esp);
 [VariantPcx, InvariantPcx, nonmonotonicPcx, nonmonotonicSemPcx, monotonicDPcx, monotonicDSemPcx, monotonicIPcx, monotonicISemPcx] = findConcInvarianceAndMonotonicity_new(pcxCS.esp);
 figure
@@ -165,6 +172,8 @@ xMean = [VariantCoa(idxOdor) VariantPcx(idxOdor); InvariantCoa(idxOdor) Invarian
 semCoa = sqrt(xMean(1,1) * xMean(2,1) / (numel(sigAnovaCoa)-1));
 semPcx = sqrt(xMean(1,2) * xMean(2,2) / (numel(sigAnovaPcx)-1));
 xSem = [semCoa, semPcx; semCoa, semPcx];
+
+
 subplot(3,1,idxOdor)
 b = barwitherr(xSem, xMean);
 b(1).EdgeColor = coaC;
@@ -180,13 +189,7 @@ set(gcf,'color','white', 'PaperPositionMode', 'auto');
 for idxOdor = 1:3
     xMean = [nonmonotonicCoa(idxOdor) nonmonotonicPcx(idxOdor); monotonicDCoa(idxOdor) monotonicDPcx(idxOdor); monotonicICoa(idxOdor) monotonicIPcx(idxOdor)];
     xSem = [nonmonotonicSemCoa(idxOdor) nonmonotonicSemPcx(idxOdor); monotonicDSemCoa(idxOdor) monotonicDSemPcx(idxOdor); monotonicISemCoa(idxOdor) monotonicISemPcx(idxOdor)];
-    subplot(3,1,idxOdor)
-    b = barwitherr(xSem, xMean);
-    b(1).EdgeColor = coaC;
-    b(1).FaceColor = coaC;
-    b(2).EdgeColor = pcxC;
-    b(2).FaceColor = pcxC;
-    set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'arial', 'fontsize', 14)
+
 end
 %%
 [concCoa, totalResponsiveSUACoa] = findOdorDiscriminative_new(coaCS.esp, odors);
@@ -217,187 +220,50 @@ set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'arial', 'fontsize', 14)
 
 
 %%
-[rhoOdorRepresentationsSigCoa, rhoMeanOdorRepresentationsSigCoa] = findOdorRepresentationCorrelation(coaCS.esp, odors);
-[rhoOdorRepresentationsSigPcx, rhoMeanOdorRepresentationsSigPcx] = findOdorRepresentationCorrelation(pcxCS.esp, odors);
+
+
+
+
+
+
+nonResponsiveCoa = numel(find(sigAnovaCoa==0)) ./ numel(sigAnovaCoa);
+odorIDCoa = numel(find(sigAnovaCoa==1)) ./ numel(sigAnovaCoa);
+odorConcCoa = numel(find(sigAnovaCoa==2)) ./ numel(sigAnovaCoa);
+odorBothCoa = numel(find(sigAnovaCoa==3)) ./ numel(sigAnovaCoa);
+
+nonResponsivePcx = numel(find(sigAnovaPcx==0)) ./ numel(sigAnovaPcx);
+odorIDPcx = numel(find(sigAnovaPcx==1)) ./ numel(sigAnovaPcx);
+odorConcPcx = numel(find(sigAnovaPcx==2)) ./ numel(sigAnovaPcx);
+odorBothPcx = numel(find(sigAnovaPcx==3)) ./ numel(sigAnovaPcx);
+
+
+semNRCoa = sqrt(nonResponsiveCoa * (1-nonResponsiveCoa)/(numel(sigAnovaCoa)-1));
+semNRPcx = sqrt(nonResponsivePcx * (1-nonResponsivePcx)/(numel(sigAnovaCoa)-1));
+semIDCoa = sqrt(odorIDCoa * (1-odorIDCoa)/(numel(sigAnovaCoa)-1));
+semIDPcx = sqrt(odorIDPcx * (1-odorIDPcx)/(numel(sigAnovaCoa)-1));
+semCOCoa = sqrt(odorConcCoa * (1-odorConcCoa)/(numel(sigAnovaCoa)-1));
+semCOPcx = sqrt(odorConcPcx * (1-odorConcPcx)/(numel(sigAnovaCoa)-1));
+semBOCoa = sqrt(odorBothCoa * (1-odorBothCoa)/(numel(sigAnovaCoa)-1));
+semBOPcx = sqrt(odorBothPcx * (1-odorBothPcx)/(numel(sigAnovaCoa)-1));
+%%
+
+xMean = [odorIDCoa, odorIDPcx;...
+    odorConcCoa, odorIDPcx;...
+    odorBothPcx, odorBothPcx];
+
+xSem = [semIDCoa, semIDPcx;...
+    semCOCoa, semCOPcx;...
+    semBOCoa, semBOPcx];
+
 
 figure
+b = barwitherr(xSem, xMean);
+b(1).EdgeColor = coaC;
+b(1).FaceColor = coaC;
+b(2).EdgeColor = pcxC;
+b(2).FaceColor = pcxC;
+
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
-clims = [0 1];
-imagesc(rhoOdorRepresentationsSigCoa, clims)
-axis square
-colormap(brewermap([],'*PuBuGn'))
-colorbar
-title('Correlation between odor representations - plCoA')
-
-figure
-set(gcf,'color','white', 'PaperPositionMode', 'auto');
-clims = [0 1];
-imagesc(rhoOdorRepresentationsSigPcx, clims)
-axis square
-colormap(brewermap([],'*PuBuGn'))
-colorbar
-title('Correlation between odor representations - aPCx')
-
-
-%%
-odorsRearranged = 1:15;
-[scoresCoa, scoresMeanCoa, explainedMeanCoa, explaineStdCoa] = findCodingSpace_new(coaCS.esp, odorsRearranged);
-
-
-figure
-colorClass1 = flipud([254,240,217;...
-253,204,138;...
-252,141,89;...
-227,74,51;...
-179,0,0]./255);
-
-colorClass2 = flipud([239,243,255;...
-189,215,231;...
-107,174,214;...
-49,130,189;...
-8,81,156]./255);
-
-colorClass3 = flipud([237,248,233;...
-186,228,179;...
-116,196,118;...
-49,163,84;...
-0,109,44]./255);
-
-colorClass = cat(3,colorClass1, colorClass2, colorClass3);
-
-
-k = 0;
-for idxOdor = 1:3
-    C = squeeze(colorClass(:,:,idxOdor));
-    for idxConc = 1:5
-        scatter3(scoresCoa(1 + k*5:5 + k*5, 1), scoresCoa(1 + k*5:5 + k*5, 2), scoresCoa(1 + k*5:5 + k*5, 3), 100, C(idxConc,:), 'o', 'filled');
-        k = k + 1;
-        hold on
-%         scatter3(scoresMeanCoa(k, 1), scoresMeanCoa(k, 2), scoresMeanCoa(k, 3), 100, C, 'd','filled');
-%         hold on
-    end
-end
-xlabel('PC1');
-ylabel('PC2');
-zlabel('PC3');
-title('plCOA');
-
-%%
-[scoresPcx, scoresMeanPcx, explainedMeanPcx, explaineStdPcx] = findCodingSpace_new(pcxCS.esp, odorsRearranged);
-figure
-colorClass1 = flipud([254,240,217;...
-253,204,138;...
-252,141,89;...
-227,74,51;...
-179,0,0]./255);
-
-colorClass2 = flipud([239,243,255;...
-189,215,231;...
-107,174,214;...
-49,130,189;...
-8,81,156]./255);
-
-colorClass3 = flipud([237,248,233;...
-186,228,179;...
-116,196,118;...
-49,163,84;...
-0,109,44]./255);
-symbolOdor = {'o', 's', 'p'};
-k = 0;
-colorClass = cat(3,colorClass1, colorClass2, colorClass3);
-for idxOdor = 1:3
-    C = squeeze(colorClass(:,:,idxOdor));
-    for idxConc = 1:5
-        scatter3(scoresPcx(1 + k*5:5 + k*5, 1), scoresPcx(1 + k*5:5 + k*5, 2), scoresPcx(1 + k*5:5 + k*5, 3), 100, C(idxConc,:), 'o', 'filled');
-        k = k + 1;
-        hold on
-%         scatter3(scoresMeanCoa(k, 1), scoresMeanCoa(k, 2), scoresMeanCoa(k, 3), 100, C, 'd','filled');
-%         hold on
-    end
-end
-xlabel('PC1');
-ylabel('PC2');
-zlabel('PC3');
-title('PCX');
-
-%%
-[ACoa, aCoa, bCoa, cCoa, dCoa, eCoa, f1Coa, f2Coa, f3Coa, g1Coa, g2Coa, g3Coa, h1Coa, h2Coa, h3Coa, i1Coa, i2Coa, i3Coa, l1Coa, l2Coa, l3Coa] =...
-    findCorrelationsConc_new(coaCS.esp, 1:15);
-[APcx, aPcx, bPcx, cPcx, dPcx, ePcx, f1Pcx, f2Pcx, f3Pcx, g1Pcx, g2Pcx, g3Pcx, h1Pcx, h2Pcx, h3Pcx, i1Pcx, i2Pcx, i3Pcx, l1Pcx, l2Pcx, l3Pcx] =...
-    findCorrelationsConc_new(pcxCS.esp, 1:15);
-
-AcoaMean = mean(aCoa);
-AcoaSEM = std(aCoa)/sqrt(2);
-
-ApcxMean = mean(aPcx);
-ApcxSEM = std(aPcx)/sqrt(2);
-
-%%
-figure
-plot(1:4, AcoaMean, '-o', 'color', coaC, 'MarkerSize', 5, 'MarkerFaceColor', coaC);
-hold on
-plot(1.1:4.1, ApcxMean, '-o', 'color', pcxC, 'MarkerSize', 5, 'MarkerFaceColor', pcxC);
-hold on
-errbar(1:4, AcoaMean, AcoaSEM, 'r', 'linewidth', 2); %
-hold on
-errbar(1.1:4.1, ApcxMean, ApcxSEM, 'k', 'linewidth', 2);
-%title('odor concentration')
-set(gcf,'color','white', 'PaperPositionMode', 'auto');
-set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'avenir', 'fontsize', 14)
-xlim([0.8 4.6]);
-ylim([-0.5 0.5]);
-ylabel('pairwise correlation')
-
-%%
-
-fmeanCoa = mean([f1Coa, f2Coa, f3Coa]);
-fsemCoa = std([f1Coa, f2Coa, f3Coa])/sqrt(2);
-
-gmeanCoa = mean([g1Coa, g2Coa, g3Coa]);
-gsemCoa = std([g1Coa, g2Coa, g3Coa])/sqrt(2);
-
-hmeanCoa = mean([h1Coa, h2Coa, h3Coa]);
-hsemCoa = std([h1Coa, h2Coa, h3Coa])/sqrt(2);
-
-imeanCoa = mean([i1Coa, i2Coa, i3Coa]);
-isemCoa = std([i1Coa, i2Coa, i3Coa])/sqrt(2);
-
-lmeanCoa = mean([l1Coa, l2Coa, l3Coa]);
-lsemCoa = std([l1Coa, l2Coa, l3Coa])/sqrt(2);
-
-meanICoa = [fmeanCoa gmeanCoa hmeanCoa imeanCoa lmeanCoa];
-semICoa = [fsemCoa gsemCoa hsemCoa isemCoa lsemCoa];
-
-fmeanPcx = mean([f1Pcx, f2Pcx, f3Pcx]);
-fsemPcx = std([f1Pcx, f2Pcx, f3Pcx])/sqrt(2);
-
-gmeanPcx = mean([g1Pcx, g2Pcx, g3Pcx]);
-gsemPcx = std([g1Pcx, g2Pcx, g3Pcx])/sqrt(2);
-
-hmeanPcx = mean([h1Pcx, h2Pcx, h3Pcx]);
-hsemPcx = std([h1Pcx, h2Pcx, h3Pcx])/sqrt(2);
-
-imeanPcx = mean([i1Pcx, i2Pcx, i3Pcx]);
-isemPcx = std([i1Pcx, i2Pcx, i3Pcx])/sqrt(2);
-
-lmeanPcx = mean([l1Pcx, l2Pcx, l3Pcx]);
-lsemPcx = std([l1Pcx, l2Pcx, l3Pcx])/sqrt(2);
-
-meanIPcx = [fmeanPcx gmeanPcx hmeanPcx imeanPcx lmeanPcx];
-semIPcx = [fsemPcx gsemPcx hsemPcx isemPcx lsemPcx];
-
-figure
-plot(1:5, meanICoa, '-o', 'color', coaC, 'MarkerSize', 5, 'MarkerFaceColor', coaC);
-hold on
-plot(1.1:5.1, meanIPcx, '-o', 'color', pcxC, 'MarkerSize', 5, 'MarkerFaceColor', pcxC);
-hold on
-errbar(1:5, meanICoa, semICoa, 'r', 'linewidth', 2); %
-hold on
-errbar(1.1:5.1, meanIPcx, semIPcx, 'k', 'linewidth', 2);
-%title('odor concentration')
-set(gcf,'color','white', 'PaperPositionMode', 'auto');
-set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'avenir', 'fontsize', 14)
-xlim([0.8 5.6]);
-ylim([-0.5 0.5]);
+set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'arial', 'fontsize', 14)
 
 

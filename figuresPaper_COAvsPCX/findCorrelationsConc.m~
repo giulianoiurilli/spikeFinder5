@@ -1,7 +1,7 @@
-function [A, a, b, c, d, e, f1, f2, f3, g1, g2, g3, h1, h2, h3, i1, i2, i3, l1, l2, l3] = findCorrelationsConc(esp, odors)
+%function [A, a, b, c, d, e, f1, f2, f3, g1, g2, g3, h1, h2, h3, i1, i2, i3, l1, l2, l3] = findCorrelationsConc(esp, odors)
 
-% esp = pcxCS.esp;
-% odors = 1:15;
+esp = pcxCS.esp;
+odors = 1:15;
 
 odorsRearranged = odors;
 odors = length(odorsRearranged);
@@ -34,9 +34,7 @@ for idxesp = 1:length(esp)
     end
 end
 
-responseCell1Mean = responseCell1Mean';
-responseCell1Mean = zscore(responseCell1Mean);
-responseCell1Mean = responseCell1Mean';
+
 
 
 figure

@@ -1,7 +1,3 @@
-
-
-
-
 %% fraction of excited neurons per odor
 figure
 bar(totalResponseOdor./ totalSUA)
@@ -10,8 +6,6 @@ bar(totalResponseOdor./ totalResponsiveSUA)
 
 
 %% tuning curves and overall signal correlation
-
-
 
 
 
