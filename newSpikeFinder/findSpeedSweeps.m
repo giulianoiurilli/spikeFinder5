@@ -1,8 +1,8 @@
 function findSpeedSweeps(n_odors, n_trials)
 
-
+currentFolder = pwd;
 s = dir('*.mat'); 
-filename = char({s.name});
+filename = char({s(1).name});
 load(filename)
 
 thresTTL = 0.5;
@@ -15,9 +15,9 @@ wheelData = data(3,:);
 figureOn = 0;
 
 %% find valve onsets
-dig_supra_thresh = valve_onset(ttlSignal, thresTTL); 
-dig_supra_thresh = round(dig_supra_thresh./samplingFrequency, 3) + triggerToOnsetDelay; %convert to seconds and add to 3 seconds 
-
+dig_supra_thresh_app = valve_onset(ttlSignal, thresTTL); 
+dig_supra_thresh_app = round(dig_supra_thresh_app./samplingFrequency, 3) + triggerToOnsetDelay; %convert to seconds and add to 3 seconds 
+dig_supra_thresh = dig_supra_thresh_app(1:150);
 %% find speed
 counterNBits = 32;
 signedThreshold = 2^(counterNBits-1);
@@ -36,6 +36,7 @@ speed = [0 app];
 newSamplingFrequency = 20;
 
 %% re-sort the odor onsets according to odors and trials
+cd ..
 s = dir('*.asc'); 
 filename = char({s.name});
 fileID = fopen(filename);
@@ -82,4 +83,7 @@ end
 
 %
 
+cd(currentFolder)
+cd ..
+cd('ephys')
 save('speed.mat', 'speedSweeps')

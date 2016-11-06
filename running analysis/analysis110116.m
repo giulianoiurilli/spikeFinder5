@@ -1,17 +1,17 @@
 odors = 1:15;
-[tuningCurvesCoa, tuningCurvesSigCoa, rhoCoa, rhoSigCoa] = makeTuningCurves_new(coaCS.esp, odors);
-[tuningCurvesPcx, tuningCurvesSigPcx, rhoPcx, rhoSigPcx] = makeTuningCurves_new(pcxCS.esp, odors);
+[tuningCurvesCoa, tuningCurvesSigCoa, rhoCoa, rhoSigCoa] = makeTuningCurves_new(coa15.esp, odors);
+[tuningCurvesPcx, tuningCurvesSigPcx, rhoPcx, rhoSigPcx] = makeTuningCurves_new(pcx15.esp, odors);
 
 %%
 figure
-histogram(rhoPcx,200)
-hold on
-histogram(rhoCoa,200)
+histogram(rhoSigPcx,200, 'normalization', 'probability')
+figure
+histogram(rhoSigCoa,200, 'normalization', 'probability')
 
 %%
 %%
 odorsRearranged = 1:15;
-[scoresCoa, scoresMeanCoa, explainedMeanCoa, explaineStdCoa] = findCodingSpace_new(coaCS.esp, odorsRearranged);
+[scoresCoa, scoresMeanCoa, explainedMeanCoa, explaineStdCoa] = findCodingSpace_new(coa15.esp, odorsRearranged);
 
 
 figure
@@ -54,7 +54,7 @@ title('plCOA');
 
 
 %%
-[scoresPcx, scoresMeanPcx, explainedMeanPcx, explaineStdPcx] = findCodingSpace_new(pcxCS.esp, odorsRearranged);
+[scoresPcx, scoresMeanPcx, explainedMeanPcx, explaineStdPcx] = findCodingSpace_new(pcx15.esp, odorsRearranged);
 figure
 colorClass1 = flipud([254,240,217;...
 253,204,138;...
@@ -75,7 +75,7 @@ colorClass3 = flipud([237,248,233;...
 0,109,44]./255);
 symbolOdor = {'o', 's', 'p'};
 k = 0;
-
+colorClass = cat(3,colorClass1, colorClass2, colorClass3);
 for idxOdor = 1:3
     C = squeeze(colorClass(:,:,idxOdor));
     for idxConc = 1:5

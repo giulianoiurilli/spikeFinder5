@@ -1,5 +1,5 @@
-fileToSave = 'aPCx_natMix_2.mat';
-fileToSave2 = 'aPCx_natMix_1.mat';
+fileToSave = 'plCoA_natMix_2.mat';
+fileToSave2 = 'plCoA_natMix_1.mat';
 startingFolder = pwd;
 %%
 preOnset = 4;
@@ -16,9 +16,10 @@ for idxExp = 1 : length(folderlist)
     makeParams
     load('units.mat');
     makeSpikeMatrix
-%                                                                 if idxExp == 8
-%                                                                     fixMissingTrials
-%                                                                 end
+                                                                    if idxExp == 8
+                                                                        fixMissingTrials
+                                                                    end
+    load('speed.mat')
     load('units.mat');
     for idxShank = 1:4
         if ~isnan(shank(idxShank).SUA.clusterID{1})
@@ -145,11 +146,31 @@ for idxExp = 1 : length(folderlist)
                 N = numel(x + 1);
                 T = shank(idxShank).SUA.spiketimesUnit{idxUnit}(end);
                 esp(idxExp).shank(idxShank).SUA.cell(idxUnit).spike_contamination = rpv_contamination(N, T, RP, RPV );
+                
+                allSpikes = nan(15*10, 100);
+                allSpeeds = nan(15*10, 100);
+                idx = 0;
+                for idxOdor = 1:15
+                    for idxTrial = 1:10
+                        idx = idx + 1;
+                        spikesVect = shank(idxShank).SUA.spike_matrix{idxUnit}(idxTrial,:,idxOdor);
+                        [slidingPSTHmn, slidingPSTHsd, slidingPSTHFF, slidingPSTHCV, slidingPSTH] = slidePSTH(spikesVect, 100, 100);
+                        app_speed = squeeze(speedSweeps(idxTrial,:,idxOdor));
+                        allSpeeds(idx,:) = mean(reshape(app_speed, 2,size(app_speed,2)/2));
+                        allSpikes(idx,:) = slidingPSTH;
+                    end
+                end
+                [rho, pval] = corr(allSpeeds(:), allSpikes(:));
+                if pval > 0.05
+                    esp(idxExp).shank(idxShank).SUA.cell(idxUnit).speed_corrleation = rho;
+                else
+                    esp(idxExp).shank(idxShank).SUA.cell(idxUnit).speed_corrleation = 0;
+                end
             end
         else
             esp(idxExp).shank(idxShank).SUA = [];
         end
-            
+        
     end
     esp(idxExp).filename = folderExp;
 end
@@ -159,14 +180,6 @@ clearvars -except folderlist esp espe fileToSave fileToSave2
 save(fileToSave, 'esp')
 % save(fileToSave2, 'espe','-v7.3')
 save('List.mat', 'folderlist')
-
-
-
-
-
-
-
-
 
 
 

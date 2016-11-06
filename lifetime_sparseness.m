@@ -6,9 +6,8 @@ function ls = lifetime_sparseness(rspIntensity)
 rep = size(rspIntensity,1);
 ls = zeros(1,rep);
 odors = size(rspIntensity,2);
-A = rspIntensity(:);
-A = A + abs(min(A));
-A = reshape(A, rep,odors);
+A = rspIntensity;
+
 
 %A = rspIntensity + repmat(abs(min(rspIntensity)), rep,1);
 
@@ -18,6 +17,7 @@ for idxRep = 1:rep
     Atest = A;
     Atest(idxRep,:) = [];
     Atest = mean(Atest);
+    Atest = Atest + abs(min(Atest));
     %
 %     a = 0;
 %     b = 0;

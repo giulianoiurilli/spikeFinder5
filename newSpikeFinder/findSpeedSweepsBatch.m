@@ -1,7 +1,7 @@
-clc
-clear
-
-%list for intan
+% clc
+% clear
+% 
+% %list for intan
 folderlist = uipickfiles('FilterSpec', '/Volumes/graid', 'Output', 'struct');
 
 

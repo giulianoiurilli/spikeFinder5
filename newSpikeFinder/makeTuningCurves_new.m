@@ -1,6 +1,6 @@
 function [tuningCurves, tuningCurvesSig, rho, rhoSig] = makeTuningCurves_new(esp, odors)
 
-% esp = coa15.esp;
+% esp = pcx15.esp;
 % odors = 1:15;
 
 odorsRearranged = odors;
@@ -28,7 +28,7 @@ for idxExp = 1:length(esp)
         end
     end
 end
-
+%%
 tuningCurves = 0.5 * ones(idxCell1, odors);
 tuningCurvesSig = 0.5 * ones(idxCell2, odors);
 cells = 0;
@@ -56,7 +56,7 @@ for idxExp = 1:length(esp)
         end
     end
 end
-
+%%
 Y = [];
 Z = [];
 Y = pdist(tuningCurves);
