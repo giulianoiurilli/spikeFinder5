@@ -1,5 +1,5 @@
-[responsivityCoa, auROCCoa, nCellsExpCoa] = findResponsivityAndAurocPerShank(coaCS.esp);
-[responsivityPcx, auROCPcx, nCellsExpPcx] = findResponsivityAndAurocPerShank(pcxCS.esp);
+[responsivityCoa, auROCCoa, nCellsExpCoa] = findResponsivityAndAurocPerShank(coaCS.esp, 1:15, 1);
+[responsivityPcx, auROCPcx, nCellsExpPcx] = findResponsivityAndAurocPerShank(pcxCS.esp, 1:15, 1);
 
 %%
 fractionPerConcentrationCoa = [];
@@ -156,8 +156,8 @@ end
   end
  
 %%
-[VariantCoa, InvariantCoa, nonmonotonicCoa, nonmonotonicSemCoa, monotonicDCoa, monotonicDSemCoa, monotonicICoa, monotonicISemCoa] = findConcInvarianceAndMonotonicity_new(coaCS.esp);
-[VariantPcx, InvariantPcx, nonmonotonicPcx, nonmonotonicSemPcx, monotonicDPcx, monotonicDSemPcx, monotonicIPcx, monotonicISemPcx] = findConcInvarianceAndMonotonicity_new(pcxCS.esp);
+[VariantCoa, InvariantCoa, nonmonotonicCoa, nonmonotonicSemCoa, monotonicDCoa, monotonicDSemCoa, monotonicICoa, monotonicISemCoa, cellLogInvCoa] = findConcInvarianceAndMonotonicity_new(coaCS.esp);
+[VariantPcx, InvariantPcx, nonmonotonicPcx, nonmonotonicSemPcx, monotonicDPcx, monotonicDSemPcx, monotonicIPcx, monotonicISemPcx, cellLogInvPcx] = findConcInvarianceAndMonotonicity_new(pcxCS.esp);
 figure
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
 for idxOdor = 1:3

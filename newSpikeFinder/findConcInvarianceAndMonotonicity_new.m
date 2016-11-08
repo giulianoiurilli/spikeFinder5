@@ -1,4 +1,4 @@
-function [variant, invariant, nonmonotonic, nonmonotonicSem, monotonicD, monotonicDSem, monotonicI, monotonicISem] = findConcInvarianceAndMonotonicity_new(esp)
+function [variant, invariant, nonmonotonic, nonmonotonicSem, monotonicD, monotonicDSem, monotonicI, monotonicISem, cellLogInv] = findConcInvarianceAndMonotonicity_new(esp)
 
 invariant = zeros(1,3);
 variant = zeros(1,3);
@@ -8,6 +8,7 @@ monotonicI = zeros(1,3);
 idxCell = 0;
 cellsV = zeros(1,3);
 cellsM = zeros(1,3);
+cellLogInv = [];
 xx = [];
 for idxExp = 1:length(esp)
     for idxShank = 1:4
@@ -33,6 +34,7 @@ for idxExp = 1:length(esp)
                             xx = [xx p];
                             if p >= 0.05
                                 invariant(odor) = invariant(odor) + 1;
+                                cellLogInv = [cellLogInv; [idxExp, idxShank, idxUnit]];
                             else
                                 variant(odor) = variant(odor) + 1;
                             end

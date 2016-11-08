@@ -26,6 +26,7 @@ for idxExp = 1:length(esp)
                             app = shank(idxShank).SUA.spike_matrix{idxUnit}(:,:,idxOdor);
                             [slidingPSTHmn, slidingPSTHsd, slidingPSTHFF, slidingPSTHCV, slidingPSTH] = slidePSTH(app, 100, 25);
                             meanPSTH(idxOdor).cell(idxO1(idxOdor)).psth = slidingPSTHmn;
+                            stdPSTH(idxOdor).cell(idxO1(idxOdor)).psth = slidingPSTHsd;
                         end
                     end
                 end
@@ -37,18 +38,28 @@ end
 singleTraceColor = [189,189,189]./255;
 figure
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
+set(gcf,'Position',[440 604 560 194]);
 time = linspace(-4,6,400);
 for idxOdor = 1:n_odors
-    subplot(3,5,idxOdor)
-    app = nan(length(meanPSTH(idxOdor).cell), 400);
+%     subplot(3,5,idxOdor)
+subplot(1,6,idxOdor)
+    app1 = nan(length(meanPSTH(idxOdor).cell), 400);
+    app2 = nan(length(stdPSTH(idxOdor).cell), 400);
     for idxCell = 1:length(meanPSTH(idxOdor).cell)
-        app(idxCell,:) = meanPSTH(idxOdor).cell(idxCell).psth;
+        app1(idxCell,:) = meanPSTH(idxOdor).cell(idxCell).psth;
+        app2(idxCell,:) = stdPSTH(idxOdor).cell(idxCell).psth;
         %         plot(time, app(idxCell,:)*10, 'color', singleTraceColor)
         %         hold on
     end
-    plot(time, mean(app)*10, 'color', color, 'linewidth', 1)
+    shadedErrorBar(time, mean(app1)*10, mean(app2)*5,{'-', 'color', color', 'linewidth', 1.5}, 1)
     xlim([-4 6])
     ylim([0 20])
-    ylabel('Hz')
-    xlabel('s')
+%     ylabel('Hz')
+%     xlabel('s')
+set(gca, 'XTick' , []);
+set(gca, 'XTickLabel', []);
+set(gca, 'YTickLabel', []);
+set(gca,'YTick',[])
+set(gca,'YColor','w')
+set(gca,'XColor','w')
 end

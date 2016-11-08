@@ -25,16 +25,67 @@ for idxExp = 1 : length(coa15.esp)
 end
 
 [sortedI,sortingIndices] = sort(infor,'descend');
-maxValueIndices = sortingIndices(1:15);
+maxValueIndices = sortingIndices(1);
 best15_aurocs_coa = aurocs(maxValueIndices,:);
 clims = [0 1];
 figure; subplot(1,2,1); imagesc(best15_aurocs_coa, clims);
-simbestauroccoa = zeros(15,15);
-for idx = 1:15
-    simbestauroccoa(idx,idx) = best15_aurocs_coa(y(idx),idx);
+
+
+%% Best Neuron
+dataAll = [];
+dataAll = responseCell1All(maxValueIndices,:,:);
+neurons = size(dataAll,1);
+trials = size(dataAll,2);
+stimuli = size(dataAll,3);
+dataAll = reshape(dataAll, neurons, trials .* stimuli);
+dataAll = dataAll';
+dataAll = zscore(dataAll);
+dataAll = dataAll';
+dataAll(isinf(dataAll)) = 0;
+dataAll(isnan(dataAll)) = 0;
+dataAll = reshape(dataAll, neurons, trials, stimuli);
+dataAll = double(dataAll);
+labels      = ones(1,size(dataAll,2));
+app_labels  = labels;
+for odor = 1:size(dataAll,3) - 1
+    labels  = [labels, app_labels + odor .* ones(1,size(dataAll,2))];
 end
-subplot(1,2,2);
-imagesc(simbestauroccoa, clims);
+labela = labels';
+trainingN = floor(0.9*(trials * stimuli));
+[mean_acc_svm_best, std_acc_svm_best, best15_acc_svm_labeledLines_coa, prctile25, prctile75] = odor_c_svm_2leaveout(dataAll, trainingN, labela, 100);
+
+%% Remove best neurons
+mean_acc_svm_1 = nan(1,100);
+std_acc_svm_1 = nan(1,100);
+for idxNeuron = 1:100
+    X = [];
+    X = responseCell1All;
+    X(sortingIndices(1:idxNeuron),:,:) = [];
+    dataAll = [];
+    dataAll = X;
+    neurons = size(dataAll,1);
+    trials = size(dataAll,2);
+    stimuli = size(dataAll,3);
+    dataAll = reshape(dataAll, neurons, trials .* stimuli);
+    dataAll = dataAll';
+    dataAll = zscore(dataAll);
+    dataAll = dataAll';
+    dataAll(isinf(dataAll)) = 0;
+    dataAll(isnan(dataAll)) = 0;
+    dataAll = reshape(dataAll, neurons, trials, stimuli);
+    dataAll = double(dataAll);
+    labels      = ones(1,size(dataAll,2));
+    app_labels  = labels;
+    for odor = 1:size(dataAll,3) - 1
+        labels  = [labels, app_labels + odor .* ones(1,size(dataAll,2))];
+    end
+    labela = labels';
+    trainingN = floor(0.9*(trials * stimuli));
+    [mean_acc_svm, std_acc_svm, best15_acc_svm_labeledLines_coa, prctile25, prctile75] = odor_c_svm_2leaveout(dataAll, trainingN, labela, 100);
+    mean_acc_svm_1(idxNeuron) = mean_acc_svm(1);
+    std_acc_svm_1(idxNeuron) = std_acc_svm(1);
+end
+
 %%
 
     dataAllapp = [];
@@ -120,7 +171,7 @@ for idxExp = 1 : length(pcx15.esp)
 end
 
 [sortedI,sortingIndices] = sort(infor,'descend');
-maxValueIndices = sortingIndices(1:15);
+maxValueIndices = sortingIndices(1);
 best15_aurocs_pcx = aurocs(maxValueIndices,:);
 
     

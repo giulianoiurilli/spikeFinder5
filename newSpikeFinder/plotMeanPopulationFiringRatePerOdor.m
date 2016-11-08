@@ -22,6 +22,7 @@ for idxExp = 1 : length(folderlist)
                         spikesVect = shank(idxShank).SUA.spike_matrix{idxUnit}(:,:,idxOdor);
                         [slidingPSTHmn, slidingPSTHsd, slidingPSTHFF, slidingPSTHCV, slidingPSTH] = slidePSTH(spikesVect, 100, 25);
                         X(idxCell,:,idxOdor) = slidingPSTHmn;
+                        Y(idxCell,:idxOdor) = slidingPSTHsd;
                 end
             end
         end
@@ -30,7 +31,7 @@ end
 figure
 for idxOdor = 1:15
         subplot(3,5,idxOdor)
-        plot(mean(X(:,:,idxOdor)))
+        shadedErrorBar(mean(X(:,:,idxOdor)), mean(Y(:,:,idxOdor)), {'-', 'markerfacecolor'')
 end
         
         

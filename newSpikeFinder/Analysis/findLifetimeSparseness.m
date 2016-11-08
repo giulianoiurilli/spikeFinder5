@@ -7,7 +7,7 @@ cellLog = nan(totalSUA,3);
 
 lsSig = nan(totalResponsiveSUA,1);
 cellLogSig = nan(totalResponsiveSUA,3);
-
+n_odors = numel(odors);
 cells = 0;
 idxCell = 0;
 for idxExp = 1:length(esp)
@@ -18,7 +18,7 @@ for idxExp = 1:length(esp)
                     cells = cells + 1;
                     idxO = 0;
                     app = [];
-                    response = nan(10,15);
+                    response = nan(10,n_odors);
                     for idxOdor = odors
                         idxO = idxO + 1;
                         app(idxO) = esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1;
@@ -30,7 +30,7 @@ for idxExp = 1:length(esp)
                     if sum(app) > 0
                         idxCell = idxCell + 1;
                         idxO = 0;
-                        response = nan(10,15);
+                        response = nan(10,n_odors);
                         for idxOdor = odors
                             idxO = idxO + 1;
                             response(:,idxO) = esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms -...

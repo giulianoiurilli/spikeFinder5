@@ -51,7 +51,7 @@ title('aPCx')
 suptitle('Confusion Matrix')
 
 %% Correlation Matrix Odor Representations
-[rhoOdorRepresentationsSigCoa, rhoMeanOdorRepresentationsSigCoa] = findOdorRepresentationCorrelation(coa.esp, 1:13);
+[rhoOdorRepresentationsSigCoa, rhoMeanOdorRepresentationsSigCoa] = findOdorRepresentationCorrelation(coa.esp, 1:6);
 figure
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
 clims = [0 1];
@@ -61,7 +61,7 @@ colormap(brewermap([],'*PuBuGn'))
 colorbar
 title('Corrleation between odor representations - plCoA')
 
-[rhoOdorRepresentationsSigPcx, rhoMeanOdorRepresentationsSigPcx] = findOdorRepresentationCorrelation(pcx.esp, 1:13);
+[rhoOdorRepresentationsSigPcx, rhoMeanOdorRepresentationsSigPcx] = findOdorRepresentationCorrelation(pcx.esp, 1:6);
 figure
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
 clims = [0 1];
@@ -72,7 +72,7 @@ colorbar
 title('Corrleation between odor representations - aPCx')
 
 %%
-idx = triu(true(15,15),1);
+idx = triu(true(6,6),1);
 odorCorrCoa = rhoMeanOdorRepresentationsSigCoa(idx);
 odorCorrPcx = rhoMeanOdorRepresentationsSigPcx(idx);
 figure
@@ -88,7 +88,7 @@ xlabel('correlation')
 ylabel('p.d.f.')
 title('Distribution of correlations between odor representations')
 %% Distribution Odor Representations Correlations
-[tuningCurvesCoa, tuningCurvesSigCoa] = findTuningCurves(coa.esp, odors);
+[tuningCurvesCoa, tuningCurvesSigCoa] = findTuningCurves(coa.esp, 1:6);
 figure
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
 tuningCurvesSigNormCoa = zscore(tuningCurvesSigCoa');
@@ -101,7 +101,7 @@ ylabel('p.d.f.')
 
 hold on
 
-[tuningCurvesPcx, tuningCurvesSigPcx] = findTuningCurves(pcx.esp, odors);
+[tuningCurvesPcx, tuningCurvesSigPcx] = findTuningCurves(pcx.esp, 1:6);
 
 tuningCurvesSigNormPcx = zscore(tuningCurvesSigPcx');
 tuningCurvesSigNormPcx = tuningCurvesSigNormPcx';
@@ -129,11 +129,11 @@ title('odor tuning profiles of responsive neurons')
 
 
 %% Fraction of excited neurons per odor
-[totalSUACoa, totalResponsiveSUACoa, totalResponsiveNeuronPerOdorCoa] = findNumberOfSua(coa.esp, odors);
+[totalSUACoa, totalResponsiveSUACoa, totalResponsiveNeuronPerOdorCoa] = findNumberOfSua(coa.esp, 1:6);
 figure
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
 x = totalResponsiveNeuronPerOdorCoa./ totalSUACoa;
-[totalSUAPcx, totalResponsiveSUAPcx, totalResponsiveNeuronPerOdorPcx] = findNumberOfSua(pcx.esp, odors);
+[totalSUAPcx, totalResponsiveSUAPcx, totalResponsiveNeuronPerOdorPcx] = findNumberOfSua(pcx.esp, 1:6);
 y = totalResponsiveNeuronPerOdorPcx./ totalSUAPcx;
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
 
@@ -151,7 +151,7 @@ ylabel('fraction of excited neurons')
 
 
 %% Distribution of lifetime sparseness
-[lsCoa, cellLogCoa, lsSigCoa, cellLogSigCoa] = findLifetimeSparseness(coa.esp, odors);
+[lsCoa, cellLogCoa, lsSigCoa, cellLogSigCoa] = findLifetimeSparseness(coa.esp, 1:6);
 figure
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
 [fCoa,xiCoa] = ksdensity(lsCoa(~isnan(lsCoa)));
@@ -160,7 +160,7 @@ hold on
 % [fCoa,xiCoa] = ksdensity(lsSigCoa(~isnan(lsSigCoa)));
 % plot(xiCoa,fCoa, ':', 'color', coaC, 'linewidth', 1)
 
-[lsPcx, cellLogPcx, lsSigPcx, cellLogSigPcx] = findLifetimeSparseness(pcx.esp, odors);
+[lsPcx, cellLogPcx, lsSigPcx, cellLogSigPcx] = findLifetimeSparseness(pcx.esp, 1:6);
 [fPcx,xiPcx] = ksdensity(lsPcx(~isnan(lsPcx)));
 plot(xiPcx,fPcx,'color', pcxC, 'linewidth', 1)
 % hold on
@@ -172,5 +172,10 @@ ylabel('fraction of neurons')
 
 
 %% Plot grand-average PSTH per odor
-meanPSTHCoa = plotMeanPSTHPerOdor(coa.esp, odors, coaC);
-meanPSTHPcx = plotMeanPSTHPerOdor(pcx.esp, odors, pcxC);
+meanPSTHCoa = plotMeanPSTHPerOdor(coa.esp, 1:6, coaC);
+meanPSTHPcx = plotMeanPSTHPerOdor(pcx.esp, 1:6, pcxC);
+
+%% Distributions per Shank
+[responsivityCoa, auROCCoa, nCellsExpCoa] = findResponsivityAndAurocPerShank(coa.esp, 1:6, 0);
+[responsivityPcx, auROCPcx, nCellsExpPcx] = findResponsivityAndAurocPerShank(pcx.esp, 1:6, 0);
+
