@@ -527,9 +527,9 @@ trainingN = floor(0.9*(trials * stimuli));
 
 %%
 figure
-shadedErrorBar(1:length(mean_acc_svmConcCoa), mean_acc_svmConcCoa, std_acc_svmConcCoa ./ sqrt(length(std_acc_svmConcCoa)-1), {'-r', 'linewidth', 1},1);
+shadedErrorBar(1:length(mean_acc_svmConcCoa), mean_acc_svmConcCoa, std_acc_svmConcCoa ./ sqrt(length(std_acc_svmConcCoa)-1), {'-r', 'linewidth', 1},0);
 hold on
-shadedErrorBar(1:length(mean_acc_svmConcPcx), mean_acc_svmConcPcx, std_acc_svmConcPcx ./ sqrt(length(std_acc_svmConcPcx)-1), {'-k', 'linewidth', 1},1);
+shadedErrorBar(1:length(mean_acc_svmConcPcx), mean_acc_svmConcPcx, std_acc_svmConcPcx ./ sqrt(length(std_acc_svmConcPcx)-1), {'-k', 'linewidth', 1},0);
 hold on
 plot(repmat(max(mean_acc_svm_BestConcCoa), 1, length(mean_acc_svmConcPcx)), ':r', 'linewidth', 1);
 hold on
@@ -540,9 +540,9 @@ ylim([0 100]);
 ylabel('accuracy %')
 
 figure
-shadedErrorBar(1:length(mean_acc_svmConcNoInvCoa), mean_acc_svmConcNoInvCoa, std_acc_svmConcNoInvCoa ./ sqrt(length(std_acc_svmConcNoInvCoa)-1), {'-r', 'linewidth', 1},1);
+shadedErrorBar(1:length(mean_acc_svmConcNoInvCoa), mean_acc_svmConcNoInvCoa, std_acc_svmConcNoInvCoa ./ sqrt(length(std_acc_svmConcNoInvCoa)-1), {'-r', 'linewidth', 1},0);
 hold on
-shadedErrorBar(1:length(mean_acc_svmConcNoInvPcx), mean_acc_svmConcNoInvPcx, std_acc_svmConcNoInvPcx ./ sqrt(length(std_acc_svmConcNoInvPcx)-1), {'-k', 'linewidth', 1},1);
+shadedErrorBar(1:length(mean_acc_svmConcNoInvPcx), mean_acc_svmConcNoInvPcx, std_acc_svmConcNoInvPcx ./ sqrt(length(std_acc_svmConcNoInvPcx)-1), {'-k', 'linewidth', 1},0);
 hold on
 plot(mean_acc_svmConcInvCoa, ':r', 'linewidth', 1)
 hold on

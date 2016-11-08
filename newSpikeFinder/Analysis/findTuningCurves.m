@@ -1,4 +1,4 @@
-function [tuningCurves, tuningCurvesSig] = findTuningCurves(esp, odors)
+function [tuningCurves, tuningCurvesSig, auROCSig] = findTuningCurves(esp, odors)
 
 [totalSUA, totalResponsiveSUA, totalResponsiveNeuronPerOdor] = findNumberOfSua(esp, odors);
 
@@ -20,10 +20,12 @@ for idxExp = 1:length(esp)
                         tuningCurves(cells, idxO) = mean(esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms) -...
                             mean(esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms);
                         app(idxO) = esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1;
+                        tuningCurvesAuRoc(cells, idxO) = esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).auROC1000ms;
                     end
                     if sum(app) > 0
                         idxCell = idxCell + 1;
                         tuningCurvesSig(idxCell,:) = tuningCurves(cells, :);
+                        auROCSig(idxCell,:) = tuningCurvesAuRoc(cells, :);
                     end
                 end
             end
