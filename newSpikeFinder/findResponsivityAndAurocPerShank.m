@@ -44,8 +44,7 @@ else
                     end
                 end
             end
+            nCellsExp(idxExp, idxShank) = cellsExp;
         end
-        nCellsExp(idxExp, idxShank) = cellsExp;
     end
-    
 end
