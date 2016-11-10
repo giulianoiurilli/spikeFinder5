@@ -54,7 +54,7 @@ suptitle('Confusion Matrix')
 [rhoOdorRepresentationsSigCoa, rhoMeanOdorRepresentationsSigCoa] = findOdorRepresentationCorrelation(coa.esp, 1:6);
 figure
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
-clims = [0 1];
+clims = [-0.5 1];
 imagesc(rhoOdorRepresentationsSigCoa, clims)
 axis square
 colormap(brewermap([],'*PuBuGn'))
@@ -64,7 +64,7 @@ title('Corrleation between odor representations - plCoA')
 [rhoOdorRepresentationsSigPcx, rhoMeanOdorRepresentationsSigPcx] = findOdorRepresentationCorrelation(pcx.esp, 1:6);
 figure
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
-clims = [0 1];
+clims = [-0.5 1];
 imagesc(rhoOdorRepresentationsSigPcx, clims)
 axis square
 colormap(brewermap([],'*PuBuGn'))

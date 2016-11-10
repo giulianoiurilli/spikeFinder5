@@ -74,8 +74,8 @@ specific_labels_names_to_use = 'combined_ID_Conc';
 
 bin_width = 1000;
 step_size = 1000;
-start_time = 14000;
-end_time = 16000;
+start_time = 4000;
+end_time = 5000;
 Bayes = 1;
 
 create_binned_data_from_raster_data(raster_file_directory_name, save_prefix_name, bin_width, step_size, start_time, end_time);
