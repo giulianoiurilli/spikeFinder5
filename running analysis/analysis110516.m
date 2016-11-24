@@ -2,19 +2,19 @@ pcx = load('aPCx_natMix_2.mat');
 %%
 coa = load('plCoA_natMix_2.mat');
 %%
-odors = 1:15;
+odors = 1:6;
 coaC = [228,26,28]./255;
 pcxC = [55,126,184]./255;
 %%
 folder = fullfile(pwd, 'binnedSUA13odors');
 mkdir(folder)
-prepareDataForClassification(esp, 13, folder);
+prepareDataForClassification(pcxNM.esp, 13, folder);
 %%
 folder = fullfile(pwd, 'binnedSUA13odors');
 options.classifierType = 1;
-[meanAccuracyPcxRadBasis, stdevAccuracyPcxRadBasis, confMatPcxRadBasis] = findClassificationAccuracy(pcx.esp, 13, folder, options);
+[meanAccuracyPcxRadBasis, stdevAccuracyPcxRadBasis, confMatPcxRadBasis] = findClassificationAccuracy(pcxNM.esp, 13, folder, options);
 options.classifierType = 3;
-[meanAccuracyPcxLinear, stdevAccuracyPcxLinear, confMatPcxLinear] = findClassificationAccuracy(pcx.esp, 13, folder, options);
+[meanAccuracyPcxLinear, stdevAccuracyPcxLinear, confMatPcxLinear] = findClassificationAccuracy(pcxNM.esp, 13, folder, options);
 %%
 folder = fullfile(pwd, 'binnedSUA13odors');
 options.classifierType = 1;
@@ -51,25 +51,28 @@ title('aPCx')
 suptitle('Confusion Matrix')
 
 %% Correlation Matrix Odor Representations
-[rhoOdorRepresentationsSigCoa, rhoMeanOdorRepresentationsSigCoa] = findOdorRepresentationCorrelation(coa.esp, 1:6);
+[rhoOdorRepresentationsSigCoa, rhoMeanOdorRepresentationsSigCoa, evaCoa] = findOdorRepresentationCorrelation(coa.esp, 1:6,0);
 figure
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
-clims = [-0.5 1];
+clims = [0 1];
 imagesc(rhoOdorRepresentationsSigCoa, clims)
 axis square
 colormap(brewermap([],'*PuBuGn'))
 colorbar
 title('Corrleation between odor representations - plCoA')
 
-[rhoOdorRepresentationsSigPcx, rhoMeanOdorRepresentationsSigPcx] = findOdorRepresentationCorrelation(pcx.esp, 1:6);
+[rhoOdorRepresentationsSigPcx, rhoMeanOdorRepresentationsSigPcx, evaPcx] = findOdorRepresentationCorrelation(pcx.esp, 1:6,0);
 figure
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
-clims = [-0.5 1];
+clims = [0 1];
 imagesc(rhoOdorRepresentationsSigPcx, clims)
 axis square
 colormap(brewermap([],'*PuBuGn'))
 colorbar
 title('Corrleation between odor representations - aPCx')
+
+
+%%
 
 %%
 idx = triu(true(6,6),1);

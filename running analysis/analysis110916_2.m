@@ -2,7 +2,7 @@ add_ndt_paths_and_init_rand_generator
 
 %%
 
-esp = pcx.esp;
+esp = coa.esp;
 folder = pwd;
 %%
 nTrials = 10;
@@ -17,15 +17,15 @@ nTimepoints = 10000;
 
 
 idxCell = 0;
-for idxEsp = 1:length(esp)
+for idxExp = 1:length(esp)
     cd(fullfile((esp(idxExp).filename), 'ephys'))
     load('units.mat')
     for idxShank = 1:4
         if ~isempty(esp(idxExp).shank(idxShank).SUA)
             for idxUnit = 1:length(esp(idxExp).shank(idxShank).SUA.cell)
                 if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).good == 1 && esp(idxExp).shank(idxShank).SUA.cell(idxUnit).L_Ratio < 1
-                    resp = zeros(1,odors);
-                    for idxOdor = 1:odors
+                    resp = zeros(1,nOdors);
+                    for idxOdor = 1:nOdors
                         resp(idxOdor) = esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1;
                         %resp(idxOdor) = esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse300ms == 1;
                     end
@@ -141,7 +141,7 @@ for iTrainConcentration = 1:2
         
         
         %       ds = generalization_DS(binned_format_file_name, specific_labels_names_to_use, num_cv_splits, the_training_label_names, the_test_label_names);
-        ds.num_resample_sites = 60;
+        ds.num_resample_sites = 66;
         
         
         if Bayes == 1

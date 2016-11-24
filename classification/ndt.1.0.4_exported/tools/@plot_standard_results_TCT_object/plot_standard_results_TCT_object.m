@@ -185,7 +185,7 @@ classdef plot_standard_results_TCT_object
 
       movie_figure_number = 2;
       
-      movie_save_name = [];
+      movie_save_name = 'prova';
       
       movie_time_period_titles = [];
       
@@ -408,9 +408,9 @@ classdef plot_standard_results_TCT_object
             if plot_obj.display_TCT_movie > 0
             
                 
-                if ~isempty(plot_obj.movie_save_name)
-                   mov = avifile([plot_obj.movie_save_name '.avi'], 'fps', 2); 
-                end
+%                 if ~isempty(plot_obj.movie_save_name)
+%                    mov = avifile([plot_obj.movie_save_name '.avi'], 'fps', 2); 
+%                 end
                 
                 
                 min_and_max_decoding_vals = [min(min(result_to_plot)), max(max(result_to_plot))];
@@ -555,8 +555,8 @@ classdef plot_standard_results_TCT_object
                     
                     
                     if ~isempty(plot_obj.movie_save_name)
-                            F = getframe(h);  % getframe(gcf);
-                            mov = addframe(mov, F);
+                            F(iTime) = getframe(h);  % getframe(gcf);
+                            %mov = addframe(mov, F);
                     end
                     
                     
@@ -572,7 +572,9 @@ classdef plot_standard_results_TCT_object
 
                 
                 if ~isempty(plot_obj.movie_save_name)
-                    mov = close(mov);
+                    movie2avi(F, [plot_obj.movie_save_name '.avi'], 'fps', 2, 'compression', 'none');
+                    %mov = close(mov);
+                    
                 end
                 
                 

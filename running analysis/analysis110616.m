@@ -1,22 +1,22 @@
 odors = 1:15;
 %%
-[VariantCoa, InvariantCoa, nonmonotonicCoa, nonmonotonicSemCoa, monotonicDCoa, monotonicDSemCoa, monotonicICoa, monotonicISemCoa] = findConcInvarianceAndMonotonicity_new2(coaCS2.esp);
-[VariantPcx, InvariantPcx, nonmonotonicPcx, nonmonotonicSemPcx, monotonicDPcx, monotonicDSemPcx, monotonicIPcx, monotonicISemPcx] = findConcInvarianceAndMonotonicity_new2(pcxCS2.esp);
-figure
-set(gcf,'color','white', 'PaperPositionMode', 'auto');
-for idxOdor = 1:3
-xMean = [VariantCoa(idxOdor) VariantPcx(idxOdor); InvariantCoa(idxOdor) InvariantPcx(idxOdor)];
-semCoa = sqrt(xMean(1,1) * xMean(2,1) / (numel(totalResponsiveSUACoa)-1));
-semPcx = sqrt(xMean(1,2) * xMean(2,2) / (numel(totalResponsiveSUAPcx)-1));
-xSem = [semCoa, semPcx; semCoa, semPcx];
-subplot(3,1,idxOdor)
-b = barwitherr(xSem, xMean);
-b(1).EdgeColor = coaC;
-b(1).FaceColor = coaC;
-b(2).EdgeColor = pcxC;
-b(2).FaceColor = pcxC;
-set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'arial', 'fontsize', 14)
-end
+[VariantCoa, InvariantCoa, nonmonotonicCoa, nonmonotonicSemCoa, monotonicDCoa, monotonicDSemCoa, monotonicICoa, monotonicISemCoa] = findConcInvarianceAndMonotonicity_new(coaCS2.esp);
+[VariantPcx, InvariantPcx, nonmonotonicPcx, nonmonotonicSemPcx, monotonicDPcx, monotonicDSemPcx, monotonicIPcx, monotonicISemPcx] = findConcInvarianceAndMonotonicity_new(pcxCS2.esp);
+% figure
+% set(gcf,'color','white', 'PaperPositionMode', 'auto');
+% for idxOdor = 1:3
+% xMean = [VariantCoa(idxOdor) VariantPcx(idxOdor); InvariantCoa(idxOdor) InvariantPcx(idxOdor)];
+% semCoa = sqrt(xMean(1,1) * xMean(2,1) / (numel(totalResponsiveSUACoa)-1));
+% semPcx = sqrt(xMean(1,2) * xMean(2,2) / (numel(totalResponsiveSUAPcx)-1));
+% xSem = [semCoa, semPcx; semCoa, semPcx];
+% subplot(3,1,idxOdor)
+% b = barwitherr(xSem, xMean);
+% b(1).EdgeColor = coaC;
+% b(1).FaceColor = coaC;
+% b(2).EdgeColor = pcxC;
+% b(2).FaceColor = pcxC;
+% set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'arial', 'fontsize', 14)
+% end
 
 
 figure
@@ -67,9 +67,9 @@ set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'arial', 'fontsize', 14)
 
 %%
 [ACoa, aCoa, bCoa, cCoa, dCoa, eCoa, f1Coa, f2Coa, f3Coa, g1Coa, g2Coa, g3Coa, h1Coa, h2Coa, h3Coa, i1Coa, i2Coa, i3Coa, l1Coa, l2Coa, l3Coa] =...
-    findCorrelationsConc(coaCS2.esp, 1:15);
+    findCorrelationsConc_new(coaCS2.esp, 1:15);
 [APcx, aPcx, bPcx, cPcx, dPcx, ePcx, f1Pcx, f2Pcx, f3Pcx, g1Pcx, g2Pcx, g3Pcx, h1Pcx, h2Pcx, h3Pcx, i1Pcx, i2Pcx, i3Pcx, l1Pcx, l2Pcx, l3Pcx] =...
-    findCorrelationsConc(pcxCS2.esp, 1:15);
+    findCorrelationsConc_new(pcxCS2.esp, 1:15);
 
 AcoaMean = mean(aCoa);
 AcoaSEM = std(aCoa)/sqrt(2);
@@ -79,18 +79,18 @@ ApcxSEM = std(aPcx)/sqrt(2);
 
 %%
 figure
-plot(1:4, fliplr(AcoaMean), '-o', 'color', coaC, 'MarkerSize', 5, 'MarkerFaceColor', coaC);
+plot(1:4, AcoaMean, '-o', 'color', coaC, 'MarkerSize', 5, 'MarkerFaceColor', coaC);
 hold on
-plot(1.1:4.1, fliplr(ApcxMean), '-o', 'color', pcxC, 'MarkerSize', 5, 'MarkerFaceColor', pcxC);
+plot(1.1:4.1, ApcxMean, '-o', 'color', pcxC, 'MarkerSize', 5, 'MarkerFaceColor', pcxC);
 hold on
-errbar(1:4, fliplr(AcoaMean), fliplr(AcoaSEM), 'r', 'linewidth', 2); %
+errbar(1:4, AcoaMean, AcoaSEM, 'r', 'linewidth', 2); %
 hold on
-errbar(1.1:4.1, fliplr(ApcxMean), fliplr(ApcxSEM), 'k', 'linewidth', 2);
+errbar(1.1:4.1, ApcxMean, ApcxSEM, 'k', 'linewidth', 2);
 %title('odor concentration')
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
 set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'avenir', 'fontsize', 14)
-xlim([0.8 4.6]);
-ylim([-0.5 0.5]);
+% xlim([0.8 4.6]);
+% ylim([-0.5 0.5]);
 ylabel('pairwise correlation')
 
 %%
@@ -132,17 +132,17 @@ meanIPcx = [fmeanPcx gmeanPcx hmeanPcx imeanPcx lmeanPcx];
 semIPcx = [fsemPcx gsemPcx hsemPcx isemPcx lsemPcx];
 
 figure
-plot(1:5, fliplr(meanICoa), '-o', 'color', coaC, 'MarkerSize', 5, 'MarkerFaceColor', coaC);
+plot(1:5, meanICoa, '-o', 'color', coaC, 'MarkerSize', 5, 'MarkerFaceColor', coaC);
 hold on
-plot(1.1:5.1, fliplr(meanIPcx), '-o', 'color', pcxC, 'MarkerSize', 5, 'MarkerFaceColor', pcxC);
+plot(1.1:5.1, meanIPcx, '-o', 'color', pcxC, 'MarkerSize', 5, 'MarkerFaceColor', pcxC);
 hold on
-errbar(1:5, fliplr(meanICoa), fliplr(semICoa), 'r', 'linewidth', 2); %
+errbar(1:5, meanICoa, semICoa, 'r', 'linewidth', 2); %
 hold on
-errbar(1.1:5.1, fliplr(meanIPcx), fliplr(semIPcx), 'k', 'linewidth', 2);
+errbar(1.1:5.1, meanIPcx, semIPcx, 'k', 'linewidth', 2);
 %title('odor concentration')
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
 set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'avenir', 'fontsize', 14)
-xlim([0.8 5.6]);
-ylim([-0.5 0.5]);
+% xlim([0.8 5.6]);
+% ylim([-0.5 0.5]);
 
 

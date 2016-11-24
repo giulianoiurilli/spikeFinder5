@@ -1,4 +1,4 @@
-function [variant, invariant, nonmonotonic, nonmonotonicSem, monotonicD, monotonicDSem, monotonicI, monotonicISem, cellLogInv] = findConcInvarianceAndMonotonicity_new(esp)
+function [variant, invariant, nonmonotonic, nonmonotonicSem, monotonicD, monotonicDSem, monotonicI, monotonicISem, cellLogInv, idxCell] = findConcInvarianceAndMonotonicity_new(esp)
 
 invariant = zeros(1,3);
 variant = zeros(1,3);
@@ -21,7 +21,7 @@ for idxExp = 1:length(esp)
                         for iOdor = 1:5
                             idxOdor = iOdor + 5*(odor-1);
                             appOdor(iOdor) = esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1;
-                        end                       
+                        end
                         if sum(appOdor) == 5
                             cellsV(odor) = cellsV(odor) + 1;
                             y = nan(10,5);
@@ -50,28 +50,48 @@ for idxExp = 1:length(esp)
                                 y(:,iOdor) = (esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms -...
                                     esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms)';
                             end
-                            [p, table, stats] = anova1(y,[],'off');
-                            comparisons = multcompare(stats, 'display','off');
-                            comp = [comparisons(1,6) comparisons(5,6) comparisons(8,6) comparisons(10,6)];
-                            est = [comparisons(1,4) comparisons(5,4) comparisons(8,4) comparisons(10,4)];
-                            ind = find(comp<0.05);
-                            slope = -est(ind);
-                            signSlopeY = sign(slope);
-                            yMean = mean(y);
-                            
-                            %                         slopeY = diff(yMean);
-                            %                         signSlopeY = sign(slopeY);
-                            app1 = find(signSlopeY>=0);
-                            app2 = find(signSlopeY<0);
-                            if ~isempty(app1) && ~isempty(app2)
-                                nonmonotonic(odor) = nonmonotonic(odor) + 1;
-                            else if isempty(app1)
-                                    monotonicD(odor) = monotonicD(odor) + 1;
-                                else if isempty(app2)
-                                        monotonicI(odor) = monotonicI(odor) + 1;
-                                    end
-                                end
+                            y1 = mean(y);
+                            x = 1:5;
+                            a = polyfit(x,y1,1);
+                            for k = 1:100
+                                y2 = y1(randperm(5));
+                                a2 = polyfit(x,y2,1);
+                                A(k) = a2(1);
                             end
+                            ci = prctile(A,[2.5 97.5]);
+                            if a(1) > ci(1) && a(1)< ci(2)
+                                nonmonotonic(odor) = nonmonotonic(odor) + 1;
+                            end
+                            if a(1) < ci(1)
+                                monotonicD(odor) = monotonicD(odor) + 1;
+                            end
+                            if a(1) > ci(2)
+                                monotonicI(odor) = monotonicI(odor) + 1;
+                            end
+                            
+%                             %right way to do it
+%                                                         [p, table, stats] = anova1(y,[],'off');
+%                                                         comparisons = multcompare(stats, 'display','off');
+%                                                         comp = [comparisons(1,6) comparisons(5,6) comparisons(8,6) comparisons(10,6)];
+%                                                         est = [comparisons(1,4) comparisons(5,4) comparisons(8,4) comparisons(10,4)];
+%                                                         ind = find(comp<0.05);
+%                                                         slope = -est(ind);
+%                                                         signSlopeY = sign(slope);
+%                                                         yMean = mean(y);
+%                             
+%                                                         %                         slopeY = diff(yMean);
+%                                                         %                         signSlopeY = sign(slopeY);
+%                                                         app1 = find(signSlopeY>=0);
+%                                                         app2 = find(signSlopeY<0);
+%                                                         if isempty(app1) && isempty(app2)
+%                                                             nonmonotonic(odor) = nonmonotonic(odor) + 1;
+%                                                         else if isempty(app1)
+%                                                                 monotonicD(odor) = monotonicD(odor) + 1;
+%                                                             else if isempty(app2)
+%                                                                     monotonicI(odor) = monotonicI(odor) + 1;
+%                                                                 end
+%                                                             end
+%                                                         end
                         end
                     end
                 end
@@ -79,15 +99,14 @@ for idxExp = 1:length(esp)
         end
     end
 end
-    %%
-    invariant = invariant./cellsM;
-    variant = variant./cellsM;
-    nonmonotonic = nonmonotonic./cellsM;
-    nonmonotonicSem = sqrt(((nonmonotonic./cellsM).*(ones(1,3)-(nonmonotonic./cellsM)))./cellsM);
-    monotonicD = monotonicD./cellsM;
-    monotonicDSem = sqrt(((monotonicD./cellsM).*(ones(1,3)-(monotonicD./cellsM)))./cellsM);
-    monotonicI = monotonicI./cellsM;
-    monotonicISem = sqrt(((monotonicI./cellsM).*(ones(1,3)-(monotonicI./cellsM)))./cellsM);
-    
-    
-    
+%%
+invariant = invariant./cellsM;
+variant = variant./cellsM;
+nonmonotonic = nonmonotonic./cellsM;
+nonmonotonicSem = sqrt(((nonmonotonic./cellsM).*(ones(1,3)-(nonmonotonic./cellsM)))./cellsM);
+monotonicD = monotonicD./cellsM;
+monotonicDSem = sqrt(((monotonicD./cellsM).*(ones(1,3)-(monotonicD./cellsM)))./cellsM);
+monotonicI = monotonicI./cellsM;
+monotonicISem = sqrt(((monotonicI./cellsM).*(ones(1,3)-(monotonicI./cellsM)))./cellsM);
+
+

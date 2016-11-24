@@ -1,4 +1,4 @@
-function [slidingPSTHmn, slidingPSTHsd, slidingPSTHFF, slidingPSTHCV, slidingPSTH] = slidePSTH(spikesVect, binSize, moveBy)
+function [slidingPSTHmn, slidingPSTHsd, slidingPSTHFF, slidingPSTHCV, slidingPSTH, t_vector] = slidePSTH(spikesVect, binSize, moveBy)
 
 if nargin < 3
     moveBy = 5;
@@ -26,6 +26,8 @@ slidingPSTHsd = nanstd(slidingPSTH,1);
 slidingPSTHvar = nanvar(slidingPSTH,1);
 slidingPSTHFF = slidingPSTHvar ./ slidingPSTHmn;
 slidingPSTHCV = slidingPSTHsd ./ slidingPSTHmn;
+t_vector = linspace(0,size(spikesVect,2), length(slidingPSTHmn));
+
 
 
 

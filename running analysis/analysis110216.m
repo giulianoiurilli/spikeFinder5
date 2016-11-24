@@ -1,5 +1,5 @@
-[responsivityCoa, auROCCoa, nCellsExpCoa] = findResponsivityAndAurocPerShank(coaCS.esp, 1:15, 1);
-[responsivityPcx, auROCPcx, nCellsExpPcx] = findResponsivityAndAurocPerShank(pcxCS.esp, 1:15, 1);
+[responsivityCoa, auROCCoa, nCellsExpCoa] = findResponsivityAndAurocPerShank(coaCS2.esp, 1:15, 1);
+[responsivityPcx, auROCPcx, nCellsExpPcx] = findResponsivityAndAurocPerShank(pcxCS2.esp, 1:15, 1);
 
 %%
 fractionPerConcentrationCoa = [];
@@ -189,8 +189,9 @@ for idxOdor = 1:3
     set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'arial', 'fontsize', 14)
 end
 %%
-[concCoa, totalResponsiveSUACoa] = findOdorDiscriminative_new(coaCS.esp, odors);
-[concPcx, totalResponsiveSUAPcx] = findOdorDiscriminative_new(pcxCS.esp, odors);
+odors = 1:15;
+[concCoa, totalResponsiveSUACoa] = findOdorDiscriminative_new2(coaCS.esp, odors);
+[concPcx, totalResponsiveSUAPcx] = findOdorDiscriminative_new2(pcxCS.esp, odors);
 figure
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
 concCoaP = concCoa ./ totalResponsiveSUACoa;
@@ -217,8 +218,9 @@ set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'arial', 'fontsize', 14)
 
 
 %%
-[rhoOdorRepresentationsSigCoa, rhoMeanOdorRepresentationsSigCoa] = findOdorRepresentationCorrelation(coaCS.esp, odors);
-[rhoOdorRepresentationsSigPcx, rhoMeanOdorRepresentationsSigPcx] = findOdorRepresentationCorrelation(pcxCS.esp, odors);
+odorsRearranged = 1:15;
+[rhoOdorRepresentationsSigCoa, rhoMeanOdorRepresentationsSigCoa] = findOdorRepresentationCorrelation(coaCS.esp, odorsRearranged);
+[rhoOdorRepresentationsSigPcx, rhoMeanOdorRepresentationsSigPcx] = findOdorRepresentationCorrelation(pcxCS.esp, odorsRearranged);
 
 figure
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
@@ -241,7 +243,9 @@ title('Correlation between odor representations - aPCx')
 
 %%
 odorsRearranged = 1:15;
-[scoresCoa, scoresMeanCoa, explainedMeanCoa, explaineStdCoa] = findCodingSpace_new(coaCS.esp, odorsRearranged);
+% odorsRearranged = [15    2    13     1    12    3     5     4 8 14     11     10     6    9    7];
+% odorsRearranged = [15    2    13     1    12    3     5     14 8 4     11     10     6    9    7];
+[scoresCoa, scoresMeanCoa, explainedMeanCoa, explaineStdCoa] = findCodingSpace(coaCS.esp, odorsRearranged);
 
 
 figure
@@ -258,7 +262,7 @@ colorClass2 = flipud([239,243,255;...
 8,81,156]./255);
 
 colorClass3 = flipud([237,248,233;...
-186,228,179;...
+186,228,179;... 
 116,196,118;...
 49,163,84;...
 0,109,44]./255);
@@ -281,9 +285,11 @@ xlabel('PC1');
 ylabel('PC2');
 zlabel('PC3');
 title('plCOA');
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
 
 %%
-[scoresPcx, scoresMeanPcx, explainedMeanPcx, explaineStdPcx] = findCodingSpace_new(pcxCS.esp, odorsRearranged);
+odorsRearranged = 1:15;
+[scoresPcx, scoresMeanPcx, explainedMeanPcx, explaineStdPcx] = findCodingSpace(pcxCS.esp, odorsRearranged);
 figure
 colorClass1 = flipud([254,240,217;...
 253,204,138;...
@@ -319,18 +325,27 @@ xlabel('PC1');
 ylabel('PC2');
 zlabel('PC3');
 title('PCX');
-
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
 %%
+% odorsRearranged = [1    14    15    12    11     13     7    4     3     2     10 9 8 6 5];
+% odorsRearranged = odorsRearranged([3 1 2 4 5 6 7 8 9 10 15 11 12 13 14]);
+odorsRearranged = 1:15;
+% odorsRearranged = [15    2    13     1    12     14     8    3     5     4     11     10     6    9    7];
+% odorsRearranged = [15    2    13     1    12    3     5     14 8 4     11     10     6    9    7];
 [ACoa, aCoa, bCoa, cCoa, dCoa, eCoa, f1Coa, f2Coa, f3Coa, g1Coa, g2Coa, g3Coa, h1Coa, h2Coa, h3Coa, i1Coa, i2Coa, i3Coa, l1Coa, l2Coa, l3Coa] =...
-    findCorrelationsConc_new(coaCS.esp, 1:15);
+    findCorrelationsConc(coaCS.esp, odorsRearranged);
+
+% odorsRearranged = [1    11     4    12     14     2    13     7     6    3     15    5     10    9    8];
+% odorsRearranged = odorsRearranged([1 5 4 3 2 6 7 8 9 10 11 12 13 14 15]);
+odorsRearranged = 1:15;
 [APcx, aPcx, bPcx, cPcx, dPcx, ePcx, f1Pcx, f2Pcx, f3Pcx, g1Pcx, g2Pcx, g3Pcx, h1Pcx, h2Pcx, h3Pcx, i1Pcx, i2Pcx, i3Pcx, l1Pcx, l2Pcx, l3Pcx] =...
-    findCorrelationsConc_new(pcxCS.esp, 1:15);
+    findCorrelationsConc(pcxCS.esp, odorsRearranged);
 
-AcoaMean = mean(aCoa);
-AcoaSEM = std(aCoa)/sqrt(2);
+AcoaMean = fliplr(mean(aCoa));
+AcoaSEM = fliplr(std(aCoa)/sqrt(2));
 
-ApcxMean = mean(aPcx);
-ApcxSEM = std(aPcx)/sqrt(2);
+ApcxMean = fliplr(mean(aPcx));
+ApcxSEM = fliplr(std(aPcx)/sqrt(2));
 
 %%
 figure
@@ -345,7 +360,7 @@ errbar(1.1:4.1, ApcxMean, ApcxSEM, 'k', 'linewidth', 2);
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
 set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'avenir', 'fontsize', 14)
 xlim([0.8 4.6]);
-ylim([-0.5 0.5]);
+ylim([-1 1]);
 ylabel('pairwise correlation')
 
 %%
@@ -387,17 +402,17 @@ meanIPcx = [fmeanPcx gmeanPcx hmeanPcx imeanPcx lmeanPcx];
 semIPcx = [fsemPcx gsemPcx hsemPcx isemPcx lsemPcx];
 
 figure
-plot(1:5, meanICoa, '-o', 'color', coaC, 'MarkerSize', 5, 'MarkerFaceColor', coaC);
+plot(1:5, fliplr(meanICoa), '-o', 'color', coaC, 'MarkerSize', 5, 'MarkerFaceColor', coaC);
 hold on
-plot(1.1:5.1, meanIPcx, '-o', 'color', pcxC, 'MarkerSize', 5, 'MarkerFaceColor', pcxC);
+plot(1.1:5.1, fliplr(meanIPcx), '-o', 'color', pcxC, 'MarkerSize', 5, 'MarkerFaceColor', pcxC);
 hold on
-errbar(1:5, meanICoa, semICoa, 'r', 'linewidth', 2); %
+errbar(1:5, fliplr(meanICoa), fliplr(semICoa), 'r', 'linewidth', 2); %
 hold on
-errbar(1.1:5.1, meanIPcx, semIPcx, 'k', 'linewidth', 2);
+errbar(1.1:5.1, fliplr(meanIPcx), fliplr(semIPcx), 'k', 'linewidth', 2);
 %title('odor concentration')
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
 set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'avenir', 'fontsize', 14)
 xlim([0.8 5.6]);
-ylim([-0.5 0.5]);
+ylim([-1 1]);
 
 

@@ -1,4 +1,4 @@
-function [variant, invariant, nonmonotonic, nonmonotonicSem, monotonicD, monotonicDSem, monotonicI, monotonicISem] = findConcInvarianceAndMonotonicity_new2(esp)
+function [variant, invariant, nonmonotonic, nonmonotonicSem, monotonicD, monotonicDSem, monotonicI, monotonicISem, idxCell] = findConcInvarianceAndMonotonicity_old(esp)
 
 invariant = zeros(1,3);
 variant = zeros(1,3);
@@ -72,7 +72,7 @@ for idxExp = 1:length(esp)
         end
     end
 end
-end
+
 
 
 %%

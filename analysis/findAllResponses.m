@@ -1,5 +1,5 @@
 %%
-List = listcoaCS;
+% List = listcoaCS;
 startingFolder = pwd;
 fileToSave = 'coa_CS_2_2.mat';
 fileToSave2 = 'coa_CS_2_1.mat';
@@ -17,14 +17,20 @@ odorsRearranged = 1:15;
 %odorsRearranged = [6 8 5 11 12 3 2 10 14 4 7 13 15 9 1]; %coa AAmix
 %odorsRearranged = [4 2 13 12 1 11 3 5 8 15 6 7 9 10 14]; %pcx AAmix
 
-odorsRearranged = [14 13 12 15 1 2 3 4 5 6 7 8 9 10 11]; %pcx CS
+% odorsRearranged = [2 3 4 5 6 7 8 9 10 11 12 13 14 15 1]; %pcx CS
+% odorsRearranged = [1    11     4    12     14     2    13     7     6    3     15    5     10    9    8];
+% odorsRearranged = odorsRearranged([1 5 4 3 2 6 7 8 9 10 11 12 13 14 15]);
 
-
+%odorsRearranged = [11 6 10 1 15 4 14 8 3 9 2 12 13 7 5];%pcxCS good exps in List
+%except first 4
+odorsRearranged = [15 2 13 1 12 3 5 14 8 4 11 10 6 9 7]; %coaCS good exps [1 3 4 7 8 9 10 11 13 14]
 
 odors = length(odorsRearranged);
 %%
-for idxExp = 1 : length(List)
-    cartella = List{idxExp};
+idxExp = 0;
+for idxE = [1 3 4 7 8 9 10 11 13 14] %1 : length(List)
+    idxExp = idxExp + 1;
+    cartella = List{idxE};
     cd(cartella)
     load('unitsNowarp.mat', 'shankNowarp');
     load('parameters.mat');

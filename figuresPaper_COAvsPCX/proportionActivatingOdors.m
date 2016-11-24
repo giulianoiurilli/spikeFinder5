@@ -1,4 +1,4 @@
-function [actOdor, aurocs1000msSorted, aurocs300msSorted, cellLog, info1000, ls1000] = proportionActivatingOdors(esp, odors)
+function [actOdor, supOdor, aurocs1000msSorted, aurocs300msSorted, cellLog] = proportionActivatingOdors(esp, odors)
 
 odorsRearranged = odors;
 odors = length(odorsRearranged);
@@ -15,6 +15,7 @@ for idxExp =  1:length(esp)
 end
 responsesDig = zeros(c, odors);
 responsesExcDig = zeros(c, odors);
+responsesInhDig = zeros(c, odors);
 c = 0;
 u = 0;
 aurocs1000msSorted = [];
@@ -41,7 +42,8 @@ for idxExp =  1:length(esp)
                     aurocs1000ms(idxO) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC1000ms;
                 end
                 responsiveness = responsivenessExc1000ms + responsivenessExc300ms + responsivenessInh300ms + responsivenessInh1000ms;
-                responsivenessExc = responsivenessExc1000ms + responsivenessExc300ms;
+                responsivenessExc = responsivenessExc1000ms;% + responsivenessExc300ms;
+                responsivenessInh = responsivenessInh1000ms;% + responsivenessExc300ms;
                 app = [];
                 app = responsiveness>0;
                 responsiveness = app;
@@ -50,13 +52,15 @@ for idxExp =  1:length(esp)
                 responsivenessExc = app;
                 responsesDig(c,:) = responsiveness;
                 responsesExcDig(c,:) = responsivenessExc;
+                app = [];
+                app = responsivenessInh>0;
+                responsivenessInh = app;
+                responsesInhDig(c,:) = responsivenessInh;
                 if sum(responsesDig(c,:)) > 0
                     u = u +1;
                     aurocs1000msSorted = [aurocs1000msSorted ; sort(aurocs1000ms)];
                     aurocs300msSorted = [aurocs300msSorted ; sort(aurocs300ms)];
                     cellLog(u,:) = [idxExp, idxShank, idxUnit];
-                    info1000(u) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).I1s;
-                    ls1000(u) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls1s;
                 end
             end
         end
@@ -64,6 +68,7 @@ for idxExp =  1:length(esp)
 end
 
 actOdor = sum(responsesExcDig,2);
+supOdor = sum(responsesInhDig,2);
 
 
 

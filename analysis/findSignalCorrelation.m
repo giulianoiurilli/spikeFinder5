@@ -28,10 +28,13 @@ for idxesp = 1: length(esp)
     end
 end
 
-
+tuningCell1000ms = zscore(tuningCell1000ms');
+tuningCell1000ms = tuningCell1000ms';
 sigCorr1000ms = 1-pdist(tuningCell1000ms, 'correlation');
 corrM = squareform(sigCorr1000ms);
 
+tuningCell1000msSig = zscore(tuningCell1000msSig');
+tuningCell1000msSig = tuningCell1000msSig';
 sigCorr1000msSig = 1-pdist(tuningCell1000msSig, 'correlation');
 corrMSig = squareform(sigCorr1000msSig);
 

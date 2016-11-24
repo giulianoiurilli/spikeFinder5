@@ -41,11 +41,13 @@ responseCell1Mean = zscore(responseCell1Mean);
 responseCell1Mean = responseCell1Mean';
 
 
-% figure
-% clims = [0 1];
-% A = corr(responseCell1Mean);
-% imagesc(A, clims)
-% axis square
+figure
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+clims = [-1 1];
+A = corr(responseCell1Mean);
+imagesc(A, clims)
+axis square
+colormap(brewermap([],'*RdBu'));
 
 
 a = nan(3,4);

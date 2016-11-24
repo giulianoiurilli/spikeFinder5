@@ -158,6 +158,7 @@ SEMPCoaL = sqrt((PCoaL .* (1 - PCoaL)) ./ sum(N));
 
 
 p(2, 1, 1).select();
+figure
 errorbar(0:15, PCoa, SEMPCoa, 'or', 'LineWidth', 1, 'MarkerEdgeColor', 'r', 'MarkerFaceColor', 'r', 'MarkerSize', 8)
 hold on
 errorbar(0.3:15.3, PPcx, SEMPPcx, 'ok', 'LineWidth', 1, 'MarkerEdgeColor', 'k', 'MarkerFaceColor', 'k', 'MarkerSize', 8)

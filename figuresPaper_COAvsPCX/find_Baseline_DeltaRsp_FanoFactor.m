@@ -3,7 +3,7 @@ function M = find_Baseline_DeltaRsp_FanoFactor(esp, odors, window)
 
 n_trials = 10;
 
-%%
+%% find good cells
 c = 0;
 t = 0;
 for idxExp =  1:length(esp)
@@ -17,7 +17,7 @@ for idxExp =  1:length(esp)
     end
 end
 
-%%
+%% initialize
 M.SpikeCount = nan(c, 10, length(odors)); 
 M.DeltaRspMean = zeros(c, length(odors)); 
 M.DeltaRsp = zeros(c, 10, length(odors)); 
@@ -45,6 +45,8 @@ trialDeltaExcWindSig = nan(10, length(odors));
 trialDeltaInhWindSig = nan(10, length(odors)); 
 trialDeltaExcPeakSig = nan(10, length(odors)); 
 trialDeltaInhPeakSig = nan(10, length(odors)); 
+
+%%
 c = 0;
 for idxExp =  1:length(esp)
     for idxShank = 1:4
@@ -109,7 +111,7 @@ for idxExp =  1:length(esp)
                 M.DeltaRspInhPeakSig(c,:,:) = trialDeltaInhPeakSig;
                 M.DeltaRspExcWindSig(c,:,:) = trialDeltaExcWindSig;
                 M.DeltaRspInhWindSig(c,:,:) = trialDeltaInhWindSig;
-                %M.ls(c) = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).ls1s;
+                M.ls(c) = lifetime_sparseness(R1000ms);
             end
         end
     end

@@ -84,11 +84,11 @@ for j = 10:10:150;
     the_classifier = [];
 %     the_classifier = max_correlation_coefficient_CL;
     
-    the_classifier = libsvm_CL;
-    the_classifier.C = 10;
+%     the_classifier = libsvm_CL;
+%     the_classifier.C = 10;
     %the_classifier.multiclass_classification_scheme = 'one_vs_all';
-%     the_classifier.kernel = 'gaussian';
-%     the_classifier.gaussian_gamma = 1;
+    the_classifier.kernel = 'gaussian';
+    the_classifier.gaussian_gamma = 1;
     
 %     the_classifier = poisson_naive_bayes_CL;
     

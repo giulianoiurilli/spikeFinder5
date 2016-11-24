@@ -1,6 +1,6 @@
 function [ls, cellLog, lsSig, cellLogSig] = findLifetimeSparseness(esp, odors)
 
-[totalSUA, totalResponsiveSUA, totalResponsiveNeuronPerOdor] = findNumberOfSua(esp, odors);
+[totalSUA, totalResponsiveSUA, totalResponsiveNeuronPerOdor, totalSUAExp] = findNumberOfSua(esp, odors);
 %%
 ls = nan(totalSUA,1);
 cellLog = nan(totalSUA,3);
@@ -22,19 +22,19 @@ for idxExp = 1:length(esp)
                     for idxOdor = odors
                         idxO = idxO + 1;
                         app(idxO) = esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1;
-                        response(:,idxO) = esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms -...
-                            esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms;
+                        response(:,idxO) = esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms;% -...
+                            %esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms;
                     end
                     ls(cells) = lifetime_sparseness(response);
-                    cellLogSig(cells,:) = [idxExp, idxShank, idxUnit];
+                    cellLog(cells,:) = [idxExp, idxShank, idxUnit];
                     if sum(app) > 0
                         idxCell = idxCell + 1;
                         idxO = 0;
                         response = nan(10,n_odors);
                         for idxOdor = odors
                             idxO = idxO + 1;
-                            response(:,idxO) = esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms -...
-                                esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms;
+                            response(:,idxO) = esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).AnalogicResponse1000ms;% -...
+                                %esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).AnalogicBsl1000ms;
                         end
                         lsSig(idxCell) = lifetime_sparseness(response);
                         cellLogSig(idxCell,:) = [idxExp, idxShank, idxUnit];

@@ -1,6 +1,6 @@
 %function [noiseCorr1000ms, noiseNCorr1000ms] = trialCorrelationsShank_new(esp, odors)
 
-esp = pcx.esp;
+esp = coa.esp;
 odors = 1:6;
 
 odorsRearranged = odors;
@@ -14,15 +14,15 @@ for idxExp = 1:length(esp)
         if ~isempty(esp(idxExp).shank(idxShank).SUA)
             for idxUnit = 1:length(esp(idxExp).shank(idxShank).SUA.cell)
                 if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).good == 1 && esp(idxExp).shank(idxShank).SUA.cell(idxUnit).L_Ratio < 1
-%                     resp = zeros(1,odors);
-%                     for idxOdor = 1:odors
-%                         resp(idxOdor) = abs(esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms) == 1;
-%                         %resp(idxOdor) = esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse300ms == 1;
-%                     end
-%                     if sum(resp)>0
-%                         idxCell1(idxExp, idxShank) = idxCell1(idxExp, idxShank) + 1;
-%                     end
-                    idxCell1(idxExp, idxShank) = idxCell1(idxExp, idxShank) + 1;
+                    resp = zeros(1,odors);
+                    for idxOdor = 1:odors
+                        resp(idxOdor) = abs(esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms) == 1;
+                        %resp(idxOdor) = esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse300ms == 1;
+                    end
+                    if sum(resp)>0
+                        idxCell1(idxExp, idxShank) = idxCell1(idxExp, idxShank) + 1;
+                    end
+%                     idxCell1(idxExp, idxShank) = idxCell1(idxExp, idxShank) + 1;
                 end
             end
         end
@@ -67,12 +67,12 @@ for idxExp = 1: length(esp)
         if ~isempty(esp(idxExp).shank(idxShank).SUA)
             for idxUnit = 1:length(esp(idxExp).shank(idxShank).SUA.cell)
                 if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).good == 1 && esp(idxExp).shank(idxShank).SUA.cell(idxUnit).L_Ratio < 1
-%                     resp = zeros(1,odors);
-%                     for idxOdor = 1:odors
-%                         resp(idxOdor) = abs(esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms) == 1;
-%                         %resp(idxOdor) = esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse300ms == 1;
-%                     end
-%                     if sum(resp)>0
+                    resp = zeros(1,odors);
+                    for idxOdor = 1:odors
+                        resp(idxOdor) = abs(esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms) == 1;
+                        %resp(idxOdor) = esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse300ms == 1;
+                    end
+                    if sum(resp)>0
                         idxCell1000ms = idxCell1000ms + 1;
                         idxO = 0;
                         app = nan(10,numel(odors));
@@ -94,7 +94,7 @@ for idxExp = 1: length(esp)
                             %                     catch ME2
                             %                     end
                         end
-%                     end
+                    end
                 end
             end
             if size(tuningCell1000ms(idxShank).shank,1) > 0
@@ -125,7 +125,7 @@ for idxExp = 1: length(esp)
                     rho = [];
                     rho = pdist(signalCell1000ms(idxShank).shank, 'correlation');
                     rho = 1 - rho;
-                    signalCorr_0_1000ms = rho;
+                    signalCorr_0_1000ms = [signalCorr_0_1000ms rho];
                     if signalCell1000ms(idxShank).shank > 1
                     signalCell1000ms(idxShank).shank = signalCell1000ms(idxShank).shank';
                     end
@@ -286,3 +286,17 @@ end
 %     noiseNCorr1000ms(idxShank).exp = [noiseCorr1000ms(idxShank).exp noiseNCorr_2_1000ms];
 %     noiseNCorr1000ms(idxShank).exp = [noiseCorr1000ms(idxShank).exp noiseNCorr_3_1000ms];
 % end
+
+%%
+sSameCoa = signalCorr_0_1000ms;
+sOtherCoa = [signalCorr_1_1000ms signalCorr_2_1000ms signalCorr_3_1000ms;];
+
+%%
+figure
+%%
+[fPcx,xiPcx] = ksdensity(sSameCoa, 'bandwidth', bw);
+plot(xiPcx,fPcx,'color', coaC, 'linewidth', 1)
+xlabel('signal correlation')
+ylabel('p.d.f.')
+xlim([-1.2 1.2])
+hold on

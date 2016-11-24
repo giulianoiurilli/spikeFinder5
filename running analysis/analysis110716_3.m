@@ -1,4 +1,4 @@
-esp = coaCS.esp;
+esp = coaCS2.esp;
 odors = 1:15;
 
 
@@ -66,10 +66,10 @@ for idxNeuron = 1:size(responseCell1All,1)
     %     end
     
     for odor = 1:size(dataAll,3) - 1
-        if odor < 5
+        if odor < 6
             labels  = [labels, app_labels];
         else
-            if odor < 10
+            if odor < 11
                 labels  = [labels, app_labels + ones(1,size(dataAll,2))];
             else
                 labels  = [labels, app_labels + 2*ones(1,size(dataAll,2))];
@@ -77,11 +77,12 @@ for idxNeuron = 1:size(responseCell1All,1)
         end
     end
     labela = labels';
-    trainingN = floor(0.9*(trials * stimuli));
-    [mean_acc_svm, std_acc_svm, best15_acc_svm_labeledLines_coa, prctile25, prctile75] = odor_c_svm_2leaveout(dataAll, trainingN, labela, 500);
-    mean_acc_svm_BestConcCoa(idxNeuron) = mean_acc_svm(1);
-    std_acc_svm_BestConcCoa(idxNeuron) = std_acc_svm(1);
 end
+%     trainingN = floor(0.9*(trials * stimuli));
+%     [mean_acc_svm, std_acc_svm, best15_acc_svm_labeledLines_coa, prctile25, prctile75] = odor_c_svm_2leaveout(dataAll, trainingN, labela, 500);
+%     mean_acc_svm_BestConcCoa(idxNeuron) = mean_acc_svm(1);
+%     std_acc_svm_BestConcCoa(idxNeuron) = std_acc_svm(1);
+% end
 
 %%
 mean_acc_svmConcCoa = [];
@@ -106,10 +107,10 @@ app_labels  = labels;
 %     end
 
 for odor = 1:size(dataAll,3) - 1
-    if odor < 5
+    if odor < 6
         labels  = [labels, app_labels];
     else
-        if odor < 10
+        if odor < 11
             labels  = [labels, app_labels + ones(1,size(dataAll,2))];
         else
             labels  = [labels, app_labels + 2*ones(1,size(dataAll,2))];

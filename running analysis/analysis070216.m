@@ -1,7 +1,7 @@
 [ACoa, aCoa, bCoa, cCoa, dCoa, eCoa, f1Coa, f2Coa, f3Coa, g1Coa, g2Coa, g3Coa, h1Coa, h2Coa, h3Coa, i1Coa, i2Coa, i3Coa, l1Coa, l2Coa, l3Coa] =...
-    findCorrelationsConc_new(coaCS.esp, 1:15);
+    findCorrelationsConc(coaCS.esp, 1:15);
 [APcx, aPcx, bPcx, cPcx, dPcx, ePcx, f1Pcx, f2Pcx, f3Pcx, g1Pcx, g2Pcx, g3Pcx, h1Pcx, h2Pcx, h3Pcx, i1Pcx, i2Pcx, i3Pcx, l1Pcx, l2Pcx, l3Pcx] =...
-    findCorrelationsConc_new(pcxCS.esp, 1:15);
+    findCorrelationsConc(pcxCS.esp, 1:15);
 
 AcoaMean = mean(aCoa);
 AcoaSEM = std(aCoa)/sqrt(2);
@@ -134,34 +134,34 @@ set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'avenir', 'fontsize', 14)
 
 %%
 
-[pop_sparseness1000Coa15] = findPopulationSparseness(coa15.esp, 1:15);
-[pop_sparseness1000Pcx15] = findPopulationSparseness(pcx15.esp, 1:15);
-
-figure
-b1 = bar(mean(pop_sparseness1000Coa15));
-b1.EdgeColor = coaC;
-b1.FaceColor = coaC;
-set(gcf,'color','white', 'PaperPositionMode', 'auto');
-set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'avenir', 'fontsize', 14)
-figure
-b2 = bar(mean(pop_sparseness1000Pcx15));
-b2.EdgeColor = pcxC;
-b2.FaceColor = pcxC;
-set(gcf,'color','white', 'PaperPositionMode', 'auto');
-set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'avenir', 'fontsize', 14)
-%%
-[pop_sparseness1000CoaAA] = findPopulationSparseness(coaAA.esp, 1:10);
-[pop_sparseness1000PcxAA] = findPopulationSparseness(pcxAA.esp, 1:10);
-
-figure
-b1 = bar(mean(pop_sparseness1000CoaAA));
-b1.EdgeColor = coaC;
-b1.FaceColor = coaC;
-set(gcf,'color','white', 'PaperPositionMode', 'auto');
-set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'avenir', 'fontsize', 14)
-figure
-b2 = bar(mean(pop_sparseness1000PcxAA));
-b2.EdgeColor = pcxC;
-b2.FaceColor = pcxC;
-set(gcf,'color','white', 'PaperPositionMode', 'auto');
-set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'avenir', 'fontsize', 14)
+% [pop_sparseness1000Coa15] = findPopulationSparseness(coa15.esp, 1:15);
+% [pop_sparseness1000Pcx15] = findPopulationSparseness(pcx15.esp, 1:15);
+% 
+% figure
+% b1 = bar(mean(pop_sparseness1000Coa15));
+% b1.EdgeColor = coaC;
+% b1.FaceColor = coaC;
+% set(gcf,'color','white', 'PaperPositionMode', 'auto');
+% set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'avenir', 'fontsize', 14)
+% figure
+% b2 = bar(mean(pop_sparseness1000Pcx15));
+% b2.EdgeColor = pcxC;
+% b2.FaceColor = pcxC;
+% set(gcf,'color','white', 'PaperPositionMode', 'auto');
+% set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'avenir', 'fontsize', 14)
+% %%
+% [pop_sparseness1000CoaAA] = findPopulationSparseness(coaAA.esp, 1:10);
+% [pop_sparseness1000PcxAA] = findPopulationSparseness(pcxAA.esp, 1:10);
+% 
+% figure
+% b1 = bar(mean(pop_sparseness1000CoaAA));
+% b1.EdgeColor = coaC;
+% b1.FaceColor = coaC;
+% set(gcf,'color','white', 'PaperPositionMode', 'auto');
+% set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'avenir', 'fontsize', 14)
+% figure
+% b2 = bar(mean(pop_sparseness1000PcxAA));
+% b2.EdgeColor = pcxC;
+% b2.FaceColor = pcxC;
+% set(gcf,'color','white', 'PaperPositionMode', 'auto');
+% set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'avenir', 'fontsize', 14)
