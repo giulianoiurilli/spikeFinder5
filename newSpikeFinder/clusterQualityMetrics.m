@@ -1,7 +1,7 @@
-clc
-clear
-
-folderList = uipickfiles('FilterSpec', '/Volumes/graid', 'Output', 'struct');
+% clc
+% clear
+% 
+% folderList = uipickfiles('FilterSpec', '/Volumes/graid', 'Output', 'struct');
 
 
 
@@ -12,7 +12,8 @@ for idxFolder = 1:length(folderList)
         units = [];
         unitsID = [];
         folderShank = sprintf('shank%d', idxShank);
-        folderPath = fullfile(nameExperiment, 'ephys', folderShank);
+%         folderPath = fullfile(nameExperiment, 'ephys', folderShank);
+        folderPath = fullfile(nameExperiment, folderShank);
         cd(folderPath)
         filename = [folderShank '.kwik'];
         filenameFeat = [folderShank '.kwx'];
@@ -51,7 +52,8 @@ for idxFolder = 1:length(folderList)
             end
         end
     end
-    cd(fullfile(nameExperiment, 'ephys'));
+%     cd(fullfile(nameExperiment, 'ephys'));
+    cd(fullfile(nameExperiment));
     save('units.mat', 'shank', '-append')
 end
 

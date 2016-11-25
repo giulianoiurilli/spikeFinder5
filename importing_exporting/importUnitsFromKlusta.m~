@@ -1,7 +1,7 @@
-clc
-clear
-
-folderList = uipickfiles('FilterSpec', '/Volumes/graid', 'Output', 'struct');
+% clc
+% clear
+% 
+% folderList = uipickfiles('FilterSpec', '/Volumes/graid', 'Output', 'struct');
 
 
 
@@ -119,14 +119,13 @@ for idxFolder = 1:length(folderList)
     
     load('dig1.mat')
     load('adc0.mat')
-    reduceBreathingSignal(ADC, Dig_inputs, samplingFrequency)
+    reduceBreathingSignal(ADC, Dig_inputs, samplingRate)
     clear ADC
-    reduceTTLSignal(Dig_inputs, samplingFrequency)
-    clear Dig_inputs
-    findValveOnsets(0.5, samplingFrequency, 0)    
+    
+        
         
     %findValveOnsets(0.5, samplingFrequency, triggerToOnsetDelay)
-    
+    findValveOnsets(0.5, samplingFrequency, 0)
     findSniffOnsets(samplingFrequency)
     makeSpikeMatrix
 end

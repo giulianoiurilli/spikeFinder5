@@ -16,10 +16,21 @@ function makeFileForSpikeSorting(folder, options, samplingRate)
 tic
 cd(folder)
 
+load('dig1.mat'); % Dig_inputs
+onsets = valve_onset(Dig_inputs, 0.5);
+inizio = onsets - 4*samplingRate +1;
+fine = onsets + 6*samplingRate;
+indici = zeros(size(Dig_inputs));
+window_size = fine(1) - inizio(1) + 1;
+for i = 1:length(onsets)
+    indici(inizio(i):fine(i)) = ones(1,window_size);
+end
+indici = logical(indici);
+HPFilteredTraces = nan(32, sum(indici));
 %% re-sort channels according to the channel map of the specific probe and
-
-load('CSC0.mat');
-rawTraces = nan(32, size(RawSamples,2));
+% 
+% load('CSC0.mat');
+% rawTraces = nan(32, size(RawSamples,2));
 if options.probeType == 1
 %     listChannels = [29 18 25 26;...
 %         28 27 20 19;...
@@ -42,16 +53,20 @@ else if options.probeType == 2
             0 1 15 7 2 9 13 8;...
             6 3 14 4 10 12 11 5];
         listChannels = listChannels';
-        for idxCSC = 1:32
+        tic
+        parfor idxCSC = 1:32
             fileToLoad = sprintf('CSC%d.mat', listChannels(idxCSC));
-            load(fileToLoad)
-            rawTraces(idxCSC, :) = RawSamples;
+            a = load(fileToLoad);
+            rawTrace = a.RawSamples(indici);
+%             clear RawSamples
+            disp(sprintf('Filtering CSC%d', idxCSC-1))
+            HPFilteredTraces(idxCSC,:) = highPassFilterTraces(rawTrace, samplingRate);
         end
+        toc
     end
 end
 
-%% Filtering
-HPFilteredTraces = highPassFilterTraces(rawTraces, 20000);
+
 
 %% Re-referencing
 HPFiltered_ReReferencedTraces = reReferenceTraces(HPFilteredTraces);

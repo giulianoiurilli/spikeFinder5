@@ -1,7 +1,8 @@
 function findSniffOnsets(samplingFrequency)
 
 
-load('ADC0.mat');
+%load('ADC0.mat');
+load('breathSignal.mat'); %reduced ADC
 load('valveOnsets.mat');
 load('paramsExperiment.mat')
 

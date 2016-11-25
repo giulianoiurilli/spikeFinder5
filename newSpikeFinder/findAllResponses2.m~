@@ -1,10 +1,9 @@
-fileToSave = 'plCoA_CS1_2.mat';
-fileToSave2 = 'plCoA_CS1_1.mat';
+fileToSave = 'aPCx_CS1_2.mat';
+fileToSave2 = 'aPCx_CS1_1.mat';
 startingFolder = pwd;
 %%
 preOnset = 4;
 odors = 1:15;
-odors = [2:15 1];
 n_odors = length(odors);
 n_trials = 10;
 %%
@@ -14,7 +13,7 @@ for idxExp = 1 : length(folderlist)
     folderExp = folderlist(idxExp).name;
     disp(folderExp)
 %     cd(fullfile(folderExp, 'ephys'))
-    cd(folderExp)
+    cd(foldrExp)
     makeParams
     load('units.mat');
     makeSpikeMatrix
@@ -148,8 +147,7 @@ for idxExp = 1 : length(folderlist)
                 N = numel(x + 1);
                 T = shank(idxShank).SUA.spiketimesUnit{idxUnit}(end);
                 esp(idxExp).shank(idxShank).SUA.cell(idxUnit).spike_contamination = rpv_contamination(N, T, RP, RPV );
-                
-                % speed correlation analysis
+                % spped correlatio
 %                 allSpikes = nan(15*10, 100);
 %                 allSpeeds = nan(15*10, 100);
 %                 idx = 0;
@@ -169,7 +167,6 @@ for idxExp = 1 : length(folderlist)
 %                 else
 %                     esp(idxExp).shank(idxShank).SUA.cell(idxUnit).speed_corrleation = 0;
 %                 end
-
             end
         else
             esp(idxExp).shank(idxShank).SUA = [];

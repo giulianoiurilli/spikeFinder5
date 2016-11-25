@@ -1,7 +1,7 @@
 clc
 clear
 
-%list for intan
+list for intan
 folderlist = uipickfiles('FilterSpec', '/Volumes/graid', 'Output', 'struct');
 
 
@@ -10,10 +10,10 @@ for ifolder = 1 : length(folderlist)
     folderKlust = folderlist(ifolder).name;
     disp(folderKlust)
     cd(folderKlust)
-    tic
-    extractDataFromIntan_multi3(folderKlust);
-    disp('Importing done')
-    toc
+%     tic
+%     extractDataFromIntan_multi3(folderKlust);
+%     disp('Importing done')
+%     toc
     
     folder = pwd;
     options.probeType = 2;
@@ -21,8 +21,10 @@ for ifolder = 1 : length(folderlist)
     options.formatOutputFile = 2;
     samplingRate = 20000;
     
-    makeFileForSpikeSorting(folder, options, samplingRate);
+%     makeFileForSpikeSorting(folder, options, samplingRate);
+    makeFileForSpikeSorting_v2(folder, options, samplingRate);
 end
+runKlusta
 
 
 
