@@ -1,4 +1,4 @@
-function makeFileForSpikeSorting(folder, options, samplingRate)
+function makeFileForSpikeSorting_v2(folder, options, samplingRate, folderOnGraid)
 
 % "probeType":
 % (1) - A4x2-tet; (2) - Buzsaki 32L
@@ -80,32 +80,40 @@ if options.formatOutputFile == 2
         rawTraces3 = HPFiltered_ReReferencedTraces(17:24,:);
         rawTraces4 = HPFiltered_ReReferencedTraces(25:32,:);
         
-        mkdir('shank1')
-        cd('shank1');
+%         mkdir('shank1')
+%         cd('shank1');
+        mkdir(fullfile(folderOnGraid,'shank1'))
+        cd(fullfile(folderOnGraid,'shank1'));
         copyfile('/Users/Giuliano/Documents/MATLAB/spikeFinder5/importing_exporting/shank1.prm', pwd);
         fileID = fopen('shank1.dat', 'w');
         fwrite(fileID, rawTraces1(:), 'int16');
         fclose(fileID);
         cd ..
         
-        mkdir('shank2')
-        cd('shank2');
+%         mkdir('shank2')
+%         cd('shank2');
+                mkdir(fullfile(folderOnGraid,'shank2'))
+        cd(fullfile(folderOnGraid,'shank2'));
         copyfile('/Users/Giuliano/Documents/MATLAB/spikeFinder5/importing_exporting/shank2.prm', pwd);
         fileID = fopen('shank2.dat', 'w');
         fwrite(fileID, rawTraces2(:), 'int16');
         fclose(fileID);
         cd ..
         
-        mkdir('shank3')
-        cd('shank3');
+%         mkdir('shank3')
+%         cd('shank3');
+                mkdir(fullfile(folderOnGraid,'shank3'))
+        cd(fullfile(folderOnGraid,'shank3'));
         copyfile('/Users/Giuliano/Documents/MATLAB/spikeFinder5/importing_exporting/shank3.prm', pwd);
         fileID = fopen('shank3.dat', 'w');
         fwrite(fileID, rawTraces3(:), 'int16');
         fclose(fileID);
         cd ..
         
-        mkdir('shank4')
-        cd('shank4');
+%         mkdir('shank4')
+%         cd('shank4');
+                mkdir(fullfile(folderOnGraid,'shank4'))
+        cd(fullfile(folderOnGraid,'shank4'));
         copyfile('/Users/Giuliano/Documents/MATLAB/spikeFinder5/importing_exporting/shank4.prm', pwd);
         fileID = fopen('shank4.dat', 'w');
         fwrite(fileID, rawTraces4(:), 'int16');

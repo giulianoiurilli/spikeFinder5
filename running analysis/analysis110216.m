@@ -242,10 +242,11 @@ title('Correlation between odor representations - aPCx')
 
 
 %%
+odorsRearranged = fliplr([1:15]);
 odorsRearranged = 1:15;
 % odorsRearranged = [15    2    13     1    12    3     5     4 8 14     11     10     6    9    7];
 % odorsRearranged = [15    2    13     1    12    3     5     14 8 4     11     10     6    9    7];
-[scoresCoa, scoresMeanCoa, explainedMeanCoa, explaineStdCoa] = findCodingSpace(coaCS.esp, odorsRearranged);
+[scoresCoa, scoresMeanCoa, explainedMeanCoa, explaineStdCoa] = findCodingSpace_new(coaCS2.esp, odorsRearranged);
 
 
 figure
@@ -288,8 +289,9 @@ title('plCOA');
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
 
 %%
+odorsRearranged = fliplr([1:15]);
 odorsRearranged = 1:15;
-[scoresPcx, scoresMeanPcx, explainedMeanPcx, explaineStdPcx] = findCodingSpace(pcxCS.esp, odorsRearranged);
+[scoresPcx, scoresMeanPcx, explainedMeanPcx, explaineStdPcx] = findCodingSpace_new(pcxCS2.esp, odorsRearranged);
 figure
 colorClass1 = flipud([254,240,217;...
 253,204,138;...
@@ -329,17 +331,18 @@ set(gcf,'color','white', 'PaperPositionMode', 'auto');
 %%
 % odorsRearranged = [1    14    15    12    11     13     7    4     3     2     10 9 8 6 5];
 % odorsRearranged = odorsRearranged([3 1 2 4 5 6 7 8 9 10 15 11 12 13 14]);
+odorsRearranged = fliplr([1:15]);
 odorsRearranged = 1:15;
 % odorsRearranged = [15    2    13     1    12     14     8    3     5     4     11     10     6    9    7];
 % odorsRearranged = [15    2    13     1    12    3     5     14 8 4     11     10     6    9    7];
 [ACoa, aCoa, bCoa, cCoa, dCoa, eCoa, f1Coa, f2Coa, f3Coa, g1Coa, g2Coa, g3Coa, h1Coa, h2Coa, h3Coa, i1Coa, i2Coa, i3Coa, l1Coa, l2Coa, l3Coa] =...
-    findCorrelationsConc(coaCS.esp, odorsRearranged);
+    findCorrelationsConc_new(coaCS2.esp, odorsRearranged);
 
 % odorsRearranged = [1    11     4    12     14     2    13     7     6    3     15    5     10    9    8];
 % odorsRearranged = odorsRearranged([1 5 4 3 2 6 7 8 9 10 11 12 13 14 15]);
-odorsRearranged = 1:15;
+
 [APcx, aPcx, bPcx, cPcx, dPcx, ePcx, f1Pcx, f2Pcx, f3Pcx, g1Pcx, g2Pcx, g3Pcx, h1Pcx, h2Pcx, h3Pcx, i1Pcx, i2Pcx, i3Pcx, l1Pcx, l2Pcx, l3Pcx] =...
-    findCorrelationsConc(pcxCS.esp, odorsRearranged);
+    findCorrelationsConc_new(pcxCS2.esp, odorsRearranged);
 
 AcoaMean = fliplr(mean(aCoa));
 AcoaSEM = fliplr(std(aCoa)/sqrt(2));

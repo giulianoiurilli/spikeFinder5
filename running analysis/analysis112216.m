@@ -129,8 +129,8 @@ ylabel('fraction of neurons')
 set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'avenir', 'fontsize', 14)
 
 %%
-McoaNM = find_Baseline_DeltaRsp_FanoFactor_new(coaCS2.esp, 1:15, 1000, 0);
-MpcxNM = find_Baseline_DeltaRsp_FanoFactor_new(pcxCS2.esp, 1:15, 1000, 0);
+McoaNM = find_Baseline_DeltaRsp_FanoFactor_new(coaCS.esp, 1:15, 1000, 0);
+MpcxNM = find_Baseline_DeltaRsp_FanoFactor_new(pcxCS.esp, 1:15, 1000, 0);
 
 
 

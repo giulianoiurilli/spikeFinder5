@@ -1,18 +1,20 @@
-fileToSave = 'aPCx_CS2_2.mat';
-esp = pcxCS2.esp;
+fileToSave = 'plCoA_CS1_2.mat';
+esp = coaCS.esp;
+folderlist = {coaCS.esp(:).filename};
 startingFolder = pwd;
 odorsRearranged = 1:15;
 idxU = 0;
 odors = length(odorsRearranged);
 cellLog = [];
 pre = 4;
-folderlist = {pcxCS2.esp(:).filename};
+
 
 %%
 for idxExp = 1 : length(folderlist)
     folderExp = folderlist(idxExp);
     disp(folderExp{1})
-    cd(fullfile(folderExp{1}, 'ephys'))
+    %cd(fullfile(folderExp{1}, 'ephys'))
+    cd(folderExp{1});
     load('units.mat');
     response_window = 1;
     for idxShank = 1:4

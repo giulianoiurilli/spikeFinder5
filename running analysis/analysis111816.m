@@ -21,8 +21,8 @@ Mcoa15 = find_Baseline_DeltaRsp_FanoFactor(coa15.esp, 1:15, 1000);
 McoaAA = find_Baseline_DeltaRsp_FanoFactor(coaAA.esp, 1:10, 1000);
 Mpcx15 = find_Baseline_DeltaRsp_FanoFactor(pcx15.esp, 1:15, 1000);
 MpcxAA = find_Baseline_DeltaRsp_FanoFactor(pcxAA.esp, 1:10, 1000);
-McoaCS = find_Baseline_DeltaRsp_FanoFactor(coaCS.esp, 1:15, 1000);
-MpcxCS = find_Baseline_DeltaRsp_FanoFactor(pcxCS.esp, 1:15, 1000);
+McoaCS = find_Baseline_DeltaRsp_FanoFactor_new(coaCS.esp, 1:15, 1000);
+MpcxCS = find_Baseline_DeltaRsp_FanoFactor_new(pcxCS.esp, 1:15, 1000);
 
 
 

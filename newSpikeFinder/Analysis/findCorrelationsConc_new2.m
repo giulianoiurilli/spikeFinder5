@@ -1,4 +1,4 @@
-function [A, a, b, c, d, e, f1, f2, f3, g1, g2, g3, h1, h2, h3, i1, i2, i3, l1, l2, l3] = findCorrelationsConc_new(esp, odors)
+function [A, a, b, c, f1, g1, h1, i1, l1] = findCorrelationsConc_new2(esp, odors)
 
 % esp = pcxCS.esp;
 % odors = 1:15;
@@ -14,10 +14,13 @@ for idxExp = 1:length(esp)
     for idxShank = 1:4
         if ~isempty(esp(idxExp).shank(idxShank).SUA)
             for idxUnit = 1:length(esp(idxExp).shank(idxShank).SUA.cell)
-                if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).good == 1 %&& esp(idxExp).shank(idxShank).SUA.cell(idxUnit).L_Ratio < 1
-                    resp = zeros(1,15);
-                    for idxOdor = 1:15
-                        resp(idxOdor) = esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1;
+                if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).good == 1 %&& esp(idxExp).shank(idxShank).SUA.cell(idxUnit).L_Ratio < 0.5
+                    resp = zeros(1,odors);
+                    idxO = 0;
+                    for idxOdor = 1:odorsRearranged
+                        idxO = idxO + 1;
+                        resp(idxO) = esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1;
+%                         resp(idxO) = abs(esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms) == 1;
                     end
                     if sum(resp) > 0
                         idxCell = idxCell + 1;
@@ -50,7 +53,7 @@ axis square
 colormap(brewermap([],'*RdBu'));
 
 
-a = nan(3,4);
+a = nan(2,4);
 
 a(1,1) = corr(responseCell1Mean(:,1), responseCell1Mean(:,2));
 a(1,2) = corr(responseCell1Mean(:,2), responseCell1Mean(:,3));
@@ -62,40 +65,25 @@ a(2,2) = corr(responseCell1Mean(:,7), responseCell1Mean(:,8));
 a(2,3) = corr(responseCell1Mean(:,8), responseCell1Mean(:,9));
 a(2,4) = corr(responseCell1Mean(:,9), responseCell1Mean(:,10));
 
-a(3,1) = corr(responseCell1Mean(:,11), responseCell1Mean(:,12));
-a(3,2) = corr(responseCell1Mean(:,12), responseCell1Mean(:,13));
-a(3,3) = corr(responseCell1Mean(:,13), responseCell1Mean(:,14));
-a(3,4) = corr(responseCell1Mean(:,14), responseCell1Mean(:,15));
 
-b = nan(5,5,3);
+
+b = nan(5,5,2);
 
 b(:,:,1) = corr(responseCell1Mean(:,1:5));
 b(:,:,2) = corr(responseCell1Mean(:,6:10));
-b(:,:,3) = corr(responseCell1Mean(:,11:15));
+
 
 
 c = [];
 c = corr(responseCell1Mean(:,1:5), responseCell1Mean(:,6:10));
-d = [];
-d = corr(responseCell1Mean(:,1:5), responseCell1Mean(:,11:15));
-e = [];
-e = corr(responseCell1Mean(:,6:10), responseCell1Mean(:,11:15));
+
 
 f1 = corr(responseCell1Mean(:,1), responseCell1Mean(:,6));
-f2 = corr(responseCell1Mean(:,1), responseCell1Mean(:,11));
-f3 = corr(responseCell1Mean(:,11), responseCell1Mean(:,6));
 g1 = corr(responseCell1Mean(:,2), responseCell1Mean(:,7));
-g2 = corr(responseCell1Mean(:,2), responseCell1Mean(:,12));
-g3 = corr(responseCell1Mean(:,12), responseCell1Mean(:,7));
 h1 = corr(responseCell1Mean(:,3), responseCell1Mean(:,8));
-h2 = corr(responseCell1Mean(:,3), responseCell1Mean(:,13));
-h3 = corr(responseCell1Mean(:,13), responseCell1Mean(:,8));
 i1 = corr(responseCell1Mean(:,4), responseCell1Mean(:,9));
-i2 = corr(responseCell1Mean(:,4), responseCell1Mean(:,14));
-i3 = corr(responseCell1Mean(:,14), responseCell1Mean(:,9));
 l1 = corr(responseCell1Mean(:,5), responseCell1Mean(:,10));
-l2 = corr(responseCell1Mean(:,5), responseCell1Mean(:,15));
-l3 = corr(responseCell1Mean(:,15), responseCell1Mean(:,10));
+
 
 
 
