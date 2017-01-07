@@ -1,6 +1,6 @@
-function [rhoOdorRepresentationsSig, rhoMeanOdorRepresentationsSig, eva] = findOdorRepresentationCorrelation(esp, odors, shuffle)
+function [rhoOdorRepresentationsSig, rhoMeanOdorRepresentationsSig, eva] = findOdorRepresentationCorrelation(esp, odors, lratio, onlyexc,shuffle)
 
-[responseCell1AllResp, responseCell1MeanResp, responseCell1All, responseCell1Mean] = makeDataAll(esp, odors);
+[responseCell1AllResp, responseCell1MeanResp, responseCell1All, responseCell1Mean] = makeDataAll(esp, odors, lratio, onlyexc);
 
 if shuffle == 0
     dataAll = responseCell1AllResp;
@@ -23,7 +23,7 @@ if shuffle == 0
     for idxCell = 1:neurons
         dataAll2 = [dataAll2; squeeze(dataAll(idxCell,:,:))];
     end
-    eva = evalclusters(dataAll2, 'linkage', 'gap', 'KList', [1:6], 'distance', 'sqEuclidean'); 
+    eva = evalclusters(dataAll2, 'linkage', 'gap', 'KList', [1:numel(odors)], 'distance', 'sqEuclidean'); 
 
 end
 

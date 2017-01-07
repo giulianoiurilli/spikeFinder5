@@ -1,8 +1,8 @@
-clc
-clear
+% clc
+% clear
 
 %list for intan
-folderlist = uipickfiles('FilterSpec', '/Volumes/graid', 'Output', 'struct');
+% folderlist = uipickfiles('FilterSpec', '/Volumes/graid', 'Output', 'struct');
 
 thisFolder = pwd;
 
@@ -35,8 +35,9 @@ for ifolder = 1 : length(old_folderlist)
     %     makeFileForSpikeSorting(folder, options, samplingRate);
     makeFileForSpikeSorting_v2(folder, options, samplingRate, folderOnGraid);
 end
-
-status = ones(length(folderlist)); % diventeranno tutti zero se l'analisi e' stata successful.
+%%
+%status = ones(length(folderlist)); % diventeranno tutti zero se l'analisi e' stata successful.
+status = ones(length(new_folderlist));
 sysPath = 'PATH=/Users/Giuliano/miniconda2/bin:/Users/Giuliano/miniconda3/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin';
 
 for ifolder = 1 : length(new_folderlist)

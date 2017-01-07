@@ -1,4 +1,4 @@
-function  [sigCorr1000ms, corrM, sigCorr1000msSig, corrMSig] = findSignalCorrelation_new(esp, odorsRearranged)
+function  [sigCorr1000ms, corrM, sigCorr1000msSig, corrMSig, sigCorr1000msSigSim] = findSignalCorrelation_new(esp, odorsRearranged,lratio)
 
 % odorsRearranged = 1:15;
 % esp = coa15.esp;
@@ -10,7 +10,7 @@ for idxExp = 1: length(esp)
     for idxShank = 1:4
         if ~isempty(esp(idxExp).shank(idxShank).SUA)
             for idxUnit = 1:length(esp(idxExp).shank(idxShank).SUA.cell)
-                if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).good == 1 && esp(idxExp).shank(idxShank).SUA.cell(idxUnit).L_Ratio < 0.1
+                if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).good == 1 && esp(idxExp).shank(idxShank).SUA.cell(idxUnit).L_Ratio < lratio
                     idxCell1000ms = idxCell1000ms + 1;
                     idxO = 0;
                     for idxOdor = odorsRearranged
@@ -30,13 +30,27 @@ for idxExp = 1: length(esp)
     end
 end
 
-tuningCell1000ms = zscore(tuningCell1000ms');
-tuningCell1000ms = tuningCell1000ms';
+
+
 sigCorr1000ms = 1-pdist(tuningCell1000ms, 'correlation');
 corrM = squareform(sigCorr1000ms);
 
-tuningCell1000msSig = zscore(tuningCell1000msSig');
-tuningCell1000msSig = tuningCell1000msSig';
+
+
 sigCorr1000msSig = 1-pdist(tuningCell1000msSig, 'correlation');
 corrMSig = squareform(sigCorr1000msSig);
 
+%%
+sigCorr1000msSigSim = nan(1000, 100);
+for idxRep = 1:1000
+    app = tuningCell1000msSig;
+    for idxCell = 1:size(tuningCell1000msSig,1)
+        idxOdors = randperm(size(tuningCell1000msSig,2));
+        app(idxCell,:) = app(idxCell, idxOdors);
+        
+    end
+    app1 = 1-pdist(app, 'correlation');
+    [fCoa,xiCoa] = ksdensity(app1);
+    sigCorr1000msSigSim(idxRep,:) = fCoa;
+end
+sigCorr1000msSigSim = nanmean(sigCorr1000msSigSim);

@@ -475,7 +475,7 @@ mean_nOdors4ClassesPcx = mean(nOdors4ClassesPcx)
 mean_nOdors5ClassesPcx = mean(nOdors5ClassesPcx)
 [h, p] = ttest2(nOdors4ClassesPcx, nOdors5ClassesPcx)
 
-%%
+%% odor responsivness across shanks 
 
 for idxExp = 1 : length(coaAA.esp)
     c = 0;

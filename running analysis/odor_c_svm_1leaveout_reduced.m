@@ -61,7 +61,7 @@ function [mean_acc_svm, std_acc_svm, acc_svm, prctile25, prctile75, CM] = odor_c
         j                           = 0;
         %for cValue = [0.01 0.05 0.1 0.5]
         %params = sprintf('-t 0 -c %d -q', cValue)
-        for units = 10:10:150%2:size(data,2) %150 %size(data,2) %
+        for units = 10:10:100%2:size(data,2) %150 %size(data,2) %
             j                       = j + 1;
             idxUnits                = randsample(size(data,2), units);%1:units;%
             trainData               = app_trainData(:,idxUnits);
@@ -69,7 +69,7 @@ function [mean_acc_svm, std_acc_svm, acc_svm, prctile25, prctile75, CM] = odor_c
             disp('I am here')
             model_svm               = svmtrain(trainLabel, trainData, '-t 0 -c 10 -q');
             %model_svm               = svmtrain(trainLabel, trainData, params);
-            [predict_label, accuracy, dec_values] = svmpredict(testLabel, testData, model_svm);
+            [predict_label, accuracy, dec_values] = svmpredict(testData, testLabel , model_svm);
             acc_svm(rep,j)          = accuracy(1);
             prediction(:,rep) = predict_label;
             actual(:,rep) = testLabel;

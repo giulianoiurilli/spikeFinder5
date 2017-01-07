@@ -1,99 +1,100 @@
 clear data
+lratio = 0.5;
 odors = 1:15;
 params.boxwidth = 100;
-params.alignTime = 15000;
+params.alignTime = 4000;
 esp = [];
 espe = [];
 esp = pcx15.esp;
-espe = pcx151.espe;
+espe = pcx15_1.espe;
 c = 0;
 for idxExp =  1:length(esp)
     for idxShank = 1:4
-        for idxUnit = 1:length(esp(idxExp).shankNowarp(idxShank).cell)
-            if esp(idxExp).shankNowarp(idxShank).cell(idxUnit).good == 1
+            if ~isempty(esp(idxExp).shank(idxShank).SUA)
+                for idxUnit = 1:length(esp(idxExp).shank(idxShank).SUA.cell)
+                    if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).good == 1 && esp(idxExp).shank(idxShank).SUA.cell(idxUnit).L_Ratio < lratio
                 for idxOdor = odors
-                    if esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1;
-                        %if esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC1000ms > 0.5;
+                    if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1;
                             c = c + 1;
-                            data(c).spikes = espe(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrix;
-                        %end
+                            data(c).spikes = double(full(espe(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).spikeMatrix));
                     end
                 end
             end
         end
     end
+    end
 end
-esp = pcxAA.esp;
-espe = pcxAA1.espe;
+esp = pcxNM.esp;
+espe = pcxNM_1.espe;
 for idxExp =  1:length(esp)
     for idxShank = 1:4
-        for idxUnit = 1:length(esp(idxExp).shankNowarp(idxShank).cell)
-            if esp(idxExp).shankNowarp(idxShank).cell(idxUnit).good == 1
+            if ~isempty(esp(idxExp).shank(idxShank).SUA)
+                for idxUnit = 1:length(esp(idxExp).shank(idxShank).SUA.cell)
+                    if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).good == 1 && esp(idxExp).shank(idxShank).SUA.cell(idxUnit).L_Ratio < lratio
                 for idxOdor = odors
-                    if esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1;
-                        %if esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC1000ms > 0.5;
+                    if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1;
                             c = c + 1;
-                            data(c).spikes = espe(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrix;
-                        %end
+                            data(c).spikes = double(full(espe(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).spikeMatrix));
                     end
                 end
             end
         end
+    end
     end
 end
 c
-ResultPcx1000 = VarVsMean(data, 14000:1000:19000, params);
+ResultPcx1000 = VarVsMean(data, 3000:50:7000, params);
 
-%%
+
 odors = 1:15;
 esp = coa15.esp;
-espe = coa151.espe;
+espe = coa15_1.espe;
 c = 0;
 for idxExp =  1:length(esp)
     for idxShank = 1:4
-        for idxUnit = 1:length(esp(idxExp).shankNowarp(idxShank).cell)
-            if esp(idxExp).shankNowarp(idxShank).cell(idxUnit).good == 1
+            if ~isempty(esp(idxExp).shank(idxShank).SUA)
+                for idxUnit = 1:length(esp(idxExp).shank(idxShank).SUA.cell)
+                    if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).good == 1 && esp(idxExp).shank(idxShank).SUA.cell(idxUnit).L_Ratio < lratio
                 for idxOdor = odors
-                    if esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1;
-                        %if esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC1000ms > 0.5;
+                    if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1;
                             c = c + 1;
-                            data(c).spikes = espe(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrix;
-                        %end
+                            data(c).spikes = double(full(espe(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).spikeMatrix));
                     end
                 end
             end
         end
     end
+    end
 end
-esp = coaAA.esp;
-espe = coaAA1.espe;
+esp = coaNM.esp;
+espe = coaNM_1.espe;
 for idxExp =  1:length(esp)
     for idxShank = 1:4
-        for idxUnit = 1:length(esp(idxExp).shankNowarp(idxShank).cell)
-            if esp(idxExp).shankNowarp(idxShank).cell(idxUnit).good == 1
+            if ~isempty(esp(idxExp).shank(idxShank).SUA)
+                for idxUnit = 1:length(esp(idxExp).shank(idxShank).SUA.cell)
+                    if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).good == 1 && esp(idxExp).shank(idxShank).SUA.cell(idxUnit).L_Ratio < lratio
                 for idxOdor = odors
-                    if esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1;
-                        %if esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).auROC1000ms > 0.5;
+                    if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1;
                             c = c + 1;
-                            data(c).spikes = espe(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrix;
-                        %end
+                            data(c).spikes = double(full(espe(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).spikeMatrix));
                     end
                 end
             end
         end
+    end
     end
 end
 c
-ResultCoa1000 = VarVsMean(data, 14000:1000:19000, params);
+ResultCoa1000 = VarVsMean(data, 3000:50:7000, params);
 
 %%
 figure;
-shadedErrorBar(ResultCoa1000.times, ResultCoa1000.FanoFactor, ResultCoa1000.Fano_95CIs, 'r');
+shadedErrorBar(ResultCoa1000.times, smooth(ResultCoa1000.FanoFactor, 10, 'loess'), ResultCoa1000.Fano_95CIs, 'r');
 hold on
-shadedErrorBar(ResultPcx1000.times, ResultPcx1000.FanoFactor, ResultPcx1000.Fano_95CIs, 'k');
+shadedErrorBar(ResultPcx1000.times, smooth(ResultPcx1000.FanoFactor, 10, 'loess'), ResultPcx1000.Fano_95CIs, 'b');
 alpha('0.5')
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
-set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'avenir', 'fontsize', 14)
+set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 14)
 %%
 clear data
 odors = 1:15;

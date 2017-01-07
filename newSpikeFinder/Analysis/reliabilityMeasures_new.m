@@ -1,6 +1,6 @@
-fileToSave = 'plCoA_CS1_2.mat';
-esp = coaCS.esp;
-folderlist = {coaCS.esp(:).filename};
+fileToSave = 'plCoA_natMix_2.mat';
+esp = coaNM.esp;
+folderlist = {coaNM.esp(:).filename};
 startingFolder = pwd;
 odorsRearranged = 1:15;
 idxU = 0;
@@ -13,8 +13,8 @@ pre = 4;
 for idxExp = 1 : length(folderlist)
     folderExp = folderlist(idxExp);
     disp(folderExp{1})
-    %cd(fullfile(folderExp{1}, 'ephys'))
-    cd(folderExp{1});
+    cd(fullfile(folderExp{1}, 'ephys'))
+%     cd(folderExp{1});
     load('units.mat');
     response_window = 1;
     for idxShank = 1:4

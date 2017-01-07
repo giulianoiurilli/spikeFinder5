@@ -1,0 +1,743 @@
+%%
+[totalSUACoa, totalResponsiveSUACoa, totalResponsiveNeuronPerOdorCoa, totalSUAExpCoa] = findNumberOfSua(coaCS2.esp, 1:15, 0.5, 0);
+[totalSUAPcx, totalResponsiveSUAPcx, totalResponsiveNeuronPerOdorPcx, totalSUAExpPcx] = findNumberOfSua(pcxCS2.esp, 1:15, 0.5, 0);
+
+fractionExcitedNeuronsCoa = totalResponsiveNeuronPerOdorCoa.idxExc.idxO1 ./ repmat(totalSUAExpCoa',1,size(totalResponsiveNeuronPerOdorCoa.idxExc.idxO1,2));
+fractionExcitedNeuronsMeanCoa = nanmean(fractionExcitedNeuronsCoa);
+fractionExcitedNeuronsSemCoa = nanstd(fractionExcitedNeuronsCoa)./sqrt(size(fractionExcitedNeuronsCoa,1)-1);
+
+fractionInhibitedNeuronsCoa = totalResponsiveNeuronPerOdorCoa.idxInh.idxO1 ./ repmat(totalSUAExpCoa',1,size(totalResponsiveNeuronPerOdorCoa.idxInh.idxO1,2));
+fractionInhibitedNeuronsMeanCoa = nanmean(fractionInhibitedNeuronsCoa);
+fractionInhibitedNeuronsSemCoa = nanstd(fractionInhibitedNeuronsCoa)./sqrt(size(fractionInhibitedNeuronsCoa,1)-1);
+
+fractionExcitedNeuronsPcx = totalResponsiveNeuronPerOdorPcx.idxExc.idxO1 ./ repmat(totalSUAExpPcx',1,size(totalResponsiveNeuronPerOdorPcx.idxExc.idxO1,2));
+fractionExcitedNeuronsMeanPcx = nanmean(fractionExcitedNeuronsPcx);
+fractionExcitedNeuronsSemPcx = nanstd(fractionExcitedNeuronsPcx)./sqrt(size(fractionExcitedNeuronsPcx,1)-1);
+
+fractionInhibitedNeuronsPcx = totalResponsiveNeuronPerOdorPcx.idxInh.idxO1 ./ repmat(totalSUAExpPcx',1,size(totalResponsiveNeuronPerOdorPcx.idxInh.idxO1,2));
+fractionInhibitedNeuronsMeanPcx = nanmean(fractionInhibitedNeuronsPcx);
+fractionInhibitedNeuronsSemPcx = nanstd(fractionInhibitedNeuronsPcx)./sqrt(size(fractionInhibitedNeuronsPcx,1)-1);
+
+
+
+
+
+%%
+fractionExcitedNeuronsSemCoa = reshape(fractionExcitedNeuronsSemCoa', 5,3);
+fractionExcitedNeuronsSemCoa = fractionExcitedNeuronsSemCoa';
+fractionExcitedNeuronsMeanCoa = reshape(fractionExcitedNeuronsMeanCoa', 5,3);
+fractionExcitedNeuronsMeanCoa = fractionExcitedNeuronsMeanCoa';
+fractionInhibitedNeuronsSemCoa = reshape(fractionInhibitedNeuronsSemCoa', 5,3);
+fractionInhibitedNeuronsSemCoa = fractionInhibitedNeuronsSemCoa';
+fractionInhibitedNeuronsMeanCoa = reshape(fractionInhibitedNeuronsMeanCoa', 5,3);
+fractionInhibitedNeuronsMeanCoa = fractionInhibitedNeuronsMeanCoa';
+fractionExcitedNeuronsSemPcx = reshape(fractionExcitedNeuronsSemPcx', 5,3);
+fractionExcitedNeuronsSemPcx = fractionExcitedNeuronsSemPcx';
+fractionExcitedNeuronsMeanPcx = reshape(fractionExcitedNeuronsMeanPcx', 5,3);
+fractionExcitedNeuronsMeanPcx = fractionExcitedNeuronsMeanPcx';
+fractionInhibitedNeuronsSemPcx = reshape(fractionInhibitedNeuronsSemPcx', 5,3);
+fractionInhibitedNeuronsSemPcx = fractionInhibitedNeuronsSemPcx';
+fractionInhibitedNeuronsMeanPcx = reshape(fractionInhibitedNeuronsMeanPcx', 5,3);
+fractionInhibitedNeuronsMeanPcx = fractionInhibitedNeuronsMeanPcx';
+%%
+for idxOdor = 1:3
+    figure
+    set(gcf,'Position',[207 388 722 344]);
+    set(gcf,'color','white', 'PaperPositionMode', 'auto');
+    errorbar(1:5, fliplr(fractionExcitedNeuronsMeanCoa(idxOdor,:)), fliplr(fractionExcitedNeuronsSemCoa(idxOdor,:)), '-o', 'LineWidth', 1, 'MarkerEdgeColor', coaC, 'MarkerFaceColor', coaC, 'MarkerSize', 8, 'color', coaC)
+    set(gca, 'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 14, 'box', 'off')
+    ylabel('Fraction Excited Neuron')
+    xlabel('odor I.D.')
+    ylim([0 0.2])
+    figure
+    set(gcf,'Position',[207 388 722 344]);
+    set(gcf,'color','white', 'PaperPositionMode', 'auto');
+    errorbar(1:5, fliplr(fractionExcitedNeuronsMeanPcx(idxOdor,:)), fliplr(fractionExcitedNeuronsSemPcx(idxOdor,:)), '-o', 'LineWidth', 1, 'MarkerEdgeColor', pcxC, 'MarkerFaceColor', pcxC, 'MarkerSize', 8)
+    set(gca, 'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 14, 'box', 'off')
+    ylabel('Fraction Excited Neuron')
+    xlabel('odor I.D.')
+    ylim([0 0.2])
+end
+
+%%
+odors = 1:15;
+[VariantCoa, InvariantCoa, nonmonotonicCoa, nonmonotonicSemCoa, monotonicDCoa, monotonicDSemCoa, monotonicICoa, monotonicISemCoa, cellLogCoa, n_cellsCoa] = findConcInvarianceAndMonotonicity_new(coaCS2.esp);
+[VariantPcx, InvariantPcx, nonmonotonicPcx, nonmonotonicSemPcx, monotonicDPcx, monotonicDSemPcx, monotonicIPcx, monotonicISemPcx, cellLogPcx, n_cellsPcx] = findConcInvarianceAndMonotonicity_new(pcxCS2.esp);
+%%
+figure
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+for idxOdor = 1:3
+    xMean = [nonmonotonicCoa(idxOdor) nonmonotonicPcx(idxOdor); monotonicDCoa(idxOdor) monotonicDPcx(idxOdor); monotonicICoa(idxOdor) monotonicIPcx(idxOdor)];
+    xSem = [nonmonotonicSemCoa(idxOdor) nonmonotonicSemPcx(idxOdor); monotonicDSemCoa(idxOdor) monotonicDSemPcx(idxOdor); monotonicISemCoa(idxOdor) monotonicISemPcx(idxOdor)];
+    subplot(3,1,idxOdor)
+    b = barwitherr(xSem, xMean);
+    b(1).EdgeColor = coaC;
+    b(1).FaceColor = coaC;
+    b(2).EdgeColor = pcxC;
+    b(2).FaceColor = pcxC;
+    set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 14)
+end
+%%
+figure
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+for idxOdor = 1:3
+xMean = [VariantCoa(idxOdor) VariantPcx(idxOdor); InvariantCoa(idxOdor) InvariantPcx(idxOdor)];
+semCoa = sqrt(xMean(1,1) * xMean(2,1) / (n_cellsCoa(idxOdor)-1));
+semPcx = sqrt(xMean(1,2) * xMean(2,2) / (n_cellsPcx(idxOdor)-1));
+xSem = [semCoa, semPcx; semCoa, semPcx];
+subplot(3,1,idxOdor)
+b = barwitherr(xSem, xMean);
+b(1).EdgeColor = coaC;
+b(1).FaceColor = coaC;
+b(2).EdgeColor = pcxC;
+b(2).FaceColor = pcxC;
+set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 14)
+ylim([0 1])
+end
+
+%%
+[concCoa, totalResponsiveSUACoa] = findOdorDiscriminative_new(coaCS2.esp, odors, 0.5, 1);
+[concPcx, totalResponsiveSUAPcx] = findOdorDiscriminative_new(pcxCS2.esp, odors, 0.5, 1);
+figure
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+concCoaP = concCoa ./ totalResponsiveSUACoa;
+concPcxP = concPcx ./ totalResponsiveSUAPcx;
+concCoaP = fliplr(concCoaP);
+concPcxP = fliplr(concPcxP);
+p_1 = ones(1,5);
+p_1Coa = p_1 - concCoaP;
+p_1Pcx = p_1 - concPcxP;
+
+for idxConc = 1:5
+    semCoa(idxConc) = sqrt(concCoaP(idxConc) * p_1Coa(idxConc) ./  (totalResponsiveSUACoa-1));
+    semPcx(idxConc) = sqrt(concPcxP(idxConc) * p_1Pcx(idxConc) ./  (totalResponsiveSUAPcx-1));
+end
+
+meanX = [concCoaP', concPcxP'];
+semX = [semCoa' semPcx'];
+
+b = barwitherr(semX, meanX);
+b(1).EdgeColor = coaC;
+b(1).FaceColor = coaC;
+b(2).EdgeColor = pcxC;
+b(2).FaceColor = pcxC;
+set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'arial', 'fontsize', 14)
+%%
+[sigAnovaCoa] = concSeriesAnalysis2_new(coaCS1.esp, 1:15);
+[sigAnovaPcx] = concSeriesAnalysis2_new(pcxCS1.esp, 1:15);
+nonResponsiveCoa = numel(find(sigAnovaCoa==0)) ./ numel(sigAnovaCoa);
+odorIDCoa = numel(find(sigAnovaCoa==1)) ./ numel(sigAnovaCoa);
+odorConcCoa = numel(find(sigAnovaCoa==2)) ./ numel(sigAnovaCoa);
+odorBothCoa = numel(find(sigAnovaCoa==3)) ./ numel(sigAnovaCoa);
+
+nonResponsivePcx = numel(find(sigAnovaPcx==0)) ./ numel(sigAnovaPcx);
+odorIDPcx = numel(find(sigAnovaPcx==1)) ./ numel(sigAnovaPcx);
+odorConcPcx = numel(find(sigAnovaPcx==2)) ./ numel(sigAnovaPcx);
+odorBothPcx = numel(find(sigAnovaPcx==3)) ./ numel(sigAnovaPcx);
+
+semnonResponsiveCoa = sqrt(nonResponsiveCoa * (1-nonResponsiveCoa)/(numel(sigAnovaCoa)-1));
+semnonResponsivePcx = sqrt(nonResponsivePcx * (1-nonResponsivePcx)/(numel(sigAnovaCoa)-1));
+semodorIDCoa = sqrt(odorIDCoa * (1-odorIDCoa)/(numel(sigAnovaCoa)-1));
+semodorIDPcx = sqrt(odorIDPcx * (1-odorIDPcx)/(numel(sigAnovaCoa)-1));
+semodorConcCoa = sqrt(odorConcCoa * (1-odorConcCoa)/(numel(sigAnovaCoa)-1));
+semodorConcPcx = sqrt(odorConcPcx * (1-odorConcPcx)/(numel(sigAnovaCoa)-1));
+semodorBothCoa = sqrt(odorBothCoa * (1-odorBothCoa)/(numel(sigAnovaCoa)-1));
+semodorBothPcx = sqrt(odorBothPcx * (1-odorBothPcx)/(numel(sigAnovaCoa)-1));
+%%
+meanOdorConc = [odorConcCoa odorConcPcx];
+semOdorConc = [semodorConcCoa semodorConcPcx];
+meanOdorBoth = [odorBothCoa odorBothPcx];
+semOdorBoth = [semodorBothCoa semodorBothPcx];
+means = [meanOdorConc;meanOdorBoth];
+sems = [ semOdorConc; semOdorBoth];
+figure
+b = barwitherr(sems, means);
+b(1).EdgeColor = coaC;
+b(1).FaceColor = coaC;
+b(2).EdgeColor = pcxC;
+b(2).FaceColor = pcxC;
+
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 14)
+
+
+%%
+odorsRearranged = fliplr([1:15]);
+odorsRearranged = 1:15;
+[scoresCoa, scoresMeanCoa, explainedMeanCoa, explaineStdCoa] = findCodingSpace_new(coaCS1.esp, odorsRearranged);
+
+
+figure
+colorClass1 = flipud([254,240,217;...
+253,204,138;...
+252,141,89;...
+227,74,51;...
+179,0,0]./255);
+
+colorClass2 = flipud([239,243,255;...
+189,215,231;...
+107,174,214;...
+49,130,189;...
+8,81,156]./255);
+
+colorClass3 = flipud([237,248,233;...
+186,228,179;... 
+116,196,118;...
+49,163,84;...
+0,109,44]./255);
+
+colorClass = cat(3,colorClass1, colorClass2, colorClass3);
+
+
+k = 0;
+for idxOdor = 1:3
+    C = squeeze(colorClass(:,:,idxOdor));
+    for idxConc = 1:5
+        scatter3(scoresCoa(1 + k*5:5 + k*5, 1), scoresCoa(1 + k*5:5 + k*5, 2), scoresCoa(1 + k*5:5 + k*5, 3), 100, C(idxConc,:), 'o', 'filled');
+        k = k + 1;
+        hold on
+    end
+end
+xlabel('PC1');
+ylabel('PC2');
+zlabel('PC3');
+title('plCOA');
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+
+%%
+odorsRearranged = fliplr([1:15]);
+odorsRearranged = 1:15;
+[scoresPcx, scoresMeanPcx, explainedMeanPcx, explaineStdPcx] = findCodingSpace_new(pcxCS1.esp, odorsRearranged);
+figure
+colorClass1 = flipud([254,240,217;...
+253,204,138;...
+252,141,89;...
+227,74,51;...
+179,0,0]./255);
+
+colorClass2 = flipud([239,243,255;...
+189,215,231;...
+107,174,214;...
+49,130,189;...
+8,81,156]./255);
+
+colorClass3 = flipud([237,248,233;...
+186,228,179;...
+116,196,118;...
+49,163,84;...
+0,109,44]./255);
+symbolOdor = {'o', 's', 'p'};
+k = 0;
+colorClass = cat(3,colorClass1, colorClass2, colorClass3);
+for idxOdor = 1:3
+    C = squeeze(colorClass(:,:,idxOdor));
+    for idxConc = 1:5
+        scatter3(scoresPcx(1 + k*5:5 + k*5, 1), scoresPcx(1 + k*5:5 + k*5, 2), scoresPcx(1 + k*5:5 + k*5, 3), 100, C(idxConc,:), 'o', 'filled');
+        k = k + 1;
+        hold on
+    end
+end
+xlabel('PC1');
+ylabel('PC2');
+zlabel('PC3');
+title('PCX');
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+%%
+odorsRearranged = 1:15;
+[ACoa, aCoa, bCoa, cCoa, dCoa, eCoa, f1Coa, f2Coa, f3Coa, g1Coa, g2Coa, g3Coa, h1Coa, h2Coa, h3Coa, i1Coa, i2Coa, i3Coa, l1Coa, l2Coa, l3Coa] =...
+    findCorrelationsConc_new(coaCS2.esp, odorsRearranged);
+
+
+[APcx, aPcx, bPcx, cPcx, dPcx, ePcx, f1Pcx, f2Pcx, f3Pcx, g1Pcx, g2Pcx, g3Pcx, h1Pcx, h2Pcx, h3Pcx, i1Pcx, i2Pcx, i3Pcx, l1Pcx, l2Pcx, l3Pcx] =...
+    findCorrelationsConc_new(pcxCS2.esp, odorsRearranged);
+
+AcoaMean = fliplr(mean(aCoa));
+AcoaSEM = fliplr(std(aCoa)/sqrt(2));
+
+ApcxMean = fliplr(mean(aPcx));
+ApcxSEM = fliplr(std(aPcx)/sqrt(2));
+
+
+p = anova1(aCoa)
+p = anova1(aPcx)
+%%
+figure
+plot(1:4, AcoaMean, '-o', 'color', coaC, 'MarkerSize', 5, 'MarkerFaceColor', coaC);
+hold on
+plot(1.1:4.1, ApcxMean, '-o', 'color', pcxC, 'MarkerSize', 5, 'MarkerFaceColor', pcxC);
+hold on
+errbar(1:4, AcoaMean, AcoaSEM, 'color', coaC, 'linewidth', 2); %
+hold on
+errbar(1.1:4.1, ApcxMean, ApcxSEM, 'color', pcxC, 'linewidth', 2);
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 14)
+xlim([0.8 4.6]);
+ylim([-1 1]);
+ylabel('pairwise correlation')
+
+%%
+
+fmeanCoa = mean([f1Coa, f2Coa, f3Coa]);
+fsemCoa = std([f1Coa, f2Coa, f3Coa])/sqrt(2);
+
+gmeanCoa = mean([g1Coa, g2Coa, g3Coa]);
+gsemCoa = std([g1Coa, g2Coa, g3Coa])/sqrt(2);
+
+hmeanCoa = mean([h1Coa, h2Coa, h3Coa]);
+hsemCoa = std([h1Coa, h2Coa, h3Coa])/sqrt(2);
+
+imeanCoa = mean([i1Coa, i2Coa, i3Coa]);
+isemCoa = std([i1Coa, i2Coa, i3Coa])/sqrt(2);
+
+lmeanCoa = mean([l1Coa, l2Coa, l3Coa]);
+lsemCoa = std([l1Coa, l2Coa, l3Coa])/sqrt(2);
+
+meanICoa = [fmeanCoa gmeanCoa hmeanCoa imeanCoa lmeanCoa];
+semICoa = [fsemCoa gsemCoa hsemCoa isemCoa lsemCoa];
+
+fmeanPcx = mean([f1Pcx, f2Pcx, f3Pcx]);
+fsemPcx = std([f1Pcx, f2Pcx, f3Pcx])/sqrt(2);
+
+gmeanPcx = mean([g1Pcx, g2Pcx, g3Pcx]);
+gsemPcx = std([g1Pcx, g2Pcx, g3Pcx])/sqrt(2);
+
+hmeanPcx = mean([h1Pcx, h2Pcx, h3Pcx]);
+hsemPcx = std([h1Pcx, h2Pcx, h3Pcx])/sqrt(2);
+
+imeanPcx = mean([i1Pcx, i2Pcx, i3Pcx]);
+isemPcx = std([i1Pcx, i2Pcx, i3Pcx])/sqrt(2);
+
+lmeanPcx = mean([l1Pcx, l2Pcx, l3Pcx]);
+lsemPcx = std([l1Pcx, l2Pcx, l3Pcx])/sqrt(2);
+
+meanIPcx = [fmeanPcx gmeanPcx hmeanPcx imeanPcx lmeanPcx];
+semIPcx = [fsemPcx gsemPcx hsemPcx isemPcx lsemPcx];
+
+figure
+plot(1:5, fliplr(meanICoa), '-o', 'color', coaC, 'MarkerSize', 5, 'MarkerFaceColor', coaC);
+hold on
+plot(1.1:5.1, fliplr(meanIPcx), '-o', 'color', pcxC, 'MarkerSize', 5, 'MarkerFaceColor', pcxC);
+hold on
+errbar(1:5, fliplr(meanICoa), fliplr(semICoa), 'color', coaC, 'linewidth', 2); %
+hold on
+errbar(1.1:5.1, fliplr(meanIPcx), fliplr(semIPcx), 'color', pcxC, 'linewidth', 2);
+
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 14)
+xlim([0.8 5.6]);
+ylim([-1 1]);
+%%
+p = anova1([[f1Coa, f2Coa, f3Coa]',  [l1Coa, l2Coa, l3Coa]'])
+p = anova1([[f1Pcx, f2Pcx, f3Pcx]',  [l1Pcx, l2Pcx, l3Pcx]'])
+%%
+
+
+
+
+
+
+add_ndt_paths_and_init_rand_generator
+
+%%
+espe = pcxCS2_1.espe;
+esp = pcxCS2.esp;
+%%
+nTrials = 10;
+nOdors = 15;
+nTimepoints = 30000;
+
+idxCell = 0;
+for idxExp = 1:length(espe)
+    for idxShank = 1:4
+        if ~isempty(esp(idxExp).shank(idxShank).SUA)
+            for idxUnit = 1:length(esp(idxExp).shank(idxShank).SUA.cell)
+                if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).good == 1 && esp(idxExp).shank(idxShank).SUA.cell(idxUnit).L_Ratio < 1
+                    resp = zeros(1,nOdors);
+                    for idxOdor = 1:nOdors
+                        resp(idxOdor) = abs(esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms) == 1;
+                    end
+                    if sum(resp) > 0
+                        idxCell = idxCell + 1;
+                        raster_data = [];
+                        idxT = 0;
+                        idxConc = 0;
+                        for idxOdor = 1:5
+                            idxConc = idxConc + 1;
+                            raster_data = [raster_data; double(full(espe(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).spikeMatrix))];
+                            for idxTrial = 1:nTrials
+                                idxT = idxT + 1;
+                                raster_labels.stimulusID{idxT} = 'rose';
+                                raster_labels.stimulusConc{idxT} = num2str(idxConc);
+                                raster_labels.combined_ID_Conc{idxT} = [raster_labels.stimulusID{idxT} '_' raster_labels.stimulusConc{idxT}];
+                            end
+                        end
+                        idxConc = 0;
+                        for idxOdor = 6:10
+                            idxConc = idxConc + 1;
+                            raster_data = [raster_data; double(full(espe(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).spikeMatrix))];
+                            for idxTrial = 1:nTrials
+                                idxT = idxT + 1;
+                                raster_labels.stimulusID{idxT} = 'tmt';
+                                raster_labels.stimulusConc{idxT} = num2str(idxConc);
+                                raster_labels.combined_ID_Conc{idxT} = [raster_labels.stimulusID{idxT} '_' raster_labels.stimulusConc{idxT}];
+                            end
+                        end
+                        idxConc = 0;
+                        for idxOdor = 11:15
+                            idxConc = idxConc + 1;
+                            raster_data = [raster_data; double(full(espe(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).spikeMatrix))];
+                            for idxTrial = 1:nTrials
+                                idxT = idxT + 1;
+                                raster_labels.stimulusID{idxT} = 'iaa';
+                                raster_labels.stimulusConc{idxT} = num2str(idxConc);
+                                raster_labels.combined_ID_Conc{idxT} = [raster_labels.stimulusID{idxT} '_' raster_labels.stimulusConc{idxT}];
+                            end
+                        end
+                        raster_site_info = [];
+                        filename = sprintf('rasters_cell_%d.mat', idxCell);
+                        save(filename, 'raster_data', 'raster_labels', 'raster_site_info');
+                    end
+                end
+            end
+        end
+    end
+end
+%%
+% mkdir concentration_invariance_results_Coa;
+% raster_file_directory_name = 'COAcs2/';
+% save_prefix_name = 'Binned_COAcs2_data';
+% binned_format_file_name = 'Binned_COAcs2_data_1000ms_bins_1000ms_sampled_4000start_time_5000end_time.mat';
+% specific_labels_names_to_use = 'combined_ID_Conc';
+
+mkdir concentration_invariance_results_Pcx;
+raster_file_directory_name = 'PCXcs2/';
+save_prefix_name = 'Binned_PCXcs2_data';
+binned_format_file_name = 'Binned_PCXcs2_data_1000ms_bins_1000ms_sampled_4000start_time_5000end_time.mat';
+specific_labels_names_to_use = 'combined_ID_Conc';
+
+
+
+
+bin_width = 1000;
+step_size = 1000;
+start_time = 4000;
+end_time = 5000;
+Bayes = 0;
+
+create_binned_data_from_raster_data(raster_file_directory_name, save_prefix_name, bin_width, step_size, start_time, end_time);
+
+
+
+%%
+% the name of the file that has the data in binned-format
+the_feature_preprocessors{1} = zscore_normalize_FP;
+num_cv_splits = 10;
+id_odor_labels = {'rose', 'tmt', 'iaa'};
+concentration_labels = {'1', '2', '3', '4', '5'};
+
+the_classifier = [];
+% the_classifier = max_correlation_coefficient_CL;
+
+the_classifier = libsvm_CL;
+the_classifier.C = 10;
+the_classifier.multiclass_classification_scheme = 'one_vs_all';
+
+
+%%
+for iTrainConcentration = 1:5
+    
+    for iTestConcentration = 1:5
+        
+        for iID = 1:3
+            the_training_label_names{iID} = {[id_odor_labels{iID} '_' concentration_labels{iTrainConcentration}]};
+            the_test_label_names{iID} =  {[id_odor_labels{iID} '_' concentration_labels{iTestConcentration}]};
+        end
+        
+        if Bayes == 1
+            load_data_as_spike_counts = 1;
+            ds = generalization_DS(binned_format_file_name, specific_labels_names_to_use, num_cv_splits, the_training_label_names, the_test_label_names, load_data_as_spike_counts);
+        else
+            ds = generalization_DS(binned_format_file_name, specific_labels_names_to_use, num_cv_splits, the_training_label_names, the_test_label_names);
+        end
+        
+        
+
+        ds.num_resample_sites = 150;
+        
+        
+        if Bayes == 1
+            the_cross_validator = standard_resample_CV(ds, the_classifier);
+        else
+            the_cross_validator = standard_resample_CV(ds, the_classifier, the_feature_preprocessors);
+        end
+        the_cross_validator.num_resample_runs = 100;
+        DECODING_RESULTS = the_cross_validator.run_cv_decoding;
+        
+%         save_file_name = ['concentration_invariance_results_Coa/train_conc' num2str(iTrainConcentration) 'test_conc' num2str(iTestConcentration)];
+              save_file_name = ['concentration_invariance_results_Pcx/train_conc' num2str(iTrainConcentration) 'test_conc' num2str(iTestConcentration)];
+        
+        save(save_file_name, 'DECODING_RESULTS')
+        
+    end
+    
+end
+%%
+figure
+position_names = {'-5', '-4', '-3', '-2', '-1'};
+
+for iTrainConcentration = 1:5
+    
+    for iTestConcentration = 1:5
+        aCoa = load(['concentration_invariance_results_Coa/train_conc' num2str(iTrainConcentration) 'test_conc' num2str(iTestConcentration)]);
+        aPcx = load(['concentration_invariance_results_Pcx/train_conc' num2str(iTrainConcentration) 'test_conc' num2str(iTestConcentration)]);
+        
+        all_results_mean_Coa(iTrainConcentration, iTestConcentration) = aCoa.DECODING_RESULTS.ZERO_ONE_LOSS_RESULTS.mean_decoding_results(2,2)*100;
+        all_results_std_Coa(iTrainConcentration, iTestConcentration) = aCoa.DECODING_RESULTS.ZERO_ONE_LOSS_RESULTS.stdev.over_resamples(2,2)*100;
+        all_bsl_mean_Coa(iTrainConcentration, iTestConcentration) = aCoa.DECODING_RESULTS.ZERO_ONE_LOSS_RESULTS.mean_decoding_results(2,1)*100;
+        all_bsl_std_Coa(iTrainConcentration, iTestConcentration) = aCoa.DECODING_RESULTS.ZERO_ONE_LOSS_RESULTS.stdev.over_resamples(2,1)*100;
+        
+        all_results_mean_Pcx(iTrainConcentration, iTestConcentration) = aPcx.DECODING_RESULTS.ZERO_ONE_LOSS_RESULTS.mean_decoding_results(2,2)*100;
+        all_results_std_Pcx(iTrainConcentration, iTestConcentration) = aPcx.DECODING_RESULTS.ZERO_ONE_LOSS_RESULTS.stdev.over_resamples(2,2)*100;
+        all_bsl_mean_Pcx(iTrainConcentration, iTestConcentration) = aPcx.DECODING_RESULTS.ZERO_ONE_LOSS_RESULTS.mean_decoding_results(2,1)*100;
+        all_bsl_std_Pcx(iTrainConcentration, iTestConcentration) = aPcx.DECODING_RESULTS.ZERO_ONE_LOSS_RESULTS.stdev.over_resamples(2,1)*100;
+    end
+    
+    subplot(1, 5, iTrainConcentration)
+    errorbar(fliplr(1:5), fliplr(all_results_mean_Coa(iTrainConcentration, :)), fliplr(all_results_std_Coa(iTrainConcentration, :)), '-o', 'LineWidth', 1, 'MarkerEdgeColor', coaC, 'MarkerFaceColor', coaC, 'MarkerSize', 5, 'color', coaC);
+    hold on
+    errorbar(fliplr(1.2:5.2), fliplr(all_results_mean_Pcx(iTrainConcentration, :)), fliplr(all_results_std_Pcx(iTrainConcentration, :)), '-o', 'LineWidth', 1, 'MarkerEdgeColor', pcxC, 'MarkerFaceColor', pcxC, 'MarkerSize', 5, 'color', pcxC);
+    hold on
+    plot(fliplr(1:5), fliplr(all_bsl_mean_Coa(iTrainConcentration, :)), ':', 'color', coaC);
+    hold on
+    plot(fliplr(1.2:5.2), fliplr(all_bsl_mean_Pcx(iTrainConcentration, :)), ':', 'color', pcxC);
+    
+    title(['Train ' position_names{iTrainConcentration}])
+    ylabel('Classification Accuracy');
+    set(gca, 'XTickLabel', position_names);
+    xlabel('Test concentration')
+    ylim([0 100]);
+    xlim([0 6])
+    xLims = get(gca, 'XLim');
+    set(gca,  'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 12, 'box', 'off')
+    
+end
+
+
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+set(gcf,'Position',[92 630 1542 420]);
+
+
+
+%%
+option = [];
+option.units = 'incrementing_by_one';
+option.repetitions =500;
+[performanceCoaCS1, confusionMatrixCoaCS1] = perform_linear_svm_decoding(coaCS2.esp, 1:5, option);
+[performancePcxCS1, confusionMatrixPcxCS1] = perform_linear_svm_decoding(pcxCS2.esp, 1:5, option);
+[performanceCoaCS2, confusionMatrixCoaCS2] = perform_linear_svm_decoding(coaCS2.esp, 6:10, option);
+[performancePcxCS2, confusionMatrixPcxCS2] = perform_linear_svm_decoding(pcxCS2.esp, 6:10, option);
+[performanceCoaCS3, confusionMatrixCoaCS3] = perform_linear_svm_decoding(coaCS2.esp, 11:15, option);
+[performancePcxCS3, confusionMatrixPcxCS3] = perform_linear_svm_decoding(pcxCS2.esp, 11:15, option);
+%%
+figure
+plot(mean([performancePcxCS1(:,1:80); performancePcxCS2(:,1:80); performancePcxCS3(:,1:80)]), 'color', pcxC, 'linewidth', 2);
+hold on
+plot(mean([performanceCoaCS1(:,1:80); performanceCoaCS2(:,1:80); performanceCoaCS3(:,1:80)]), 'color', coaC, 'linewidth', 2);
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 14)
+ylim([0 100])
+ylabel('Accuracy %')
+
+
+%%
+n_odors = 15;
+[totalSUACoa, totalResponsiveSUACoa, totalResponsiveNeuronPerOdorCoa, totalSUAExpCoa] = findNumberOfSua(coaCS2.esp, 1:n_odors, 1, 0);
+[totalSUAPcx, totalResponsiveSUAPcx, totalResponsiveNeuronPerOdorPcx, totalSUAExpPcx] = findNumberOfSua(pcxCS2.esp, 1:n_odors, 1, 0);
+
+option = [];
+option.repetitions = 100;
+n_odors = 15;
+sua_performance_coa_odor_conc = nan(1,totalResponsiveSUACoa);
+sua_MI_coa_odor_conc = nan(1,totalResponsiveSUACoa);
+for idxUnit = 1:totalResponsiveSUACoa
+    option.single_unit = idxUnit;
+    [app, app2, app3, miApp] = perform_linear_svm_decoding(coaCS2.esp, 1:n_odors, option);
+    sua_performance_coa_odor_conc(idxUnit) = mean(app);
+    sua_MI_coa_odor_conc(idxUnit) = miApp;
+end
+
+sua_performance_pcx_odor_conc = nan(1,totalResponsiveSUAPcx);
+sua_MI_pcx_odor_conc =  nan(1,totalResponsiveSUAPcx);
+for idxUnit = 1:totalResponsiveSUAPcx
+    option.single_unit = idxUnit;
+    [app, app2, app3, miApp] = perform_linear_svm_decoding(pcxCS2.esp, 1:n_odors, option);
+    sua_performance_pcx_odor_conc(idxUnit) = mean(app);
+    sua_MI_pcx_odor_conc(idxUnit) = miApp;
+end
+
+
+n_odors = 15;
+[totalSUACoa, totalResponsiveSUACoa, totalResponsiveNeuronPerOdorCoa, totalSUAExpCoa] = findNumberOfSua(coaCS2.esp, 1:n_odors, 1, 0);
+[totalSUAPcx, totalResponsiveSUAPcx, totalResponsiveNeuronPerOdorPcx, totalSUAExpPcx] = findNumberOfSua(pcxCS2.esp, 1:n_odors, 1, 0);
+
+option = [];
+option.repetitions = 100;
+option.grouping = [ones(1,5) 2*ones(1,5) 3*ones(1,5)];
+n_odors = 15;
+sua_performance_coa_odor = nan(1,totalResponsiveSUACoa);
+sua_MI_coa_odor = nan(1,totalResponsiveSUACoa);
+for idxUnit = 1:totalResponsiveSUACoa
+    option.single_unit = idxUnit;
+    [app, app2, app3, miApp] = perform_linear_svm_decoding(coaCS2.esp, 1:n_odors, option);
+    sua_performance_coa_odor(idxUnit) = mean(app);
+    sua_MI_coa_odor(idxUnit) = miApp;
+end
+
+sua_performance_pcx_odor = nan(1,totalResponsiveSUAPcx);
+sua_MI_pcx_odor =  nan(1,totalResponsiveSUAPcx);
+for idxUnit = 1:totalResponsiveSUAPcx
+    option.single_unit = idxUnit;
+    [app, app2, app3, miApp] = perform_linear_svm_decoding(pcxCS2.esp, 1:n_odors, option);
+    sua_performance_pcx_odor(idxUnit) = mean(app);
+    sua_MI_pcx_odor(idxUnit) = miApp;
+end
+
+
+n_odors = 15;
+[totalSUACoa, totalResponsiveSUACoa, totalResponsiveNeuronPerOdorCoa, totalSUAExpCoa] = findNumberOfSua(coaCS2.esp, 1:5, 1, 0);
+[totalSUAPcx, totalResponsiveSUAPcx, totalResponsiveNeuronPerOdorPcx, totalSUAExpPcx] = findNumberOfSua(pcxCS2.esp, 1:5, 1, 0);
+
+option = [];
+option.repetitions = 100;
+n_odors = 15;
+sua_performance_coa_conc1 = nan(1,totalResponsiveSUACoa);
+sua_MI_coa_conc1 = nan(1,totalResponsiveSUACoa);
+for idxUnit = 1:totalResponsiveSUACoa
+    option.single_unit = idxUnit;
+    [app, app2, app3, miApp] = perform_linear_svm_decoding(coaCS2.esp, 1:5, option);
+    sua_performance_coa_conc1(idxUnit) = mean(app);
+    sua_MI_coa_conc1(idxUnit) = miApp;
+end
+
+sua_performance_pcx_conc1 = nan(1,totalResponsiveSUAPcx);
+sua_MI_pcx_conc1 =  nan(1,totalResponsiveSUAPcx);
+for idxUnit = 1:totalResponsiveSUAPcx
+    option.single_unit = idxUnit;
+    [app, app2, app3, miApp] = perform_linear_svm_decoding(pcxCS2.esp, 1:5, option);
+    sua_performance_pcx_conc1(idxUnit) = mean(app);
+    sua_MI_pcx_conc1(idxUnit) = miApp;
+end
+
+n_odors = 15;
+[totalSUACoa, totalResponsiveSUACoa, totalResponsiveNeuronPerOdorCoa, totalSUAExpCoa] = findNumberOfSua(coaCS2.esp, 6:10, 1, 0);
+[totalSUAPcx, totalResponsiveSUAPcx, totalResponsiveNeuronPerOdorPcx, totalSUAExpPcx] = findNumberOfSua(pcxCS2.esp, 6:10, 1, 0);
+
+option = [];
+option.repetitions = 100;
+n_odors = 15;
+sua_performance_coa_conc2 = nan(1,totalResponsiveSUACoa);
+sua_MI_coa_conc2 = nan(1,totalResponsiveSUACoa);
+for idxUnit = 1:totalResponsiveSUACoa
+    option.single_unit = idxUnit;
+    [app, app2, app3, miApp] = perform_linear_svm_decoding(coaCS2.esp, 6:10, option);
+    sua_performance_coa_conc2(idxUnit) = mean(app);
+    sua_MI_coa_conc2(idxUnit) = miApp;
+end
+
+sua_performance_pcx_conc2 = nan(1,totalResponsiveSUAPcx);
+sua_MI_pcx_conc2 =  nan(1,totalResponsiveSUAPcx);
+for idxUnit = 1:totalResponsiveSUAPcx
+    option.single_unit = idxUnit;
+    [app, app2, app3, miApp] = perform_linear_svm_decoding(pcxCS2.esp, 6:10, option);
+    sua_performance_pcx_conc2(idxUnit) = mean(app);
+    sua_MI_pcx_conc2(idxUnit) = miApp;
+end
+
+
+n_odors = 15;
+[totalSUACoa, totalResponsiveSUACoa, totalResponsiveNeuronPerOdorCoa, totalSUAExpCoa] = findNumberOfSua(coaCS2.esp, 11:15, 1, 0);
+[totalSUAPcx, totalResponsiveSUAPcx, totalResponsiveNeuronPerOdorPcx, totalSUAExpPcx] = findNumberOfSua(pcxCS2.esp, 11:15, 1, 0);
+
+option = [];
+option.repetitions = 100;
+n_odors = 15;
+sua_performance_coa_conc3 = nan(1,totalResponsiveSUACoa);
+sua_MI_coa_conc3 = nan(1,totalResponsiveSUACoa);
+for idxUnit = 1:totalResponsiveSUACoa
+    option.single_unit = idxUnit;
+    [app, app2, app3, miApp] = perform_linear_svm_decoding(coaCS2.esp, 11:15, option);
+    sua_performance_coa_conc3(idxUnit) = mean(app);
+    sua_MI_coa_conc3(idxUnit) = miApp;
+end
+
+sua_performance_pcx_conc3 = nan(1,totalResponsiveSUAPcx);
+sua_MI_pcx_conc3 =  nan(1,totalResponsiveSUAPcx);
+for idxUnit = 1:totalResponsiveSUAPcx
+    option.single_unit = idxUnit;
+    [app, app2, app3, miApp] = perform_linear_svm_decoding(pcxCS2.esp, 11:15, option);
+    sua_performance_pcx_conc3(idxUnit) = mean(app);
+    sua_MI_pcx_conc3(idxUnit) = miApp;
+end
+
+%%
+figure
+x = {sua_MI_coa_odor_conc sua_MI_pcx_odor_conc};
+g = [zeros(1,length(sua_MI_coa_odor_conc)), ones(1,length(sua_MI_pcx_odor_conc))];
+plotSpread(x, 'categoryIdx', g, 'categoryColors', [coaC; pcxC], 'showMM', 3)
+ylabel('Information (bits)')
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 14)
+
+
+figure
+x = {sua_MI_coa_odor sua_MI_pcx_odor};
+g = [zeros(1,length(sua_MI_coa_odor)), ones(1,length(sua_MI_pcx_odor))];
+plotSpread(x, 'categoryIdx', g, 'categoryColors', [coaC; pcxC], 'showMM', 3)
+ylabel('Information (bits)')
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 14)
+
+figure
+x = {sua_MI_coa_conc1 sua_MI_pcx_conc1};
+g = [zeros(1,length(sua_MI_coa_conc1)), ones(1,length(sua_MI_pcx_conc1))];
+plotSpread(x, 'categoryIdx', g, 'categoryColors', [coaC; pcxC], 'showMM', 3)
+ylabel('Information (bits)')
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 14)
+figure
+x = {sua_MI_coa_conc2 sua_MI_pcx_conc2};
+g = [zeros(1,length(sua_MI_coa_conc2)), ones(1,length(sua_MI_pcx_conc2))];
+plotSpread(x, 'categoryIdx', g, 'categoryColors', [coaC; pcxC], 'showMM', 3)
+ylabel('Information (bits)')
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 14)
+figure
+x = {sua_MI_coa_conc3 sua_MI_pcx_conc3};
+g = [zeros(1,length(sua_MI_coa_conc3)), ones(1,length(sua_MI_pcx_conc3))];
+plotSpread(x, 'categoryIdx', g, 'categoryColors', [coaC; pcxC], 'showMM', 3)
+ylabel('Information (bits)')
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 14)
+%%
+option = [];
+option.units = 'incrementing_by_one';
+option.repetitions =500;
+[performanceCoaCS, confusionMatrixCoaCS] = perform_linear_svm_decoding(coaCS2.esp, 1:15, option);
+[performancePcxCS, confusionMatrixPcxCS] = perform_linear_svm_decoding(pcxCS2.esp, 1:15, option);
+option = [];
+option.units = 'incrementing_by_one';
+option.repetitions = 50;
+option.shuffle  = 1;
+option.number_of_shuffles = 10;
+[performanceCoaCS_shuffled, confusionMatrixCoaCS_shuffled] = perform_linear_svm_decoding(coaCS2.esp, 1:15, option);
+[performancePcxCS_shuffled, confusionMatrixPcxCS_shuffled] = perform_linear_svm_decoding(pcxCS2.esp, 1:15, option);
+figure
+shadedErrorBar([], mean(performancePcxCS,1), std(performancePcxCS,1)./sqrt(499),{'color', pcxC, 'linewidth', 2});
+hold on
+shadedErrorBar([], mean(performanceCoaCS,1), std(performanceCoaCS,1)./sqrt(499),{'color', coaC, 'linewidth', 2});
+plot(mean(performancePcxCS_shuffled,1), ':', 'color', pcxC, 'linewidth', 2);
+plot(mean(performanceCoaCS_shuffled,1),':', 'color', coaC, 'linewidth', 2);
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 14)
+ylim([0 100])
+ylabel('Accuracy %')

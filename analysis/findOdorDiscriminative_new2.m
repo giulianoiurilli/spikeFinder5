@@ -1,6 +1,7 @@
-function [conc, totalResponsiveSUA] = findOdorDiscriminative_new2(esp, odors)
+function [conc, totalResponsiveSUA] = findOdorDiscriminative_new2(esp, odors, lratio, onlyexc)
 
-[totalSUA, totalResponsiveSUA, totalResponsiveNeuronPerOdor] = findNumberOfSua2(esp, odors);
+[totalSUA, totalResponsiveSUA, totalResponsiveNeuronPerOdor, totalSUAExp] = findNumberOfSua(esp, odors, lratio, onlyexc);
+
 C  = [1 6 11; 2 7 12; 3 8 13; 4 9 14; 5 10 15];
 O = [1:5;6:10;11:15];
 conc = zeros(1,5);

@@ -1,4 +1,4 @@
-function [totalSUA, totalResponsiveSUA, totalResponsiveNeuronPerOdor, totalSUAExp] = findNumberOfSua(esp, odors, onlyexc)
+function [totalSUA, totalResponsiveSUA, totalResponsiveNeuronPerOdor, totalSUAExp] = findNumberOfSua(esp, odors, lratio, onlyexc)
 
 
 
@@ -17,7 +17,7 @@ for idxExp = 1:length(esp)
     for idxShank = 1:4
         if ~isempty(esp(idxExp).shank(idxShank).SUA)
             for idxUnit = 1:length(esp(idxExp).shank(idxShank).SUA.cell)
-                if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).good == 1 %&& esp(idxExp).shank(idxShank).SUA.cell(idxUnit).L_Ratio < 0.5
+                if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).good == 1 && esp(idxExp).shank(idxShank).SUA.cell(idxUnit).L_Ratio < lratio
                     idxCell1 = idxCell1 + 1;
                     idxCellExp = idxCellExp + 1;
                     idxO = 0;
@@ -25,7 +25,7 @@ for idxExp = 1:length(esp)
                     for idxOdor = odorsRearranged
                         idxO = idxO + 1;
                         if onlyexc == 1
-                        app(idxO) = esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1;
+                            app(idxO) = esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1;
                         else
                             app(idxO) = abs(esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms) == 1;
                         end

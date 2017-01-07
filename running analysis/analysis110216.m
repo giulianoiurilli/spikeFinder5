@@ -1,5 +1,5 @@
-[responsivityCoa, auROCCoa, nCellsExpCoa] = findResponsivityAndAurocPerShank(coaCS2.esp, 1:15, 1);
-[responsivityPcx, auROCPcx, nCellsExpPcx] = findResponsivityAndAurocPerShank(pcxCS2.esp, 1:15, 1);
+[responsivityCoa, auROCCoa, nCellsExpCoa] = findResponsivityAndAurocPerShank(coaCS2.esp, 1:15, 0.5, 1);
+[responsivityPcx, auROCPcx, nCellsExpPcx] = findResponsivityAndAurocPerShank(pcxCS2.esp, 1:15, 0.5, 1);
 
 %%
 fractionPerConcentrationCoa = [];
@@ -47,7 +47,7 @@ end
          sems(:,idxOdor) = errore';
      end
      b = barwitherr(sems, means);
-     ylim([0 0.3])
+     ylim([0 0.5])
      b(1).EdgeColor = colors(1,:);
      b(2).EdgeColor = colors(2,:);
      b(3).EdgeColor = colors(3,:);
@@ -72,7 +72,7 @@ end
          sems(:,idxOdor) = errore';
      end
      b = barwitherr(sems, means);
-     ylim([0 0.3])
+     ylim([0 0.5])
      b(1).EdgeColor = colors(1,:);
      b(2).EdgeColor = colors(2,:);
      b(3).EdgeColor = colors(3,:);

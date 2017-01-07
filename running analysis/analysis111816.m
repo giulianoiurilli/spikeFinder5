@@ -3,11 +3,11 @@ pcxNM = load('aPCx_natMix_2.mat');
 coaNM = load('plCoA_natMix_2.mat');
 pcxCS2 = load('aPCx_CS2_2.mat');
 coaCS2 = load('plCoA_CS2_2.mat');
-coa15 = load('coa_15_2_2.mat');
-coaAA = load('coa_AAmix_2_2.mat');
+coa15 = load('plCoA_15_2.mat');
+coaAA = load('plCoA_AAmix_2.mat');
 coaCS = load('coa_CS_2_2.mat');
-pcx15 = load('pcx_15_2_2.mat');
-pcxAA = load('pcx_AAmix_2_2.mat');
+pcx15 = load('aPCx_15_2.mat');
+pcxAA = load('aPCx_AAmix_2.mat');
 pcxCS = load('pcx_CS_2_2.mat');
 %%
 % Number of odors
@@ -17,12 +17,12 @@ coaC = [227,26,28] ./ 255;
 pcxC = [82,82,82]./255;
 
 %%
-Mcoa15 = find_Baseline_DeltaRsp_FanoFactor(coa15.esp, 1:15, 1000);
-McoaAA = find_Baseline_DeltaRsp_FanoFactor(coaAA.esp, 1:10, 1000);
-Mpcx15 = find_Baseline_DeltaRsp_FanoFactor(pcx15.esp, 1:15, 1000);
-MpcxAA = find_Baseline_DeltaRsp_FanoFactor(pcxAA.esp, 1:10, 1000);
-McoaCS = find_Baseline_DeltaRsp_FanoFactor_new(coaCS.esp, 1:15, 1000);
-MpcxCS = find_Baseline_DeltaRsp_FanoFactor_new(pcxCS.esp, 1:15, 1000);
+Mcoa15 = find_Baseline_DeltaRsp_FanoFactor_new(coa15.esp, 1:15, 1000, 0);
+McoaAA = find_Baseline_DeltaRsp_FanoFactor_new(coaAA.esp, 1:10, 1000, 0);
+Mpcx15 = find_Baseline_DeltaRsp_FanoFactor_new(pcx15.esp, 1:15, 1000, 0);
+MpcxAA = find_Baseline_DeltaRsp_FanoFactor_new(pcxAA.esp, 1:10, 1000, 0);
+% McoaCS = find_Baseline_DeltaRsp_FanoFactor_new(coaCS.esp, 1:15, 1000);
+% MpcxCS = find_Baseline_DeltaRsp_FanoFactor_new(pcxCS.esp, 1:15, 1000);
 
 
 

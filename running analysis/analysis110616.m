@@ -2,23 +2,24 @@ odors = 1:15;
 %%
 [VariantCoa, InvariantCoa, nonmonotonicCoa, nonmonotonicSemCoa, monotonicDCoa, monotonicDSemCoa, monotonicICoa, monotonicISemCoa] = findConcInvarianceAndMonotonicity_new(coaCS2.esp);
 [VariantPcx, InvariantPcx, nonmonotonicPcx, nonmonotonicSemPcx, monotonicDPcx, monotonicDSemPcx, monotonicIPcx, monotonicISemPcx] = findConcInvarianceAndMonotonicity_new(pcxCS2.esp);
-% figure
-% set(gcf,'color','white', 'PaperPositionMode', 'auto');
-% for idxOdor = 1:3
-% xMean = [VariantCoa(idxOdor) VariantPcx(idxOdor); InvariantCoa(idxOdor) InvariantPcx(idxOdor)];
-% semCoa = sqrt(xMean(1,1) * xMean(2,1) / (numel(totalResponsiveSUACoa)-1));
-% semPcx = sqrt(xMean(1,2) * xMean(2,2) / (numel(totalResponsiveSUAPcx)-1));
-% xSem = [semCoa, semPcx; semCoa, semPcx];
-% subplot(3,1,idxOdor)
-% b = barwitherr(xSem, xMean);
-% b(1).EdgeColor = coaC;
-% b(1).FaceColor = coaC;
-% b(2).EdgeColor = pcxC;
-% b(2).FaceColor = pcxC;
-% set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'arial', 'fontsize', 14)
-% end
+%%
+figure
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+for idxOdor = 1:3
+xMean = [VariantCoa(idxOdor) VariantPcx(idxOdor); InvariantCoa(idxOdor) InvariantPcx(idxOdor)];
+semCoa = sqrt(xMean(1,1) * xMean(2,1) / (numel(totalResponsiveSUACoa)-1));
+semPcx = sqrt(xMean(1,2) * xMean(2,2) / (numel(totalResponsiveSUAPcx)-1));
+xSem = [semCoa, semPcx; semCoa, semPcx];
+subplot(3,1,idxOdor)
+b = barwitherr(xSem, xMean);
+b(1).EdgeColor = coaC;
+b(1).FaceColor = coaC;
+b(2).EdgeColor = pcxC;
+b(2).FaceColor = pcxC;
+set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'arial', 'fontsize', 14)
+end
 
-
+%%
 figure
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
 for idxOdor = 1:3

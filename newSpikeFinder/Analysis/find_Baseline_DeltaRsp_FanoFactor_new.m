@@ -9,33 +9,33 @@ n_trials = 10;
 %%
 [totalSUA, totalResponsiveSUA, totalResponsiveNeuronPerOdor] = findNumberOfSua(esp, odors, onlyexc);
 %% initialize
-M.SpikeCount = nan(totalSUA, 10, length(odors)); 
-M.DeltaRspMean = zeros(totalSUA, length(odors)); 
-M.DeltaRsp = zeros(totalSUA, 10, length(odors)); 
-M.DeltaRspExcWind = zeros(totalSUA, 10, length(odors)); 
-M.DeltaRspInhWind = zeros(totalSUA, 10, length(odors)); 
-M.DeltaRspExcPeak = zeros(totalSUA, 10, length(odors)); 
-M.DeltaRspInhPeak = zeros(totalSUA, 10, length(odors)); 
-M.DeltaRspExcWindSig = zeros(totalSUA, 10, length(odors)); 
-M.DeltaRspInhWindSig = zeros(totalSUA, 10, length(odors)); 
-M.DeltaRspExcPeakSig = zeros(totalSUA, 10, length(odors)); 
-M.DeltaRspInhPeakSig = zeros(totalSUA, 10, length(odors)); 
-M.rspMean = zeros(totalSUA, length(odors)); 
-M.rspVar = zeros(totalSUA, length(odors)); 
-M.ff  = zeros(totalSUA, length(odors)); 
-M.cv  = zeros(totalSUA, length(odors)); 
-M.auRoc = nan(totalSUA, length(odors)); 
-M.significance = nan(totalSUA, length(odors)); 
-M.varG = nan(totalSUA, length(odors)); 
-M.rspPeakFractionExc = nan(totalSUA, length(odors)); 
-M.rspPeakFractionInh = nan(totalSUA, length(odors)); 
-M.rspWindFractionExc = nan(totalSUA, length(odors)); 
+M.SpikeCount = nan(totalSUA, 10, length(odors));
+M.DeltaRspMean = zeros(totalSUA, length(odors));
+M.DeltaRsp = zeros(totalSUA, 10, length(odors));
+M.DeltaRspExcWind = zeros(totalSUA, 10, length(odors));
+M.DeltaRspInhWind = zeros(totalSUA, 10, length(odors));
+M.DeltaRspExcPeak = zeros(totalSUA, 10, length(odors));
+M.DeltaRspInhPeak = zeros(totalSUA, 10, length(odors));
+M.DeltaRspExcWindSig = zeros(totalSUA, 10, length(odors));
+M.DeltaRspInhWindSig = zeros(totalSUA, 10, length(odors));
+M.DeltaRspExcPeakSig = zeros(totalSUA, 10, length(odors));
+M.DeltaRspInhPeakSig = zeros(totalSUA, 10, length(odors));
+M.rspMean = zeros(totalSUA, length(odors));
+M.rspVar = zeros(totalSUA, length(odors));
+M.ff  = zeros(totalSUA, length(odors));
+M.cv  = zeros(totalSUA, length(odors));
+M.auRoc = nan(totalSUA, length(odors));
+M.significance = nan(totalSUA, length(odors));
+M.varG = nan(totalSUA, length(odors));
+M.rspPeakFractionExc = nan(totalSUA, length(odors));
+M.rspPeakFractionInh = nan(totalSUA, length(odors));
+M.rspWindFractionExc = nan(totalSUA, length(odors));
 M.rspWindFractionInh = nan(totalSUA, length(odors));
 M.ls = nan(totalSUA,1);
-trialDeltaExcWindSig = nan(10, length(odors)); 
-trialDeltaInhWindSig = nan(10, length(odors)); 
-trialDeltaExcPeakSig = nan(10, length(odors)); 
-trialDeltaInhPeakSig = nan(10, length(odors)); 
+trialDeltaExcWindSig = nan(10, length(odors));
+trialDeltaInhWindSig = nan(10, length(odors));
+trialDeltaExcPeakSig = nan(10, length(odors));
+trialDeltaInhPeakSig = nan(10, length(odors));
 
 %%
 c = 0;
@@ -44,6 +44,7 @@ for idxExp =  1:length(esp)
         if ~isempty(esp(idxExp).shank(idxShank).SUA)
             for idxUnit = 1:length(esp(idxExp).shank(idxShank).SUA.cell)
                 if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).good == 1 && esp(idxExp).shank(idxShank).SUA.cell(idxUnit).L_Ratio < 0.5
+%                 if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).L_Ratio < 0.5
                     c = c + 1;
                     R1000ms = zeros(n_trials, length(odors));
                     B1000ms = zeros(n_trials, length(odors));
@@ -116,7 +117,7 @@ for idxExp =  1:length(esp)
     for idxShank = 1:4
         if ~isempty(esp(idxExp).shank(idxShank).SUA)
             for idxUnit = 1:length(esp(idxExp).shank(idxShank).SUA.cell)
-                if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).good == 1 && esp(idxExp).shank(idxShank).SUA.cell(idxUnit).L_Ratio < 0.1
+                if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).good == 1 && esp(idxExp).shank(idxShank).SUA.cell(idxUnit).L_Ratio < 0.5
                     c = c + 1;
                     B1000ms = zeros(n_trials, length(odors));
                     idxO = 0;
@@ -139,7 +140,7 @@ end
 %         if ~isempty(esp(idxExp).shank(idxShank).SUA)
 %             for idxUnit = 1:length(esp(idxExp).shank(idxShank).SUA.cell)
 % %                 if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).good == 1 && esp(idxExp).shank(idxShank).SUA.cell(idxUnit).L_Ratio < 1
-%                     
+%
 %                     c = c + 1;
 %                     B1000ms = zeros(n_trials, length(odors));
 %                     idxO = 0;
@@ -148,7 +149,7 @@ end
 %                         B1000ms(:, idxO) = esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).AnalogicBsl1000ms';
 %                     end
 %                     M.BslAll(c) = mean(mean(B1000ms));
-%                     
+%
 % %                 end
 %             end
 %         end

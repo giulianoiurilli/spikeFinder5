@@ -12,7 +12,7 @@ for idxExperiment = 1 : length(Lista)
     end
     sniff_length = [sniff_length interInhalationDelay];
 end
-sniffLength = sniff_length(sniff_length > 0 & sniff_length < 2);
+sniffLength = sniff_length(sniff_length > 0 & sniff_length < 1);
 meanSniffLength = mean(sniffLength);
 medianSniffLength = median(sniffLength);
 

@@ -3,31 +3,32 @@ function [allSdf, allGvar, cellLogAllSdfs] = collectAllExcitatorySdfs(esp, espe,
 
 
 %%
-%odorsRearranged = 1:15;
-%odorsRearranged = [8 11 12 5 2 14 4 10]; %coa
-%odorsRearranged = [3 8 10 1 13 11 9 14]; %pcx
-odorsRearranged = odors;
-odors = length(odorsRearranged);
 
-%%
-responsiveUnit = 0;
-cells = 0;
-for idxExp = 1: length(esp)
+
+n_odors = length(odorsRearranged);
+idxCell = 0;
+for idxExp = 1:length(esp)
     for idxShank = 1:4
-        for idxUnit = 1:length(esp(idxExp).shankNowarp(idxShank).cell)
-            if esp(idxExp).shankNowarp(idxShank).cell(idxUnit).good == 1
-                cells = cells + 1;
-                responsiveness300ms = nan*ones(1,odors);
-                responsiveness1000ms = nan*ones(1,odors);
-                responsiveness2000ms = nan*ones(1,odors);
-                idxO = 0;
-                for idxOdor = odorsRearranged
-                    idxO = idxO + 1;
-                    responsiveness300ms = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse300ms == 1;
-                    responsiveness1000ms = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1;
-                    responsiveness2000ms = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse2000ms == 1;
-                    if sum(responsiveness300ms + responsiveness1000ms + responsiveness2000ms) > 0
-                        responsiveUnit = responsiveUnit + 1;
+        if ~isempty(esp(idxExp).shank(idxShank).SUA)
+            for idxUnit = 1:length(esp(idxExp).shank(idxShank).SUA.cell)
+                if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).L_Ratio < 0.5
+                    idxCell = idxCell + 1;
+                    app = zeros(1,n_odors);
+                    for idxOdor = 1:n_odors
+                            app(1) = abs(esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse300ms) == 1;
+                            app(2) = abs(esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms) == 1;
+                            app(3) = abs(esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse2000ms) == 1;
+                        end
+                        app1(idxO) = esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms;
+                        if app1(idxO) > 0
+                            idx.idxExc.idxO1(idxExp,idxO) = idx.idxExc.idxO1(idxExp,idxO) + 1;
+                        end
+                        if app1(idxO) < 0
+                            idx.idxInh.idxO1(idxExp,idxO) = idx.idxInh.idxO1(idxExp,idxO) + 1;
+                        end
+                    end
+                    if sum(app) > 0
+                        idxCell2 = idxCell2 + 1;
                     end
                 end
             end
@@ -36,13 +37,11 @@ for idxExp = 1: length(esp)
 end
 
 
+
 %%
-gW = 0.8; %gaussian width for convolution (in seconds)
-binSize = 100;
+binSize = 50;
 slideBy = 5;
 x = slidePSTH(double(espe(1).shankNowarp(1).cell(1).odor(1).spikeMatrix(1,:)), binSize, slideBy);
-allSdf = nan*ones(responsiveUnit,size(x,2));
-allGvar = nan*ones(responsiveUnit,size(x,2));
 cellLogAllSdfs = nan*ones(responsiveUnit,4);
 cells = 0;
 idxCellOdorPair = 0;
@@ -60,14 +59,14 @@ for idxExp = 1: length(esp)
                 aurocs1s = 0.5*ones(1,odors);
                 aurocsOffset = 0.5*ones(1,odors);
                 aurocs2s = 0.5*ones(1,odors);
-                for idxOdor = odorsRearranged
+                for idxOdor = 1:n_odors
                     idxO = idxO + 1;
                     responsiveness300ms = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse300ms == 1;
                     responsiveness1000ms = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1;
                     responsiveness2000ms = esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse2000ms == 1;
                     if sum(responsiveness300ms + responsiveness1000ms + responsiveness2000ms) > 0
                         idxCellOdorPair = idxCellOdorPair + 1;
-                        %allSdf(idxCellOdorPair,:) = spikeDensity(mean(single(espe(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrix)), gW);
+
                         A = nan(10,size(x,2));
                         for idxTrial = 1:10
                             A(idxTrial,:) = slidePSTH(double(espe(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).spikeMatrix(idxTrial,:)), binSize, slideBy);

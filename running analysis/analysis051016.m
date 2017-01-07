@@ -1,7 +1,7 @@
 %% bar plot auROC/odor
-X11 = Mcoa15.auRoc;
+X11 = M15c.auRoc;
 X11(X11<0.5) = NaN;
-X11(Mcoa15.significance==0) = NaN;
+X11(M15c.significance==0) = NaN;
 for j = 1:15
     app = [];
     app = X11(:,j);
@@ -13,9 +13,9 @@ X11appNotnan = notnanX11([4 9]);
 X11mean = nanmean(X11app);
 X11sem = nanstd(X11app) ./ sqrt(X11appNotnan - ones(1,2));
 
-X12 = McoaCS.auRoc;
+X12 = Mcs2c.auRoc;
 X12(X12<0.5) = NaN;
-X12(McoaCS.significance==0) = NaN;
+X12(Mcs2c.significance==0) = NaN;
 for j = 1:15
     app = [];
     app = X12(:,j);
@@ -27,9 +27,9 @@ X12appNotnan = notnanX12([5 10 15]);
 X12mean = nanmean(X12app);
 X12sem = nanstd(X12app) ./ sqrt(X12appNotnan - ones(1,3));
 
-X13 = McoaAA.auRoc;
+X13 = Maac.auRoc;
 X13(X13<0.5) = NaN;
-X13(McoaAA.significance==0) = NaN;
+X13(Maac.significance==0) = NaN;
 for j = 1:15
     app = [];
     app = X13(:,j);
@@ -42,9 +42,9 @@ X13mean = nanmean(X13app);
 X13sem = nanstd(X13app) ./ sqrt(X13appNotnan - ones(1,10));
 
 
-Y11 = Mpcx15.auRoc;
+Y11 = M15p.auRoc;
 Y11(Y11<0.5) = NaN;
-Y11(Mpcx15.significance==0) = NaN;
+Y11(M15p.significance==0) = NaN;
 for j = 1:15
     app = [];
     app = Y11(:,j);
@@ -57,9 +57,9 @@ Y11mean = nanmean(Y11app);
 Y11sem = nanstd(Y11app) ./ sqrt(Y11appNotnan - ones(1,2));
 
 
-Y12 = MpcxCS.auRoc;
+Y12 = Mcs2p.auRoc;
 Y12(Y12<0.5) = NaN;
-Y12(MpcxCS.significance==0) = NaN;
+Y12(Mcs2p.significance==0) = NaN;
 for j = 1:15
     app = [];
     app = Y12(:,j);
@@ -71,9 +71,9 @@ Y12appNotnan = notnanY12([5 10 15]);
 Y12mean = nanmean(Y12app);
 Y12sem = nanstd(Y12app) ./ sqrt(Y12appNotnan - ones(1,3));
 
-Y13 = MpcxAA.auRoc;
+Y13 = Maap.auRoc;
 Y13(Y13<0.5) = NaN;
-Y13(MpcxAA.significance==0) = NaN;
+Y13(Maap.significance==0) = NaN;
 for j = 1:15
     app = [];
     app = Y13(:,j);
@@ -110,8 +110,8 @@ set(gca, 'box', 'off', 'tickDir', 'out', 'XTick' , [], 'XTickLabel', [], 'fontna
 
 
 %% bar plot deltaRsp/odor
-X11 = Mcoa15.DeltaRspMean;
-X11(Mcoa15.significance<1) = NaN;
+X11 = M15c.DeltaRspMean;
+X11(M15c.significance<1) = NaN;
 for j = 1:15
     app = [];
     app = X11(:,j);
@@ -123,8 +123,8 @@ X11appNotnan = notnanX11([4 9]);
 X11mean = nanmean(X11app);
 X11sem = nanstd(X11app) ./ sqrt(X11appNotnan - ones(1,2));
 
-X12 = McoaCS.DeltaRspMean;
-X12(McoaCS.significance<1) = NaN;
+X12 = Mcs2c.DeltaRspMean;
+X12(Mcs2c.significance<1) = NaN;
 for j = 1:15
     app = [];
     app = X12(:,j);
@@ -136,8 +136,8 @@ X12appNotnan = notnanX12([5 10 15]);
 X12mean = nanmean(X12app);
 X12sem = nanstd(X12app) ./ sqrt(X12appNotnan - ones(1,3));
 
-X13 = McoaAA.DeltaRspMean;
-X13(McoaAA.significance<1) = NaN;
+X13 = Maac.DeltaRspMean;
+X13(Maac.significance<1) = NaN;
 for j = 1:15
     app = [];
     app = X13(:,j);
@@ -150,8 +150,8 @@ X13mean = nanmean(X13app);
 X13sem = nanstd(X13app) ./ sqrt(X13appNotnan - ones(1,10));
 
 
-Y11 = Mpcx15.DeltaRspMean;
-Y11(Mpcx15.significance<1) = NaN;
+Y11 = M15p.DeltaRspMean;
+Y11(M15p.significance<1) = NaN;
 for j = 1:15
     app = [];
     app = Y11(:,j);
@@ -164,8 +164,8 @@ Y11mean = nanmean(Y11app);
 Y11sem = nanstd(Y11app) ./ sqrt(Y11appNotnan - ones(1,2));
 
 
-Y12 = MpcxCS.DeltaRspMean;
-Y12(MpcxCS.significance<1) = NaN;
+Y12 = Mcs2p.DeltaRspMean;
+Y12(Mcs2p.significance<1) = NaN;
 for j = 1:15
     app = [];
     app = Y12(:,j);
@@ -177,8 +177,8 @@ Y12appNotnan = notnanY12([5 10 15]);
 Y12mean = nanmean(Y12app);
 Y12sem = nanstd(Y12app) ./ sqrt(Y12appNotnan - ones(1,3));
 
-Y13 = MpcxAA.DeltaRspMean;
-Y13(MpcxAA.significance<1) = NaN;
+Y13 = Maap.DeltaRspMean;
+Y13(Maap.significance<1) = NaN;
 for j = 1:15
     app = [];
     app = Y13(:,j);
@@ -297,8 +297,8 @@ set(gca, 'box', 'off', 'tickDir', 'out', 'XTick' , [], 'XTickLabel', [], 'fontna
 
 
 %% bar plot fractionExc/odor
-X11 = Mcoa15.rspPeakFractionExc*10;
-X11(Mcoa15.significance<1) = NaN;
+X11 = M15c.rspPeakFractionExc*10;
+X11(M15c.significance<1) = NaN;
 for j = 1:15
     app = [];
     app = X11(:,j);
@@ -310,8 +310,8 @@ X11appNotnan = notnanX11([4 9]);
 X11mean = nanmean(X11app);
 X11sem = nanstd(X11app) ./ sqrt(X11appNotnan - ones(1,2));
 
-X12 = McoaCS.rspPeakFractionExc*10;
-X12(McoaCS.significance<1) = NaN;
+X12 = Mcs2c.rspPeakFractionExc*10;
+X12(Mcs2c.significance<1) = NaN;
 for j = 1:15
     app = [];
     app = X12(:,j);
@@ -323,8 +323,8 @@ X12appNotnan = notnanX12([5 10 15]);
 X12mean = nanmean(X12app);
 X12sem = nanstd(X12app) ./ sqrt(X12appNotnan - ones(1,3));
 
-X13 = McoaAA.rspPeakFractionExc*10;
-X13(McoaAA.significance<1) = NaN;
+X13 = Maac.rspPeakFractionExc*10;
+X13(Maac.significance<1) = NaN;
 for j = 1:15
     app = [];
     app = X13(:,j);
@@ -337,8 +337,8 @@ X13mean = nanmean(X13app);
 X13sem = nanstd(X13app) ./ sqrt(X13appNotnan - ones(1,10));
 
 
-Y11 = Mpcx15.rspPeakFractionExc*10;
-Y11(Mpcx15.significance<1) = NaN;
+Y11 = M15p.rspPeakFractionExc*10;
+Y11(M15p.significance<1) = NaN;
 for j = 1:15
     app = [];
     app = Y11(:,j);
@@ -351,8 +351,8 @@ Y11mean = nanmean(Y11app);
 Y11sem = nanstd(Y11app) ./ sqrt(Y11appNotnan - ones(1,2));
 
 
-Y12 = MpcxCS.rspPeakFractionExc*10;
-Y12(MpcxCS.significance<1) = NaN;
+Y12 = Mcs2p.rspPeakFractionExc*10;
+Y12(Mcs2p.significance<1) = NaN;
 for j = 1:15
     app = [];
     app = Y12(:,j);
@@ -364,8 +364,8 @@ Y12appNotnan = notnanY12([5 10 15]);
 Y12mean = nanmean(Y12app);
 Y12sem = nanstd(Y12app) ./ sqrt(Y12appNotnan - ones(1,3));
 
-Y13 = MpcxAA.rspPeakFractionExc*10;
-Y13(MpcxAA.significance<1) = NaN;
+Y13 = Maap.rspPeakFractionExc*10;
+Y13(Maap.significance<1) = NaN;
 for j = 1:15
     app = [];
     app = Y13(:,j);
@@ -486,8 +486,8 @@ title('fExc')
 set(gca, 'box', 'off', 'tickDir', 'out', 'XTick' , [], 'XTickLabel', [], 'fontname', 'avenir', 'fontsize', 14)
 
 %% bar plot ff/odor
-X11 = Mcoa15.ff;
-X11(Mcoa15.significance<1) = NaN;
+X11 = M15c.ff;
+X11(M15c.significance<1) = NaN;
 for j = 1:15
     app = [];
     app = X11(:,j);
@@ -499,8 +499,8 @@ X11appNotnan = notnanX11([4 9]);
 X11mean = nanmean(X11app);
 X11sem = nanstd(X11app) ./ sqrt(X11appNotnan - ones(1,2));
 
-X12 = McoaCS.ff;
-X12(McoaCS.significance<1) = NaN;
+X12 = Mcs2c.ff;
+X12(Mcs2c.significance<1) = NaN;
 for j = 1:15
     app = [];
     app = X12(:,j);
@@ -512,8 +512,8 @@ X12appNotnan = notnanX12([5 10 15]);
 X12mean = nanmean(X12app);
 X12sem = nanstd(X12app) ./ sqrt(X12appNotnan - ones(1,3));
 
-X13 = McoaAA.ff;
-X13(McoaAA.significance<1) = NaN;
+X13 = Maac.ff;
+X13(Maac.significance<1) = NaN;
 for j = 1:15
     app = [];
     app = X13(:,j);
@@ -526,8 +526,8 @@ X13mean = nanmean(X13app);
 X13sem = nanstd(X13app) ./ sqrt(X13appNotnan - ones(1,10));
 
 
-Y11 = Mpcx15.ff;
-Y11(Mpcx15.significance<1) = NaN;
+Y11 = M15p.ff;
+Y11(M15p.significance<1) = NaN;
 for j = 1:15
     app = [];
     app = Y11(:,j);
@@ -540,8 +540,8 @@ Y11mean = nanmean(Y11app);
 Y11sem = nanstd(Y11app) ./ sqrt(Y11appNotnan - ones(1,2));
 
 
-Y12 = MpcxCS.ff;
-Y12(MpcxCS.significance<1) = NaN;
+Y12 = Mcs2p.ff;
+Y12(Mcs2p.significance<1) = NaN;
 for j = 1:15
     app = [];
     app = Y12(:,j);
@@ -553,8 +553,8 @@ Y12appNotnan = notnanY12([5 10 15]);
 Y12mean = nanmean(Y12app);
 Y12sem = nanstd(Y12app) ./ sqrt(Y12appNotnan - ones(1,3));
 
-Y13 = MpcxAA.ff;
-Y13(MpcxAA.significance<1) = NaN;
+Y13 = Maap.ff;
+Y13(Maap.significance<1) = NaN;
 for j = 1:15
     app = [];
     app = Y13(:,j);

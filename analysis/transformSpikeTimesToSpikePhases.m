@@ -9,13 +9,13 @@
 
 
 
-function [alpha, spikesBinnedByInhExh, piLength] = transformSpikeTimesToSpikePhases(respiro, pre, post, fs, sua, sec_on, preInhalations, postInhalations)
+function [alpha, spikesBinnedByInhExh, piLength] = transformSpikeTimesToSpikePhases(respiro, pre, fs, sua, sec_on, preInhalations, postInhalations)
 
 
-% sua = shank(4).spiketimesUnit{3};
+% sua = shank(1).SUA.spiketimesUnit{1};
 % respiro = breath(1,:,14);
-% sec_on = sec_on_rsp(1, 1);
-
+% sec_on = sec_on_rsp(2, 4);
+try
 %Trova tutte le inalazioni ed esalazioni per quell'odore in quel trial
 inalazioni = respiro<0;
 esalazioni = respiro>0;
@@ -46,18 +46,24 @@ exa_post = sec_exa_on(sec_exa_on>0);
 first_inh = sec_ina_on(indice_ina - preInhalations);
 first_exh = sec_exa_on(indice_exa - preInhalations);
 
-if first_inh < first_exh
-    % crea bins per le x inalazioni + x esalazioni prima e le y inalazioni + y esalazioni dopo l'inizio
-    % dell'odore
-    edges_ina=[];
-    edges_ina = sec_ina_on(indice_ina - preInhalations : indice_ina + postInhalations);
-    edges_exa=[];
-    edges_exa = sec_exa_on((indice_exa - preInhalations : indice_exa + postInhalations));
-else
-    edges_ina=[];
-    edges_ina = sec_ina_on(indice_ina - preInhalations : indice_ina + postInhalations);
-    edges_exa=[];
-    edges_exa = sec_exa_on((indice_exa - preInhalations + 1 : indice_exa + postInhalations + 1));
+
+
+    if first_inh < first_exh
+        % crea bins per le x inalazioni + x esalazioni prima e le y inalazioni + y esalazioni dopo l'inizio
+        % dell'odore
+        edges_ina=[];
+        edges_ina = sec_ina_on(indice_ina - preInhalations : indice_ina + postInhalations-1);
+        edges_exa=[];
+        edges_exa = sec_exa_on((indice_exa - preInhalations : indice_exa + postInhalations-1));
+    else
+        edges_ina=[];
+        edges_ina = sec_ina_on(indice_ina - preInhalations : indice_ina + postInhalations-1);
+        edges_exa=[];
+        edges_exa = sec_exa_on((indice_exa - preInhalations + 1 : indice_exa + postInhalations-1));
+    end
+catch
+    edges_ina = [-0.9 -0.6 -0.3 0 0.3 0.6 0.9 1.2 1.5]';
+    edges_exa = ([-0.9 -0.6 -0.3 0 0.3 0.6 0.9 1.2 1.5] + 0.2)';
 end
 
 
@@ -67,12 +73,13 @@ edges = [edges_ina' edges_exa'];
 edges = sort(edges);
 
 piLength = diff(edges);
-if length(piLength) > 2 * (preInhalations + postInhalations)
-    piLength(2 * (preInhalations + postInhalations)+1:end) = [];
+if length(piLength) > 2 * (preInhalations + postInhalations-1)
+    piLength(2 * (preInhalations + postInhalations-1)+1:end) = [];
 end
 
 %load spikes and re-reference to the first inhalation
-sua_trial = sua(find((sua > sec_on - pre) & (sua < sec_on + post))) - sec_on;
+sua_trial = sua(sua > (sec_on - pre));
+sua_trial = sua(sua > (sec_on - pre)) - sec_on;
 
 %select spikes in the window -x inhalation +y inhalation
 sua_trial1 = [];
@@ -85,7 +92,7 @@ sua_trial1 = sua_trial(sua_trial >= edges(1) & sua_trial < edges(end-1));
 if ~isempty(ap)
     aps = ap;
 else
-    aps = zeros(1,2 * (preInhalations + postInhalations));
+    aps = zeros(1,2 * (preInhalations + postInhalations-1));
 end
 
 
@@ -97,8 +104,12 @@ end
 
 aps = aps';
 
+if sum(aps) > 0
+    spikesBinnedByInhExh = aps(1:2 * (preInhalations + postInhalations-1));
+else
+    spikesBinnedByInhExh = zeros(1,2 * (preInhalations + postInhalations-1));
+end
 
-spikesBinnedByInhExh = aps(1:2 * (preInhalations + postInhalations));
 
 % figure;
 % bar_ax = 1:length(edges);
@@ -110,10 +121,10 @@ spikesBinnedByInhExh = aps(1:2 * (preInhalations + postInhalations));
 
 
 
-cycle = 1 : 2 * (preInhalations + postInhalations);
+cycle = 1 : 2 * (preInhalations + postInhalations-1);
 cycle = cycle';
 app1 = - preInhalations : -1;   app1 = [app1 app1];  app1 = sort(app1);
-app2 = 1:postInhalations; app2 = [app2 app2]; app2 = sort(app2);
+app2 = 1:postInhalations-1; app2 = [app2 app2]; app2 = sort(app2);
 app3 = [app1 app2]; app3 = app3';
 cycle = [cycle app3];
 

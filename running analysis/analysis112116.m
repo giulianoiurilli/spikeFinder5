@@ -1,6 +1,14 @@
 odors1 = [14 15 12 11 13 10 9 8 7 6 1:5];
+odors1 = 15:-1:1;
+odors1 = 15:-1:1;
+odors1 = [15 1:14];
+odors1 = fliplr(odors1);
 [totalSUACoa, totalResponsiveSUACoa, totalResponsiveNeuronPerOdorCoa, totalSUAExpCoa] = findNumberOfSua(coaCS1.esp, odors1, 0);
 odors1 = [15 14 12 11 13 10 9 8 7 6 1:5];
+odors1 = 15:-1:1;
+odors1 = 15:-1:1;
+odors1 = [15 1:14];
+odors1 = fliplr(odors1);
 [totalSUAPcx, totalResponsiveSUAPcx, totalResponsiveNeuronPerOdorPcx, totalSUAExpPcx] = findNumberOfSua(pcxCS1.esp, odors1, 0);
 
 fractionExcitedNeuronsCoa = totalResponsiveNeuronPerOdorCoa.idxExc.idxO1 ./ repmat(totalSUAExpCoa',1,size(totalResponsiveNeuronPerOdorCoa.idxExc.idxO1,2));
@@ -106,10 +114,9 @@ for idx = 1:3
     ylim([-0.02 0.3]);
 end
 %%
-% [tuningCurvesCoa, tuningCurvesSigCoa, tuningCurvesAuRocCoa, auROCSigCoa] = findTuningCurves(coaCS1.esp, 15:-1:1, 0);
-% [tuningCurvesPcx, tuningCurvesSigPcx, tuningCurvesAuRocPcx, auROCSigPcx] = findTuningCurves(pcxCS1.esp, 15:-1:1, 0);
-[tuningCurvesCoa, tuningCurvesSigCoa, tuningCurvesAuRocCoa, auROCSigCoa] = findTuningCurves(coaCS2.esp, 1:15, 0);
-[tuningCurvesPcx, tuningCurvesSigPcx, tuningCurvesAuRocPcx, auROCSigPcx] = findTuningCurves(pcxCS2.esp, 1:15, 0);
+
+[tuningCurvesCoa, tuningCurvesSigCoa, tuningCurvesAuRocCoa, auROCSigCoa] = findTuningCurves(coaCS2.esp, 1:15, 0.5, 0);
+[tuningCurvesPcx, tuningCurvesSigPcx, tuningCurvesAuRocPcx, auROCSigPcx] = findTuningCurves(pcxCS2.esp, 1:15, 0.5, 0);
 
 tuningCurvesAuRocCoa = fliplr(tuningCurvesAuRocCoa);
 tuningCurvesAuRocPcx = fliplr(tuningCurvesAuRocPcx);
@@ -146,6 +153,7 @@ for idx = 1:3
     set(gca,'YTickLabel',[])
     set(gcf,'color','white', 'PaperPositionMode', 'auto');
     set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 14)
+    colorbar
     figure
     set(gcf,'Position',[440 378 274 420]);
     clims = [0 1];
@@ -158,63 +166,9 @@ for idx = 1:3
     set(gca,'YTickLabel',[])
     set(gcf,'color','white', 'PaperPositionMode', 'auto');
     set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 14)
+    colorbar
 end
 
-
-%%
-[tuningCurvesCoa, tuningCurvesAuRocCoa, tuningCurvesSigCoa, auROCSigCoa] = findTuningCurves_old(coaCS.esp, 1:15, 0);
-[tuningCurvesPcx, tuningCurvesAuRocPcx, tuningCurvesSigPcx, auROCSigPcx] = findTuningCurves_old(pcxCS.esp, 1:15, 0);
-
-tuningCurvesAuRocCoa = fliplr(tuningCurvesAuRocCoa);
-tuningCurvesAuRocPcx = fliplr(tuningCurvesAuRocPcx);
-
-x = 1:5;
-for idx = 1:3
-    X = [];
-    X = tuningCurvesAuRocCoa(:,1+5*(idx-1):5+5*(idx-1));
-    cc = [];
-    for idxCell = 1:size(X,1)
-        a = polyfit(x,X(idxCell,:),1);
-        cc(idxCell) = a(1);
-    end
-    X = [X cc'];
-    X = sortrows(X,6);
-    X(:,6) = [];
-    Y = [];
-    Y = tuningCurvesAuRocPcx(:,1+5*(idx-1):5+5*(idx-1));
-    cc = [];
-    for idxCell = 1:size(Y,1)
-        a = polyfit(x,Y(idxCell,:),1);
-        cc(idxCell) = a(1);
-    end
-    Y = [Y cc'];
-    Y = sortrows(Y,6);
-    Y(:,6) = [];
-    figure
-    set(gcf,'Position',[440 378 274 420]);
-    clims = [0 1];
-    imagesc(flipud(X), clims); colormap(brewermap([],'*RdBu')); axis tight
-    set(gca,'XColor','w')
-    set(gca,'YColor','w')
-    set(gca,'XTick',[])
-    set(gca,'XTickLabel',[])
-    set(gca,'YTick',[])
-    set(gca,'YTickLabel',[])
-    set(gcf,'color','white', 'PaperPositionMode', 'auto');
-    set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 14)
-    figure
-    set(gcf,'Position',[440 378 274 420]);
-    clims = [0 1];
-    imagesc(flipud(Y), clims); colormap(brewermap([],'*RdBu')); axis tight
-    set(gca,'XColor','w')
-    set(gca,'YColor','w')
-    set(gca,'XTick',[])
-    set(gca,'XTickLabel',[])
-    set(gca,'YTick',[])
-    set(gca,'YTickLabel',[])
-    set(gcf,'color','white', 'PaperPositionMode', 'auto');
-    set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 14)
-end
 
 
 %%
@@ -288,8 +242,14 @@ end
 %%
 odors2 = 1:15;
 odors1 = [14 15 12 11 13 10 9 8 7 6];
+odors1 = 15:-1:1;
+odors1 = [15 1:14];
+odors1 = fliplr(odors1);
 [concCoa, totalResponsiveSUACoa] = findOdorDiscriminative_new_2(coaCS1.esp, odors1, 0);
 odors1 = [15 14 12 11 13 10 9 8 7 6];
+odors1 = 15:-1:1;
+odors1 = [15 1:14];
+odors1 = fliplr(odors1);
 [concPcx, totalResponsiveSUAPcx] = findOdorDiscriminative_new_2(pcxCS1.esp, odors1, 0);
 figure
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
@@ -314,9 +274,9 @@ b(2).EdgeColor = pcxC;
 b(2).FaceColor = pcxC;
 set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'arial', 'fontsize', 14)
 %%
-
-[concCoa, totalResponsiveSUACoa] = findOdorDiscriminative_new2(coaCS.esp, odors);
-[concPcx, totalResponsiveSUAPcx] = findOdorDiscriminative_new2(pcxCS.esp, odors);
+odors = 1:15;
+[concCoa, totalResponsiveSUACoa] = findOdorDiscriminative_new(coaCS2.esp, odors, 0);
+[concPcx, totalResponsiveSUAPcx] = findOdorDiscriminative_new(pcxCS2.esp, odors, 0);
 figure
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
 concCoaP = concCoa ./ totalResponsiveSUACoa;
@@ -342,7 +302,6 @@ set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'arial', 'fontsize', 14)
 
 %%
 odors2 = 1:15;
-odors1 = 15:-1:1;
 [scoresCoa, scoresMeanCoa, explainedMeanCoa, explaineStdCoa] = findCodingSpace_new(coaCS2.esp, odors2);
 
 
@@ -386,7 +345,12 @@ set(gcf,'color','white', 'PaperPositionMode', 'auto');
 %%
 odors2 = 1:15;
 odors1 = 15:-1:6;
-odors1 = [14 15 12 11 13 10 9 8 7 6];
+odors1 = [14 15 12 11 13 10 9 8 7 6 1:5];
+odors1 = 15:-1:6;
+odors1 = 15:-1:1;
+odors1 = [15 1:14];
+odors1 = fliplr(odors1);
+
 [scoresCoa, scoresMeanCoa, explainedMeanCoa, explaineStdCoa] = findCodingSpace_new(coaCS1.esp, odors1);
 
 
@@ -422,6 +386,43 @@ ylabel('PC2');
 zlabel('PC3');
 title('plCOA');
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
+
+% figure
+% colorClass1 = flipud([254,240,217;...
+% 253,204,138;...
+% 252,141,89;...
+% 227,74,51;...
+% 179,0,0]./255);
+% 
+% colorClass2 = flipud([239,243,255;...
+% 189,215,231;...
+% 107,174,214;...
+% 49,130,189;...
+% 8,81,156]./255);
+% 
+% colorClass3 = flipud([237,248,233;...
+% 186,228,179;... 
+% 116,196,118;...
+% 49,163,84;...
+% 0,109,44]./255);
+% 
+% colorClass = cat(3,colorClass1, colorClass2, colorClass3);
+% 
+% 
+% k = 0;
+% for idxOdor = 1:3
+%     C = squeeze(colorClass(:,:,idxOdor));
+%     for idxConc = 1:5
+%         scatter3(scoresCoa(1 + k*5:5 + k*5, 1), scoresCoa(1 + k*5:5 + k*5, 2), scoresCoa(1 + k*5:5 + k*5, 3), 100, C(idxConc,:), 'o', 'filled');
+%         k = k + 1;
+%         hold on
+%     end
+% end
+% xlabel('PC1');
+% ylabel('PC2');
+% zlabel('PC3');
+% title('plCOA');
+% set(gcf,'color','white', 'PaperPositionMode', 'auto');
 %%
 odors2 = 1:15;
 odors1 = 15:-1:1;
@@ -464,7 +465,12 @@ set(gcf,'color','white', 'PaperPositionMode', 'auto');
 odors2 = 1:15;
 odors1 = 15:-1:6;
 odors1 = [15 14 12 11 13 10 9 8 7 6];
+odors1 = [15 14 12 11 13 10 9 8 7 6 1:5];
+odors1 = 15:-1:6;
+odors1 = [15 1:14];
+odors1 = fliplr(odors1);
 [scoresPcx, scoresMeanPcx, explainedMeanPcx, explaineStdPcx] = findCodingSpace_new(pcxCS1.esp, odors1);
+
 figure
 colorClass1 = flipud([254,240,217;...
 253,204,138;...
@@ -478,14 +484,7 @@ colorClass2 = flipud([239,243,255;...
 49,130,189;...
 8,81,156]./255);
 
-% colorClass3 = flipud([237,248,233;...
-% 186,228,179;...
-% 116,196,118;...
-% 49,163,84;...
-% 0,109,44]./255);
-symbolOdor = {'o', 's', 'p'};
 k = 0;
-%colorClass = cat(3,colorClass1, colorClass2, colorClass3);
 colorClass = cat(3,colorClass1, colorClass2);
 for idxOdor = 1:2
     C = squeeze(colorClass(:,:,idxOdor));
@@ -500,85 +499,42 @@ ylabel('PC2');
 zlabel('PC3');
 title('PCX');
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
-%%
-odorsRearranged = 1:15;
-[scoresCoa, scoresMeanCoa, explainedMeanCoa, explaineStdCoa] = findCodingSpace(coaCS.esp, odorsRearranged);
 
 
-figure
-colorClass1 = flipud([254,240,217;...
-253,204,138;...
-252,141,89;...
-227,74,51;...
-179,0,0]./255);
-
-colorClass2 = flipud([239,243,255;...
-189,215,231;...
-107,174,214;...
-49,130,189;...
-8,81,156]./255);
-
-colorClass3 = flipud([237,248,233;...
-186,228,179;... 
-116,196,118;...
-49,163,84;...
-0,109,44]./255);
-
-colorClass = cat(3,colorClass1, colorClass2, colorClass3);
-
-
-k = 0;
-for idxOdor = 1:3
-    C = squeeze(colorClass(:,:,idxOdor));
-    for idxConc = 1:5
-        scatter3(scoresCoa(1 + k*5:5 + k*5, 1), scoresCoa(1 + k*5:5 + k*5, 2), scoresCoa(1 + k*5:5 + k*5, 3), 100, C(idxConc,:), 'o', 'filled');
-        k = k + 1;
-        hold on
-    end
-end
-xlabel('PC1');
-ylabel('PC2');
-zlabel('PC3');
-title('plCOA');
-set(gcf,'color','white', 'PaperPositionMode', 'auto');
-
-%%
-odorsRearranged = 1:15;
-[scoresPcx, scoresMeanPcx, explainedMeanPcx, explaineStdPcx] = findCodingSpace(pcxCS.esp, odorsRearranged);
-figure
-colorClass1 = flipud([254,240,217;...
-253,204,138;...
-252,141,89;...
-227,74,51;...
-179,0,0]./255);
-
-colorClass2 = flipud([239,243,255;...
-189,215,231;...
-107,174,214;...
-49,130,189;...
-8,81,156]./255);
-
-colorClass3 = flipud([237,248,233;...
-186,228,179;...
-116,196,118;...
-49,163,84;...
-0,109,44]./255);
-symbolOdor = {'o', 's', 'p'};
-k = 0;
-colorClass = cat(3,colorClass1, colorClass2, colorClass3);
-for idxOdor = 1:3
-    C = squeeze(colorClass(:,:,idxOdor));
-    for idxConc = 1:5
-        scatter3(scoresPcx(1 + k*5:5 + k*5, 1), scoresPcx(1 + k*5:5 + k*5, 2), scoresPcx(1 + k*5:5 + k*5, 3), 100, C(idxConc,:), 'o', 'filled');
-        k = k + 1;
-        hold on
-    end
-end
-xlabel('PC1');
-ylabel('PC2');
-zlabel('PC3');
-title('PCX');
-set(gcf,'color','white', 'PaperPositionMode', 'auto');
+% figure
+% colorClass1 = flipud([254,240,217;...
+% 253,204,138;...
+% 252,141,89;...
+% 227,74,51;...
+% 179,0,0]./255);
+% 
+% colorClass2 = flipud([239,243,255;...
+% 189,215,231;...
+% 107,174,214;...
+% 49,130,189;...
+% 8,81,156]./255);
+% 
+% colorClass3 = flipud([237,248,233;...
+% 186,228,179;...
+% 116,196,118;...
+% 49,163,84;...
+% 0,109,44]./255);
+% symbolOdor = {'o', 's', 'p'};
+% k = 0;
+% colorClass = cat(3,colorClass1, colorClass2, colorClass3);
+% for idxOdor = 1:3
+%     C = squeeze(colorClass(:,:,idxOdor));
+%     for idxConc = 1:5
+%         scatter3(scoresPcx(1 + k*5:5 + k*5, 1), scoresPcx(1 + k*5:5 + k*5, 2), scoresPcx(1 + k*5:5 + k*5, 3), 100, C(idxConc,:), 'o', 'filled');
+%         k = k + 1;
+%         hold on
+%     end
+% end
+% xlabel('PC1');
+% ylabel('PC2');
+% zlabel('PC3');
+% title('PCX');
+% set(gcf,'color','white', 'PaperPositionMode', 'auto');
 
 %%
 odorsRearranged = 1:15;
@@ -664,10 +620,16 @@ xlim([0.8 5.6]);
 ylim([-1 1]);
 %%
 odors1 = [14 15 12 11 13 10 9 8 7 6];
+odors1 = 15:-1:6;
+odors1 = [15 1:14];
+odors1 = fliplr(odors1);
 [ACoa, aCoa, bCoa, cCoa, f1Coa, g1Coa, h1Coa, i1Coa, l1Coa] =...
     findCorrelationsConc_new2(coaCS1.esp, odors1);
 
 odors1 = [15 14 12 11 13 10 9 8 7 6];
+odors1 = 15:-1:6;
+odors1 = [15 1:14];
+odors1 = fliplr(odors1);
 [APcx, aPcx, bPcx, cPcx, f1Pcx, g1Pcx, h1Pcx, i1Pcx, l1Pcx] =...
     findCorrelationsConc_new2(pcxCS1.esp, odors1);
 

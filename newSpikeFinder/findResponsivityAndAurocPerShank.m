@@ -1,5 +1,5 @@
 
-function [responsivity, auROC, nCellsExp] = findResponsivityAndAurocPerShank(esp, odors, conc)
+function [responsivity, auROC, nCellsExp] = findResponsivityAndAurocPerShank(esp, odors, lratio, conc)
 
 if conc == 1
     
@@ -9,7 +9,7 @@ if conc == 1
             cellsExp = 0;
             if ~isempty(esp(idxExp).shank(idxShank).SUA)
                 for idxUnit = 1:length(esp(idxExp).shank(idxShank).SUA.cell)
-                    if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).good == 1 && esp(idxExp).shank(idxShank).SUA.cell(idxUnit).L_Ratio < 1
+                    if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).good == 1 && esp(idxExp).shank(idxShank).SUA.cell(idxUnit).L_Ratio < lratio
                         idxCell = idxCell + 1;
                         cellsExp = cellsExp + 1;
                         for odor = 1:3
@@ -34,7 +34,7 @@ else
             cellsExp = 0;
             if ~isempty(esp(idxExp).shank(idxShank).SUA)
                 for idxUnit = 1:length(esp(idxExp).shank(idxShank).SUA.cell)
-                    if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).good == 1 && esp(idxExp).shank(idxShank).SUA.cell(idxUnit).L_Ratio < 1
+                    if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).good == 1 && esp(idxExp).shank(idxShank).SUA.cell(idxUnit).L_Ratio < lratio
                         idxCell = idxCell + 1;
                         cellsExp = cellsExp + 1;
                         for idxOdor = 1:numel(odors)

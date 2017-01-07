@@ -1,10 +1,12 @@
-fileToSave = 'plCoA_CS1_2.mat';
-fileToSave2 = 'plCoA_CS1_1.mat';
+fileToSave = 'plCoA_natMix_2.mat';
+fileToSave2 = 'plCoa_natMix_1.mat';
 startingFolder = pwd;
 %%
 preOnset = 4;
 odors = 1:15;
-odors = [2:15 1];
+%odors = [2:15 1]; %CS1
+% odors = [6 8 5 11 12 3 2 10 14 4 7 13 15 9 1]; %coa AAmix
+% odors = [4 2 13 12 1 11 3 5 8 15 6 7 9 10 14]; %pcx AAmix
 n_odors = length(odors);
 n_trials = 10;
 %%
@@ -13,15 +15,13 @@ folderlist = uipickfiles('FilterSpec', '/Volumes/graid', 'Output', 'struct');
 for idxExp = 1 : length(folderlist)
     folderExp = folderlist(idxExp).name;
     disp(folderExp)
-%     cd(fullfile(folderExp, 'ephys'))
-    cd(folderExp)
+    cd(fullfile(folderExp, 'ephys'))
+%     cd(folderExp)
     makeParams
     load('units.mat');
     makeSpikeMatrix
-%                                                                     if idxExp == 8
-%                                                                         fixMissingTrials
-%                                                                     end
-%     load('speed.mat')
+
+    load('speed.mat')
     load('units.mat');
     for idxShank = 1:4
         if ~isnan(shank(idxShank).SUA.clusterID{1})

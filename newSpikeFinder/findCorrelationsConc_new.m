@@ -1,4 +1,4 @@
-function [A, a, b, c, d, e, f1, f2, f3, g1, g2, g3, h1, h2, h3, i1, i2, i3, l1, l2, l3] = findCorrelationsConc_new(esp, odors)
+function [A, a, b, c, d, e, f1, f2, f3, g1, g2, g3, h1, h2, h3, i1, i2, i3, l1, l2, l3, odorCorrelations] = findCorrelationsConc_new(esp, odors)
 
 % esp = pcxCS.esp;
 % odors = 1:15;
@@ -14,7 +14,7 @@ for idxExp = 1:length(esp)
     for idxShank = 1:4
         if ~isempty(esp(idxExp).shank(idxShank).SUA)
             for idxUnit = 1:length(esp(idxExp).shank(idxShank).SUA.cell)
-                if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).good == 1 %&& esp(idxExp).shank(idxShank).SUA.cell(idxUnit).L_Ratio < 1
+                if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).good == 1 && esp(idxExp).shank(idxShank).SUA.cell(idxUnit).L_Ratio < 0.5
                     resp = zeros(1,15);
                     for idxOdor = 1:15
                         resp(idxOdor) = esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1;
@@ -47,7 +47,10 @@ clims = [-1 1];
 A = corr(responseCell1Mean);
 imagesc(A, clims)
 axis square
-colormap(brewermap([],'*RdBu'));
+colormap(brewermap([],'*RdYlBu'))
+colorbar
+
+odorCorrelations = pdist(responseCell1Mean', 'correlation');
 
 
 a = nan(3,4);

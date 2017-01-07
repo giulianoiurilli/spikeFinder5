@@ -5,12 +5,13 @@ currentFolder = pwd;
 idxCell = 0;
 for idxExp = 1:length(esp)
     cd(fullfile((esp(idxExp).filename), 'ephys'))
+%     cd(esp(idxExp).filename)
     disp(esp(idxExp).filename)
     load('units.mat')
     for idxShank = 1:4
         if ~isempty(esp(idxExp).shank(idxShank).SUA)
             for idxUnit = 1:length(esp(idxExp).shank(idxShank).SUA.cell)
-                if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).good == 1 && esp(idxExp).shank(idxShank).SUA.cell(idxUnit).L_Ratio < 0.1
+                if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).good == 1 && esp(idxExp).shank(idxShank).SUA.cell(idxUnit).L_Ratio < 1
                     app = zeros(1,15);
                     for idxOdor = 1:nOdors                
                         if option.onlyexc == 1
@@ -20,7 +21,7 @@ for idxExp = 1:length(esp)
                         end
                     end
                     if sum(app) > 0
-                        idxCell = idxCell + 1
+                        idxCell = idxCell + 1;
                         raster_data = [];
                         idxT = 0;
                         for idxOdor = 1:nOdors
@@ -42,4 +43,4 @@ for idxExp = 1:length(esp)
     end
 end
 cd(currentFolder)
-
+disp(idxCell)

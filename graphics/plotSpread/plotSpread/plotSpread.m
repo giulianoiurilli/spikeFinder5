@@ -553,7 +553,7 @@ if opt.showMM
                 mh = plot(ah,opt.xValues,m,'+r','Color','r','MarkerSize',12);
             end
             if any(opt.showMM==[1,3])
-                mdh = plot(ah,opt.xValues,md,'sg','MarkerSize',12);
+                mdh = plot(ah,opt.xValues,md,'sk','MarkerSize',12);
             end
             if opt.showMM == 4
                 mh = plot(ah,opt.xValues,m,'+r','Color','r','MarkerSize',12);
@@ -572,7 +572,7 @@ if opt.showMM
                 mh = plot(ah,m,opt.xValues,'+r','Color','r','MarkerSize',12);
             end
             if any(opt.showMM==[1,3])
-                mdh = plot(ah,md,opt.xValues,'sg','MarkerSize',12);
+                mdh = plot(ah,md,opt.xValues,'sk','MarkerSize',12);
             end
             if opt.showMM == 4
                 mh = plot(ah,m,opt.xValues,'+r','Color','r','MarkerSize',12);

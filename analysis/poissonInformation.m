@@ -60,5 +60,5 @@ for a = linspace(0,1,steps)
 end
 
 I = mean(I,2);
-I = max(I);
+I = max(I)./sum(Aall);
 

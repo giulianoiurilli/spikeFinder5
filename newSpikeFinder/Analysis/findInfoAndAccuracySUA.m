@@ -1,4 +1,4 @@
-nOdors = 6;
+nOdors = 15;
 name_folder = 'binnedSUA6odorsPcxExc_single_units';
 folder = fullfile(pwd, name_folder);
 mkdir(folder)

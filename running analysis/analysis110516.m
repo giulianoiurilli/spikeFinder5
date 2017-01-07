@@ -51,27 +51,78 @@ title('aPCx')
 suptitle('Confusion Matrix')
 
 %% Correlation Matrix Odor Representations
-[rhoOdorRepresentationsSigCoa, rhoMeanOdorRepresentationsSigCoa, evaCoa] = findOdorRepresentationCorrelation(coa.esp, 1:6,0);
+[rhoOdorRepresentationsSigCoa, rhoMeanOdorRepresentationsSigCoa, evaCoa] = findOdorRepresentationCorrelation(coaNM.esp, 1:13, 1, 0, 0);
 figure
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
 clims = [0 1];
 imagesc(rhoOdorRepresentationsSigCoa, clims)
 axis square
 colormap(brewermap([],'*PuBuGn'))
+% colormap(brewermap([],'*YlGnBu'))
+colormap(brewermap([],'*RdYlBu'))
 colorbar
 title('Corrleation between odor representations - plCoA')
 
-[rhoOdorRepresentationsSigPcx, rhoMeanOdorRepresentationsSigPcx, evaPcx] = findOdorRepresentationCorrelation(pcx.esp, 1:6,0);
+[rhoOdorRepresentationsSigPcx, rhoMeanOdorRepresentationsSigPcx, evaPcx] = findOdorRepresentationCorrelation(pcxNM.esp, 1:13, 1, 0, 0);
 figure
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
 clims = [0 1];
 imagesc(rhoOdorRepresentationsSigPcx, clims)
 axis square
 colormap(brewermap([],'*PuBuGn'))
+% colormap(brewermap([],'*YlGnBu'))
+colormap(brewermap([],'*RdYlBu'))
 colorbar
 title('Corrleation between odor representations - aPCx')
+%%
+odors = [1 2 3 11 12 13 4 5 6 8 9 10 7 14 15];
+[rhoOdorRepresentationsSigCoa, rhoMeanOdorRepresentationsSigCoa, evaCoa] = findOdorRepresentationCorrelation(coa15.esp, odors, 1, 0, 0);
+figure
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+clims = [0 1];
+imagesc(rhoOdorRepresentationsSigCoa, clims)
+axis square
+colormap(brewermap([],'*PuBuGn'))
+% colormap(brewermap([],'*YlGnBu'))
+colormap(brewermap([],'*RdYlBu'))
+colorbar
+title('Corrleation between odor representations - plCoA')
 
+[rhoOdorRepresentationsSigPcx, rhoMeanOdorRepresentationsSigPcx, evaPcx] = findOdorRepresentationCorrelation(pcx15.esp, odors, 1, 0, 0);
+figure
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+clims = [0 1];
+imagesc(rhoOdorRepresentationsSigPcx, clims)
+axis square
+colormap(brewermap([],'*PuBuGn'))
+% colormap(brewermap([],'*YlGnBu'))
+colormap(brewermap([],'*RdYlBu'))
+colorbar
+title('Corrleation between odor representations - aPCx')
+%%
+[rhoOdorRepresentationsSigCoa, rhoMeanOdorRepresentationsSigCoa, evaCoa] = findOdorRepresentationCorrelation(coaAA.esp, 1:10, 1, 0, 0);
+figure
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+clims = [0 1];
+imagesc(rhoOdorRepresentationsSigCoa, clims)
+axis square
+colormap(brewermap([],'*PuBuGn'))
+% colormap(brewermap([],'*YlGnBu'))
+colormap(brewermap([],'*RdYlBu'))
+colorbar
+title('Corrleation between odor representations - plCoA')
 
+[rhoOdorRepresentationsSigPcx, rhoMeanOdorRepresentationsSigPcx, evaPcx] = findOdorRepresentationCorrelation(pcxAA.esp, 1:10, 1, 0, 0);
+figure
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+clims = [0 1];
+imagesc(rhoOdorRepresentationsSigPcx, clims)
+axis square
+colormap(brewermap([],'*PuBuGn'))
+% colormap(brewermap([],'*YlGnBu'))
+colormap(brewermap([],'*RdYlBu'))
+colorbar
+title('Corrleation between odor representations - aPCx')
 %%
 
 %%

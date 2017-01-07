@@ -1,12 +1,12 @@
 odorsRearranged = 1:15;
-[HchemicalCoa, nHchemicalCoa, odorS15Coa] = findCategorySelectivity(coa15.esp, odorsRearranged, 1);
-[HchemicalPcx, nHchemicalPcx, odorS15Pcx] = findCategorySelectivity(pcx15.esp, odorsRearranged, 1);
+[HchemicalCoa, nHchemicalCoa, odorS15Coa, idxSingleClass15Coa, idxMultipleclass15Coa, n_classesCell15Coa] = findCategorySelectivity_new(coa15.esp, odorsRearranged, 1);
+[HchemicalPcx, nHchemicalPcx, odorS15Pcx, idxSingleClass15Pcx, idxMultipleclass15Pcx, n_classesCell15Pcx] = findCategorySelectivity_new(pcx15.esp, odorsRearranged, 1);
 nHchemicalCoa_2 = nHchemicalCoa(~isnan(nHchemicalCoa));
 nHchemicalPcx_2 = nHchemicalPcx(~isnan(nHchemicalPcx));
 
 odorsRearranged = 1:10;
-[HvalenceCoa, nHaaCoa, odorSaaCoa] = findCategorySelectivity(coaAA.esp, odorsRearranged, 2);
-[HvalencePcx, nHaaPcx, odorSaaPcx] = findCategorySelectivity(pcxAA.esp, odorsRearranged, 2);
+[HvalenceCoa, nHaaCoa, odorSaaCoa, idxSingleClassaaCoa, idxMultipleclassaaCoa, n_classesCellaaCoa] = findCategorySelectivity_new(coaAA.esp, odorsRearranged, 2);
+[HvalencePcx, nHaaPcx, odorSaaPcx, idxSingleClassaaPcx, idxMultipleclassaaPcx, n_classesCellaaPcx] = findCategorySelectivity_new(pcxAA.esp, odorsRearranged, 2);
 nHaaCoa_2 = nHaaCoa(~isnan(nHaaCoa));
 nHaaPcx_2 = nHaaPcx(~isnan(nHaaPcx));
 
@@ -61,11 +61,12 @@ coaC2 = [252,146,114;
 239,59,44;
 203,24,29;
 165,15,21]/255;
-pcxC2 = [189,189,189;
-150,150,150;
-115,115,115;
-82,82,82;
-37,37,37]/255;
+
+pcxC2 = [158,202,225;
+107,174,214;
+66,146,198;
+33,113,181;
+8,81,156]/255;
 
 b1(1).FaceColor = coaC2(1,:); 
 b1(2).FaceColor = coaC2(2,:); 

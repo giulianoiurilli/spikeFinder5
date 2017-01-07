@@ -1,8 +1,8 @@
-function findSniffOnsets(samplingFrequency)
+function findSniffOnsets(samplingFrequency, odorsRearranged)
 
 
-%load('ADC0.mat');
-load('breathSignal.mat'); %reduced ADC
+load('ADC0.mat');
+% load('breathSignal.mat'); %reduced ADC
 load('valveOnsets.mat');
 load('paramsExperiment.mat')
 
@@ -142,8 +142,8 @@ sec_off_bsl3 = app_off_bsl3(:,1)';
 
 odors = max(unique(trial_odor));
 n_trials_app = floor(length(sec_on_rsp)/odors);
-sec_on_rsp = reshape(sec_on_rsp,n_trials_app,odors);
 
+sec_on_rsp = reshape(sec_on_rsp,n_trials_app,odors);
 sec_off_rsp{1} = reshape(sec_off_rsp1,n_trials_app,odors);
 sec_off_rsp{2} = reshape(sec_off_rsp2,n_trials_app,odors);
 sec_off_rsp{3} = reshape(sec_off_rsp3,n_trials_app,odors);
@@ -154,8 +154,27 @@ sec_off_bsl{3} = reshape(sec_off_bsl3,n_trials_app,odors);
 
 
 
-preOnset = 2;
-postOnset = 2;
+sec_on_rsp = sec_on_rsp(:,odorsRearranged);
+app = sec_off_rsp{1};
+sec_off_rsp{1} = app(:,odorsRearranged);
+app = sec_off_rsp{2};
+sec_off_rsp{2} = app(:,odorsRearranged);
+app = sec_off_rsp{3};
+sec_off_rsp{3} = app(:,odorsRearranged);
+sec_on_bsl = sec_on_bsl(:,odorsRearranged);
+app = sec_off_bsl{1};
+sec_off_bsl{1} = app(:,odorsRearranged);
+app = sec_off_bsl{2};
+sec_off_bsl{2} = app(:,odorsRearranged);
+app = sec_off_bsl{3};
+sec_off_bsl{3} = app(:,odorsRearranged);
+
+
+
+
+
+preOnset = 3;
+postOnset = 5;
 row_breath = zeros(1, (preOnset+postOnset)*samplingFrequency);
 breath = zeros(n_trials_app, (preOnset+postOnset)*samplingFrequency, odors);
 
