@@ -156,6 +156,7 @@ title('Corrleation between odor representations - aPCx')
 %% proportion of labeled lines
 lratio = 0.5;
 responsiveTrialsCoa = [];
+responsiveTrialsCoaAll = [];
 esperimento = 0;
 esp = coa15.esp;
 n_odors = 15;
@@ -176,6 +177,9 @@ for idxExp = 1 : length(esp)
                     for idxOdor = 1:n_odors
                         if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1
                             responsiveTrialsCoa = [responsiveTrialsCoa; double(esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).trialExcPeak1000ms)];
+                        end
+                        if sum(double(esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).trialExcPeak1000ms)) > 0
+                            responsiveTrialsCoaAll = [responsiveTrialsCoaAll; double(esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).trialExcPeak1000ms)];
                         end
                         if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms > 0
                             excRespCoa(esperimento,2) = excRespCoa(esperimento,2) + 1;
@@ -236,6 +240,9 @@ for idxExp = 1 : length(esp)
                         if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1
                             responsiveTrialsCoa = [responsiveTrialsCoa; double(esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).trialExcPeak1000ms)];
                         end
+                        if sum(double(esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).trialExcPeak1000ms)) > 0
+                            responsiveTrialsCoaAll = [responsiveTrialsCoaAll; double(esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).trialExcPeak1000ms)];
+                        end
                         if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms > 0
                             excRespCoa(esperimento,2) = excRespCoa(esperimento,2) + 1;
                             appExcResp(idxO) = 1;
@@ -291,6 +298,9 @@ for idxExp = 1 : length(esp)
                         if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1
                             responsiveTrialsCoa = [responsiveTrialsCoa; double(esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).trialExcPeak1000ms)];
                         end
+                        if sum(double(esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).trialExcPeak1000ms)) > 0
+                            responsiveTrialsCoaAll = [responsiveTrialsCoaAll; double(esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).trialExcPeak1000ms)];
+                        end
                         if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms > 0
                             excRespCoa(esperimento,2) = excRespCoa(esperimento,2) + 1;
                             appExcResp(idxOdor) = 1;
@@ -328,6 +338,7 @@ ylim([0 0.5])
 
 
 responsiveTrialsPcx = [];
+responsiveTrialsPcxAll = [];
 esperimento = 0;
 esp = pcx15.esp;
 n_odors = 15;
@@ -348,6 +359,9 @@ for idxExp = 1 : length(esp)
                     for idxOdor = 1:n_odors
                         if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1
                             responsiveTrialsPcx = [responsiveTrialsPcx; double(esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).trialExcPeak1000ms)];
+                        end
+                        if sum(double(esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).trialExcPeak1000ms)) > 0
+                            responsiveTrialsPcxAll = [responsiveTrialsPcxAll; double(esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).trialExcPeak1000ms)];
                         end
                         if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms > 0
                             excRespPcx(esperimento,2) = excRespPcx(esperimento,2) + 1;
@@ -407,6 +421,9 @@ for idxExp = 1 : length(esp)
                         if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1
                             responsiveTrialsPcx = [responsiveTrialsPcx; double(esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).trialExcPeak1000ms)];
                         end
+                        if sum(double(esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).trialExcPeak1000ms)) > 0
+                            responsiveTrialsPcxAll = [responsiveTrialsPcxAll; double(esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).trialExcPeak1000ms)];
+                        end
                         if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms > 0
                             excRespPcx(esperimento,2) = excRespPcx(esperimento,2) + 1;
                             appExcResp(idxO) = 1;
@@ -462,6 +479,9 @@ for idxExp = 1 : length(esp)
                     for idxOdor = 1:n_odors
                         if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1
                             responsiveTrialsPcx = [responsiveTrialsPcx; double(esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).trialExcPeak1000ms)];
+                        end
+                        if sum(double(esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).trialExcPeak1000ms)) > 0
+                            responsiveTrialsPcxAll = [responsiveTrialsPcxAll; double(esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).trialExcPeak1000ms)];
                         end
                         if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms > 0
                             excRespPcx(esperimento,2) = excRespPcx(esperimento,2) + 1;
@@ -546,12 +566,24 @@ sem_responsiveTrialsPcx = sqrt((nanmean(responsiveTrialsPcx) .* (1-nanmean(respo
 
 mean_responsiveTrialsCoa = nanmean(responsiveTrialsCoa);
 sem_responsiveTrialsCoa = sqrt((nanmean(responsiveTrialsCoa) .* (1-nanmean(responsiveTrialsCoa))) ./ (size(responsiveTrialsCoa,1)-1));
+mean_responsiveTrialsPcxAll = nanmean(responsiveTrialsPcxAll);
+sem_responsiveTrialsPcxAll = sqrt((nanmean(responsiveTrialsPcxAll) .* (1-nanmean(responsiveTrialsPcxAll))) ./ (size(responsiveTrialsPcxAll,1)-1));
 
+mean_responsiveTrialsCoaAll = nanmean(responsiveTrialsCoaAll);
+sem_responsiveTrialsCoaAll = sqrt((nanmean(responsiveTrialsCoaAll) .* (1-nanmean(responsiveTrialsCoaAll))) ./ (size(responsiveTrialsCoaAll,1)-1));
 figure
 errorbar(mean_responsiveTrialsCoa, sem_responsiveTrialsCoa, '-o', 'color', coaC)
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
 set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 14)
-ylim([0.5 1])
+ylim([0 1])
+xlim([0 11])
+ylabel('Fraction of Excitatory Responses')
+xlabel('Trials')
+hold on
+errorbar(mean_responsiveTrialsCoaAll, sem_responsiveTrialsCoaAll, ':o', 'color', coaC)
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 14)
+ylim([0 1])
 xlim([0 11])
 ylabel('Fraction of Excitatory Responses')
 xlabel('Trials')
@@ -559,7 +591,15 @@ figure
 errorbar(mean_responsiveTrialsPcx, sem_responsiveTrialsPcx, '-o', 'color', pcxC)
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
 set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 14)
-ylim([0.5 1])
+ylim([0 1])
+xlim([0 11])
+ylabel('Fraction of Excitatory Responses')
+xlabel('Trials')
+hold on
+errorbar(mean_responsiveTrialsPcxAll, sem_responsiveTrialsPcxAll, ':o', 'color', pcxC)
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 14)
+ylim([0 1])
 xlim([0 11])
 ylabel('Fraction of Excitatory Responses')
 xlabel('Trials')
