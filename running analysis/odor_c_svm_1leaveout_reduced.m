@@ -66,6 +66,7 @@ function [mean_acc_svm, std_acc_svm, acc_svm, prctile25, prctile75, CM] = odor_c
             idxUnits                = randsample(size(data,2), units);%1:units;%
             trainData               = app_trainData(:,idxUnits);
             testData                = app_testData(:,idxUnits);
+            disp('I am here')
             model_svm               = svmtrain(trainLabel, trainData, '-t 0 -c 10 -q');
             %model_svm               = svmtrain(trainLabel, trainData, params);
             [predict_label, accuracy, dec_values] = svmpredict(testLabel, testData, model_svm);
