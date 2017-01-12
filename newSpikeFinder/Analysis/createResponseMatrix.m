@@ -43,14 +43,14 @@ if option.baseline == 0
                                 idxCell = idxCell + 1;
                                 idxO = 0;
                                 
-                                
+%% comment next for-cycle if you want to simulate labeled lines                                
                                 for idxStimulus = stimuli
                                     idxO = idxO + 1;
                                     dataAll(idxCell,:,idxO) = esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxStimulus).AnalogicResponse1000ms -...
                                         esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxStimulus).AnalogicBsl1000ms;
                                 end
                                 
-                                
+%% uncomment next for-cycle if you want to simulate labeled lines                                 
 %                                 [m,k] = max(deltaResp);
 %                                 for idxStimulus = stimuli
 %                                     if idxStimulus == k

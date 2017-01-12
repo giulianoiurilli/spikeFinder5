@@ -128,23 +128,7 @@ g2 = [ones(numel(intra15Coa),1); ones(numel(inter15Coa),1); 2*ones(numel(intra15
 [p, table, stats] = anovan(y, {g1, g2}, 'mode', 'interaction')
 
 
-%%
-figure
-sameNM = [intra15Coa; inter15Coa];
-g = [zeros(1, length(intra15Coa)) ones(1,length(inter15Coa))];
-boxplot(sameNM, g, 'color', [coaC; coaC], 'ColorGroup', g, 'Notch', 'on', 'Whisker', 1)
-ylim([-1 1])
-ylabel('Correlation')
-set(gcf,'color','white', 'PaperPositionMode', 'auto');
-set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 14)
-figure
-sameNM = [intra15Pcx; inter15Pcx];
-g = [zeros(1, length(intra15Pcx)) ones(1,length(inter15Pcx))];
-boxplot(sameNM, g, 'color', [pcxC; pcxC], 'ColorGroup', g, 'Notch', 'on',  'Whisker',1)
-ylim([-1 1])
-ylabel('Correlation')
-set(gcf,'color','white', 'PaperPositionMode', 'auto');
-set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 14)
+
 %%
 y = [];
 y = [intraAACoa; interAACoa; intraAAPcx; interAAPcx];
@@ -153,20 +137,3 @@ g1 = [ones(numel(intraAACoa),1); 2*ones(numel(interAACoa),1); ones(numel(intraAA
 g2 = [];
 g2 = [ones(numel(intraAACoa),1); ones(numel(interAACoa),1); 2*ones(numel(intraAAPcx),1); 2*ones(numel(interAAPcx),1)];
 [p, table, stats] = anovan(y, {g1, g2}, 'mode', 'interaction')
-%%
-figure
-sameNM = [intraAACoa; interAACoa];
-g = [zeros(1, length(intraAACoa)) ones(1,length(interAACoa))];
-boxplot(sameNM, g, 'color', [coaC; coaC], 'ColorGroup', g, 'Notch', 'on', 'Whisker', 1)
-ylim([-1 1])
-ylabel('Correlation')
-set(gcf,'color','white', 'PaperPositionMode', 'auto');
-set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 14)
-figure
-sameNM = [intraAAPcx; interAAPcx];
-g = [zeros(1, length(intraAAPcx)) ones(1,length(interAAPcx))];
-boxplot(sameNM, g, 'color', [pcxC; pcxC], 'ColorGroup', g, 'Notch', 'on', 'Whisker', 1)
-ylim([-1 1])
-ylabel('Correlation')
-set(gcf,'color','white', 'PaperPositionMode', 'auto');
-set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 14)

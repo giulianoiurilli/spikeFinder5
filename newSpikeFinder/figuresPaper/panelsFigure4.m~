@@ -203,7 +203,7 @@ for idxUnit = 1:totalResponsiveSUAPcx
 end
 
 
-%% 
+%%
 option = [];
 option.units = 'sorted';
 option.sorting_vector = sua_performance_coa;
@@ -216,7 +216,7 @@ option.sorting_vector = sua_performance_pcx;
 option.repetitions = 500;
 [performancePcx15Sorted, confusionMatrixPcx15Sorted] = perform_linear_svm_decoding(pcx15.esp, 1:15, option);
 
-%% as in Fig. 4F
+%%
 option = [];
 option.units = 'remove';
 option.sorting_vector = sua_performance_coa;
@@ -229,7 +229,7 @@ option.sorting_vector = sua_performance_pcx;
 option.repetitions = 500;
 [performancePcx15Removed, confusionMatrixPcx15Removed] = perform_linear_svm_decoding(pcx15.esp, 1:15, option);
 
-%% as in Fig. 4E
+%%
 option = [];
 option.units = 'sorted';
 option.sorting_vector = sua_performance_coa;

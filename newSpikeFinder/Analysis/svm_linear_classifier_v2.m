@@ -1,4 +1,4 @@
-function [mean_acc_svm, std_acc_svm, acc_svm, prctile25, prctile75, CM, w, MI] = svm_linear_classifier(data, trainingN, labels, repN, option)
+function [mean_acc_svm, std_acc_svm, acc_svm, prctile25, prctile75, CM, w, MI] = svm_linear_classifier_v2(data, trainingN, labels, repN, option)
 
 %% version2 allows unbalanced classes
 %%
@@ -62,7 +62,7 @@ for rep = 1:repN %randomly split trials in training and test sets
             trainData               = app_trainData(:,idxUnits);
             testData                = app_testData(:,idxUnits);
             model_svm               = svmtrain(trainLabel, trainData, '-t 0 -c 10 -q');
-            w(:,rep) = model_svm.SVs' * model_svm.sv_coef;
+            %w(:,rep) = model_svm.SVs' * model_svm.sv_coef;
             [predict_label, accuracy, dec_values] = svmpredict(testLabel, testData, model_svm);
             acc_svm(rep,j)          = accuracy(1);
             prediction(:,rep) = predict_label;

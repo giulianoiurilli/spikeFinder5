@@ -2,7 +2,7 @@ loadExperiments
 %% odor ID decoding as in Fig. 4A
 odors = 1:15;
 option = [];
-option.units = 'incrementing_by_10';
+option.units = 'incrementing_by_one';
 option.repetitions =500;
 [performanceCoa15, confusionMatrixCoa15] = perform_linear_svm_decoding(coa15.esp, odors, option);
 [performancePcx15, confusionMatrixPcx15] = perform_linear_svm_decoding(pcx15.esp, odors, option);
@@ -15,7 +15,7 @@ option.shuffle  = 1;
 option.number_of_shuffles = 10;
 [performanceCoa15shuffled, confusionMatrixCoa15shuffled] = perform_linear_svm_decoding(coa15.esp, 1:15, option);
 [performancePcx15shuffled, confusionMatrixPcx15shuffled] = perform_linear_svm_decoding(pcx15.esp, 1:15, option);
-%% figure
+%% figure accuracy
 figure
 shadedErrorBar(1:95, mean(performancePcx15(:,1:95),1), std(performancePcx15(:,1:95),1)./sqrt(499),{'color', pcxC, 'linewidth', 2});
 hold on
@@ -28,7 +28,7 @@ set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 14
 ylim([0 100])
 xlim([0 95])
 ylabel('Accuracy %')
-%%
+%% figure confusion matrix
 clim = [0 1];
 figure
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
@@ -115,15 +115,7 @@ set(gcf,'color','white', 'PaperPositionMode', 'auto');
 set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 14)
 ylim([0 100])
 ylabel('Accuracy %')
-%% retrieve weigths for the SVM decoding of valence
-odorsRearrangedCoa = [4     6     7     9    10     1     2     3     5     8];
-odorsRearrangedPcx =  [4     6     7     9    10     1     2     3     5     8];
-option = [];
-option.units = 'all';
-option.repetitions = 1000;
-option.grouping = [ones(1,5) 2*ones(1,5)];
-[performanceValenceCoaAll, cm, weigthsValenceCoa_2] = perform_linear_svm_decoding(coaAA.esp, odorsRearrangedCoa,option);
-[performanceValencePcxAll, cm, weigthsValencePcx_2] = perform_linear_svm_decoding(pcxAA.esp, odorsRearrangedPcx,option);
+
 %% chemical class l-SVM decoding - 15 odors, 5 classes  as in Fig. 4H
 % odors = [1 2 3 11 12 13 4 5 6 8 9 10 7 14 15];
 option = [];
@@ -199,7 +191,6 @@ for idxUnit = 1:totalResponsiveSUAPcx
     [app, app2, app3, miApp] = perform_linear_svm_decoding(pcx15.esp, 1:n_odors, option);
     sua_performance_pcx(idxUnit) = mean(app);
     sua_MI_pcx(idxUnit) = miApp;
-    sua_CM_pcx(idxUnit) = miApp;
 end
 
 
@@ -232,33 +223,33 @@ option.repetitions = 500;
 %% as in Fig. 4E
 option = [];
 option.units = 'sorted';
-option.sorting_vector = sua_performance_coa;
+option.sorting_vector = sua_MI_coa;
 option.repetitions = 500;
 [performanceCoa15SortedMI, confusionMatrixCoa15Sorted] = perform_linear_svm_decoding(coa15.esp, 1:15, option);
 
 option = [];
 option.units = 'sorted';
-option.sorting_vector = sua_performance_pcx;
+option.sorting_vector = sua_MI_pcx;
 option.repetitions = 500;
 [performancePcx15SortedMI, confusionMatrixPcx15Sorted] = perform_linear_svm_decoding(pcx15.esp, 1:15, option);
 
-%%
+
 option = [];
 option.units = 'remove';
-option.sorting_vector = sua_performance_coa;
+option.sorting_vector = sua_MI_coa;
 option.repetitions = 500;
 [performanceCoa15RemovedMI, confusionMatrixCoa15Removed] = perform_linear_svm_decoding(coa15.esp, 1:15, option);
 
 option = [];
 option.units = 'remove';
-option.sorting_vector = sua_performance_pcx;
+option.sorting_vector = sua_MI_pcx;
 option.repetitions = 500;
 [performancePcx15RemovedMI, confusionMatrixPcx15Removed] = perform_linear_svm_decoding(pcx15.esp, 1:15, option);
 %% figure
 figure
-plot(mean(performancePcx15Sorted,1), 'color', pcxC, 'linewidth', 2);
+plot(mean(performancePcx15SortedMI,1), 'color', pcxC, 'linewidth', 2);
 hold on
-plot(mean(performanceCoa15Sorted,1), 'color', coaC, 'linewidth', 2);
+plot(mean(performanceCoa15SortedMI,1), 'color', coaC, 'linewidth', 2);
 
 set(gcf,'color','white', 'PaperPositionMode', 'auto');
 set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 14)
@@ -338,20 +329,6 @@ end
 
 
 %%
-option = [];
-option.units = 'remove';
-option.sorting_vector = sua_performance_coaValence;
-option.repetitions = 500;
-option.grouping = [ones(1,5) 2*ones(1,5)];
-performanceValenceCoaRemoved = perform_linear_svm_decoding(coaAA.esp, odorsRearrangedCoa,option);
-
-option = [];
-option.units = 'remove';
-option.sorting_vector = sua_performance_pcxValence;
-option.repetitions = 500;
-option.grouping = [ones(1,5) 2*ones(1,5)];
-performanceValencePcxRemoved = perform_linear_svm_decoding(pcxAA.esp, odorsRearrangedPcx,option);
-%%
 classifySortingBySelectivity
 
 %%
@@ -374,34 +351,3 @@ ylabel('Accuracy %')
 set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 14)
 %%
 odorClassCorrelationsPlot
-
-%%
-[tuningCurvesCoa15, tuningCurvesSigCoa15, tuningCurvesCoaAuRoc15, tuningCurvesCoaAuRocSig15] = findTuningCurves(coa15.esp, 1:15, 0);
-[tuningCurvesPcx15, tuningCurvesSigPcx15, tuningCurvesPcxAuRoc15, tuningCurvesPcxAuRocSig15] = findTuningCurves(pcx15.esp, 1:15, 0);
-%%
-Rcoa = tuningCurvesSigCoa15;
-Rcoa = zscore(Rcoa');
-Rcoa = Rcoa';
-odorCorrCoa = corr(Rcoa);
-index = find(triu(ones(size(odorCorrCoa)),1));
-odorCorrCoa = odorCorrCoa(index);
-
-
-Rpcx = tuningCurvesSigPcx15;
-Rpcx = zscore(Rpcx');
-Rpcx = Rpcx';
-odorCorrPcx = corr(Rpcx);
-index = find(triu(ones(size(odorCorrPcx)),1));
-odorCorrPcx = odorCorrPcx(index);
-
-
-figure
-set(gcf,'color','white', 'PaperPositionMode', 'auto');
-[fCoa, xiCoa] = ksdensity(odorCorrCoa);
-plot(xiCoa, fCoa, 'linewidth', 1, 'color', coaC)
-hold on
-[fPcx, xiPcx] = ksdensity(odorCorrPcx);
-plot(xiPcx, fPcx, 'linewidth', 1, 'color', pcxC)
-xlabel('Correlation Between Odor Pairs')
-ylabel('Accuracy %')
-set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 14)   
