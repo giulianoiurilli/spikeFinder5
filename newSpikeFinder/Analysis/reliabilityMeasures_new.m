@@ -27,12 +27,16 @@ for idxExp = 1 : length(folderlist)
                     espe(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).spikeMatrix = logical(spike_matrix_app);
                     
                     
-                    spike_matrix_Bsl = espe(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).spikeMatrix(:, floor((pre-2)*1000) : floor((pre-1)*1000));
+                    spike_matrix_Bsl1 = espe(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).spikeMatrix(:, floor((pre-2)*1000) : floor((pre-1)*1000));
+                    spike_matrix_Bsl2 = espe(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).spikeMatrix(:, floor((pre-3)*1000) : floor((pre-2)*1000));
                     spike_matrix_Rsp = espe(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).spikeMatrix(:, floor(pre*1000) : floor(pre*1000 + response_window*1000));
-                    bslSC = sum(spike_matrix_Bsl, 2);
+                    bsl1SC = sum(spike_matrix_Bsl1, 2);
                     rspSC = sum(spike_matrix_Rsp, 2);
+                    rspBslSC = sum(spike_matrix_Bsl2, 2);
                     esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).trialExc1000ms = zeros(1,10);
                     esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).trialInh1000ms = zeros(1,10);
+                    esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).trialExc1000msBsl = zeros(1,10);
+                    esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).trialInh1000msBsl = zeros(1,10);
                     segno = nan(1,10);
                     rspSign = sign(esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).auROC1000ms - 0.5);
                     edges = 0:100:1000;
@@ -43,21 +47,28 @@ for idxExp = 1 : length(folderlist)
                         %                     binnedRsp = histcounts(spikeTimesRsp, edges);
                         %                     h(idxTrial) = ttest2(binnedBsl, binnedRsp);
                         %                     trialSign = sign(mean(binnedRsp) - mean(binnedBsl));
-                        binnedBsl = slidePSTH(double(spike_matrix_Bsl(idxTrial,:)), 50, 5);
+                        binnedBsl1 = slidePSTH(double(spike_matrix_Bsl1(idxTrial,:)), 50, 5);
                         binnedRsp = slidePSTH(double(spike_matrix_Rsp(idxTrial,:)), 50, 5);
+                        binnedRspBsl = slidePSTH(double(spike_matrix_Bsl2(idxTrial,:)), 50, 5);
                         %                     if esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse1000ms > 0
-                        esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).trialExcPeak1000ms(idxTrial) = max(binnedRsp) > mean(binnedBsl) + 4 * std(binnedBsl);
-                        esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).trialInhPeak1000ms(idxTrial) = min(binnedRsp) < mean(binnedBsl) - std(binnedBsl);
-                        esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).trialExcWind1000ms(idxTrial) = mean(binnedRsp) > mean(binnedBsl) + 3 * std(binnedBsl);
-                        esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).trialInhWind1000ms(idxTrial) = mean(binnedRsp) < mean(binnedBsl) - std(binnedBsl);
-                        esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).trialExcPeakDelta1000ms(idxTrial) = (max(binnedRsp) - mean(binnedBsl)) * 20;
-                        esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).trialInhPeakDelta1000ms(idxTrial) = (min(binnedRsp) - mean(binnedBsl)) * 20;
+                        esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).trialExcPeak1000ms(idxTrial) = max(binnedRsp) > mean(binnedBsl1) + 5 * std(binnedBsl1);
+                        esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).trialInhPeak1000ms(idxTrial) = min(binnedRsp) < mean(binnedBsl1) - std(binnedBsl1);
+                        esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).trialExcWind1000ms(idxTrial) = mean(binnedRsp) > mean(binnedBsl1) + 5 * std(binnedBsl1);
+                        esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).trialInhWind1000ms(idxTrial) = mean(binnedRsp) < mean(binnedBsl1) - std(binnedBsl1);
+                        esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).trialExcPeakDelta1000ms(idxTrial) = (max(binnedRsp) - mean(binnedBsl1)) * 20;
+                        esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).trialInhPeakDelta1000ms(idxTrial) = (min(binnedRsp) - mean(binnedBsl1)) * 20;
+                                                esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).trialExcPeak1000msBsl(idxTrial) = max(binnedRspBsl) > mean(binnedBsl1) + 5 * std(binnedBsl1);
+                        esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).trialInhPeak1000msBsl(idxTrial) = min(binnedRspBsl) < mean(binnedBsl1) - std(binnedBsl1);
+                        esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).trialExcWind1000msBsl(idxTrial) = mean(binnedRspBsl) > mean(binnedBsl1) + 5 * std(binnedBsl1);
+                        esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).trialInhWind1000msBsl(idxTrial) = mean(binnedRspBsl) < mean(binnedBsl1) - std(binnedBsl1);
+                        esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).trialExcPeakDelta1000msBsl(idxTrial) = (max(binnedRspBsl) - mean(binnedBsl1)) * 20;
+                        esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).trialInhPeakDelta1000msBsl(idxTrial) = (min(binnedRspBsl) - mean(binnedBsl1)) * 20;
                         %                     else if esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse1000ms < 0
                         %                             h(idxTrial) = max(binnedRsp) < 2.5 * std(binnedBsl) + mean(binnedBsl);
                         %                         end
                         %                     end
                     end
-                    bslPSTH = slidePSTH(double(spike_matrix_Bsl), 50, 5);
+                    bslPSTH = slidePSTH(double(spike_matrix_Bsl1), 50, 5);
                     rspPSTH = slidePSTH(double(spike_matrix_Rsp), 50, 5);
                     bslMean = mean(bslPSTH);
                     bslStd = std(bslPSTH);
@@ -67,7 +78,7 @@ for idxExp = 1 : length(folderlist)
                     b = rspMin - bslMean;
                     if abs(a) - abs(b) >= 0
                         esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).AnalogicResponseDeltaPeakHz = a*20;
-                        if rspMax > bslMean + 4 * bslStd
+                        if rspMax > bslMean + 5 * bslStd
                             esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).DigitalResponseDeltaPeak = 1;
                         else
                             esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).DigitalResponseDeltaPeak = 0;
@@ -84,6 +95,10 @@ for idxExp = 1 : length(folderlist)
                     esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).responsePeakFractionInh = sum(esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).trialInhPeak1000ms) / 10;
                     esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).responseWindFractionExc = sum(esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).trialExcWind1000ms) / 10;
                     esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).responseWindFractionInh = sum(esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).trialInhWind1000ms) / 10;
+                                        esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).responsePeakFractionExcBsl = sum(esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).trialExcPeak1000msBsl) / 10;
+                    esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).responsePeakFractionInhBsl = sum(esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).trialInhPeak1000msBsl) / 10;
+                    esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).responseWindFractionExcBsl = sum(esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).trialExcWind1000msBsl) / 10;
+                    esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).responseWindFractionInhBsl = sum(esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).trialInhWind1000msBsl) / 10;
                     %                 if  esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).responseFraction == 0 && esp(idxExp).shankNowarp(idxShank).cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1
                     %                     idxU = idxU + 1
                     %                     app = [idxShank, idxUnit, idxOdor];

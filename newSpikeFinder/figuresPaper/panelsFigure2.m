@@ -38,7 +38,96 @@ xlabel('Number of Trials with a Significant Excitatory Peak')
 ylabel('Fraction of Excitatory Responses')
 ylim([0 0.25])
 set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 14)
+%%
+FRspCOABsl = M15c.rspPeakFractionExcBsl(:);
+FRspPCXBsl = M15p.rspPeakFractionExcBsl(:);
 
+%%
+edges = -0.05:0.1:1.05;
+figure
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+set(gcf,'Position',[-1836 366 1440 378]);
+subplot(1,2,1)
+h = histcounts(FRspCOABsl(:),edges);
+s1 = bar(0:0.1:1, h./size(FRspCOABsl(:),1), 'EdgeColor', coaC, 'FaceColor', 'none');
+ylim([0 0.35])
+set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 14)
+
+
+subplot(1,2,2)
+h = histcounts(FRspPCXBsl(:),edges);
+s3 = bar(0:0.1:1, h./size(FRspPCXBsl(:),1), 'EdgeColor', pcxC, 'FaceColor', 'none');
+
+xlabel('Number of Trials with a Significant Excitatory Peak') 
+ylabel('Fraction of Excitatory Responses')
+ylim([0 0.35])
+set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 14)
+
+%%
+FRspCOA = M15c.rspWindFractionExc(:);
+FRspPCX = M15p.rspWindFractionExc(:);
+logSignificantCoa = M15c.significance(:);
+% logSignificantCoa = logSignificantCoa(:);
+logSignificantPcx = M15p.significance(:);
+% logSignificantPcx = logSignificantPcx(:);
+FRspCOAsig = FRspCOA(:);
+FRspPCXsig = FRspPCX(:);
+FRspCOAsig(logSignificantCoa<1) = [];
+FRspPCXsig(logSignificantPcx<1) = [];
+FRspCOAnonsig = FRspCOA(:);
+FRspPCXnonsig = FRspPCX(:);
+FRspCOAnonsig(logSignificantCoa>1) = [];
+FRspPCXnonsig(logSignificantPcx>1) = [];
+%%
+edges = -0.05:0.1:1.05;
+figure
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+set(gcf,'Position',[-1836 366 1440 378]);
+subplot(1,2,1)
+h = histcounts(FRspCOA(:),edges);
+s1 = bar(0:0.1:1, h./size(FRspCOA(:),1), 'EdgeColor', coaC, 'FaceColor', 'none');
+
+hold on
+h1 = histcounts(FRspCOAsig(:),edges);
+s2 = bar(0:0.1:1, h1./size(FRspCOA(:),1), 'EdgeColor', coaC, 'FaceColor', coaC);
+xlabel('Number of Trials with a Significant Excitatory Wind') 
+ylabel('Fraction of Excitatory Responses')
+set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 14)
+
+subplot(1,2,2)
+h = histcounts(FRspPCX(:),edges);
+s3 = bar(0:0.1:1, h./size(FRspPCX(:),1), 'EdgeColor', pcxC, 'FaceColor', 'none');
+hold on
+h1 = histcounts(FRspPCXsig(:),edges);
+s4 = bar(0:0.1:1, h1./size(FRspPCX(:),1), 'EdgeColor', pcxC, 'FaceColor', pcxC);
+xlabel('Number of Trials with a Significant Excitatory Wind') 
+ylabel('Fraction of Excitatory Responses')
+ylim([0 0.25])
+set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 14)
+%%
+FRspCOABsl = M15c.rspWindFractionExcBsl(:);
+FRspPCXBsl = M15p.rspWindFractionExcBsl(:);
+
+%%
+edges = -0.05:0.1:1.05;
+figure
+set(gcf,'color','white', 'PaperPositionMode', 'auto');
+set(gcf,'Position',[-1836 366 1440 378]);
+subplot(1,2,1)
+h = histcounts(FRspCOABsl(:),edges);
+s1 = bar(0:0.1:1, h./size(FRspCOABsl(:),1), 'EdgeColor', coaC, 'FaceColor', 'none');
+ylim([0 0.35])
+set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 14)
+
+
+subplot(1,2,2)
+h = histcounts(FRspPCXBsl(:),edges);
+s3 = bar(0:0.1:1, h./size(FRspPCXBsl(:),1), 'EdgeColor', pcxC, 'FaceColor', 'none');
+
+xlabel('Number of Trials with a Significant Excitatory Wind') 
+ylabel('Fraction of Excitatory Responses')
+ylim([0 0.35])
+set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 14)
 %% bar plot fractionExc/odor
 X1 = M15c.rspPeakFractionExc*10;
 X1(M15c.significance<1) = NaN;

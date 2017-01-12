@@ -27,8 +27,10 @@ if opt == 1;
                     if esp(idxesp).shank(idxShank).SUA.cell(idxUnit).good == 1 && esp(idxesp).shank(idxShank).SUA.cell(idxUnit).L_Ratio < 0.5
                         idxCell1 = idxCell1 + 1;
                         appSigResponses = nan(1,15);
+                        idxO = 0;
                         for idxOdor = odorsRearranged
-                            appSigResponses(idxOdor) = esp(idxesp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1;
+                            idxO = idxO + 1;
+                            appSigResponses(idxO) = esp(idxesp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1;
                         end
                         if sum(appSigResponses) == 1
                             odorSingle(idxCell1) = find(appSigResponses==1);
@@ -74,8 +76,10 @@ if opt == 2;
                     if esp(idxesp).shank(idxShank).SUA.cell(idxUnit).good == 1 && esp(idxesp).shank(idxShank).SUA.cell(idxUnit).L_Ratio < 0.5
                         idxCell1 = idxCell1 + 1;
                         appSigResponses = nan(1,10);
+                        idxO = 0;
                         for idxOdor = odorsRearranged
-                            appSigResponses(1,idxOdor) = esp(idxesp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1;
+                            idxO = idxO + 1;
+                            appSigResponses(idxO) = esp(idxesp).shank(idxShank).SUA.cell(idxUnit).odor(idxOdor).DigitalResponse1000ms == 1;
                         end
                         if sum(appSigResponses) == 1;
                             odorSingle(idxCell1) = find(appSigResponses==1);

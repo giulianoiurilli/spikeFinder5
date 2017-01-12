@@ -44,7 +44,7 @@ for idxExp =  1:length(esp)
         if ~isempty(esp(idxExp).shank(idxShank).SUA)
             for idxUnit = 1:length(esp(idxExp).shank(idxShank).SUA.cell)
                 if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).good == 1 && esp(idxExp).shank(idxShank).SUA.cell(idxUnit).L_Ratio < 0.5
-%                 if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).L_Ratio < 0.5
+                    %                 if esp(idxExp).shank(idxShank).SUA.cell(idxUnit).L_Ratio < 0.5
                     c = c + 1;
                     R1000ms = zeros(n_trials, length(odors));
                     B1000ms = zeros(n_trials, length(odors));
@@ -67,8 +67,12 @@ for idxExp =  1:length(esp)
                             %M.varG(c,idxO) = partNeuralVariance(R1000ms(:, idxO));
                             M.rspPeakFractionExc(c,idxO) = esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).responsePeakFractionExc;
                             M.rspPeakFractionInh(c,idxO) = esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).responsePeakFractionInh;
+                            M.rspPeakFractionExcBsl(c,idxO) = esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).responsePeakFractionExcBsl;
+                            M.rspPeakFractionInhBsl(c,idxO) = esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).responsePeakFractionInhBsl;
                             M.rspWindFractionExc(c,idxO) = esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).responseWindFractionExc;
                             M.rspWindFractionInh(c,idxO) = esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).responseWindFractionInh;
+                            M.rspWindFractionExcBsl(c,idxO) = esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).responseWindFractionExcBsl;
+                            M.rspWindFractionInhBsl(c,idxO) = esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).responseWindFractionInhBsl;
                             trialDeltaExcPeakSig(:,idxO) = esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).trialExcPeak1000ms';
                             trialDeltaInhPeakSig(:,idxO) = esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).trialInhPeak1000ms';
                             trialDeltaExcWindSig(:,idxO) = esp(idxExp).shank(idxShank).SUA.cell(idxUnit).odor(idxO).trialExcWind1000ms';
