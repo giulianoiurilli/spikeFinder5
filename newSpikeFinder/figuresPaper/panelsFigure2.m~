@@ -53,12 +53,11 @@ h = histcounts(FRspCOABsl(:),edges);
 s1 = bar(0:0.1:1, h./size(FRspCOABsl(:),1), 'EdgeColor', coaC, 'FaceColor', 'none');
 ylim([0 0.35])
 set(gca, 'box', 'off', 'tickDir', 'out', 'fontname', 'helvetica', 'fontsize', 14)
-coaNullDistribution = h./size(FRspCOABsl(:),1);
+
 
 subplot(1,2,2)
 h = histcounts(FRspPCXBsl(:),edges);
 s3 = bar(0:0.1:1, h./size(FRspPCXBsl(:),1), 'EdgeColor', pcxC, 'FaceColor', 'none');
-pcxNullDistribution = h./size(FRspPCXBsl(:),1);
 
 xlabel('Number of Trials with a Significant Excitatory Peak') 
 ylabel('Fraction of Excitatory Responses')
