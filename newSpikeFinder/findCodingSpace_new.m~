@@ -74,22 +74,3 @@ for idxScore = 1:3
     scoresMean(:, idxScore) = app';
 end
 
-% figure;
-% colorClass = [228,26,28;...
-%     55,126,184;...
-%     77,175,74;...
-%     152,78,163;...
-%     255,127,0]./255;
-% symbolOdor = {'o', 's', 'p'};
-% k = 0;
-% for idxCat = 1:5
-%     C = colorClass(idxCat,:);
-%     for idxOdor = 1:3
-%         mT = symbolOdor{idxOdor};
-%         scatter(scores(1 + k*5:5 + k*5, 1), scores(1 + k*5:5 + k*5, 2), 100, C, mT, 'filled');
-%         k = k + 1;
-%         hold on
-% %         scatter3(scoresMean(k, 1), scoresMean(k, 2), scoresMean(k, 3), 100, C, 'd','filled');
-% %         hold on
-%     end
-% end
